@@ -1,0 +1,23 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection DifferentStdlibGradleVersion
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation rxJava
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.7"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.7"
+    }
+}
