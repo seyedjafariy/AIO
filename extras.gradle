@@ -1,0 +1,12 @@
+ext{
+    isReleaseDebuggable = false
+    isDebugDebuggable = true
+    isDebugMinify = false
+    isReleaseMinify = true
+    isReleaseMultiDex = true
+    isDebugMultiDex = true
+    proguardFileAddress = "${rootProject.rootDir.absolutePath}\\proguard-rules.pro"
+
+    projectMinSdkVersion = 21
+    projectTargetSdkVersion = 28
+}
