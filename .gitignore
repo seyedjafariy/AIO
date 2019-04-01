@@ -70,3 +70,8 @@ gradle.properties
 /.idea/vcs.xml
 /.idea/codeStyles/Project.xml
 /.idea/codeStyles/codeStyleConfig.xml
+/aio-key.jks
+/ktlint
+.idea/inspectionProfiles/
+.idea/markdown-navigator.xml
+.idea/markdown-navigator/
