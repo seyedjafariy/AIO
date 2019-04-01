@@ -28,3 +28,17 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    movieDBApiKey = loadValues().getProperty('API_KEY')
+}
+
+def loadValues() {
+    Properties localProperties = new Properties()
+    if (project.rootProject.file('local.properties').exists()) {
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    } else {
+        localProperties.setProperty('API_KEY', System.getenv("API_KEY"))
+    }
+    return localProperties
+}
