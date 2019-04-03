@@ -3,5 +3,16 @@ apply from: androidLib
 dependencies{
     implementation kotlinStd8
     implementation dagger
+    implementation javaxAnnotation
+    implementation jetbrainsAnnotation
+    implementation findBugs
     kapt daggerCompiler
+
+    implementation retrofit
+    implementation okHttpLogging
+    implementation moshiRetrofit
+    implementation rxJavaRetrofit
+    implementation moshi
+    implementation timber
+
 }

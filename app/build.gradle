@@ -75,6 +75,10 @@ android {
         experimental = true
     }
 }
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
+}
 
 
 dependencies {
@@ -84,7 +88,15 @@ dependencies {
     implementation(project(":core"))
 
     implementation dagger
+    implementation findBugs
     kapt daggerCompiler
+
+    implementation retrofit
+    implementation moshi
+    implementation okHttpLogging
+    implementation okHttp
+    implementation rxJavaRetrofit
+    implementation rxJava
 
     //noinspection GradleDependency
     implementation compat

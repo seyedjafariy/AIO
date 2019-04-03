@@ -7,9 +7,9 @@ buildscript {
         google()
         jcenter()
         gradlePluginPortal()
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
+//        maven {
+//            url 'https://maven.fabric.io/public'
+//        }
         
     }
     dependencies {
@@ -30,6 +30,9 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven {
             url "https://maven.google.com"
+        }
+        maven {
+            url 'http://storage.googleapis.com/r8-releases/raw'
         }
         
     }

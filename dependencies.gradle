@@ -163,7 +163,8 @@ ext {
                     dagger = "com.google.dagger:dagger:$daggerVersion",
                     daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion",
                     daggerAndroid = "com.google.dagger:dagger-android-support:$daggerVersion",
-                    daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion"
+                    daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion",
+                    findBugs = "com.google.code.findbugs:jsr305:3.0.2"
             ],
 
             annotationLibs = [
