@@ -5,7 +5,7 @@ ext {
             assertJVersion = "2.9.1",
             supportTestVersion = "1.1.0",
             espressoVersion = "3.1.0-alpha3",
-            mockkVersion = "1.8.13.kotlin13",
+            mockkVersion = "1.9.3.kotlin12",
 
             kotlinVersion = "1.3.21",
 
@@ -53,8 +53,6 @@ ext {
             frescoVersion = "1.13.0",
 
             lottieVersion = "3.0.0",
-
-            moBankAuthVersion = "1.0.4",
 
             recyclerViewItemDecorationVersion = "1.0.0",
 
