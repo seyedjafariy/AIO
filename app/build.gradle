@@ -23,7 +23,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("/aio-key.jks")
+            storeFile file("../aio-key.jks")
             storePassword "$keyStorePass"
             keyAlias "$aioAlias"
             keyPassword "$keyPass"

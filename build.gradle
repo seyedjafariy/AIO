@@ -43,7 +43,11 @@ task clean(type: Delete) {
 }
 
 ext {
-    movieDBApiKey = loadValues().getProperty('API_KEY')
+    def values = loadValues()
+    movieDBApiKey = values.getProperty('API_KEY')
+    keyStorePass = values.getProperty('keyStorePass')
+    aioAlias = values.getProperty('aioAlias')
+    keyPass = values.getProperty('keyPass')
 }
 
 def loadValues() {
@@ -52,6 +56,9 @@ def loadValues() {
         localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
     } else {
         localProperties.setProperty('API_KEY', System.getenv("API_KEY"))
+        localProperties.setProperty('keyStorePass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD"))
+        localProperties.setProperty('aioAlias', System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS"))
+        localProperties.setProperty('keyPass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD"))
     }
     return localProperties
 }
