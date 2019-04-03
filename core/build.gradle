@@ -1,0 +1,7 @@
+apply from: androidLib
+
+dependencies{
+    implementation kotlinStd8
+    implementation dagger
+    kapt daggerCompiler
+}

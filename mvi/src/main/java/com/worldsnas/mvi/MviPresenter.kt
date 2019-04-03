@@ -1,4 +1,4 @@
-package com.worldsnas.basemvi
+package com.worldsnas.mvi
 
 import io.reactivex.Observable
 

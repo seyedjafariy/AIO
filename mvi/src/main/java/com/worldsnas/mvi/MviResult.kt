@@ -1,4 +1,4 @@
-package com.worldsnas.basemvi
+package com.worldsnas.mvi
 
 /**
  * Immutable object resulting of a processed business logic.

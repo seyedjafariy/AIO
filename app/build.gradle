@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'jacoco-android'
 
 android {
@@ -45,7 +47,7 @@ android {
             multiDexEnabled isDebugMultiDex
             proguardFiles(getDefaultProguardFile("proguard-android.txt"),
                     "$proguardFileAddress")
-            testCoverageEnabled true
+//            testCoverageEnabled true
         }
     }
     applicationVariants.all { variant ->
@@ -77,7 +79,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation kotlinStd
+    implementation kotlinStd8
+
+    implementation(project(":core"))
+
+    implementation dagger
+    kapt daggerCompiler
+
     //noinspection GradleDependency
     implementation compat
     implementation coreKts

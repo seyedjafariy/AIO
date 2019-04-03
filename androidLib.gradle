@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: "kotlin-android"
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
 
 
 android {
@@ -33,7 +34,7 @@ android {
             multiDexEnabled isDebugMultiDex
             proguardFiles(getDefaultProguardFile("proguard-android.txt"),
                     "$proguardFileAddress")
-            testCoverageEnabled isDebugTestCoverage
+//            testCoverageEnabled isDebugTestCoverage
         }
     }
     compileOptions {

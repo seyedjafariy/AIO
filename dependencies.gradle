@@ -29,10 +29,10 @@ ext {
             jetbrainsAnnotationVersion = "15.0",
             javaxInjectVersion = "1",
 
-            rxJavaVersion = "2.2.8",
+            rxJavaVersion = "2.1.6",
             rxKotlinVersion = "2.3.0",
-            rxBindingVersion = "3.0.0-alpha2",
-            rxAndroidVersion = "2.1.1",
+            rxBindingVersion = "2.0.0",
+            rxAndroidVersion = "2.0.1",
             rxBroadCastVersion = "2.0.0",
             rxPreferencesVersion = "2.0.0",
 
@@ -43,6 +43,8 @@ ext {
 
             moshiVersion = "1.8.0",
             koshiVersion = "2.0-rc1",
+
+            conductorVersion = "3.0.0-rc1",
 
             leakCanaryVersion = "1.6.3",
 
@@ -90,7 +92,8 @@ ext {
 
             kotlin = [
                     //kotlin
-                    kotlinStd = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+                    kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
             ],
 
             support = [
@@ -126,7 +129,7 @@ ext {
                     okHttpLogging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
             ],
 
-            rxJava = [
+            rxJavaLibs = [
                     //rxjava
                     rxJava = "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
                     rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
@@ -134,16 +137,19 @@ ext {
                     rxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:$rxPreferencesVersion",
                     rxJavaRetrofit = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
 
-                    rxBinding = "com.jakewharton.rxbinding3:rxbinding-core:$rxBindingVersion",
-                    rxBindingCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion",
-                    rxBindingMaterial = "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion",
-                    rxBindingViewPager = "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindingVersion",
-                    rxBindingRecyclerView = "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindingVersion",
-                    rxBindingSlidingPanel = "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindingVersion",
-                    rxBindingSwipeRefresh = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindingVersion"
+                    rxBindingKotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion",
+                    rxBindingCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion",
+                    rxBindingCompatKotlin = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
+//                    rxBinding = "com.jakewharton.rxbinding3:rxbinding-core:$rxBindingVersion",
+//                    rxBindingCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion",
+//                    rxBindingMaterial = "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion",
+//                    rxBindingViewPager = "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindingVersion",
+//                    rxBindingRecyclerView = "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindingVersion",
+//                    rxBindingSlidingPanel = "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindingVersion",
+//                    rxBindingSwipeRefresh = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindingVersion"
             ],
 
-            moshi = [
+            moshiLibs = [
                     //moshi
                     moshi = "com.squareup.moshi:moshi:$moshiVersion",
                     moshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion",
@@ -152,7 +158,7 @@ ext {
                     kotshiCompiler = "se.ansman.kotshi:compiler:$koshiVersion",
             ],
 
-            dagger = [
+            daggerLibs = [
                     //Dagger
                     dagger = "com.google.dagger:dagger:$daggerVersion",
                     daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion",
@@ -160,7 +166,7 @@ ext {
                     daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion"
             ],
 
-            annotation = [
+            annotationLibs = [
                     javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion",
                     jetbrainsAnnotation = "org.jetbrains:annotations-java5:$jetbrainsAnnotationVersion",
                     injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion"
@@ -177,7 +183,8 @@ ext {
             utils = [
                     //Utils
                     timber = "com.jakewharton.timber:timber:$timberVersion",
-                    fresco = "com.facebook.fresco:fresco:$frescoVersion"
+                    fresco = "com.facebook.fresco:fresco:$frescoVersion",
+                    conductor = "com.bluelinelabs:conductor:$conductorVersion"
             ]
     ]
 }
