@@ -1,154 +1,181 @@
 ext {
+    libVersion = [
 
-    jUnitVersion = "4.12"
-    assertJVersion = "2.9.1"
-    supportTestVersion = "1.1.0"
-    espressoVersion = "3.1.0-alpha3"
-    mockkVersion = "1.8.13.kotlin13"
+            jUnitVersion = "4.12",
+            assertJVersion = "2.9.1",
+            supportTestVersion = "1.1.0",
+            espressoVersion = "3.1.0-alpha3",
+            mockkVersion = "1.8.13.kotlin13",
 
-    kotlinVersion = "1.3.21"
+            kotlinVersion = "1.3.21",
 
-    supportLibraryVersion = "1.0.0"
-    googleMaterialVersion = "1.0.0-rc01"
-    pagingComponentVersion = "1.0.0-alpha6"
-    constraintLayoutVersion = "1.1.2"
-    archComponentVersion = "2.0.0-rc01"
-    multidexVersion = "2.0.0"
+            supportLibraryVersion = "1.0.0",
+            googleMaterialVersion = "1.0.0-rc01",
+            pagingComponentVersion = "1.0.0-alpha6",
+            constraintLayoutVersion = "1.1.2",
+            archComponentVersion = "2.0.0-rc01",
+            multidexVersion = "2.0.0",
 
-    androidKotlinExtVersion1 = "1.0.0"
-    androidKotlinExtVersion2 = "2.0.0"
+            androidKotlinExtVersion1 = "1.0.0",
+            androidKotlinExtVersion2 = "2.0.0",
 
-    firebaseMessagingVersion = "17.3.4"
-    firebaseCrashVersion = "16.2.1"
-    firebaseCoreVersion = "16.0.4"
-    crashlyticsVersion = "2.9.5"
+            firebaseMessagingVersion = "17.3.4",
+            firebaseCrashVersion = "16.2.1",
+            firebaseCoreVersion = "16.0.4",
+            crashlyticsVersion = "2.9.5",
 
-    daggerVersion = "2.18"
-    javaxVersion = "1.0"
-    jetbrainsAnnotationVersion = "15.0"
-    javaxInjectVersion = "1"
+            daggerVersion = "2.18",
+            javaxVersion = "1.0",
+            jetbrainsAnnotationVersion = "15.0",
+            javaxInjectVersion = "1",
 
-    rxJavaVersion = "2.1.6"
-    rxKotlinVersion = "2.3.0"
-    rxBindingVersion = "2.0.0"
-    rxAndroidVersion = "2.0.1"
-    rxBroadCastVersion = "2.0.0"
+            rxJavaVersion = "2.1.6",
+            rxKotlinVersion = "2.3.0",
+            rxBindingVersion = "2.0.0",
+            rxAndroidVersion = "2.0.1",
+            rxBroadCastVersion = "2.0.0",
+            rxPreferencesVersion = "2.0.0",
 
-    timberVersion = "4.6.0"
+            timberVersion = "4.6.0",
 
-    retrofitVersion = "2.3.0"
-    okHttpVersion = "3.9.1"
+            retrofitVersion = "2.3.0",
+            okHttpVersion = "3.9.1",
 
-    moshiVersion = "1.6.0"
-    koshiVersion = "1.0.5"
+            moshiVersion = "1.6.0",
+            koshiVersion = "1.0.5",
 
-    leakCanaryVersion = "1.6.3"
+            leakCanaryVersion = "1.6.3",
 
-    objectboxVersion = "2.1.0"
+            objectboxVersion = "2.1.0",
 
-    zXingVersion = "1.9.8"
+            zXingVersion = "1.9.8",
 
-    frescoVersion = "1.13.0"
+            frescoVersion = "1.13.0",
 
-    lottieVersion = "2.7.0"
+            lottieVersion = "2.7.0",
 
-    moBankAuthVersion = "1.0.4"
+            moBankAuthVersion = "1.0.4",
 
-    recyclerViewItemDecorationVersion = "1.0.0"
+            recyclerViewItemDecorationVersion = "1.0.0",
 
-    imagePickerVersion = "1.5"
+            imagePickerVersion = "1.5",
 
-    materialDialogsVersion = "0.9.6.0"
-    roundCardViewVersion = "1.0.0"
-    progressVersion = "2.1.3"
-    roundImageView = "2.3.0"
-    btmNavVersion = "2.1.0"
+            materialDialogsVersion = "0.9.6.0",
+            roundCardViewVersion = "1.0.0",
+            progressVersion = "2.1.3",
+            roundImageViewVersion = "2.3.0",
+            btmNavVersion = "2.1.0",
 
-    jsonTestVersion = "20140107"
+            jsonTestVersion = "20140107",
 
-    bottomNavVersion = "2.1.0"
+            bottomNavVersion = "2.1.0"
+    ]
 }
-ext{
-    //testing
-    junit = "junit:junit:$jUnitVersion"
-    assertJ = "org.assertj:assertj-core:$assertJVersion"
+ext {
+    libs = [
+            testing = [
+                    //testing
+                    junit = "junit:junit:$jUnitVersion",
+                    assertJ = "org.assertj:assertj-core:$assertJVersion",
 
-    mockkUnit = "io.mockk:mockk:$mockkVersion"
-    mockkAndroid = "io.mockk:mockk-android:$mockkVersion"
+                    mockkUnit = "io.mockk:mockk:$mockkVersion",
+                    mockkAndroid = "io.mockk:mockk-android:$mockkVersion",
 
-    supportTestRunner = "androidx.test:runner:$supportTestVersion"
-    supportTestRule = "androidx.test:rules:$supportTestVersion"
+                    supportTestRunner = "androidx.test:runner:$supportTestVersion",
+                    supportTestRule = "androidx.test:rules:$supportTestVersion",
 
-    espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion"
-    espressoContrib = "androidx.test.espresso:espresso-contrib:$espressoVersion"
+                    espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion",
+                    espressoContrib = "androidx.test.espresso:espresso-contrib:$espressoVersion",
 
-    jsonTest = "org.json:json:$jsonTestVersion"
+                    jsonTest = "org.json:json:$jsonTestVersion"
+            ],
 
+            kotlin = [
+                    //kotlin
+                    kotlinStd = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+            ],
 
-    //kotlin
-    kotlinStd = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+            support = [
+                    //support
+                    compat = "androidx.appcompat:appcompat:$supportLibraryVersion",
+                    design = "com.google.android.material:material:$googleMaterialVersion",
+                    cardView = "androidx.cardview:cardview:$supportLibraryVersion",
+                    annotation = "androidx.annotation:annotation:$supportLibraryVersion",
+                    vectorDrawable = "androidx.vectordrawable:vectordrawable:$supportLibraryVersion",
+                    recyclerView = "androidx.recyclerview:recyclerview:$supportLibraryVersion",
+                    multiDex = "androidx.multidex:multidex:$multidexVersion",
+                    constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+            ],
 
+            archComponent = [
+                    //architecture comps
+                    lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$archComponentVersion",
+                    lifecycleExtension = "androidx.lifecycle:lifecycle-extensions:$archComponentVersion"
+            ],
 
-    //support
-    compat = "androidx.appcompat:appcompat:$supportLibraryVersion"
-    design = "com.google.android.material:material:$googleMaterialVersion"
-    cardView = "androidx.cardview:cardview:$supportLibraryVersion"
-    annotation = "androidx.annotation:annotation:$supportLibraryVersion"
-    vectorDrawable = "androidx.vectordrawable:vectordrawable:$supportLibraryVersion"
-    recyclerView = "androidx.recyclerview:recyclerview:$supportLibraryVersion"
-    multiDex = "androidx.multidex:multidex:$multidexVersion"
-    constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+            androidKts = [
+                    //androidKTS
+                    coreKts = "androidx.core:core-ktx:$androidKotlinExtVersion1",
+                    fragmentKts = "androidx.fragment:fragment-ktx:$androidKotlinExtVersion1",
+                    collectionKts = "androidx.collection:collection-ktx:$androidKotlinExtVersion1",
+                    viewModelKts = "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidKotlinExtVersion2"
+            ],
 
-    //architecture comps
-    lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$archComponentVersion"
-    lifecycleExtension = "androidx.lifecycle:lifecycle-extensions:$archComponentVersion"
+            network = [
+                    //network
+                    retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                    okHttp = "com.squareup.okhttp3:okhttp:$okHttpVersion",
+                    okHttpLogging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+            ],
 
-    //network
-    retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    okHttp = "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    okHttpLogging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+            rxJava = [
+                    //rxjava
+                    rxJava = "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+                    rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:$rxPreferencesVersion",
+                    rxJavaRetrofit = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+                    rxBinding = "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion",
+                    rxBindingKotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion",
+                    rxBindingCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion",
+                    rxBindingCompatKotlin = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
+            ],
 
-    //rxjava
-    rxJava = "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
-    rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-    rxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:2.0.0"
-    rxJavaRetrofit = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-    rxBinding = "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion"
-    rxBindingKotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
-    rxBindingCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion"
-    rxBindingCompatKotlin = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
+            moshi = [
+                    //moshi
+                    moshi = "com.squareup.moshi:moshi:$moshiVersion",
+                    moshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion",
+                    moshiRetrofit = "com.squareup.retrofit2:converter-moshi:$retrofitVersion",
+                    kotshi = "se.ansman.kotshi:api:$koshiVersion",
+                    kotshiCompiler = "se.ansman.kotshi:compiler:$koshiVersion",
+            ],
 
-    //moshi
-    moshi = "com.squareup.moshi:moshi:$moshiVersion"
-    moshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion"
-    moshiRetrofit = "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    kotshi = "se.ansman.kotshi:api:$koshiVersion"
-    kotshiCompiler = "se.ansman.kotshi:compiler:$koshiVersion"
+            dagger = [
+                    //Dagger
+                    dagger = "com.google.dagger:dagger:$daggerVersion",
+                    daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion",
+                    daggerAndroid = "com.google.dagger:dagger-android-support:$daggerVersion",
+                    daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion"
+            ],
 
-    //Dagger
-    dagger = "com.google.dagger:dagger:$daggerVersion"
-    daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
-    daggerAndroid = "com.google.dagger:dagger-android-support:$daggerVersion"
-    daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion"
+            annotation = [
+                    javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion",
+                    jetbrainsAnnotation = "org.jetbrains:annotations-java5:$jetbrainsAnnotationVersion",
+                    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion"
+            ],
 
-    javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion"
-    jetbrainsAnnotation = "org.jetbrains:annotations-java5:$jetbrainsAnnotationVersion"
-    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion"
+            ui = [
+                    //Ui
+                    roundCardView = "com.github.captain-miao:optroundcardview:$roundCardViewVersion",
+                    recyclerViewtemDecoration = "com.bignerdranch.android:simple-item-decoration:$recyclerViewItemDecorationVersion",
+                    lottie = "com.airbnb.android:lottie:$lottieVersion",
+                    bottomBar = "com.aurelhubert:ahbottomnavigation:$bottomNavVersion"
+            ],
 
-    //Ui
-    roundCardView = "com.github.captain-miao:optroundcardview:$roundCardViewVersion"
-    recyclerViewtemDecoration = "com.bignerdranch.android:simple-item-decoration:$recyclerViewItemDecorationVersion"
-    lottie = "com.airbnb.android:lottie:$lottieVersion"
-    bottomBar = "com.aurelhubert:ahbottomnavigation:$bottomNavVersion"
-
-    //androidKTS
-    coreExt = "androidx.core:core-ktx:$androidKotlinExtVersion1"
-    fragmentExt = "androidx.fragment:fragment-ktx:$androidKotlinExtVersion1"
-    collectionExt = "androidx.collection:collection-ktx:$androidKotlinExtVersion1"
-    viewModelExt = "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidKotlinExtVersion2"
-
-    //Utils
-    timber = "com.jakewharton.timber:timber:$timberVersion"
-    fresco = "com.facebook.fresco:fresco:$frescoVersion"
+            utils = [
+                    //Utils
+                    timber = "com.jakewharton.timber:timber:$timberVersion",
+                    fresco = "com.facebook.fresco:fresco:$frescoVersion"
+            ]
+    ]
 }

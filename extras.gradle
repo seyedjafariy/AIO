@@ -5,8 +5,16 @@ ext{
     isReleaseMinify = true
     isReleaseMultiDex = true
     isDebugMultiDex = true
-    proguardFileAddress = "${rootProject.rootDir.absolutePath}\\proguard-rules.pro"
+    isDebugShrinkResources = false
+    isReleaseShrinkResources = false
 
+    isDebugTestCoverage = true
+
+    proguardFileAddress = "${rootProject.rootDir.absolutePath}\\proguard-rules.pro"
     projectMinSdkVersion = 21
     projectTargetSdkVersion = 28
+    prjectCompileSdkVersion = 28
+
+    kotlinLib = "$rootDir/kotlinLib.gradle"
+    androidLib = "$rootDir/androidLib.gradle"
 }

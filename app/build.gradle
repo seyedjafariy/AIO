@@ -77,15 +77,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation kotlinStd
     //noinspection GradleDependency
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.core:core-ktx:1.1.0-alpha05'
-    testImplementation 'junit:junit:4.12'
+    implementation compat
+    implementation coreKts
+    testImplementation junit
     //noinspection GradleDependency
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation supportTestRunner
     //noinspection GradleDependency
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation espressoCore
 }
 
 

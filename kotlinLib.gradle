@@ -1,0 +1,16 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+sourceCompatibility = "7"
+targetCompatibility = "7"
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.7"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.7"
+    }
+}

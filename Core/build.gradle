@@ -4,5 +4,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection DifferentStdlibGradleVersion
     implementation kotlinStd
-    implementation rxJava
+    implementation dagger
 }
