@@ -24,35 +24,35 @@ ext {
             firebaseCoreVersion = "16.0.4",
             crashlyticsVersion = "2.9.5",
 
-            daggerVersion = "2.18",
+            daggerVersion = "2.22.1",
             javaxVersion = "1.0",
             jetbrainsAnnotationVersion = "15.0",
             javaxInjectVersion = "1",
 
-            rxJavaVersion = "2.1.6",
+            rxJavaVersion = "2.2.8",
             rxKotlinVersion = "2.3.0",
-            rxBindingVersion = "2.0.0",
-            rxAndroidVersion = "2.0.1",
+            rxBindingVersion = "3.0.0-alpha2",
+            rxAndroidVersion = "2.1.1",
             rxBroadCastVersion = "2.0.0",
             rxPreferencesVersion = "2.0.0",
 
-            timberVersion = "4.6.0",
+            timberVersion = "4.7.1",
 
-            retrofitVersion = "2.3.0",
-            okHttpVersion = "3.9.1",
+            retrofitVersion = "2.5.0",
+            okHttpVersion = "3.14.0",
 
-            moshiVersion = "1.6.0",
-            koshiVersion = "1.0.5",
+            moshiVersion = "1.8.0",
+            koshiVersion = "2.0-rc1",
 
             leakCanaryVersion = "1.6.3",
 
-            objectboxVersion = "2.1.0",
+            objectboxVersion = "2.3.4",
 
             zXingVersion = "1.9.8",
 
             frescoVersion = "1.13.0",
 
-            lottieVersion = "2.7.0",
+            lottieVersion = "3.0.0",
 
             moBankAuthVersion = "1.0.4",
 
@@ -135,10 +135,14 @@ ext {
                     rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
                     rxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:$rxPreferencesVersion",
                     rxJavaRetrofit = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
-                    rxBinding = "com.jakewharton.rxbinding2:rxbinding:$rxBindingVersion",
-                    rxBindingKotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion",
-                    rxBindingCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion",
-                    rxBindingCompatKotlin = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
+
+                    rxBinding = "com.jakewharton.rxbinding3:rxbinding-core:$rxBindingVersion",
+                    rxBindingCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion",
+                    rxBindingMaterial = "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion",
+                    rxBindingViewPager = "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindingVersion",
+                    rxBindingRecyclerView = "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindingVersion",
+                    rxBindingSlidingPanel = "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindingVersion",
+                    rxBindingSwipeRefresh = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindingVersion"
             ],
 
             moshi = [
