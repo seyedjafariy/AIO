@@ -14,3 +14,6 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
+dependencies{
+    implementation kotlinStd8
+}
