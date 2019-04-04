@@ -1,0 +1,9 @@
+apply from: androidLib
+
+dependencies {
+    testImplementation junit
+    androidTestImplementation supportTestRunner
+    androidTestImplementation espressoCore
+
+    implementation conductor
+}

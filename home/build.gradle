@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":base"))
     implementation(project(":core"))
     implementation(project(":mvi"))
+    implementation(project(":navigation"))
 
 
     implementation kotlinStd8

@@ -43,3 +43,7 @@ android {
     }
 
 }
+
+dependencies{
+    implementation kotlinStd8
+}
