@@ -1,0 +1,20 @@
+apply from: androidLib
+
+dependencies {
+    testImplementation junit
+    androidTestImplementation supportTestRunner
+    androidTestImplementation espressoCore
+
+    implementation(project(":panther"))
+
+    implementation dagger
+    kapt daggerCompiler
+
+    implementation rxJava
+    implementation rxKotlin
+
+    implementation retrofit
+    implementation moshi
+    implementation kotshi
+    kapt kotshiCompiler
+}

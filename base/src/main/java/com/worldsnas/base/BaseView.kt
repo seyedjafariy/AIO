@@ -45,7 +45,7 @@ abstract class BaseView<S : BaseViewState, I : MviIntent, P : MviPresenter<I, S>
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        bind()
+        // bind()
         createLoading()
         createErrorSnack()
     }

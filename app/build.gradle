@@ -85,7 +85,17 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinStd8
 
+    testImplementation junit
+    //noinspection GradleDependency
+    androidTestImplementation supportTestRunner
+    //noinspection GradleDependency
+    androidTestImplementation espressoCore
+
     implementation(project(":core"))
+    implementation(project(":domain"))
+    implementation(project(":base"))
+    implementation(project(":mvi"))
+
 
     implementation dagger
     implementation findBugs
@@ -101,11 +111,10 @@ dependencies {
     //noinspection GradleDependency
     implementation compat
     implementation coreKts
-    testImplementation junit
-    //noinspection GradleDependency
-    androidTestImplementation supportTestRunner
-    //noinspection GradleDependency
-    androidTestImplementation espressoCore
+
+    implementation conductor
+
+    implementation timber
 }
 
 
