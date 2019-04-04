@@ -1,27 +1,28 @@
 apply from: androidLib
 
 dependencies {
-
-    implementation(project(":mvi"))
-    implementation(project(":core"))
-    implementation(project(":daggercore"))
-
     testImplementation junit
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
+
+    implementation(project(":domain"))
+    implementation(project(":daggercore"))
+    implementation(project(":base"))
+    implementation(project(":core"))
+    implementation(project(":mvi"))
+
 
     implementation kotlinStd8
 
     implementation compat
     implementation design
 
-    implementation conductor
-
     implementation dagger
-    implementation findBugs
     kapt daggerCompiler
 
-    implementation coreKts
+    implementation conductor
     implementation rxJava
     implementation rxKotlin
+    implementation coreKts
+    implementation timber
 }

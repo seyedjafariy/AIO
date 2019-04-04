@@ -1,29 +1,30 @@
 package com.worldsnas.base
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.bluelinelabs.conductor.Controller
 import com.google.android.material.snackbar.Snackbar
-import com.worldsnas.core.coreComponent
-import com.worldsnas.core.di.CoreComponent
 import com.worldsnas.core.visible
+import com.worldsnas.daggercore.CoreComponent
+import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.mvi.MviIntent
 import com.worldsnas.mvi.MviPresenter
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
-abstract class BaseView<S : BaseViewState, I : MviIntent, P : MviPresenter<I, S>>
+abstract class BaseView<S : BaseViewState, I : MviIntent>
     : Controller() {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val disposables = CompositeDisposable()
 
-    lateinit var presenter: P
+    @Inject
+    lateinit var presenter: MviPresenter<I, S>
 
     var loadingView: LoadingView? = null
     var errorSnack: Snackbar? = null
@@ -31,11 +32,6 @@ abstract class BaseView<S : BaseViewState, I : MviIntent, P : MviPresenter<I, S>
     // private val inject by lazy {
     //     injectDependencies()
     // }
-
-    override fun onContextAvailable(context: Context) {
-        super.onContextAvailable(context)
-        // inject
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
         inflater.inflate(getLayoutId(), container, false)
@@ -45,7 +41,7 @@ abstract class BaseView<S : BaseViewState, I : MviIntent, P : MviPresenter<I, S>
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        // bind()
+        bind()
         createLoading()
         createErrorSnack()
     }
