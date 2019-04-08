@@ -33,15 +33,15 @@ android {
         release {
             debuggable isReleaseDebuggable
             minifyEnabled isReleaseMinify
-            shrinkResources true
+//            shrinkResources true
             multiDexEnabled isReleaseMultiDex
             proguardFiles(getDefaultProguardFile("proguard-android.txt"),
                     "$proguardFileAddress")
             signingConfig signingConfigs.release
         }
-        debug{
+        debug {
             ext.alwaysUpdateBuildId = false
-            shrinkResources false
+//            shrinkResources false
             debuggable isDebugDebuggable
             minifyEnabled isDebugMinify
             multiDexEnabled isDebugMultiDex
@@ -74,10 +74,15 @@ android {
         defaultCacheImplementation = "SPARSE_ARRAY"
         experimental = true
     }
+
+
+    dynamicFeatures = [":domy"]
+
+
 }
 configurations {
     cleanedAnnotations
-    compile.exclude group: 'org.jetbrains' , module:'annotations'
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
 }
 
 
@@ -85,7 +90,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinStd8
 
+    testImplementation junit
+    //noinspection GradleDependency
+    androidTestImplementation supportTestRunner
+    //noinspection GradleDependency
+    androidTestImplementation espressoCore
+
     implementation(project(":core"))
+    implementation(project(":domain"))
+    implementation(project(":base"))
+    implementation(project(":mvi"))
+    implementation(project(":daggercore"))
+    implementation(project(":home"))
+
 
     implementation dagger
     implementation findBugs
@@ -101,11 +118,10 @@ dependencies {
     //noinspection GradleDependency
     implementation compat
     implementation coreKts
-    testImplementation junit
-    //noinspection GradleDependency
-    androidTestImplementation supportTestRunner
-    //noinspection GradleDependency
-    androidTestImplementation espressoCore
+
+    implementation conductor
+
+    implementation timber
 }
 
 

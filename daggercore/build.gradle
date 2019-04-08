@@ -1,0 +1,26 @@
+apply from: androidLib
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation junit
+    androidTestImplementation supportTestRunner
+    androidTestImplementation espressoCore
+
+    implementation(project(":domain"))
+
+    implementation kotlinStd8
+
+    implementation dagger
+    kapt daggerCompiler
+
+    implementation rxJavaRetrofit
+    implementation retrofit
+    implementation moshiRetrofit
+    implementation moshi
+    implementation okHttp
+    implementation okHttpLogging
+    implementation javaxAnnotation
+    implementation findBugs
+    implementation timber
+}

@@ -4,6 +4,7 @@ dependencies {
 
     implementation(project(":mvi"))
     implementation(project(":core"))
+    implementation(project(":daggercore"))
 
     testImplementation junit
     androidTestImplementation supportTestRunner
@@ -15,6 +16,10 @@ dependencies {
     implementation design
 
     implementation conductor
+
+    implementation dagger
+    implementation findBugs
+    kapt daggerCompiler
 
     implementation coreKts
     implementation rxJava

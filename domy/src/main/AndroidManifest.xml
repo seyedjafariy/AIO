@@ -1,0 +1,11 @@
+<manifest
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.worldsnas.domy">
+    <dist:module
+        dist:onDemand="true"
+        dist:instant="false"
+        dist:title="@string/title_domy">
+        <dist:fusing dist:include="true"/>
+    </dist:module>
+</manifest>
+
