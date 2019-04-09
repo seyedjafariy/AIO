@@ -1,12 +1,16 @@
 package com.worldsnas.domain.repo.home.discover
 
+import com.worldsnas.domain.repo.home.HomeAPI
+import com.worldsnas.domain.servermodels.MovieServerModel
+import com.worldsnas.domain.servermodels.ResultsServerModel
 import com.worldsnas.panther.RFetcher
+import io.reactivex.Single
 import retrofit2.Response
 import javax.inject.Inject
 
 class LatestMovieFetcher @Inject constructor(
-): RFetcher<String, String>  {
-    override fun fetch(param: String): Response<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private val api : HomeAPI
+): RFetcher<Int, ResultsServerModel<MovieServerModel>>  {
+    override fun fetch(param: Int): Single<Response<ResultsServerModel<MovieServerModel>>> =
+        api.getLatestMovie(param)
 }

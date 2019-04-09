@@ -1,11 +1,11 @@
 package com.worldsnas.daggercore.modules
 
-import com.worldsnas.domain.repo.home.HomeModule
+import com.worldsnas.domain.repo.home.HomeRepoModule
 import dagger.Module
 
 @Module(
     includes = [
-        HomeModule::class
+        HomeRepoModule::class
     ]
 )
 abstract class RepoModule
