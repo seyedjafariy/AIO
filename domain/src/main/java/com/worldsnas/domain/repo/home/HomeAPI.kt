@@ -1,4 +1,4 @@
-package com.worldsnas.domain.repo.discover
+package com.worldsnas.domain.repo.home
 
 import io.reactivex.Single
 import retrofit2.http.GET

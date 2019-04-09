@@ -1,11 +1,11 @@
-package com.worldsnas.domain.repo.discover
+package com.worldsnas.domain.repo.home.discover
 
 import com.worldsnas.panther.RFetcher
 import javax.inject.Inject
 
-class DiscoverRepoImpl @Inject constructor(
+class LatestMovieRepoImpl @Inject constructor(
     private val fetcher: RFetcher<String, String>
-): DiscoverRepo {
+): LatestMovieRepo {
 
     fun loadExplore(){
 
