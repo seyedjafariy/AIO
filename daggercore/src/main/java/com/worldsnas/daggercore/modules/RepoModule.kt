@@ -1,12 +1,12 @@
 package com.worldsnas.daggercore.modules
 
-import com.worldsnas.domain.repo.explore.ExploreModule
+import com.worldsnas.domain.repo.discover.DiscoverModule
 import com.worldsnas.domain.repo.featured.FeaturedModule
 import dagger.Module
 
 @Module(
     includes = [
-        ExploreModule::class,
+        DiscoverModule::class,
         FeaturedModule::class
     ]
 )
