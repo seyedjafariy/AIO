@@ -1,7 +1,7 @@
 package com.worldsnas.daggercore
 
 import com.squareup.moshi.Moshi
-import com.worldsnas.domain.DomainModule
+import com.worldsnas.domain.di.DomainModule
 import com.worldsnas.daggercore.modules.network.NetworkModule
 import com.worldsnas.daggercore.scope.AppScope
 import dagger.Component
