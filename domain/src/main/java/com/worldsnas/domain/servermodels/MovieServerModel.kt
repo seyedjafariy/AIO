@@ -54,7 +54,7 @@ data class MovieServerModel(
     @Json(name = "vote_count")
     val voteCount: Int = 0,
     @Json(name = "videos")
-    val videos: ResultsServerModel<VideosServerModel>,
+    val videos: ResultsServerModel<VideoServerModel>,
     @Json(name = "images")
     val images: FullImageServerModel,
     @Json(name = "reviews")

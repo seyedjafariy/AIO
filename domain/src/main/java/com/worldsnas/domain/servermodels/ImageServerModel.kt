@@ -12,7 +12,7 @@ data class ImageServerModel(
     @Json(name = "height")
     val height: Int = 0,
     @Json(name = "iso_639_1")
-    val iso_639_1: String = "",
+    val iso: String = "",
     @Json(name = "vote_average")
     val voteAverage: Double = 0.0,
     @Json(name = "vote_count")

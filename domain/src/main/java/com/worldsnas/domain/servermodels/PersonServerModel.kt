@@ -10,7 +10,7 @@ data class PersonServerModel(
     @Json(name = "known_for_department")
     val knownForDepartment: String = "",
     @Json(name = "id")
-    val id: Int = 0,
+    val id: Long = 0,
     @Json(name = "place_of_birth")
     val placeOfBirth: String = "",
     @Json(name = "homepage")

@@ -6,9 +6,9 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class ResultsServerModel<T>(
     @Json(name = "results")
-    val list: List<T>,
+    val list: List<T> = emptyList(),
     @Json(name = "page")
-    val page: Int = 0,
+    val page: Long = 0,
     @Json(name= "total_pages")
     val totalPages : Int = 0,
     @Json(name= "total_results")

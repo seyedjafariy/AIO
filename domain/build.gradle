@@ -2,6 +2,9 @@ apply from: androidLib
 
 dependencies {
     testImplementation junit
+    testImplementation assertJ
+    testImplementation mockkUnit
+    testImplementation(project(kotlinTestHelper))
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
 

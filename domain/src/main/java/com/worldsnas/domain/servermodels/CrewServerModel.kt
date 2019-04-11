@@ -12,7 +12,7 @@ data class CrewServerModel(
     @Json(name = "gender")
     val gender: Int = 0,
     @Json(name = "id")
-    val id: Int = 0,
+    val id: Long = 0,
     @Json(name = "job")
     val job: String = "",
     @Json(name = "name")
@@ -29,8 +29,6 @@ data class CrewServerModel(
     val genreIds: IntArray = intArrayOf(),
     @Json(name = "video")
     val video: Boolean = false,
-    @Json(name = "credit_id")
-    val creditId: String = "",
     @Json(name = "release_date")
     val releaseDate: String = "",
     @Json(name = "popularity")
@@ -66,7 +64,6 @@ data class CrewServerModel(
         if (overview != other.overview) return false
         if (!genreIds.contentEquals(other.genreIds)) return false
         if (video != other.video) return false
-        if (creditId != other.creditId) return false
         if (releaseDate != other.releaseDate) return false
         if (popularity != other.popularity) return false
         if (voteAverage != other.voteAverage) return false
@@ -83,7 +80,7 @@ data class CrewServerModel(
         var result = creditID.hashCode()
         result = 31 * result + department.hashCode()
         result = 31 * result + gender
-        result = 31 * result + id
+        result = 31 * result + id.hashCode()
         result = 31 * result + job.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + profilePath.hashCode()
@@ -92,7 +89,6 @@ data class CrewServerModel(
         result = 31 * result + overview.hashCode()
         result = 31 * result + genreIds.contentHashCode()
         result = 31 * result + video.hashCode()
-        result = 31 * result + creditId.hashCode()
         result = 31 * result + releaseDate.hashCode()
         result = 31 * result + popularity.hashCode()
         result = 31 * result + voteAverage.hashCode()

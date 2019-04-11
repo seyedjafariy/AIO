@@ -6,7 +6,7 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class CountryServerModel(
     @Json(name = "iso_3166_1")
-    val iso_3166_1: String = "",
+    val iso: String = "",
     @Json(name = "name")
     val name: String = ""
 )

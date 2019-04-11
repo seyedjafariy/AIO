@@ -6,7 +6,7 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class GenreServerModel(
     @Json(name = "id")
-    val id: Int = 0,
+    val id: Long = 0,
     @Json(name = "name")
     val name: String = ""
 )

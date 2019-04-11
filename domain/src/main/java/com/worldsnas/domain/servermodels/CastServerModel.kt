@@ -14,7 +14,7 @@ data class CastServerModel(
     @Json(name = "gender")
     val gender: Int = 0,
     @Json(name = "id")
-    val id: Int = 0,
+    val id: Long = 0,
     @Json(name = "name")
     val name: String = "",
     @Json(name = "order")
@@ -28,7 +28,7 @@ data class CastServerModel(
     @Json(name = "backdrop_path")
     val backdropPath: String = "",
     @Json(name = "vote_count")
-    val vote_count: Int = 0,
+    val voteCount: Int = 0,
     @Json(name = "video")
     val video: Boolean = false,
     @Json(name = "popularity")
@@ -65,7 +65,7 @@ data class CastServerModel(
         if (posterPath != other.posterPath) return false
         if (adult != other.adult) return false
         if (backdropPath != other.backdropPath) return false
-        if (vote_count != other.vote_count) return false
+        if (voteCount != other.voteCount) return false
         if (video != other.video) return false
         if (popularity != other.popularity) return false
         if (!genreIds.contentEquals(other.genreIds)) return false
@@ -75,7 +75,6 @@ data class CastServerModel(
         if (releaseDate != other.releaseDate) return false
         if (voteAverage != other.voteAverage) return false
         if (overview != other.overview) return false
-        if (creditId != other.creditId) return false
 
         return true
     }
@@ -85,14 +84,14 @@ data class CastServerModel(
         result = 31 * result + character.hashCode()
         result = 31 * result + creditId.hashCode()
         result = 31 * result + gender
-        result = 31 * result + id
+        result = 31 * result + id.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + order
         result = 31 * result + profilePath.hashCode()
         result = 31 * result + posterPath.hashCode()
         result = 31 * result + adult.hashCode()
         result = 31 * result + backdropPath.hashCode()
-        result = 31 * result + vote_count
+        result = 31 * result + voteCount
         result = 31 * result + video.hashCode()
         result = 31 * result + popularity.hashCode()
         result = 31 * result + genreIds.contentHashCode()
@@ -102,7 +101,6 @@ data class CastServerModel(
         result = 31 * result + releaseDate.hashCode()
         result = 31 * result + voteAverage.hashCode()
         result = 31 * result + overview.hashCode()
-        result = 31 * result + creditId.hashCode()
         return result
     }
 }

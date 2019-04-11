@@ -6,7 +6,7 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class CompanyServerModel(
     @Json(name = "id")
-    val id: Int = 0,
+    val id: Long = 0,
     @Json(name = "logo_path")
     val logoPath: String = "",
     @Json(name = "name")

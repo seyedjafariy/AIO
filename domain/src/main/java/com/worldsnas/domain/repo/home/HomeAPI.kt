@@ -12,4 +12,8 @@ interface HomeAPI {
     @GET("/3/discover/movie")
     fun getLatestMovie(@Query("page") page: Int):
         Single<Response<ResultsServerModel<MovieServerModel>>>
+
+    @GET("/3/trending/movie/day")
+    fun getTerndingMovie() :
+        Single<Response<ResultsServerModel<MovieServerModel>>>
 }

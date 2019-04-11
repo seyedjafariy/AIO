@@ -1,7 +1,7 @@
 package com.worldsnas.daggercore
 
 import com.squareup.moshi.Moshi
-import com.worldsnas.daggercore.modules.RepoModule
+import com.worldsnas.domain.DomainModule
 import com.worldsnas.daggercore.modules.network.NetworkModule
 import com.worldsnas.daggercore.scope.AppScope
 import dagger.Component
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 @AppScope
-@Component(modules = [NetworkModule::class, RepoModule::class])
+@Component(modules = [NetworkModule::class, DomainModule::class])
 interface CoreComponent {
 
     fun retrofit() : Retrofit

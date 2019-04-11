@@ -6,7 +6,7 @@ import se.ansman.kotshi.JsonSerializable
 @JsonSerializable
 data class FullImageServerModel(
     @Json(name = "backdrops")
-    val backdropsEntity: List<ImageServerModel> = emptyList(),
+    val backdrops: List<ImageServerModel> = emptyList(),
     @Json(name = "posters")
-    val postersEntity: List<ImageServerModel> = emptyList()
+    val posters: List<ImageServerModel> = emptyList()
 )

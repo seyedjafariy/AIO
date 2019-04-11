@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import se.ansman.kotshi.JsonSerializable
 
 @JsonSerializable
-data class VideosServerModel(
+data class VideoServerModel(
     @Json(name = "id")
     val id: String = "",
     @Json(name = "iso_639_1")
