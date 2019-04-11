@@ -1,8 +1,9 @@
 package com.worldsnas.domain.repomodel
 
 class ReviewRepoModel(
+    val id : Long = 0,
     val author: String = "",
     val content: String = "",
-    val id: String = "",
+    val reviewId: String = "",
     val url: String = ""
 )

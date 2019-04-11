@@ -1,6 +1,7 @@
 package com.worldsnas.domain.repomodel
 
 data class TranslationRepoModel(
+    val id: Long = 0,
     val iso_3166_1: String = "",
     val iso_639_1: String = "",
     val name: String = "",
