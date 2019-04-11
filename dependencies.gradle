@@ -191,8 +191,22 @@ ext {
                     conductor = "com.bluelinelabs:conductor:$conductorVersion"
             ],
 
+            objectboxLib = [
+                    objectboxJava = "io.objectbox:objectbox-java-api:$objectboxVersion",
+                    objectboxKotlin = "io.objectbox:objectbox-kotlin:$objectboxVersion",
+                    objectboxRxJava = "io.objectbox:objectbox-rxjava:$objectboxVersion",
+                    objectboxBrowser = "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion",
+                    objectboxAndroid = "io.objectbox:objectbox-android:$objectboxVersion"
+            ],
+
             modules = [
-                    kotlinTestHelper = ":kotlintesthelpers"
+                    kotlinTestHelper = ":kotlintesthelpers",
+                    domain = ":domain",
+                    panther = ":panther"
+            ],
+
+            plugins = [
+                    objectboxPlugin = "io.objectbox"
             ]
     ]
 }

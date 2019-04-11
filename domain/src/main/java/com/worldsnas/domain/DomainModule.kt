@@ -1,10 +1,12 @@
 package com.worldsnas.domain
 
+import com.worldsnas.domain.entity.CastEntity
+import com.worldsnas.domain.entity.CompanyEntity
+import com.worldsnas.domain.mappers.CastServerEntityMapper
+import com.worldsnas.domain.mappers.CompanyServerEntityMapper
 import com.worldsnas.domain.repo.home.HomeRepoModule
-import com.worldsnas.domain.repo.mappers.CastServerRepoMapper
-import com.worldsnas.domain.repo.mappers.CompanyServerRepoMapper
-import com.worldsnas.domain.repo.model.CastRepoModel
 import com.worldsnas.domain.servermodels.CastServerModel
+import com.worldsnas.domain.servermodels.CompanyServerModel
 import com.worldsnas.panther.Mapper
 import dagger.Binds
 import dagger.Module
@@ -13,10 +15,10 @@ import dagger.Module
 abstract class DomainModule{
 
     @Binds
-    abstract fun bindCastServerRepoMapper(mapper: CastServerRepoMapper) :
-        Mapper<CastServerModel, CastRepoModel>
+    abstract fun bindCastServerRepoMapper(mapper: CastServerEntityMapper) :
+        Mapper<CastServerModel, CastEntity>
 
     @Binds
-    abstract fun bindCompanyServerRepoMapper(mapper: CompanyServerRepoMapper) :
-        Mapper<CastServerModel, CastRepoModel>
+    abstract fun bindCompanyServerRepoMapper(mapper: CompanyServerEntityMapper) :
+        Mapper<CompanyServerModel, CompanyEntity>
 }

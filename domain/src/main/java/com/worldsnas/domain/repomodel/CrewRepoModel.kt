@@ -1,56 +1,33 @@
-package com.worldsnas.domain.servermodels
+package com.worldsnas.domain.repomodel
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
 
-@JsonSerializable
-data class CrewServerModel(
-    @Json(name = "credit_id")
+data class CrewRepoModel(
     val creditID: String = "",
-    @Json(name = "department")
     val department: String = "",
-    @Json(name = "gender")
     val gender: Int = 0,
-    @Json(name = "id")
     val id: Long = 0,
-    @Json(name = "job")
     val job: String = "",
-    @Json(name = "name")
     val name: String = "",
-    @Json(name = "profile_path")
     val profilePath: String = "",
-    @Json(name = "original_language")
     val originalLanguage: String = "",
-    @Json(name = "original_title")
     val originalTitle: String = "",
-    @Json(name = "overview")
     val overview: String = "",
-    @Json(name = "genre_ids")
-    val genreIds: LongArray = longArrayOf(),
-    @Json(name = "video")
+    val genreIds: IntArray = intArrayOf(),
     val video: Boolean = false,
-    @Json(name = "release_date")
     val releaseDate: String = "",
-    @Json(name = "popularity")
     val popularity: Double = 0.0,
-    @Json(name = "vote_average")
     val voteAverage: Double = 0.0,
-    @Json(name = "vote_count")
     val voteCount: Int = 0,
-    @Json(name = "title")
     val title: String = "",
-    @Json(name = "adult")
     val adult: Boolean = false,
-    @Json(name = "backdrop_path")
     val backdropPath: String = "",
-    @Json(name = "poster_path")
     val posterPath: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as CrewServerModel
+        other as CrewRepoModel
 
         if (creditID != other.creditID) return false
         if (department != other.department) return false

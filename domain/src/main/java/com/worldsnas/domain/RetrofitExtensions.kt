@@ -1,6 +1,6 @@
 package com.worldsnas.domain
 
-import com.worldsnas.domain.repo.model.ErrorRepoModel
+import com.worldsnas.domain.repomodel.ErrorRepoModel
 import com.worldsnas.domain.servermodels.error.ErrorServerModel
 import org.json.JSONObject
 import retrofit2.Response

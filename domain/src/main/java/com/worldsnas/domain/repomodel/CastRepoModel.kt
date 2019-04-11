@@ -1,58 +1,34 @@
-package com.worldsnas.domain.servermodels
+package com.worldsnas.domain.repomodel
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
 
-@JsonSerializable
-data class CastServerModel(
-    @Json(name = "cast_id")
+data class CastRepoModel (
     val castID: Int = 0,
-    @Json(name = "character")
     val character: String = "",
-    @Json(name = "credit_id")
     val creditId: String = "",
-    @Json(name = "gender")
     val gender: Int = 0,
-    @Json(name = "id")
     val id: Long = 0,
-    @Json(name = "name")
     val name: String = "",
-    @Json(name = "order")
     val order: Int = 0,
-    @Json(name = "profile_path")
     val profilePath: String = "",
-    @Json(name = "poster_path")
     val posterPath: String = "",
-    @Json(name = "adult")
     val adult: Boolean = false,
-    @Json(name = "backdrop_path")
     val backdropPath: String = "",
-    @Json(name = "vote_count")
     val voteCount: Int = 0,
-    @Json(name = "video")
     val video: Boolean = false,
-    @Json(name = "popularity")
     val popularity: Double = 0.0,
-    @Json(name = "genre_ids")
-    val genreIds: LongArray = longArrayOf(),
-    @Json(name = "original_language")
+    val genreIds: IntArray = intArrayOf(),
     val originalLanguage: String = "",
-    @Json(name = "title")
     val title: String = "",
-    @Json(name = "original_title")
     val originalTitle: String = "",
-    @Json(name = "release_date")
     val releaseDate: String = "",
-    @Json(name = "vote_average")
     val voteAverage: Double = 0.0,
-    @Json(name = "overview")
     val overview: String = ""
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as CastServerModel
+        other as CastRepoModel
 
         if (castID != other.castID) return false
         if (character != other.character) return false
