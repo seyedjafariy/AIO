@@ -1,9 +1,15 @@
 package com.worldsnas.domain.repo.home
 
-import com.worldsnas.domain.repo.home.discover.LatestMovieFetcher
+import com.worldsnas.domain.entity.LatestMovieEntity
+import com.worldsnas.domain.repo.home.latest.LatestMovieFetcher
+import com.worldsnas.domain.repo.home.latest.LatestMoviePersister
+import com.worldsnas.domain.repo.home.latest.LatestMoviePersisterKey
+import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
+import com.worldsnas.domain.repo.home.latest.LatestMovieRepoImpl
 import com.worldsnas.domain.repo.home.trending.TrendingFetcher
 import com.worldsnas.domain.servermodels.MovieServerModel
 import com.worldsnas.domain.servermodels.ResultsServerModel
+import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
@@ -27,4 +33,12 @@ abstract class HomeRepoModule {
     @Binds
     abstract fun bindTrendingFetcher(fetcher: TrendingFetcher):
         RFetcher<Unit, ResultsServerModel<MovieServerModel>>
+
+    @Binds
+    abstract fun bindLatestMoviePersister(persister: LatestMoviePersister):
+        Persister<LatestMoviePersisterKey, LatestMovieEntity>
+
+    @Binds
+    abstract fun bindLatestMovieRepo(repo : LatestMovieRepoImpl) :
+        LatestMovieRepo
 }

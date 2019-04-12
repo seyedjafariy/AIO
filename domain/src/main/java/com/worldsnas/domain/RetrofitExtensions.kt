@@ -2,6 +2,7 @@ package com.worldsnas.domain
 
 import com.worldsnas.domain.repomodel.ErrorRepoModel
 import com.worldsnas.domain.servermodels.error.ErrorServerModel
+import io.reactivex.Single
 import org.json.JSONObject
 import retrofit2.Response
 
@@ -41,3 +42,8 @@ fun Response<*>.getErrorRepoModel(): ErrorRepoModel =
 
             ErrorRepoModel(message, code)
         }
+
+fun Single<Response<*>>.defaultRetrofitRetry(times: Int = 3) =
+    retry { retried, _ ->
+        retried <= times
+    }

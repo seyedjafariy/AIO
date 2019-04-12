@@ -1,4 +1,4 @@
-package com.worldsnas.domain.repo.home.discover
+package com.worldsnas.domain.repo.home.latest
 
 import com.worldsnas.domain.repo.home.HomeAPI
 import com.worldsnas.domain.servermodels.MovieServerModel

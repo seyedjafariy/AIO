@@ -10,7 +10,7 @@ import timber.log.Timber
 class AIOApp : Application(), CoreComponentProvider {
 
     private val coreComponent by lazy {
-        DaggerCoreComponent.builder().build()
+        DaggerCoreComponent.builder().bindApplication(this).build()
     }
 
     override fun core(): CoreComponent =
