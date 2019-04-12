@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 class TrendingFetcher @Inject constructor(
     private val api: HomeAPI
-) : RFetcher<Unit, ResultsServerModel<MovieServerModel>> {
+) : RFetcher<Int, ResultsServerModel<MovieServerModel>> {
 
-    override fun fetch(param: Unit): Single<Response<ResultsServerModel<MovieServerModel>>> =
+    override fun fetch(param: Int): Single<Response<ResultsServerModel<MovieServerModel>>> =
         api.getTerndingMovie()
 }

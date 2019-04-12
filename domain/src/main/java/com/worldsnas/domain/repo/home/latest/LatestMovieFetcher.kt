@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class LatestMovieFetcher @Inject constructor(
     private val api : HomeAPI
-): RFetcher<Int, ResultsServerModel<MovieServerModel>>  {
-    override fun fetch(param: Int): Single<Response<ResultsServerModel<MovieServerModel>>> =
-        api.getLatestMovie(param)
+): RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>  {
+    override fun fetch(param: LatestMovieRequestParam): Single<Response<ResultsServerModel<MovieServerModel>>> =
+        api.getLatestMovie(param.page)
 }

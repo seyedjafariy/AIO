@@ -15,7 +15,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class LatestMovieRepoImpl @Inject constructor(
-    private val fetcher: RFetcher<Int, ResultsServerModel<MovieServerModel>>,
+    private val fetcher: RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
     private val latestMoviePersister: Persister<LatestMoviePersisterKey, LatestMovieEntity>,
     private val movieServerMapper: Mapper<MovieServerModel, MovieEntity>,
     private val movieEntityMapper: Mapper<MovieEntity, MovieRepoModel>
@@ -31,7 +31,7 @@ class LatestMovieRepoImpl @Inject constructor(
             }
 
     override fun observerAndUpdate(): Observable<LatestMovieRepoOutputModel> {
-        val updateObs = fetcher.fetch(1)
+        val updateObs = fetcher.fetch(LatestMovieRequestParam(1))
             .toObservable()
             .publish { publish ->
                 Observable.merge(
@@ -69,7 +69,7 @@ class LatestMovieRepoImpl @Inject constructor(
     }
 
     override fun update(param: LatestMovieRepoParamModel): Maybe<LatestMovieRepoOutputModel.Error> =
-        fetcher.fetch(param.page)
+        fetcher.fetch(LatestMovieRequestParam(param.page))
             .toObservable()
             .publish { publish ->
                 Observable.merge(
