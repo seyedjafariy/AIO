@@ -6,6 +6,7 @@ import com.worldsnas.daggercore.modules.DatabaseModule
 import com.worldsnas.daggercore.modules.network.NetworkModule
 import com.worldsnas.daggercore.scope.AppScope
 import com.worldsnas.domain.di.DomainModule
+import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
 import dagger.BindsInstance
 import dagger.Component
 import io.objectbox.BoxStore
@@ -26,6 +27,7 @@ interface CoreComponent {
     fun okHttp(): OkHttpClient
     fun moshi(): Moshi
     fun store(): BoxStore
+    fun latestMovieRepo() : LatestMovieRepo
 
     @Component.Builder
     interface Builder {

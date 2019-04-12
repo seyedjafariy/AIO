@@ -22,6 +22,7 @@ abstract class HomeRepoModule {
 
     @Module
     companion object {
+        @JvmStatic
         @Provides
         fun provideRetrofit(retrofit: Retrofit) = retrofit.create<HomeAPI>()
     }
