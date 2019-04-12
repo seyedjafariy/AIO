@@ -28,6 +28,8 @@ dependencies {
 
     implementation fresco
 
+    implementation constraintLayout
+
     implementation slider
     implementation nineOldAndroidAnim
 }

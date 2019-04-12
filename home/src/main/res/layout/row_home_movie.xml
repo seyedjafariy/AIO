@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="8dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/poster"
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="8dp"
+        android:layout_height="wrap_content"
+        app:roundedCornerRadius="10dp"
+        app:viewAspectRatio="0.65"
+        tools:ignore="UnusedAttribute"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:scrollbarSize="14dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:ellipsize="end"
+        android:text="Test Movie"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute"/>
+
+    <TextView
+        android:id="@+id/releaseDate"
+        android:scrollbarSize="12dp"
+        android:textStyle="normal"
+        android:layout_marginHorizontal="8dp"
+        android:text="1995"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UnusedAttribute"/>
+
+</LinearLayout>
