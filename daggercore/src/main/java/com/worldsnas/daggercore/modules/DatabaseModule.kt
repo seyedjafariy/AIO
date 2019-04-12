@@ -4,14 +4,15 @@ import android.app.Application
 import com.worldsnas.domain.entity.MyObjectBox
 import dagger.Module
 import dagger.Provides
+import io.objectbox.BoxStore
 import javax.inject.Singleton
 
 @Module
-object DatabaseModule {
+class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(context: Application) =
+    fun provideDatabase(context: Application): BoxStore =
         MyObjectBox
             .builder()
             .androidContext(context)
