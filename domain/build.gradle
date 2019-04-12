@@ -1,11 +1,15 @@
 apply from: androidLib
+apply plugin: objectboxPlugin
 
 dependencies {
     testImplementation junit
+    testImplementation assertJ
+    testImplementation mockkUnit
+    testImplementation(project(kotlinTestHelper))
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
 
-    implementation(project(":panther"))
+    implementation(project(panther))
 
     implementation dagger
     kapt daggerCompiler
@@ -17,4 +21,8 @@ dependencies {
     implementation moshi
     implementation kotshi
     kapt kotshiCompiler
+
+    implementation objectboxJava
+    implementation objectboxRxJava
+    implementation objectboxKotlin
 }
