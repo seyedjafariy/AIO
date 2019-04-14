@@ -1,18 +1,23 @@
 package com.worldsnas.home.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.worldsnas.core.inflate
+import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.home.R
+import com.worldsnas.home.model.MovieUIModel
+import com.worldsnas.home.view.HomeMovieViewHolder
+import javax.inject.Inject
 
-class HomeMoviesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        object : RecyclerView.ViewHolder(parent.inflate(R.layout.row_home_movie)) {
+@FeatureScope
+class HomeMoviesAdapter @Inject constructor(
+    diffCallback : MovieUIDiffCallback
+): ListAdapter<MovieUIModel, HomeMovieViewHolder>(diffCallback) {
 
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeMovieViewHolder =
+        HomeMovieViewHolder(parent.inflate(R.layout.row_home_movie))
 
-    override fun getItemCount(): Int = 10
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: HomeMovieViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 }
