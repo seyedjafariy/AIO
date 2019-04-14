@@ -2,7 +2,7 @@ package com.worldsnas.home.di
 
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.scope.FeatureScope
-import com.worldsnas.home.HomeView
+import com.worldsnas.home.view.HomeView
 import dagger.Component
 
 @FeatureScope

@@ -188,6 +188,7 @@ ext {
                     //Utils
                     timber = "com.jakewharton.timber:timber:$timberVersion",
                     fresco = "com.facebook.fresco:fresco:$frescoVersion",
+                    frescoOkHttp = "com.facebook.fresco:imagepipeline-okhttp3:$frescoVersion",
                     conductor = "com.bluelinelabs:conductor:$conductorVersion"
             ],
 
@@ -199,10 +200,21 @@ ext {
                     objectboxAndroid = "io.objectbox:objectbox-android:$objectboxVersion"
             ],
 
+            imageSlider = [
+                    nineOldAndroidAnim = "com.nineoldandroids:library:2.4.0",
+                    slider = "com.amstronghuang.slider:library:1.1.3@aar"
+            ],
+
             modules = [
                     kotlinTestHelper = ":kotlintesthelpers",
                     domain = ":domain",
-                    panther = ":panther"
+                    panther = ":panther",
+                    daggerCore = ":daggercore",
+                    base = ":base",
+                    core = ":core",
+                    mvi = ":mvi",
+                    navigation = ":navigation",
+                    home = ":home"
             ],
 
             plugins = [

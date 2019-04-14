@@ -15,10 +15,12 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.*
 import javax.inject.Inject
 
 abstract class BaseView<S : BaseViewState, I : MviIntent>
-    : Controller() {
+    : Controller(), LayoutContainer {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val disposables = CompositeDisposable()
@@ -32,6 +34,9 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
     // private val inject by lazy {
     //     injectDependencies()
     // }
+
+    override val containerView: View?
+        get() = view
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
         inflater.inflate(getLayoutId(), container, false)
@@ -51,6 +56,11 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
         disposables.clear()
         loadingView = null
         errorSnack = null
+    }
+
+    override fun onDestroyView(view: View) {
+        super.onDestroyView(view)
+        clearFindViewByIdCache()
     }
 
     private fun bind() {

@@ -5,13 +5,12 @@ dependencies {
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
 
-    implementation(project(":domain"))
-    implementation(project(":daggercore"))
-    implementation(project(":base"))
-    implementation(project(":core"))
-    implementation(project(":mvi"))
-    implementation(project(":navigation"))
-
+    implementation(project(domain))
+    implementation(project(daggerCore))
+    implementation(project(base))
+    implementation(project(core))
+    implementation(project(mvi))
+    implementation(project(navigation))
 
     implementation kotlinStd8
 
@@ -26,4 +25,11 @@ dependencies {
     implementation rxKotlin
     implementation coreKts
     implementation timber
+
+    implementation fresco
+
+    implementation constraintLayout
+
+    implementation slider
+    implementation nineOldAndroidAnim
 }

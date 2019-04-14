@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
-import com.worldsnas.home.HomeView
+import com.worldsnas.home.view.HomeView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+root
         router = Conductor.attachRouter(this, root, savedInstanceState)
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(HomeView()))

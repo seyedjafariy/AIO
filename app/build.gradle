@@ -96,12 +96,12 @@ dependencies {
     //noinspection GradleDependency
     androidTestImplementation espressoCore
 
-    implementation(project(":core"))
-    implementation(project(":domain"))
-    implementation(project(":base"))
-    implementation(project(":mvi"))
-    implementation(project(":daggercore"))
-    implementation(project(":home"))
+    implementation(project(core))
+    implementation(project(domain))
+    implementation(project(base))
+    implementation(project(mvi))
+    implementation(project(daggerCore))
+    implementation(project(home))
 
 
     implementation dagger
@@ -122,6 +122,9 @@ dependencies {
     implementation conductor
 
     implementation timber
+
+    implementation fresco
+    implementation frescoOkHttp
 }
 
 

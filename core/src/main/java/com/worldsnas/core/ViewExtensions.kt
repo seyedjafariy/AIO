@@ -1,6 +1,8 @@
 package com.worldsnas.core
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 
 @Suppress("LiftReturnOrAssignment")
 infix fun View.visible(visible: Boolean) =
@@ -9,3 +11,6 @@ infix fun View.visible(visible: Boolean) =
     } else {
         visibility = View.GONE
     }
+
+infix fun ViewGroup.inflate(id : Int) : View =
+    LayoutInflater.from(context).inflate(id, this, false)
