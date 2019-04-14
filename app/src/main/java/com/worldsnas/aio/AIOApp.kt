@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class AIOApp : Application(), CoreComponentProvider {
 
-    lateinit var okHttpClient: OkHttpClient
+    private lateinit var okHttpClient: OkHttpClient
 
     private val coreComponent by lazy {
         DaggerCoreComponent

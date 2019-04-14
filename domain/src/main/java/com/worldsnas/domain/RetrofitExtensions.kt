@@ -1,6 +1,6 @@
 package com.worldsnas.domain
 
-import com.worldsnas.domain.repomodel.ErrorRepoModel
+import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.servermodels.error.ErrorServerModel
 import io.reactivex.Single
 import org.json.JSONObject
@@ -26,7 +26,7 @@ fun Response<*>.getErrorServerModel(): ErrorServerModel =
             ErrorServerModel(message, code)
         }
 
-fun Response<*>.getErrorRepoModel(): ErrorRepoModel =
+fun Response<*>.getErrorRepoModel(): ErrorHolder =
     errorBody()
         ?.use { it.string() }
         ?.let {
@@ -40,7 +40,7 @@ fun Response<*>.getErrorRepoModel(): ErrorRepoModel =
             val code = it?.optInt("status_code", this.code()) ?: 0
             val message = it?.optString("status_message", this.message() ?: "") ?: ""
 
-            ErrorRepoModel(message, code)
+            ErrorHolder(message, code)
         }
 
 fun Single<Response<*>>.defaultRetrofitRetry(times: Int = 3) =

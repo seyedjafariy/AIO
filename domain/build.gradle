@@ -10,6 +10,7 @@ dependencies {
     androidTestImplementation espressoCore
 
     implementation(project(panther))
+    implementation(project(core))
 
     implementation dagger
     kapt daggerCompiler

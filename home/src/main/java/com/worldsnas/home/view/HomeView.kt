@@ -13,6 +13,7 @@ import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
 import com.worldsnas.home.adapter.HomeMoviesAdapter
 import com.worldsnas.home.di.DaggerHomeComponent
+import com.worldsnas.home.model.MovieUIModel
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.view_home.*
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
     lateinit var movieAdapterProvider: Provider<HomeMoviesAdapter>
     lateinit var movieAdapter: HomeMoviesAdapter
 
-    var sliderItems: List<MovieSliderUIModel> = emptyList()
+    var sliderItems: List<MovieUIModel> = emptyList()
 
     override fun getLayoutId(): Int = R.layout.view_home
 
@@ -54,7 +55,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
         renderLoading(state.base)
 
 
-        movieAdapter.submitList(state.movies)
+        movieAdapter.submitList(state.latest)
         submitSliderItems(state)
     }
 

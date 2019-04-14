@@ -2,9 +2,9 @@ apply from: androidLib
 
 dependencies {
 
-    implementation(project(":mvi"))
-    implementation(project(":core"))
-    implementation(project(":daggercore"))
+    implementation(project(mvi))
+    implementation(project(core))
+    implementation(project(daggerCore))
 
     testImplementation junit
     androidTestImplementation supportTestRunner

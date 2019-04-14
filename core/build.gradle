@@ -14,5 +14,4 @@ dependencies{
     implementation rxJavaRetrofit
     implementation moshi
     implementation timber
-
 }
