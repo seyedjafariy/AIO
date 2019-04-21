@@ -37,6 +37,8 @@ ext {
             rxBroadCastVersion = "2.0.0",
             rxPreferencesVersion = "2.0.0",
 
+            butterKnifeVersion = "10.1.0",
+
             timberVersion = "4.7.1",
 
             retrofitVersion = "2.5.0",
@@ -189,7 +191,9 @@ ext {
                     timber = "com.jakewharton.timber:timber:$timberVersion",
                     fresco = "com.facebook.fresco:fresco:$frescoVersion",
                     frescoOkHttp = "com.facebook.fresco:imagepipeline-okhttp3:$frescoVersion",
-                    conductor = "com.bluelinelabs:conductor:$conductorVersion"
+                    conductor = "com.bluelinelabs:conductor:$conductorVersion",
+                    leakCanary = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
+                    leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
             ],
 
             objectboxLib = [
@@ -203,6 +207,11 @@ ext {
             imageSlider = [
                     nineOldAndroidAnim = "com.nineoldandroids:library:2.4.0",
                     slider = "com.amstronghuang.slider:library:1.1.3@aar"
+            ],
+
+            butterKnifeLib = [
+                    butterKnife = "com.jakewharton:butterknife:$butterKnifeVersion",
+                    butterKnifeCompiler = "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
             ],
 
             modules = [

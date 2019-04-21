@@ -24,4 +24,10 @@ dependencies {
     implementation coreKts
     implementation rxJava
     implementation rxKotlin
+
+//    implementation butterKnife
+//    kapt butterKnifeCompiler
+
+    debugImplementation leakCanary
+    releaseImplementation leakCanaryNoOp
 }

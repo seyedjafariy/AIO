@@ -1,10 +1,11 @@
 package com.worldsnas.base
 
+import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import com.bluelinelabs.conductor.Controller
 import com.google.android.material.snackbar.Snackbar
 import com.worldsnas.core.visible
 import com.worldsnas.daggercore.CoreComponent
@@ -19,8 +20,9 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.*
 import javax.inject.Inject
 
-abstract class BaseView<S : BaseViewState, I : MviIntent>
-    : Controller(), LayoutContainer {
+abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads constructor(
+    bundle: Bundle? = null
+) : RefWatchingController(bundle), LayoutContainer {
 
     @Suppress("MemberVisibilityCanBePrivate")
     val disposables = CompositeDisposable()
@@ -28,21 +30,23 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
     @Inject
     lateinit var presenter: MviPresenter<I, S>
 
-    var loadingView: LoadingView? = null
+    var loadingView: View? = null
     var errorSnack: Snackbar? = null
 
-    // private val inject by lazy {
-    //     injectDependencies()
-    // }
+    private val inject by lazy {
+        prepareDependencies()
+    }
 
     override val containerView: View?
         get() = view
 
+    override fun onContextAvailable(context: Context) {
+        super.onContextAvailable(context)
+        inject
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View =
         inflater.inflate(getLayoutId(), container, false)
-            .also {
-                injectDependencies(it.coreComponent())
-            }
 
     override fun onAttach(view: View) {
         super.onAttach(view)
@@ -63,6 +67,12 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
         clearFindViewByIdCache()
     }
 
+    private fun prepareDependencies() {
+        applicationContext?.run {
+            injectDependencies(coreComponent())
+        }
+    }
+
     private fun bind() {
         presenter.processIntents(intents())
         presenter.states().subscribeBy { render(it) }.addTo(disposables)
@@ -70,7 +80,7 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
 
     protected fun renderError(baseState: BaseState) {
         view?.run {
-            if (baseState.showLoading) {
+            if (baseState.error.showSnackBar) {
                 val error = baseState.error.getErrorString(context)
                 if (errorSnack == null) {
                     createErrorSnack()
@@ -78,7 +88,7 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
                 errorSnack?.setText(error)
                 if (errorSnack?.isShown != true) {
                     errorSnack?.show()
-                }else{
+                } else {
                     //empty
                 }
             } else {
@@ -112,7 +122,9 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
                 }
 
             if (parent != null) {
-                loadingView = LoadingView(parent.context)
+                loadingView = LayoutInflater
+                    .from(parent.context)
+                    .inflate(R.layout.view_loading, parent, false)
                 parent.addView(loadingView)
                 loadingView!! visible false
             }
@@ -128,7 +140,7 @@ abstract class BaseView<S : BaseViewState, I : MviIntent>
     @LayoutRes
     protected abstract fun getLayoutId(): Int
 
-    protected abstract fun injectDependencies(core : CoreComponent)
+    protected abstract fun injectDependencies(core: CoreComponent)
 
     protected abstract fun render(state: S)
 
