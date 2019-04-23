@@ -104,6 +104,7 @@ ext {
             support = [
                     //support
                     compat = "androidx.appcompat:appcompat:$supportLibraryVersion",
+                    androidxCore = "androidx.core:core:$supportLibraryVersion",
                     design = "com.google.android.material:material:$googleMaterialVersion",
                     cardView = "androidx.cardview:cardview:$supportLibraryVersion",
                     annotation = "androidx.annotation:annotation:$supportLibraryVersion",
