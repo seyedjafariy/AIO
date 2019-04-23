@@ -34,4 +34,6 @@ dependencies {
 
     implementation slider
     implementation nineOldAndroidAnim
+
+    kapt butterKnifeCompiler
 }

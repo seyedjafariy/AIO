@@ -25,9 +25,6 @@ dependencies {
     implementation rxJava
     implementation rxKotlin
 
-//    implementation "androidx.core:core:1.0.0"
-
-    implementation butterKnife
     kapt butterKnifeCompiler
 
     debugImplementation leakCanary

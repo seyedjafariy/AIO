@@ -1,12 +1,16 @@
 package com.worldsnas.base
 
 import android.os.Bundle
-import com.bluelinelabs.conductor.Controller
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import butterknife.ButterKnife
+import butterknife.Unbinder
 
 abstract class ButterKnifeController @JvmOverloads constructor(
     bundle: Bundle? = null
-) : Controller(bundle) {
-    /*
+) : RefWatchingController(bundle) {
+
     private var unbinder: Unbinder? = null
 
     protected abstract fun inflateView(inflater: LayoutInflater, container: ViewGroup): View
@@ -26,5 +30,4 @@ abstract class ButterKnifeController @JvmOverloads constructor(
         unbinder?.unbind()
         unbinder = null
     }
-    */
 }

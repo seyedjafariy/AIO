@@ -54,8 +54,8 @@ class HomePresenter @Inject constructor(
             .replay(1)
             .autoConnect(0)
 
-    override fun processIntents(intents: Observable<HomeIntent>) {
-        intents.subscribe(intentsSubject)
+    override fun processIntents(intents: HomeIntent) {
+        intentsSubject.onNext(intents)
     }
 
     override fun states(): Observable<HomeState> = statesObservable

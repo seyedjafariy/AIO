@@ -3,6 +3,8 @@ package com.worldsnas.home.view
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.BindView
 import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
@@ -11,16 +13,21 @@ import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
+import com.worldsnas.home.R2
 import com.worldsnas.home.adapter.HomeMoviesAdapter
 import com.worldsnas.home.di.DaggerHomeComponent
 import com.worldsnas.home.model.MovieUIModel
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.view_home.*
 import javax.inject.Inject
 import javax.inject.Provider
 
 class HomeView : BaseView<HomeState, HomeIntent>(),
     BaseSliderView.OnSliderClickListener {
+
+    @BindView(R2.id.movies)
+    lateinit var movies : RecyclerView
+    @BindView(R2.id.slider)
+    lateinit var slider : SliderLayout
 
     @Inject
     lateinit var movieAdapterProvider: Provider<HomeMoviesAdapter>
