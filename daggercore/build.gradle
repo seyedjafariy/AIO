@@ -1,4 +1,10 @@
 apply from: androidLib
+android{
+
+    defaultConfig{
+        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

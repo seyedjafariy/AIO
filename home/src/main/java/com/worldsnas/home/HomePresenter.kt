@@ -31,9 +31,9 @@ class HomePresenter @Inject constructor(
             is HomeResult.Error->
                 preState.copy(base = BaseState.withError(result.err))
             is HomeResult.LatestMovies ->
-                preState.copy(latest = result.movies)
+                preState.copy(base= BaseState.stable(), latest = result.movies)
             is HomeResult.TrendingMovies ->
-                preState.copy(sliderMovies = result.movies)
+                preState.copy(base= BaseState.stable(), sliderMovies = result.movies)
             HomeResult.Loading ->
                 preState.copy(base = BaseState.loading())
             HomeResult.LastStable ->

@@ -5,6 +5,7 @@ import com.worldsnas.core.delayEvent
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepoOutputModel
+import com.worldsnas.domain.repo.home.latest.LatestMovieRepoParamModel
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
 import com.worldsnas.domain.repomodel.MovieRepoModel
@@ -24,27 +25,20 @@ class HomeProcessor @Inject constructor(
     movieMapper: Mapper<MovieRepoModel, MovieUIModel>
 ) : MviProcessor<HomeIntent, HomeResult> {
 
-    private var latest: List<MovieRepoModel> = emptyList()
-    private var trending: List<MovieRepoModel> = emptyList()
-
     override val actionProcessor = ObservableTransformer<HomeIntent, HomeResult> {
         it.publish { publish ->
-            Observable.merge(
-                publish.ofType<HomeIntent.Initial>().compose(latestProcessor),
-                publish.ofType<HomeIntent.Initial>().compose(trendingProcessor)
-            )
+            // Observable.merge(
+                publish.ofType<HomeIntent.Initial>().compose(latestProcessor)
+                // publish.ofType<HomeIntent.Initial>().compose(trendingProcessor)
+            // )
         }.observeOn(AndroidSchedulers.mainThread())
     }
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     private val latestProcessor = ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
         actions.switchMap { intent ->
-            latestRepo.observerAndUpdate()
-                .doOnNext {
-                    if (it is LatestMovieRepoOutputModel.Success) {
-                        latest = it.movies
-                    }
-                }
+            latestRepo.fetch(LatestMovieRepoParamModel(1))
+                .toObservable()
                 .switchMap { repoModel ->
                     when (repoModel) {
                         is LatestMovieRepoOutputModel.Success ->
@@ -68,11 +62,6 @@ class HomeProcessor @Inject constructor(
     private val trendingProcessor = ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
         actions.switchMap { intent ->
             trendingRepo.observerAndUpdate()
-                .doOnNext {
-                    if (it is TrendingRepoOutputModel.Success) {
-                        trending = it.movies
-                    }
-                }
                 .switchMap { repoModel ->
                     when (repoModel) {
                         is TrendingRepoOutputModel.Success ->

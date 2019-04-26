@@ -26,4 +26,8 @@ dependencies {
     implementation objectboxJava
     implementation objectboxRxJava
     implementation objectboxKotlin
+
+    implementation timber
+
+    implementation "com.nytimes.android:store3:3.1.1"
 }

@@ -24,21 +24,22 @@ object OkHttpModule {
         return httpLoggingInterceptor
     }
 
-
     @JvmStatic
     @Provides
     @Singleton
-    fun provideClient(loggingInterceptor: HttpLoggingInterceptor,
-                      protocolInterceptor: NoContentProtocolExceptionInterceptor
+    fun provideClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        protocolInterceptor: NoContentProtocolExceptionInterceptor,
+        authInterceptor: AuthTokenAdderInterceptor
     ): OkHttpClient {
 
         val builder = OkHttpClient.Builder()
-                .connectTimeout(120, TimeUnit.SECONDS)// Set connection timeout
-                .readTimeout(120, TimeUnit.SECONDS)// Read timeout
-                .writeTimeout(120, TimeUnit.SECONDS)// Write timeout
-                .addInterceptor(loggingInterceptor)
-                .addInterceptor(protocolInterceptor)
+            .connectTimeout(120, TimeUnit.SECONDS)// Set connection timeout
+            .readTimeout(120, TimeUnit.SECONDS)// Read timeout
+            .writeTimeout(120, TimeUnit.SECONDS)// Write timeout
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(protocolInterceptor)
+            .addInterceptor(authInterceptor)
         return builder.build()
-
     }
 }

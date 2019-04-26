@@ -59,7 +59,7 @@ import com.worldsnas.panther.Mapper
 import dagger.Binds
 import dagger.Module
 
-@Module
+@Module(includes = [ServerMapperModule::class])
 abstract class MappersModule {
 
     @Binds
@@ -149,4 +149,5 @@ abstract class MappersModule {
     @Binds
     abstract fun bindVideoServerEntityMapper(mapper: VideoServerEntityMapper):
         Mapper<VideoServerModel, VideoEntity>
+
 }

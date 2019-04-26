@@ -54,20 +54,20 @@ data class MovieServerModel(
     @Json(name = "vote_count")
     val voteCount: Int = 0,
     @Json(name = "videos")
-    val videos: ResultsServerModel<VideoServerModel>,
+    val videos: ResultsServerModel<VideoServerModel>?,
     @Json(name = "images")
-    val images: FullImageServerModel,
+    val images: FullImageServerModel?,
     @Json(name = "reviews")
-    val reviews: ResultsServerModel<ReviewServerModel>,
+    val reviews: ResultsServerModel<ReviewServerModel>?,
     @Json(name = "similar")
-    val similar: ResultsServerModel<MovieServerModel>,
+    val similar: ResultsServerModel<MovieServerModel>?,
     @Json(name = "recommendations")
-    val recommendations: ResultsServerModel<MovieServerModel>,
+    val recommendations: ResultsServerModel<MovieServerModel>?,
     @Json(name = "credits")
-    val credits: CreditsServerModel,
+    val credits: CreditsServerModel?,
     @Json(name = "translations")
-    val translations: TranslationListServerModel,
+    val translations: TranslationListServerModel?,
     @Json(name = "external_ids")
-    val externalIds: ExternalIdsSeverModel
+    val externalIds: ExternalIdsSeverModel?
 
 )

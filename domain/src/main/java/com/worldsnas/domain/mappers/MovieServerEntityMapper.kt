@@ -60,22 +60,24 @@ class MovieServerEntityMapper @Inject constructor(
             item.video,
             item.voteAverage,
             item.voteCount,
-            item.externalIds.facebookId,
-            item.externalIds.instagramId,
-            item.externalIds.twitterId
+            item.externalIds?.facebookId ?: "",
+            item.externalIds?.instagramId ?: "",
+            item.externalIds?.twitterId ?: ""
         ).apply {
+            id = 0
             genres.addAll(item.genres.map { genreMapper.map(it) })
             productionCompanies.addAll(item.productionCompanies.map { companyMapper.map(it) })
             productionCountries.addAll(item.productionCountries.map { countryMapper.map(it) })
             spokenLanguages.addAll(item.spokenLanguages.map { languageMapper.map(it) })
-            videos.addAll(item.videos.list.map { videoMapper.map(it) })
-            backdrops.addAll(item.images.backdrops.map { imageMapper.map(it) })
-            posters.addAll(item.images.posters.map { imageMapper.map(it) })
-            reviews.addAll(item.reviews.list.map { reviewMapper.map(it) })
-            similar.addAll(item.similar.list.map { map(it) })
-            recommendations.addAll(item.recommendations.list.map { map(it) })
-            casts.addAll(item.credits.casts.map { castMapper.map(it) })
-            crews.addAll(item.credits.crews.map { crewMapper.map(it) })
-            translations.addAll(item.translations.translations.map { translationMapper.map(it) })
+            videos.addAll(item.videos?.list?.map { videoMapper.map(it) } ?: emptyList())
+            backdrops.addAll(item.images?.backdrops?.map { imageMapper.map(it) } ?: emptyList())
+            posters.addAll(item.images?.posters?.map { imageMapper.map(it) } ?: emptyList())
+            reviews.addAll(item.reviews?.list?.map { reviewMapper.map(it) } ?: emptyList())
+            similar.addAll(item.similar?.list?.map { map(it) } ?: emptyList())
+            recommendations.addAll(item.recommendations?.list?.map { map(it) } ?: emptyList())
+            casts.addAll(item.credits?.casts?.map { castMapper.map(it) } ?: emptyList())
+            crews.addAll(item.credits?.crews?.map { crewMapper.map(it) } ?: emptyList())
+            translations.addAll(item.translations?.translations?.map { translationMapper.map(it) } ?: emptyList())
+            id = item.id
         }
 }

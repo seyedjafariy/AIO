@@ -1,6 +1,6 @@
 package com.worldsnas.domain.repo.home
 
-import com.worldsnas.domain.entity.LatestMovieEntity
+import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.entity.TrendingEntity
 import com.worldsnas.domain.repo.home.latest.LatestMovieFetcher
 import com.worldsnas.domain.repo.home.latest.LatestMoviePersister
@@ -43,7 +43,7 @@ abstract class HomeRepoModule {
 
     @Binds
     abstract fun bindLatestMoviePersister(persister: LatestMoviePersister):
-        Persister<LatestMoviePersisterKey, LatestMovieEntity>
+        Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>
 
     @Binds
     abstract fun bindTrendingPersister(persister: TrendingPersister):

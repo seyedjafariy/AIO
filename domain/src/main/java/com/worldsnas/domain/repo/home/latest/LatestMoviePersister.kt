@@ -12,37 +12,49 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class LatestMoviePersister @Inject constructor(
     private val store: BoxStore
-) : Persister<LatestMoviePersisterKey, LatestMovieEntity> {
-    override fun observe(param: LatestMoviePersisterKey): Observable<LatestMovieEntity> {
+) : Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>> {
+    override fun observe(param: LatestMoviePersisterKey): Observable<List<MovieEntity>> {
         val movieBox = store.boxFor<MovieEntity>()
         val query = movieBox.query {
             backlink(LatestMovieEntity_.movies)
                 .equal(LatestMovieEntity_.id, LatestMovieEntity.ENTITY_ID)
         }
+        // return combineLatest(RxQuery.observable(query), RxQuery.observable(latestMovieQuery))
+        //     .doOnTerminate {
+        //         query.close()
+        //         movieBox.closeThreadResources()
+        //         latestMovieQuery.close()
+        //         latestMovieBox.closeThreadResources()
+        //     }
+        //     .filter {
+        //         it.second.isNotEmpty()
+        //     }
+        //     .map {
+        //         it.second.first()
+        //     }
+        //     .subscribeOn(Schedulers.io())
 
         return RxQuery.observable(query)
             .doOnTerminate {
                 query.close()
                 movieBox.closeThreadResources()
             }
-            .map { movies ->
-                LatestMovieEntity()
-                    .apply {
-                        movies.addAll(movies)
-                    }
+            .doOnNext{
+                Timber.d("latest movie received size= ${it.size}")
             }
             .subscribeOn(Schedulers.io())
     }
 
-    override fun read(param: LatestMoviePersisterKey): Single<LatestMovieEntity> =
+    override fun read(param: LatestMoviePersisterKey): Single<List<MovieEntity>> =
         observe(param)
-            .first(LatestMovieEntity())
+            .first(emptyList())
 
-    override fun write(item: LatestMovieEntity): Completable =
+    override fun write(item: List<MovieEntity>): Completable =
         Completable.create {
             val latestBox = store.boxFor<LatestMovieEntity>()
 
@@ -52,11 +64,10 @@ class LatestMoviePersister @Inject constructor(
                     latestBox.attach(this)
                 }
 
-            persisted.movies.addAll(item.movies)
+            persisted.movies.addAll(item)
             persisted.movies.applyChangesToDb()
             latestBox.put(persisted)
 
-            latestBox.put(item)
             latestBox.closeThreadResources()
 
             if (!it.isDisposed) {
