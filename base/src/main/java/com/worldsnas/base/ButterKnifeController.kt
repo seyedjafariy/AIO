@@ -23,7 +23,7 @@ abstract class ButterKnifeController @JvmOverloads constructor(
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun onViewBound(view: View) {}
+    open fun onViewBound(view: View) {}
 
     override fun onDestroyView(view: View) {
         super.onDestroyView(view)

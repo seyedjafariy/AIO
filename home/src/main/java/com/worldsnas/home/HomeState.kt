@@ -11,7 +11,7 @@ data class HomeState(
 ) : BaseViewState {
     companion object {
         fun start() = HomeState(
-            base = BaseState.showError("اصغر"),
+            base = BaseState.stable(),
             sliderMovies = emptyList(),
             latest = emptyList())
     }

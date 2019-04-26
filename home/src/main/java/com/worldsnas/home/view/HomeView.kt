@@ -19,7 +19,6 @@ import com.worldsnas.home.di.DaggerHomeComponent
 import com.worldsnas.home.model.MovieUIModel
 import io.reactivex.Observable
 import javax.inject.Inject
-import javax.inject.Provider
 
 class HomeView : BaseView<HomeState, HomeIntent>(),
     BaseSliderView.OnSliderClickListener {
@@ -30,10 +29,9 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
     lateinit var slider : SliderLayout
 
     @Inject
-    lateinit var movieAdapterProvider: Provider<HomeMoviesAdapter>
     lateinit var movieAdapter: HomeMoviesAdapter
 
-    var sliderItems: List<MovieUIModel> = emptyList()
+    private var sliderItems: List<MovieUIModel> = emptyList()
 
     override fun getLayoutId(): Int = R.layout.view_home
 
@@ -41,18 +39,27 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
         DaggerHomeComponent.builder().coreComponent(core).build().inject(this)
     }
 
-    override fun onAttach(view: View) {
+    override fun onViewBound(view: View) {
         initRv(view)
+    }
+
+    override fun onAttach(view: View) {
         super.onAttach(view)
+        slider.startAutoCycle()
     }
 
     override fun onDetach(view: View) {
-        sliderItems = emptyList()
+        slider.stopAutoCycle()
         super.onDetach(view)
     }
 
+    override fun onDestroyView(view: View) {
+        movies.adapter = null
+        sliderItems = emptyList()
+        super.onDestroyView(view)
+    }
+
     private fun initRv(view: View) {
-        movieAdapter = movieAdapterProvider.get()
         movies.layoutManager = GridLayoutManager(view.context, 3)
         movies.adapter = movieAdapter
     }
