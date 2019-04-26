@@ -2,8 +2,8 @@ package com.worldsnas.domain.repo.home.trending
 
 import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.entity.TrendingEntity
-import com.worldsnas.domain.getErrorRepoModel
-import com.worldsnas.domain.isNotSuccessful
+import com.worldsnas.domain.helpers.getErrorRepoModel
+import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel

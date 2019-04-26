@@ -1,4 +1,4 @@
-package com.worldsnas.domain
+package com.worldsnas.domain.helpers
 
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.model.servermodels.error.ErrorServerModel
@@ -40,10 +40,12 @@ fun Response<*>.getErrorRepoModel(): ErrorHolder =
             val code = it?.optInt("status_code", this.code()) ?: 0
             val message = it?.optString("status_message", this.message() ?: "") ?: ""
 
-            ErrorHolder(message, code)
+            ErrorHolder.Message(message, code)
         }
 
-fun Single<Response<*>>.defaultRetrofitRetry(times: Int = 3) =
+fun <T> Single<Response<T>>.errorHandler(times: Int = 3): Single<Response<T>> =
     retry { retried, _ ->
         retried <= times
+    }.onErrorReturn {
+        createErrorResponse(it)
     }
