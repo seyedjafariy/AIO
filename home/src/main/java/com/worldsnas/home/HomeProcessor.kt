@@ -8,6 +8,7 @@ import com.worldsnas.domain.repo.home.latest.LatestMovieRepoOutputModel
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepoParamModel
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
+import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
 import com.worldsnas.domain.repomodel.MovieRepoModel
 import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.mvi.MviProcessor
@@ -27,10 +28,10 @@ class HomeProcessor @Inject constructor(
 
     override val actionProcessor = ObservableTransformer<HomeIntent, HomeResult> {
         it.publish { publish ->
-            // Observable.merge(
-                publish.ofType<HomeIntent.Initial>().compose(latestProcessor)
-                // publish.ofType<HomeIntent.Initial>().compose(trendingProcessor)
-            // )
+            Observable.merge(
+                publish.ofType<HomeIntent.Initial>().compose(latestProcessor),
+                publish.ofType<HomeIntent.Initial>().compose(trendingProcessor)
+            )
         }.observeOn(AndroidSchedulers.mainThread())
     }
 
@@ -61,7 +62,8 @@ class HomeProcessor @Inject constructor(
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     private val trendingProcessor = ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
         actions.switchMap { intent ->
-            trendingRepo.observerAndUpdate()
+            trendingRepo.fetch(TrendingRepoParamModel(1))
+                .toObservable()
                 .switchMap { repoModel ->
                     when (repoModel) {
                         is TrendingRepoOutputModel.Success ->
