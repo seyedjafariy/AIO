@@ -9,7 +9,9 @@ import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.R2
 import com.worldsnas.home.model.MovieUIModel
 
-class HomeMovieViewHolder(view: View) : BaseViewHolder<MovieUIModel, HomeIntent>(view) {
+class HomeMovieViewHolder(
+    view: View
+) : BaseViewHolder<MovieUIModel, HomeIntent>(view) {
 
     @BindView(R2.id.poster)
     lateinit var poster: SimpleDraweeView

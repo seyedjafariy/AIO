@@ -1,5 +1,6 @@
 package com.worldsnas.domain.mappers.server
 
+import com.worldsnas.domain.helpers.ImageInfo
 import com.worldsnas.domain.helpers.ImageType
 import com.worldsnas.domain.model.ImageServerTypeHolder
 import com.worldsnas.domain.model.repomodel.CastRepoModel
@@ -23,6 +24,7 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ReviewServerModel
 import com.worldsnas.domain.model.servermodels.TranslationServerModel
 import com.worldsnas.domain.model.servermodels.VideoServerModel
+import com.worldsnas.panther.Factory
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 
@@ -36,13 +38,19 @@ class MovieServerRepoMapper @Inject constructor(
     private val reviewMapper: Mapper<ReviewServerModel, ReviewRepoModel>,
     private val castMapper: Mapper<CastServerModel, CastRepoModel>,
     private val crewMapper: Mapper<CrewServerModel, CrewRepoModel>,
-    private val translationMapper: Mapper<TranslationServerModel, TranslationRepoModel>
+    private val translationMapper: Mapper<TranslationServerModel, TranslationRepoModel>,
+    private val imageUrlFactory: Factory<ImageInfo, String>
 ) : Mapper<MovieServerModel, MovieRepoModel> {
     override fun map(item: MovieServerModel): MovieRepoModel =
         MovieRepoModel(
             item.id,
             item.adult,
-            item.backdropPath,
+            imageUrlFactory.create(
+                ImageInfo(
+                    ImageType.Poster,
+                    item.backdropPath
+                )
+            ),
             item.budget,
             item.homePage,
             item.imdbID,
@@ -50,7 +58,12 @@ class MovieServerRepoMapper @Inject constructor(
             item.originalTitle,
             item.overview,
             item.popularity,
-            item.posterPath,
+            imageUrlFactory.create(
+                ImageInfo(
+                    ImageType.Poster,
+                    item.posterPath
+                )
+            ),
             item.releaseDate,
             item.revenue,
             item.runtime,
@@ -70,7 +83,7 @@ class MovieServerRepoMapper @Inject constructor(
             item.videos?.list?.map { videoMapper.map(it) } ?: emptyList(),
             item.images?.backdrops?.map {
                 val holder = ImageServerTypeHolder(it, ImageType.Backdrop)
-                    imageMapper.map(holder)
+                imageMapper.map(holder)
             } ?: emptyList(),
             item.images?.posters?.map {
                 val holder = ImageServerTypeHolder(it, ImageType.Poster)
