@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.GenreEntity
-import com.worldsnas.domain.servermodels.GenreServerModel
+import com.worldsnas.domain.model.servermodels.GenreServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

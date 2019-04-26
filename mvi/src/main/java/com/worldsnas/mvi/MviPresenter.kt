@@ -11,7 +11,8 @@ import io.reactivex.Observable
  * @param S Top class of the [MviViewState] the [MviPresenter] will be emitting.
  */
 interface MviPresenter<I : MviIntent, S : MviViewState> {
-    fun processIntents(intents: Observable<I>)
+
+    fun processIntents(intents: I)
 
     fun states(): Observable<S>
 }

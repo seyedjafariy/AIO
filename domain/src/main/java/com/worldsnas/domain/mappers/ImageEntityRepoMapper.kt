@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.ImageEntity
-import com.worldsnas.domain.repomodel.ImageRepoModel
+import com.worldsnas.domain.model.repomodel.ImageRepoModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

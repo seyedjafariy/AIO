@@ -2,7 +2,7 @@ package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.CastEntity
 import com.worldsnas.domain.entity.GenreEntity
-import com.worldsnas.domain.servermodels.CastServerModel
+import com.worldsnas.domain.model.servermodels.CastServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

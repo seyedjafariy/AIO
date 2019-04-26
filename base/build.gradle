@@ -2,9 +2,9 @@ apply from: androidLib
 
 dependencies {
 
-    implementation(project(":mvi"))
-    implementation(project(":core"))
-    implementation(project(":daggercore"))
+    implementation(project(mvi))
+    implementation(project(core))
+    implementation(project(daggerCore))
 
     testImplementation junit
     androidTestImplementation supportTestRunner
@@ -24,4 +24,9 @@ dependencies {
     implementation coreKts
     implementation rxJava
     implementation rxKotlin
+
+    kapt butterKnifeCompiler
+
+    debugImplementation leakCanary
+    releaseImplementation leakCanaryNoOp
 }

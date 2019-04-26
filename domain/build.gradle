@@ -10,6 +10,7 @@ dependencies {
     androidTestImplementation espressoCore
 
     implementation(project(panther))
+    implementation(project(core))
 
     implementation dagger
     kapt daggerCompiler
@@ -25,4 +26,8 @@ dependencies {
     implementation objectboxJava
     implementation objectboxRxJava
     implementation objectboxKotlin
+
+    implementation timber
+
+    implementation "com.nytimes.android:store3:3.1.1"
 }

@@ -2,6 +2,7 @@ package com.worldsnas.daggercore
 
 import android.app.Application
 import com.squareup.moshi.Moshi
+import com.worldsnas.daggercore.modules.CoreModule
 import com.worldsnas.daggercore.modules.DatabaseModule
 import com.worldsnas.daggercore.modules.network.NetworkModule
 import com.worldsnas.daggercore.scope.AppScope
@@ -20,7 +21,8 @@ import javax.inject.Singleton
 @Component(
     modules = [NetworkModule::class,
         DomainModule::class,
-        DatabaseModule::class]
+        DatabaseModule::class,
+        CoreModule::class]
 )
 interface CoreComponent {
 

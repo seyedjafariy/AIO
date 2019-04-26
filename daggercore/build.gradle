@@ -1,4 +1,10 @@
 apply from: androidLib
+android{
+
+    defaultConfig{
+        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -7,8 +13,9 @@ dependencies {
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
 
-    implementation(project(":domain"))
-    implementation(project(":panther"))
+    implementation(project(domain))
+    implementation(project(panther))
+    implementation(project(core))
 
     implementation kotlinStd8
 

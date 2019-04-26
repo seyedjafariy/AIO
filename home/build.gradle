@@ -11,6 +11,7 @@ dependencies {
     implementation(project(core))
     implementation(project(mvi))
     implementation(project(navigation))
+    implementation(project(panther))
 
     implementation kotlinStd8
 
@@ -22,6 +23,7 @@ dependencies {
 
     implementation conductor
     implementation rxJava
+    implementation rxAndroid
     implementation rxKotlin
     implementation coreKts
     implementation timber
@@ -30,6 +32,8 @@ dependencies {
 
     implementation constraintLayout
 
-    implementation slider
+    implementation project(slider)
     implementation nineOldAndroidAnim
+
+    kapt butterKnifeCompiler
 }

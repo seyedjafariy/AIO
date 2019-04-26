@@ -1,10 +1,13 @@
 package com.worldsnas.domain.repo.home.trending.model
 
-import com.worldsnas.domain.repomodel.ErrorRepoModel
-import com.worldsnas.domain.repomodel.MovieRepoModel
+import com.worldsnas.core.ErrorHolder
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 
 sealed class TrendingRepoOutputModel {
 
-    data class Success(val movies: List<MovieRepoModel>) : TrendingRepoOutputModel()
-    data class Error(val err: ErrorRepoModel) : TrendingRepoOutputModel()
+    data class Success(
+            val thisPage: List<MovieRepoModel>,
+            val allPages: List<MovieRepoModel>) : TrendingRepoOutputModel()
+
+    data class Error(val err: ErrorHolder) : TrendingRepoOutputModel()
 }

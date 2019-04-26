@@ -1,7 +1,7 @@
 package com.worldsnas.domain.repo.home
 
-import com.worldsnas.domain.servermodels.MovieServerModel
-import com.worldsnas.domain.servermodels.ResultsServerModel
+import com.worldsnas.domain.model.servermodels.MovieServerModel
+import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.GET

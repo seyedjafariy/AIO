@@ -14,5 +14,6 @@ dependencies{
     implementation rxJavaRetrofit
     implementation moshi
     implementation timber
-
+    implementation rxJava
+    implementation recyclerView
 }

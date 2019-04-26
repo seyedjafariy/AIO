@@ -13,6 +13,7 @@ import io.objectbox.rx.RxQuery
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -22,23 +23,41 @@ class TrendingPersister @Inject constructor(
 
     override fun observe(param: TrendingPersisterKey): Observable<TrendingEntity> {
         val movieBox = store.boxFor<MovieEntity>()
+        val trendingBox = store.boxFor<TrendingEntity>()
         val query = movieBox.query {
             backlink(TrendingEntity_.movies)
                 .equal(TrendingEntity_.id, TrendingEntity.ENTITY_ID)
         }
+        val trendingQuery = trendingBox.query {
+            equal(TrendingEntity_.id, TrendingEntity.ENTITY_ID)
+        }
 
-        return RxQuery.observable(query)
+        return Observables.combineLatest(RxQuery.observable(query), RxQuery.observable(trendingQuery))
             .doOnTerminate {
                 query.close()
                 movieBox.closeThreadResources()
+                trendingQuery.close()
+                trendingBox.closeThreadResources()
             }
-            .map { movies ->
-                TrendingEntity()
-                    .apply {
-                        movies.addAll(movies)
-                    }
+            .filter {
+                it.second.isNotEmpty()
+            }
+            .map {
+                it.second.first()
             }
             .subscribeOn(Schedulers.io())
+        // return RxQuery.observable(query)
+        //     .doOnTerminate {
+        //         query.close()
+        //         movieBox.closeThreadResources()
+        //     }
+        //     .map { movies ->
+        //         TrendingEntity()
+        //             .apply {
+        //                 movies.addAll(movies)
+        //             }
+        //     }
+        //     .subscribeOn(Schedulers.io())
     }
 
     override fun read(param: TrendingPersisterKey): Single<TrendingEntity> =

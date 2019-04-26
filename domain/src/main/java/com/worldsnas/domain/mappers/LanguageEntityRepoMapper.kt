@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.LanguageEntity
-import com.worldsnas.domain.repomodel.LanguageRepoModel
+import com.worldsnas.domain.model.repomodel.LanguageRepoModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

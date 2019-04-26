@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Base</string>
+    <string name="error_server">Server Error</string>
 </resources>

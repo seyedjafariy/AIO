@@ -1,7 +1,7 @@
 package com.worldsnas.daggercore.modules.network
 
 import com.squareup.moshi.Moshi
-import com.worldsnas.domain.servermodels.AppJsonAdapterFactory
+import com.worldsnas.domain.model.servermodels.AppJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers

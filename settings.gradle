@@ -1,1 +1,12 @@
-include ':app', ':base', ':mvi', ':core', ':domain', ':panther', ':domy', ':daggercore', ':home', ':navigation', ':kotlintesthelpers'
+include ':app',
+        ':base',
+        ':mvi',
+        ':core',
+        ':domain',
+        ':panther',
+        ':domy',
+        ':daggercore',
+        ':home',
+        ':navigation',
+        ':kotlintesthelpers',
+        ':slider'

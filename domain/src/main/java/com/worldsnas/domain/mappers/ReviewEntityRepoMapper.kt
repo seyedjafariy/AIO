@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.ReviewEntity
-import com.worldsnas.domain.repomodel.ReviewRepoModel
+import com.worldsnas.domain.model.repomodel.ReviewRepoModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

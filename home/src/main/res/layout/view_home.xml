@@ -13,6 +13,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movies"
+        android:paddingTop="@dimen/min_margin"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>

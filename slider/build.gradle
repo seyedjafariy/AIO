@@ -1,0 +1,10 @@
+apply from : androidLib
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile compat
+    compile supportLegacy
+    compile fresco
+    compile nineOldAndroidAnim
+
+}

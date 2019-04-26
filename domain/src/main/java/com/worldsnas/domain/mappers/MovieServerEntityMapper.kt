@@ -11,17 +11,17 @@ import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.entity.ReviewEntity
 import com.worldsnas.domain.entity.TranslationEntity
 import com.worldsnas.domain.entity.VideoEntity
-import com.worldsnas.domain.servermodels.CastServerModel
-import com.worldsnas.domain.servermodels.CompanyServerModel
-import com.worldsnas.domain.servermodels.CountryServerModel
-import com.worldsnas.domain.servermodels.CrewServerModel
-import com.worldsnas.domain.servermodels.GenreServerModel
-import com.worldsnas.domain.servermodels.ImageServerModel
-import com.worldsnas.domain.servermodels.LanguageServerModel
-import com.worldsnas.domain.servermodels.MovieServerModel
-import com.worldsnas.domain.servermodels.ReviewServerModel
-import com.worldsnas.domain.servermodels.TranslationServerModel
-import com.worldsnas.domain.servermodels.VideoServerModel
+import com.worldsnas.domain.model.servermodels.CastServerModel
+import com.worldsnas.domain.model.servermodels.CompanyServerModel
+import com.worldsnas.domain.model.servermodels.CountryServerModel
+import com.worldsnas.domain.model.servermodels.CrewServerModel
+import com.worldsnas.domain.model.servermodels.GenreServerModel
+import com.worldsnas.domain.model.servermodels.ImageServerModel
+import com.worldsnas.domain.model.servermodels.LanguageServerModel
+import com.worldsnas.domain.model.servermodels.MovieServerModel
+import com.worldsnas.domain.model.servermodels.ReviewServerModel
+import com.worldsnas.domain.model.servermodels.TranslationServerModel
+import com.worldsnas.domain.model.servermodels.VideoServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 
@@ -60,22 +60,24 @@ class MovieServerEntityMapper @Inject constructor(
             item.video,
             item.voteAverage,
             item.voteCount,
-            item.externalIds.facebookId,
-            item.externalIds.instagramId,
-            item.externalIds.twitterId
+            item.externalIds?.facebookId ?: "",
+            item.externalIds?.instagramId ?: "",
+            item.externalIds?.twitterId ?: ""
         ).apply {
+            id = 0
             genres.addAll(item.genres.map { genreMapper.map(it) })
             productionCompanies.addAll(item.productionCompanies.map { companyMapper.map(it) })
             productionCountries.addAll(item.productionCountries.map { countryMapper.map(it) })
             spokenLanguages.addAll(item.spokenLanguages.map { languageMapper.map(it) })
-            videos.addAll(item.videos.list.map { videoMapper.map(it) })
-            backdrops.addAll(item.images.backdrops.map { imageMapper.map(it) })
-            posters.addAll(item.images.posters.map { imageMapper.map(it) })
-            reviews.addAll(item.reviews.list.map { reviewMapper.map(it) })
-            similar.addAll(item.similar.list.map { map(it) })
-            recommendations.addAll(item.recommendations.list.map { map(it) })
-            casts.addAll(item.credits.casts.map { castMapper.map(it) })
-            crews.addAll(item.credits.crews.map { crewMapper.map(it) })
-            translations.addAll(item.translations.translations.map { translationMapper.map(it) })
+            videos.addAll(item.videos?.list?.map { videoMapper.map(it) } ?: emptyList())
+            backdrops.addAll(item.images?.backdrops?.map { imageMapper.map(it) } ?: emptyList())
+            posters.addAll(item.images?.posters?.map { imageMapper.map(it) } ?: emptyList())
+            reviews.addAll(item.reviews?.list?.map { reviewMapper.map(it) } ?: emptyList())
+            similar.addAll(item.similar?.list?.map { map(it) } ?: emptyList())
+            recommendations.addAll(item.recommendations?.list?.map { map(it) } ?: emptyList())
+            casts.addAll(item.credits?.casts?.map { castMapper.map(it) } ?: emptyList())
+            crews.addAll(item.credits?.crews?.map { crewMapper.map(it) } ?: emptyList())
+            translations.addAll(item.translations?.translations?.map { translationMapper.map(it) } ?: emptyList())
+            id = item.id
         }
 }

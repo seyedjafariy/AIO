@@ -2,13 +2,15 @@ package com.worldsnas.base
 
 import android.content.Context
 import androidx.annotation.StringRes
+import com.worldsnas.core.ErrorHolder
 
 data class BaseState(
     val stable: Boolean = true,
     val error: ErrorState = ErrorState.Disabled,
     val showLoading: Boolean = false,
     val showKeyboard: Boolean = false,
-    val confirm: Boolean = false) {
+    val confirm: Boolean = false
+) {
 
     sealed class ErrorState(val showSnackBar: Boolean) {
         data class String(val snackBarMessageString: kotlin.String) : ErrorState(showSnackBar = true)
@@ -28,16 +30,23 @@ data class BaseState(
         fun showKeyboard() = BaseState(stable = false, showKeyboard = true)
 
         @JvmStatic
-        fun showError(@StringRes message: Int) = BaseState(stable = false, error = ErrorState.Res(message), showKeyboard = false)
+        fun showError(@StringRes message: Int) =
+            BaseState(stable = false, error = ErrorState.Res(message), showKeyboard = false)
 
         @JvmStatic
-        fun showError(message: String) = BaseState(stable = false, error = ErrorState.String(message), showKeyboard = false)
+        fun showError(message: String) =
+            BaseState(stable = false, error = ErrorState.String(message), showKeyboard = false)
+
+        @JvmStatic
+        fun withError(error: BaseState.ErrorState) =
+            BaseState(stable = false, error = error, showKeyboard = false)
 
         @JvmStatic
         fun confirm() = BaseState(stable = false, confirm = true, showKeyboard = false)
 
         @JvmStatic
-        fun unAuthorized(errorMessage: String) = BaseState(stable = false, error = ErrorState.UnAuthorized(errorMessage), showKeyboard = false)
+        fun unAuthorized(errorMessage: String) =
+            BaseState(stable = false, error = ErrorState.UnAuthorized(errorMessage), showKeyboard = false)
     }
 }
 
@@ -48,3 +57,12 @@ fun BaseState.ErrorState.getErrorString(context: Context): String {
         else -> ""
     }
 }
+
+fun ErrorHolder.toErrorState(): BaseState.ErrorState =
+    if (message.isBlank()) {
+        BaseState.ErrorState.Res(R.string.error_server)
+    } else {
+        BaseState.ErrorState.String(message)
+    }
+
+
