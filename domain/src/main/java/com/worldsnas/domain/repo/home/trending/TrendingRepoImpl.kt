@@ -7,9 +7,9 @@ import com.worldsnas.domain.isNotSuccessful
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepoOutputModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
-import com.worldsnas.domain.repomodel.MovieRepoModel
-import com.worldsnas.domain.servermodels.MovieServerModel
-import com.worldsnas.domain.servermodels.ResultsServerModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
+import com.worldsnas.domain.model.servermodels.MovieServerModel
+import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Mapper
 import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher

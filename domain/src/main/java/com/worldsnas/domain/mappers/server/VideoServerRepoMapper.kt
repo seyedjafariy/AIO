@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers.server
 
-import com.worldsnas.domain.repomodel.VideoRepoModel
-import com.worldsnas.domain.servermodels.VideoServerModel
+import com.worldsnas.domain.model.repomodel.VideoRepoModel
+import com.worldsnas.domain.model.servermodels.VideoServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

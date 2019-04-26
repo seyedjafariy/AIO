@@ -3,9 +3,9 @@ package com.worldsnas.domain.repo.home.latest
 import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.getErrorRepoModel
 import com.worldsnas.domain.isNotSuccessful
-import com.worldsnas.domain.repomodel.MovieRepoModel
-import com.worldsnas.domain.servermodels.MovieServerModel
-import com.worldsnas.domain.servermodels.ResultsServerModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
+import com.worldsnas.domain.model.servermodels.MovieServerModel
+import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Mapper
 import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher

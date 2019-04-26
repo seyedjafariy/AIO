@@ -1,7 +1,7 @@
 package com.worldsnas.home.di
 
 import com.worldsnas.daggercore.scope.FeatureScope
-import com.worldsnas.domain.repomodel.MovieRepoModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomePresenter
 import com.worldsnas.home.HomeProcessor

@@ -2,8 +2,8 @@ package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.CrewEntity
 import com.worldsnas.domain.entity.GenreEntity
-import com.worldsnas.domain.repomodel.CrewRepoModel
-import com.worldsnas.domain.repomodel.GenreRepoModel
+import com.worldsnas.domain.model.repomodel.CrewRepoModel
+import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

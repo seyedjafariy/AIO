@@ -1,7 +1,7 @@
 package com.worldsnas.domain.repo.home.latest
 
 import com.worldsnas.core.ErrorHolder
-import com.worldsnas.domain.repomodel.MovieRepoModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 
 sealed class LatestMovieRepoOutputModel {
 

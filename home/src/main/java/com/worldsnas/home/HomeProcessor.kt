@@ -9,7 +9,7 @@ import com.worldsnas.domain.repo.home.latest.LatestMovieRepoParamModel
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
-import com.worldsnas.domain.repomodel.MovieRepoModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.panther.Mapper

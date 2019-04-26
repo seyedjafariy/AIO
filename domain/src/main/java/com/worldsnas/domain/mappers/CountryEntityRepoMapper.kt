@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.CountryEntity
-import com.worldsnas.domain.repomodel.CountryRepoModel
+import com.worldsnas.domain.model.repomodel.CountryRepoModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

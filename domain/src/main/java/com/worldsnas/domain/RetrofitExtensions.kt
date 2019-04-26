@@ -1,7 +1,7 @@
 package com.worldsnas.domain
 
 import com.worldsnas.core.ErrorHolder
-import com.worldsnas.domain.servermodels.error.ErrorServerModel
+import com.worldsnas.domain.model.servermodels.error.ErrorServerModel
 import io.reactivex.Single
 import org.json.JSONObject
 import retrofit2.Response

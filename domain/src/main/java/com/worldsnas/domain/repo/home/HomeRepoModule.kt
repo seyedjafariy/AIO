@@ -13,8 +13,8 @@ import com.worldsnas.domain.repo.home.trending.TrendingPersister
 import com.worldsnas.domain.repo.home.trending.TrendingPersisterKey
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.home.trending.TrendingRepoImpl
-import com.worldsnas.domain.servermodels.MovieServerModel
-import com.worldsnas.domain.servermodels.ResultsServerModel
+import com.worldsnas.domain.model.servermodels.MovieServerModel
+import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher
 import dagger.Binds

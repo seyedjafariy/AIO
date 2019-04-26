@@ -1,6 +1,6 @@
 package com.worldsnas.home.mapper
 
-import com.worldsnas.domain.repomodel.MovieRepoModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject

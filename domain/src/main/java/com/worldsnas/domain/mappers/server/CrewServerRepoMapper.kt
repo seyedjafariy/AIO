@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers.server
 
-import com.worldsnas.domain.repomodel.CrewRepoModel
-import com.worldsnas.domain.servermodels.CrewServerModel
+import com.worldsnas.domain.model.repomodel.CrewRepoModel
+import com.worldsnas.domain.model.servermodels.CrewServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

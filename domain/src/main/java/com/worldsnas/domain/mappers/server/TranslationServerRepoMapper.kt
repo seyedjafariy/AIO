@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers.server
 
-import com.worldsnas.domain.repomodel.TranslationRepoModel
-import com.worldsnas.domain.servermodels.TranslationServerModel
+import com.worldsnas.domain.model.repomodel.TranslationRepoModel
+import com.worldsnas.domain.model.servermodels.TranslationServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

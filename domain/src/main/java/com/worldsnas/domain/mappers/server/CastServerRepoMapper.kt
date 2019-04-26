@@ -1,7 +1,7 @@
 package com.worldsnas.domain.mappers.server
 
-import com.worldsnas.domain.repomodel.CastRepoModel
-import com.worldsnas.domain.servermodels.CastServerModel
+import com.worldsnas.domain.model.repomodel.CastRepoModel
+import com.worldsnas.domain.model.servermodels.CastServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 

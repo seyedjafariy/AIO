@@ -2,7 +2,7 @@ package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.entity.CrewEntity
 import com.worldsnas.domain.entity.GenreEntity
-import com.worldsnas.domain.servermodels.CrewServerModel
+import com.worldsnas.domain.model.servermodels.CrewServerModel
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 
