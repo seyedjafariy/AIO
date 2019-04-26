@@ -26,8 +26,8 @@ abstract class ButterKnifeController @JvmOverloads constructor(
     open fun onViewBound(view: View) {}
 
     override fun onDestroyView(view: View) {
-        super.onDestroyView(view)
         unbinder?.unbind()
         unbinder = null
+        super.onDestroyView(view)
     }
 }
