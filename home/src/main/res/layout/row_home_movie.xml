@@ -25,7 +25,7 @@
 		android:maxLines="1"
 		android:scrollbarSize="14dp"
 		android:textColor="@android:color/white"
-		android:textStyle="bold"
+		android:fontFamily="@font/montserrat_bold"
 		tools:ignore="UnusedAttribute"
 		tools:text="Test Movie" />
 
