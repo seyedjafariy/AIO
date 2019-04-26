@@ -51,10 +51,10 @@ abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads construc
     }
 
     override fun onDetach(view: View) {
-        super.onDetach(view)
         disposables.clear()
         loadingView = null
         errorSnack = null
+        super.onDetach(view)
     }
 
     private fun prepareDependencies() {

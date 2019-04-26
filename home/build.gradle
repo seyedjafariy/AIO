@@ -32,7 +32,7 @@ dependencies {
 
     implementation constraintLayout
 
-    implementation slider
+    implementation project(slider)
     implementation nineOldAndroidAnim
 
     kapt butterKnifeCompiler

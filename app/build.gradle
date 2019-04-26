@@ -125,7 +125,7 @@ dependencies {
 
     implementation fresco
     implementation frescoOkHttp
-    implementation slider
+    implementation project(slider)
 
     debugImplementation leakCanary
     releaseImplementation leakCanaryNoOp
