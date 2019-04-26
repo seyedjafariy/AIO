@@ -92,14 +92,14 @@ abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads construc
     }
 
     protected fun renderLoading(baseState: BaseState) {
-        if (baseState.showLoading) {
-            if (loadingView == null) {
-                createLoading()
-            }
-            loadingView?.visible(true)
-        } else {
-            loadingView?.visible(false)
-        }
+//        if (baseState.showLoading) {
+//            if (loadingView == null) {
+//                createLoading()
+//            }
+//            loadingView?.visible(true)
+//        } else {
+//            loadingView?.visible(false)
+//        }
     }
 
     private fun createLoading() {

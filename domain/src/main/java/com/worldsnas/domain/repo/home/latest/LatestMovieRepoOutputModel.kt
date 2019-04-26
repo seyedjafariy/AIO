@@ -5,6 +5,8 @@ import com.worldsnas.domain.model.repomodel.MovieRepoModel
 
 sealed class LatestMovieRepoOutputModel {
 
-    class Success(val movies: List<MovieRepoModel>) : LatestMovieRepoOutputModel()
+    class Success(
+            val thisPage: List<MovieRepoModel>,
+            val all : List<MovieRepoModel>) : LatestMovieRepoOutputModel()
     class Error(val err: ErrorHolder) : LatestMovieRepoOutputModel()
 }

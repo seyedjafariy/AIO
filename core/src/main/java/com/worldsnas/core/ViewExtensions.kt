@@ -14,3 +14,9 @@ infix fun View.visible(visible: Boolean) =
 
 infix fun ViewGroup.inflate(id : Int) : View =
     LayoutInflater.from(context).inflate(id, this, false)
+
+fun View.getDisplaySize(): DisplaySize =
+        DisplaySize(
+                context.resources.displayMetrics.heightPixels,
+                context.resources.displayMetrics.widthPixels
+        )
