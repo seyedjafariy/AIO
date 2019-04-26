@@ -9,6 +9,7 @@ import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.worldsnas.base.BaseView
+import com.worldsnas.core.helpers.pages
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
@@ -18,15 +19,16 @@ import com.worldsnas.home.adapter.HomeMoviesAdapter
 import com.worldsnas.home.di.DaggerHomeComponent
 import com.worldsnas.home.model.MovieUIModel
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
 class HomeView : BaseView<HomeState, HomeIntent>(),
     BaseSliderView.OnSliderClickListener {
 
     @BindView(R2.id.movies)
-    lateinit var movies : RecyclerView
+    lateinit var movies: RecyclerView
     @BindView(R2.id.slider)
-    lateinit var slider : SliderLayout
+    lateinit var slider: SliderLayout
 
     @Inject
     lateinit var movieAdapter: HomeMoviesAdapter
@@ -74,7 +76,14 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
     }
 
     override fun intents(): Observable<HomeIntent> =
-        Observable.just(HomeIntent.Initial)
+        Observable.merge(
+            Observable.just(HomeIntent.Initial),
+            movies.pages()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .map {
+                    HomeIntent.NextPage(it.page, it.totalItemsCount)
+                }
+        )
 
     private fun submitSliderItems(state: HomeState) {
         if (sliderItems != state.sliderMovies) {
