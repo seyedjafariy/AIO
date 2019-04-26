@@ -38,7 +38,12 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
     override fun getLayoutId(): Int = R.layout.view_home
 
     override fun injectDependencies(core: CoreComponent) {
-        DaggerHomeComponent.builder().coreComponent(core).build().inject(this)
+        DaggerHomeComponent
+            .builder()
+            .bindRouter(router)
+            .coreComponent(core)
+            .build()
+            .inject(this)
     }
 
     override fun onViewBound(view: View) {

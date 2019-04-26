@@ -8,7 +8,7 @@ import com.bluelinelabs.conductor.Controller
 object Navigation {
 
     @JvmStatic
-    fun createController(controller: Controllers): Controller =
+    fun createController(controller: Screens): Controller =
         if (controller.extras != null) {
             Class.forName(controller.name)
                 .constructors
@@ -42,12 +42,12 @@ object Navigation {
         }
 }
 
-sealed class Controllers(val name: String, val extras: Bundle? = null) {
+sealed class Screens(val name: String, val extras: Bundle? = null) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-    internal object Test : Controllers("com.worldsnas.navigation.TestController")
+    internal object Test : Screens("com.worldsnas.navigation.TestController")
 
-    object Home : Controllers("com.worldsnas.home.HomeView")
+    object Home : Screens("com.worldsnas.home.HomeView")
 }
 
 sealed class Activities(val name: String, val extras: Bundle? = null) {

@@ -102,6 +102,7 @@ dependencies {
     implementation(project(mvi))
     implementation(project(daggerCore))
     implementation(project(home))
+    implementation(project(navigation))
 
 
     implementation dagger

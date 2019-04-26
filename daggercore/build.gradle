@@ -16,6 +16,9 @@ dependencies {
     implementation(project(domain))
     implementation(project(panther))
     implementation(project(core))
+    implementation(project(navigation))
+
+    implementation conductor
 
     implementation kotlinStd8
 

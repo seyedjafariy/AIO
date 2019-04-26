@@ -3,11 +3,7 @@ package com.worldsnas.aio
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.bluelinelabs.conductor.Conductor
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.ControllerChangeHandler
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.*
 import com.worldsnas.home.view.HomeView
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber

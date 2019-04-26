@@ -18,6 +18,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
+@Suppress("UNUSED_PARAMETER")
 abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads constructor(
     bundle: Bundle? = null
 ) : ButterKnifeController(bundle) {
@@ -73,22 +74,22 @@ abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads construc
     }
 
     protected fun renderError(baseState: BaseState) {
-        view?.run {
-            if (baseState.error.showSnackBar) {
-                val error = baseState.error.getErrorString(context)
-                if (errorSnack == null) {
-                    createErrorSnack()
-                }
-                errorSnack?.setText(error)
-                if (errorSnack?.isShown != true) {
-                    errorSnack?.show()
-                } else {
-                    //empty
-                }
-            } else {
-                errorSnack?.dismiss()
-            }
-        }
+//        view?.run {
+//            if (baseState.error.showSnackBar) {
+//                val error = baseState.error.getErrorString(context)
+//                if (errorSnack == null) {
+//                    createErrorSnack()
+//                }
+//                errorSnack?.setText(error)
+//                if (errorSnack?.isShown != true) {
+//                    errorSnack?.show()
+//                } else {
+//                    empty
+//                }
+//            } else {
+//                errorSnack?.dismiss()
+//            }
+//        }
     }
 
     protected fun renderLoading(baseState: BaseState) {
@@ -126,9 +127,9 @@ abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads construc
     }
 
     private fun createErrorSnack() {
-        view?.run {
-            errorSnack = Snackbar.make(this, "", Snackbar.LENGTH_LONG)
-        }
+//        view?.run {
+//            errorSnack = Snackbar.make(this, "", Snackbar.LENGTH_LONG)
+//        }
     }
 
     @LayoutRes
