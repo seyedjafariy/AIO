@@ -59,10 +59,13 @@ fun BaseState.ErrorState.getErrorString(context: Context): String {
 }
 
 fun ErrorHolder.toErrorState(): BaseState.ErrorState =
-    if (message.isBlank()) {
-        BaseState.ErrorState.Res(R.string.error_server)
-    } else {
-        BaseState.ErrorState.String(message)
+    when(this){
+        is ErrorHolder.Message ->
+            BaseState.ErrorState.String(message)
+        is ErrorHolder.Res ->
+            BaseState.ErrorState.Res(message)
+        is ErrorHolder.UnAuthorized ->
+            BaseState.ErrorState.UnAuthorized(message)
     }
 
 
