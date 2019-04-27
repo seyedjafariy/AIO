@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface HomeAPI {
 
-    @GET("/3/discover/movie")
+    @GET("/3/discover/movie?include_video=false&include_adult=false")
     fun getLatestMovie(@Query("page") page: Int):
         Single<Response<ResultsServerModel<MovieServerModel>>>
 

@@ -3,27 +3,8 @@ package com.worldsnas.domain.mappers.server
 import com.worldsnas.domain.helpers.ImageInfo
 import com.worldsnas.domain.helpers.ImageType
 import com.worldsnas.domain.model.ImageServerTypeHolder
-import com.worldsnas.domain.model.repomodel.CastRepoModel
-import com.worldsnas.domain.model.repomodel.CompanyRepoModel
-import com.worldsnas.domain.model.repomodel.CountryRepoModel
-import com.worldsnas.domain.model.repomodel.CrewRepoModel
-import com.worldsnas.domain.model.repomodel.GenreRepoModel
-import com.worldsnas.domain.model.repomodel.ImageRepoModel
-import com.worldsnas.domain.model.repomodel.LanguageRepoModel
-import com.worldsnas.domain.model.repomodel.MovieRepoModel
-import com.worldsnas.domain.model.repomodel.ReviewRepoModel
-import com.worldsnas.domain.model.repomodel.TranslationRepoModel
-import com.worldsnas.domain.model.repomodel.VideoRepoModel
-import com.worldsnas.domain.model.servermodels.CastServerModel
-import com.worldsnas.domain.model.servermodels.CompanyServerModel
-import com.worldsnas.domain.model.servermodels.CountryServerModel
-import com.worldsnas.domain.model.servermodels.CrewServerModel
-import com.worldsnas.domain.model.servermodels.GenreServerModel
-import com.worldsnas.domain.model.servermodels.LanguageServerModel
-import com.worldsnas.domain.model.servermodels.MovieServerModel
-import com.worldsnas.domain.model.servermodels.ReviewServerModel
-import com.worldsnas.domain.model.servermodels.TranslationServerModel
-import com.worldsnas.domain.model.servermodels.VideoServerModel
+import com.worldsnas.domain.model.repomodel.*
+import com.worldsnas.domain.model.servermodels.*
 import com.worldsnas.panther.Factory
 import com.worldsnas.panther.Mapper
 import javax.inject.Inject
@@ -38,19 +19,13 @@ class MovieServerRepoMapper @Inject constructor(
     private val reviewMapper: Mapper<ReviewServerModel, ReviewRepoModel>,
     private val castMapper: Mapper<CastServerModel, CastRepoModel>,
     private val crewMapper: Mapper<CrewServerModel, CrewRepoModel>,
-    private val translationMapper: Mapper<TranslationServerModel, TranslationRepoModel>,
-    private val imageUrlFactory: Factory<ImageInfo, String>
+    private val translationMapper: Mapper<TranslationServerModel, TranslationRepoModel>
 ) : Mapper<MovieServerModel, MovieRepoModel> {
     override fun map(item: MovieServerModel): MovieRepoModel =
         MovieRepoModel(
             item.id,
             item.adult,
-            imageUrlFactory.create(
-                ImageInfo(
-                    ImageType.Poster,
-                    item.backdropPath
-                )
-            ),
+            item.backdropPath,
             item.budget,
             item.homePage,
             item.imdbID,
@@ -58,12 +33,7 @@ class MovieServerRepoMapper @Inject constructor(
             item.originalTitle,
             item.overview,
             item.popularity,
-            imageUrlFactory.create(
-                ImageInfo(
-                    ImageType.Poster,
-                    item.posterPath
-                )
-            ),
+            item.posterPath,
             item.releaseDate,
             item.revenue,
             item.runtime,

@@ -9,8 +9,10 @@ import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.worldsnas.base.BaseView
+import com.worldsnas.core.getScreenWidth
 import com.worldsnas.core.helpers.pages
 import com.worldsnas.daggercore.CoreComponent
+import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
@@ -98,7 +100,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
                     slider.addSlider(
                         TextSliderView(this)
                             .description(it.title)
-                            .image(it.cover)
+                            .image(it.cover.coverFullUrl(getScreenWidth()))
                             .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                             .bundle(
                                 bundleOf(

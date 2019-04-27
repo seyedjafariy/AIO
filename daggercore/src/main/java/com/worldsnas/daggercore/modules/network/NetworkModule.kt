@@ -19,8 +19,6 @@ object NetworkModule {
     fun provideTypeAdapter(): Moshi {
         val builder = Moshi.Builder()
         builder.add(AppJsonAdapterFactory.INSTANCE)
-        // builder.add(ArrayListMoshiAdapter.FACTORY)
-        // builder.add(com.sharifin.investment.servermodel.ApplicationJsonAdapterFactory.INSTANCE)
         return builder.build()
     }
 
