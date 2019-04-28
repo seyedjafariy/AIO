@@ -31,6 +31,10 @@ dependencies {
     implementation moshi
     implementation okHttp
     implementation okHttpLogging
+
+    implementation fresco
+    implementation frescoOkHttp
+
     implementation javaxAnnotation
     implementation findBugs
     implementation timber
