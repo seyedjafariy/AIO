@@ -13,7 +13,7 @@ class TMDBImageUrlFactory @Inject constructor(
 ) : Factory<ImageInfo, String> {
 
     override fun create(item: ImageInfo): String {
-        val size = item.type.getSize(displaySize.width)
+        val size = item.type.getCached(displaySize.width)
         return createURL(item.url, size)
     }
 
@@ -71,7 +71,7 @@ sealed class ImageType(
         )
     )
 
-    fun getSize(displayWidth: Int): String {
+    fun getCached(displayWidth: Int): String {
         if (cachedSize.isNotBlank())
             return cachedSize
 
@@ -79,6 +79,12 @@ sealed class ImageType(
             cachedSize = sizes.getValue(0)
         }
 
+        cachedSize = getSize(displayWidth)
+
+        return cachedSize
+    }
+
+    fun getSize(displayWidth: Int) : String{
         var distance = displayWidth
         var index = 0
         for ((key, _) in sizes) {
@@ -88,8 +94,21 @@ sealed class ImageType(
                 distance = cdistance
             }
         }
-        cachedSize = sizes.getValue(index)
-
-        return cachedSize
+        return sizes.getValue(index)
     }
 }
+
+infix fun String.posterFullUrl(width : Int) =
+    ImageInfo(ImageType.Poster, this).getFullImageUrlForSize(width)
+
+infix fun String.coverFullUrl(width : Int) =
+    ImageInfo(ImageType.Backdrop, this).getFullImageUrlForSize(width)
+
+infix fun String.profileFullUrl(width : Int) =
+    ImageInfo(ImageType.Profile, this).getFullImageUrlForSize(width)
+
+infix fun String.logoFullUrl(width : Int) =
+    ImageInfo(ImageType.Logo, this).getFullImageUrlForSize(width)
+
+infix fun ImageInfo.getFullImageUrlForSize(width : Int) =
+    BASE_IMAGE_URL + type.getSize(width) + url
