@@ -1,6 +1,7 @@
 package com.worldsnas.daggercore
 
 import android.app.Application
+import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.squareup.moshi.Moshi
 import com.worldsnas.daggercore.modules.CoreModule
 import com.worldsnas.daggercore.modules.DatabaseModule
@@ -22,7 +23,8 @@ import javax.inject.Singleton
     modules = [NetworkModule::class,
         DomainModule::class,
         DatabaseModule::class,
-        CoreModule::class]
+        CoreModule::class,
+        FrescoModule::class]
 )
 interface CoreComponent {
 
@@ -32,6 +34,7 @@ interface CoreComponent {
     fun store(): BoxStore
     fun latestMovieRepo() : LatestMovieRepo
     fun trendingRepo() : TrendingRepo
+    fun frescoConfig() : ImagePipelineConfig
 
     @Component.Builder
     interface Builder {
