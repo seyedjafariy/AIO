@@ -17,6 +17,7 @@ dependencies {
 
     implementation compat
     implementation design
+    implementation constraintLayout
 
     implementation dagger
     kapt daggerCompiler
