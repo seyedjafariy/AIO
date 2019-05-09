@@ -37,7 +37,7 @@
 
     <declare-styleable name="PagerIndicator">
         <!-- indicator visibility -->
-        <attr name="visibility" format="enum">
+        <attr name="pagervisibility" format="enum">
             <enum name="visible" value="0"/>
             <enum name="invisible" value="1"/>
         </attr>

@@ -117,7 +117,7 @@ public class PagerIndicator extends LinearLayout implements ViewPagerEx.OnPageCh
 
         final TypedArray attributes = context.obtainStyledAttributes(attrs,R.styleable.PagerIndicator,0,0);
 
-        int visibility = attributes.getInt(R.styleable.PagerIndicator_visibility,IndicatorVisibility.Visible.ordinal());
+        int visibility = attributes.getInt(R.styleable.PagerIndicator_pagervisibility,IndicatorVisibility.Visible.ordinal());
 
         for(IndicatorVisibility v : IndicatorVisibility.values()){
             if(v.ordinal() == visibility){

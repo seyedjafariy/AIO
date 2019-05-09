@@ -13,7 +13,7 @@
 
 	</Transition>
 
-	<ConstraintSet android:id="@+id/expanded">
+    <ConstraintSet android:id="@+id/expanded">
 		<Constraint
 			android:id="@id/slider"
 			android:layout_height="200dp"
