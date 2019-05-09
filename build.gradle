@@ -8,19 +8,14 @@ buildscript {
         jcenter()
         gradlePluginPortal()
         mavenCentral()
-//        maven {
-//            url 'https://maven.fabric.io/public'
-//        }
-        
     }
     dependencies {
+        //noinspection GradleDependency
         classpath 'com.android.tools.build:gradle:3.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
         classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
         classpath "com.jakewharton:butterknife-gradle-plugin:$butterKnifeVersion"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
