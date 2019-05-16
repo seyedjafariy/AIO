@@ -1,0 +1,40 @@
+apply from: androidLib
+
+dependencies {
+    testImplementation junit
+    androidTestImplementation supportTestRunner
+    androidTestImplementation espressoCore
+
+    implementation(project(domain))
+    implementation(project(daggerCore))
+    implementation(project(base))
+    implementation(project(core))
+    implementation(project(mvi))
+    implementation(project(navigation))
+    implementation(project(panther))
+
+    implementation kotlinStd8
+
+    implementation compat
+    implementation design
+    implementation constraintLayout
+
+    implementation dagger
+    kapt daggerCompiler
+
+    implementation conductor
+    implementation rxJava
+    implementation rxAndroid
+    implementation rxKotlin
+    implementation coreKts
+    implementation timber
+
+    implementation fresco
+
+    implementation constraintLayout
+
+    implementation project(slider)
+    implementation nineOldAndroidAnim
+
+    kapt butterKnifeCompiler
+}
