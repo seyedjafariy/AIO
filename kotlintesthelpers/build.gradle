@@ -3,4 +3,6 @@ apply from : kotlinLib
 dependencies {
 
     implementation assertJ
+    implementation okHttp
+    implementation retrofit
 }
