@@ -1,6 +1,7 @@
 package com.worldsnas.moviedetail
 
 import com.worldsnas.base.BasePresenter
+import com.worldsnas.base.BaseState
 import javax.inject.Inject
 
 class MovieDetailPresenter @Inject constructor(
@@ -8,7 +9,19 @@ class MovieDetailPresenter @Inject constructor(
     MovieDetailState.start()
 ) {
 
-    override fun reduce(preState: MovieDetailState, result: MovieDetailResult): MovieDetailState {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun reduce(preState: MovieDetailState, result: MovieDetailResult): MovieDetailState =
+        when (result) {
+            MovieDetailResult.LastStable ->
+                preState.copy(
+                    base = BaseState.stable()
+                )
+            is MovieDetailResult.Error ->
+                preState.copy(
+                    base = BaseState.withError(result.err)
+                )
+            is MovieDetailResult.Detail ->
+                preState.copy(
+                    movieTitle = result.movieTitle
+                )
+        }
 }
