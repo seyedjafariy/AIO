@@ -1,8 +1,11 @@
-apply from : kotlinLib
+apply from : androidLib
 
 dependencies {
 
     implementation assertJ
     implementation okHttp
     implementation retrofit
+    implementation junit
+    implementation rxJava
+    implementation rxAndroid
 }

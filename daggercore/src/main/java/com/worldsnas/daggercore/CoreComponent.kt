@@ -10,6 +10,7 @@ import com.worldsnas.daggercore.scope.AppScope
 import com.worldsnas.domain.di.DomainModule
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
+import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
 import dagger.BindsInstance
 import dagger.Component
 import io.objectbox.BoxStore
@@ -20,7 +21,8 @@ import javax.inject.Singleton
 @Singleton
 @AppScope
 @Component(
-    modules = [NetworkModule::class,
+    modules = [
+        NetworkModule::class,
         DomainModule::class,
         DatabaseModule::class,
         CoreModule::class,
@@ -32,9 +34,10 @@ interface CoreComponent {
     fun okHttp(): OkHttpClient
     fun moshi(): Moshi
     fun store(): BoxStore
-    fun latestMovieRepo() : LatestMovieRepo
-    fun trendingRepo() : TrendingRepo
-    fun frescoConfig() : ImagePipelineConfig
+    fun latestMovieRepo(): LatestMovieRepo
+    fun trendingRepo(): TrendingRepo
+    fun movieDetailRepo(): MovieDetailRepo
+    fun frescoConfig(): ImagePipelineConfig
 
     @Component.Builder
     interface Builder {

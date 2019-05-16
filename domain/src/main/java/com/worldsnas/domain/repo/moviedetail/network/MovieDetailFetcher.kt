@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class MovieDetailFetcher @Inject constructor(
     private val api: MovieDetailAPI
-) : Fetcher<MovieDetailRequestModel, Response<MovieServerModel>> {
+) : Fetcher<@JvmSuppressWildcards MovieDetailRequestModel, Response<MovieServerModel>> {
     override fun fetch(param: MovieDetailRequestModel): Single<Response<MovieServerModel>> =
         api
             .getMovie(

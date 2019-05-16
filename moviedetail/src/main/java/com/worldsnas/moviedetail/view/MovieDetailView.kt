@@ -29,5 +29,5 @@ class MovieDetailView(
     }
 
     override fun intents(): Observable<MovieDetailIntent> =
-            Observable.just(MovieDetailIntent.Initial)
+            Observable.just(MovieDetailIntent.Initial(1))
 }

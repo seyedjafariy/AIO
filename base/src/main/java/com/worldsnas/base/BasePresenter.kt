@@ -6,14 +6,11 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
-import javax.inject.Inject
 
 abstract class BasePresenter<I : MviIntent, S : MviViewState, R : MviResult>(
+    val processor: MviProcessor<I, R>,
     private val startState : S
 ) : MviPresenter<I, S> {
-
-    @Inject
-    protected lateinit var processor: MviProcessor<I, R>
 
     private val intentFilter = ObservableTransformer<I, I> { intents ->
         filterIntent(intents)

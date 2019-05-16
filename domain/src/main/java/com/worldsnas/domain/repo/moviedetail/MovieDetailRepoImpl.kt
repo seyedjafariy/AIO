@@ -16,7 +16,7 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class MovieDetailRepoImpl @Inject constructor(
-    private val fetcher: Fetcher<MovieDetailRequestModel, Response<MovieServerModel>>,
+    private val fetcher: Fetcher<@JvmSuppressWildcards MovieDetailRequestModel, Response<MovieServerModel>>,
     private val movieMapper: Mapper<MovieServerModel, MovieRepoModel>
 ) : MovieDetailRepo {
 

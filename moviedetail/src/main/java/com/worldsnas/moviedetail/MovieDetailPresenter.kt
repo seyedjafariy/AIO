@@ -2,10 +2,13 @@ package com.worldsnas.moviedetail
 
 import com.worldsnas.base.BasePresenter
 import com.worldsnas.base.BaseState
+import com.worldsnas.mvi.MviProcessor
 import javax.inject.Inject
 
 class MovieDetailPresenter @Inject constructor(
+    processor: MviProcessor<MovieDetailIntent, MovieDetailResult>
 ) : BasePresenter<MovieDetailIntent, MovieDetailState, MovieDetailResult>(
+    processor,
     MovieDetailState.start()
 ) {
 
