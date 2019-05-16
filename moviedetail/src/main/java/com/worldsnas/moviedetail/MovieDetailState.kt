@@ -5,4 +5,11 @@ import com.worldsnas.base.BaseViewState
 
 data class MovieDetailState (
     override val base: BaseState
-): BaseViewState
+): BaseViewState{
+    companion object {
+        fun start() =
+                MovieDetailState(
+                    base = BaseState.stable()
+                )
+    }
+}

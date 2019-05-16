@@ -1,17 +1,14 @@
 package com.worldsnas.moviedetail
 
-import com.worldsnas.mvi.MviPresenter
-import io.reactivex.Observable
+import com.worldsnas.base.BasePresenter
 import javax.inject.Inject
 
 class MovieDetailPresenter @Inject constructor(
-): MviPresenter<MovieDetailIntent, MovieDetailState>{
+) : BasePresenter<MovieDetailIntent, MovieDetailState, MovieDetailResult>(
+    MovieDetailState.start()
+) {
 
-    override fun processIntents(intents: MovieDetailIntent) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun states(): Observable<MovieDetailState> {
+    override fun reduce(preState: MovieDetailState, result: MovieDetailResult): MovieDetailState {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

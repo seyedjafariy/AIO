@@ -25,6 +25,8 @@ dependencies {
     implementation rxJava
     implementation rxKotlin
 
+    implementation timber
+
     kapt butterKnifeCompiler
 
     debugImplementation leakCanary
