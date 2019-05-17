@@ -7,11 +7,16 @@ import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
+import com.worldsnas.navigation.model.MovieDetailLocalModel
 import io.reactivex.Observable
 
 class MovieDetailView(
     bundle: Bundle
 ) : BaseView<MovieDetailState, MovieDetailIntent>(bundle) {
+
+    private val movieLocal: MovieDetailLocalModel = bundle
+        .getParcelable(MovieDetailLocalModel.EXTRA_MOVIE)
+        ?: throw NullPointerException("${MovieDetailLocalModel.EXTRA_MOVIE} can not be null")
 
     override fun getLayoutId(): Int = R.layout.view_movie_detail
 
@@ -29,5 +34,5 @@ class MovieDetailView(
     }
 
     override fun intents(): Observable<MovieDetailIntent> =
-            Observable.just(MovieDetailIntent.Initial(1))
+        Observable.just(MovieDetailIntent.Initial(movieLocal.movieID))
 }

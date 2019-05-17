@@ -6,5 +6,7 @@ dependencies {
     androidTestImplementation espressoCore
     testImplementation assertJ
 
+    implementation coreKts
+    implementation androidxCore
     implementation conductor
 }
