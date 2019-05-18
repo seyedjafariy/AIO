@@ -78,7 +78,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
         renderLoading(state.base)
 
 
-        movieAdapter.submitList(state.latest)
+//        movieAdapter.submitList(state.latest)
         submitSliderItems(state)
     }
 

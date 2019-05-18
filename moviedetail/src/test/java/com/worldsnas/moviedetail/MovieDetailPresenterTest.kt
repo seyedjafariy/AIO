@@ -6,6 +6,7 @@ import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.kotlintesthelpers.randomLong
 import com.worldsnas.kotlintesthelpers.randomString
 import com.worldsnas.kotlintesthelpers.rule.RxTrampolineSchedulerRule
+import com.worldsnas.navigation.model.MovieDetailLocalModel
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -33,16 +34,33 @@ class MovieDetailPresenterTest {
     }
 
     @Test
-    fun `initial intent returns correct title`(){
+    fun `initial intent returns correct title`() {
         val name = randomString()
         every {
             repo.getMovieDetail(any())
-        } returns Single.just(MovieDetailRepoOutPutModel.Success(MovieRepoModel(title = name)))
+        } returns Single.just(
+            MovieDetailRepoOutPutModel.Success(
+                MovieRepoModel(
+                    title = name
+                )
+            )
+        )
 
         val testObserver = presenter.states()
             .test()
 
-        presenter.processIntents(MovieDetailIntent.Initial(randomLong()))
+        presenter.processIntents(
+            MovieDetailIntent.Initial(
+                MovieDetailLocalModel(
+                    randomLong(),
+                    randomString(),
+                    randomString(),
+                    randomString(),
+                    randomString(),
+                    randomString()
+                )
+            )
+        )
 
         val values = testObserver.values()
 
@@ -51,7 +69,9 @@ class MovieDetailPresenterTest {
             .isEqualTo(
                 listOf(
                     MovieDetailState.start(),
-                    MovieDetailState.start().copy(movieTitle = name)
+                    MovieDetailState.start().copy(
+                        title = name
+                    )
                 )
             )
     }

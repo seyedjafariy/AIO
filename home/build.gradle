@@ -28,6 +28,7 @@ dependencies {
     implementation rxKotlin
     implementation coreKts
     implementation timber
+    implementation rxBindingKotlin
 
     implementation fresco
 
