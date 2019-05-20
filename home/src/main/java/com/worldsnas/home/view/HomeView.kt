@@ -22,6 +22,7 @@ import com.worldsnas.home.di.DaggerHomeComponent
 import com.worldsnas.home.model.MovieUIModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeView : BaseView<HomeState, HomeIntent>(),
@@ -50,6 +51,10 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
 
     override fun onViewBound(view: View) {
         initRv(view)
+        Timber.e(javaClass.name)
+        Timber.e(javaClass.canonicalName)
+        Timber.e(javaClass.simpleName)
+        Timber.e(javaClass.typeName)
     }
 
     override fun onAttach(view: View) {

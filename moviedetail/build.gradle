@@ -4,6 +4,12 @@ dependencies {
     testImplementation junit
     testImplementation assertJ
     testImplementation mockkUnit
+    testImplementation supportCore
+    testImplementation supportJunitExt
+    testImplementation supportTestRule
+    testImplementation supportTestRunner
+    testImplementation espressoCore
+    testImplementation robolectric
     testImplementation(project(kotlinTestHelper))
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore

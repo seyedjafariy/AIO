@@ -4,9 +4,11 @@ ext {
             jUnitVersion = "4.12",
             assertJVersion = "2.9.1",
             supportTestVersion = "1.1.0",
+            supportCoreVersion = "1.0.0",
             espressoVersion = "3.1.0-alpha3",
             mockkVersion = "1.9.3.kotlin12",
             fakeItVersion = "v0.5",
+            robolectricVersion = "4.2",
 
             kotlinVersion = "1.3.21",
 
@@ -86,13 +88,17 @@ ext {
 
                     supportTestRunner = "androidx.test:runner:$supportTestVersion",
                     supportTestRule = "androidx.test:rules:$supportTestVersion",
+                    supportJunitExt = "androidx.test.ext:junit:$supportCoreVersion",
+                    supportCore = "androidx.test:core:$supportTestVersion",
 
                     espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion",
                     espressoContrib = "androidx.test.espresso:espresso-contrib:$espressoVersion",
 
                     jsonTest = "org.json:json:$jsonTestVersion",
 
-                    fakeIt = "com.github.moove-it:fakeit:$fakeItVersion"
+                    fakeIt = "com.github.moove-it:fakeit:$fakeItVersion",
+
+                    robolectric = "org.robolectric:robolectric:$robolectricVersion"
             ],
 
             kotlin = [
@@ -225,6 +231,7 @@ ext {
                     mvi = ":mvi",
                     navigation = ":navigation",
                     home = ":home",
+                    movieDetail = ":moviedetail",
                     slider = ":slider"
             ],
 

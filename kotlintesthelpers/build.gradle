@@ -8,4 +8,6 @@ dependencies {
     implementation junit
     implementation rxJava
     implementation rxAndroid
+    implementation conductor
+    implementation compat
 }
