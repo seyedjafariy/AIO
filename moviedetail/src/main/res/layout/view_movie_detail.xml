@@ -30,13 +30,15 @@
 
 	<TextView
 		android:id="@+id/txtMovieTitle"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/medium_margin"
 		android:layout_marginTop="@dimen/medium_margin"
+		android:layout_marginEnd="@dimen/medium_margin"
 		android:fontFamily="@font/montserrat_bold"
 		android:textColor="@android:color/white"
 		android:textSize="@dimen/large_text"
+		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toEndOf="@+id/imgMoviePoster"
 		app:layout_constraintTop_toBottomOf="@+id/sliderMovieCover"
 		tools:ignore="SpUsage"

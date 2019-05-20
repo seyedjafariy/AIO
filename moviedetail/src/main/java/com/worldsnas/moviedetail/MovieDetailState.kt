@@ -9,7 +9,8 @@ data class MovieDetailState(
         val poster: String,
         val duration: String,
         val date: String,
-        val description: String
+        val description: String,
+        val covers : List<String>
 ) : BaseViewState {
     companion object {
         fun start() =
@@ -19,7 +20,7 @@ data class MovieDetailState(
                         poster = "",
                         duration = "",
                         date = "",
-                        description = ""
-                        )
+                        description = "",
+                        covers = emptyList())
     }
 }
