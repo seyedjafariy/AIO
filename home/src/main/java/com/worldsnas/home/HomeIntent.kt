@@ -7,4 +7,5 @@ sealed class HomeIntent : MviIntent {
     object Initial : HomeIntent()
     data class NextPage(val page : Int, val totalCount: Int) : HomeIntent()
     class LatestMovieClicked(val movie : MovieUIModel) : HomeIntent()
+    class SliderClicked(val movieId : Long) : HomeIntent()
 }

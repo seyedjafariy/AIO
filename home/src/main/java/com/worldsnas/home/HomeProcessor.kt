@@ -32,11 +32,12 @@ class HomeProcessor @Inject constructor(
 
     override val actionProcessor = ObservableTransformer<HomeIntent, HomeResult> {
         it.publish { publish ->
-            Observable.merge(
+            Observable.mergeArray(
                 publish.ofType<HomeIntent.Initial>().compose(latestProcessor),
                 publish.ofType<HomeIntent.Initial>().compose(trendingProcessor),
                 publish.ofType<HomeIntent.NextPage>().compose(nextPageProcessor),
-                publish.ofType<HomeIntent.LatestMovieClicked>().compose(latestClickProcessor)
+                publish.ofType<HomeIntent.LatestMovieClicked>().compose(latestClickProcessor),
+                publish.ofType<HomeIntent.SliderClicked>().compose(sliderClicked)
             )
         }.observeOn(AndroidSchedulers.mainThread())
     }
@@ -121,5 +122,37 @@ class HomeProcessor @Inject constructor(
             }
             .ignoreElements()
             .toObservable()
+    }
+
+    private val sliderClicked = ObservableTransformer<HomeIntent.SliderClicked, HomeResult> { actions ->
+        actions.switchMap { click ->
+            trendingRepo.getCache()
+                .toObservable()
+                .map {
+                    it.allPages.first { movie ->
+                        movie.id == click.movieId
+                    }
+                }
+                .map {
+                    MovieDetailLocalModel(
+                        it.id,
+                        it.posterPath,
+                        it.backdropPath,
+                        it.title,
+                        "",
+                        it.releaseDate
+                    )
+                }
+                .doOnNext {
+                    navigator.goTo(
+                        Screens.MovieDetail(
+                            it
+                        )
+                    )
+                }
+                .ignoreElements()
+                .toObservable<HomeResult>()
+
+        }
     }
 }
