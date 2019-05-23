@@ -17,8 +17,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         router = Conductor.attachRouter(this, root, savedInstanceState)
+        val view = HomeView()
         if (!router.hasRootController()) {
-            router.setRoot(RouterTransaction.with(HomeView()))
+            router.setRoot(RouterTransaction.with(view))
         }
     }
 

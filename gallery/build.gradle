@@ -42,6 +42,7 @@ dependencies {
     implementation fresco
 
     implementation constraintLayout
+    implementation photoDraweeView
 
     implementation project(slider)
     implementation nineOldAndroidAnim
