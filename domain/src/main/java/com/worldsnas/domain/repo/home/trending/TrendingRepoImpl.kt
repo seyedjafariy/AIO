@@ -59,6 +59,12 @@ class TrendingRepoImpl @Inject constructor(
                     }
                     .firstOrError()
 
+    override fun getCache() : Single<TrendingRepoOutputModel.Success> =
+        Single.just(list)
+            .map {
+                TrendingRepoOutputModel.Success(emptyList(), it)
+            }
+
     override fun observeLatest(): Observable<TrendingRepoOutputModel> =
             persister.observe(TrendingPersisterKey())
                     .map {

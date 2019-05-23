@@ -78,7 +78,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
         renderLoading(state.base)
 
 
-        movieAdapter.submitList(state.latest)
+//        movieAdapter.submitList(state.latest)
         submitSliderItems(state)
     }
 
@@ -117,6 +117,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
     }
 
     override fun onSliderClick(slider: BaseSliderView?) {
-        slider!!.bundle.getInt("id")
+        val id = slider!!.bundle.getLong("id")
+        presenter.processIntents(HomeIntent.SliderClicked(id))
     }
 }

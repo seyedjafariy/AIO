@@ -8,6 +8,7 @@ dependencies {
     testImplementation(project(kotlinTestHelper))
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
+    testImplementation jsonTest
 
     implementation(project(panther))
     implementation(project(core))

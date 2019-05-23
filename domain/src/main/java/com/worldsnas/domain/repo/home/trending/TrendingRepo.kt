@@ -13,4 +13,5 @@ interface TrendingRepo {
     fun observeLatest(): Observable<TrendingRepoOutputModel>
     fun observerAndUpdate(): Observable<TrendingRepoOutputModel>
     fun update(param: TrendingRepoParamModel): Maybe<LatestMovieRepoOutputModel.Error>
+    fun getCache() : Single<TrendingRepoOutputModel.Success>
 }

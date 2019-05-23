@@ -104,7 +104,7 @@ dependencies {
     implementation(project(daggerCore))
     implementation(project(home))
     implementation(project(navigation))
-
+    implementation(project(movieDetail))
 
     implementation dagger
     implementation findBugs

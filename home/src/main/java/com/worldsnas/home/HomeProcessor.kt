@@ -13,6 +13,8 @@ import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
 import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.navigation.Navigator
+import com.worldsnas.navigation.Screens
+import com.worldsnas.navigation.model.MovieDetailLocalModel
 import com.worldsnas.panther.Mapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -30,10 +32,12 @@ class HomeProcessor @Inject constructor(
 
     override val actionProcessor = ObservableTransformer<HomeIntent, HomeResult> {
         it.publish { publish ->
-            Observable.merge(
+            Observable.mergeArray(
                 publish.ofType<HomeIntent.Initial>().compose(latestProcessor),
                 publish.ofType<HomeIntent.Initial>().compose(trendingProcessor),
-                publish.ofType<HomeIntent.NextPage>().compose(nextPageProcessor)
+                publish.ofType<HomeIntent.NextPage>().compose(nextPageProcessor),
+                publish.ofType<HomeIntent.LatestMovieClicked>().compose(latestClickProcessor),
+                publish.ofType<HomeIntent.SliderClicked>().compose(sliderClicked)
             )
         }.observeOn(AndroidSchedulers.mainThread())
     }
@@ -98,6 +102,57 @@ class HomeProcessor @Inject constructor(
                     }
                 }
                 .startWith(HomeResult.Loading)
+        }
+    }
+
+    private val latestClickProcessor = ObservableTransformer<HomeIntent.LatestMovieClicked, HomeResult> { actions ->
+        actions
+            .map {
+                MovieDetailLocalModel(
+                    it.movie.id,
+                    it.movie.poster,
+                    it.movie.cover,
+                    it.movie.title,
+                    "",
+                    it.movie.releaseDate
+                )
+            }
+            .doOnNext {
+                navigator.goTo(Screens.MovieDetail(it))
+            }
+            .ignoreElements()
+            .toObservable()
+    }
+
+    private val sliderClicked = ObservableTransformer<HomeIntent.SliderClicked, HomeResult> { actions ->
+        actions.switchMap { click ->
+            trendingRepo.getCache()
+                .toObservable()
+                .map {
+                    it.allPages.first { movie ->
+                        movie.id == click.movieId
+                    }
+                }
+                .map {
+                    MovieDetailLocalModel(
+                        it.id,
+                        it.posterPath,
+                        it.backdropPath,
+                        it.title,
+                        "",
+                        it.releaseDate
+                    )
+                }
+                .doOnNext {
+                    navigator.goTo(
+                        Screens.MovieDetail(
+                            it
+                        )
+                    )
+                }
+                .ignoreElements()
+                .toObservable<HomeResult>()
+
         }
     }
 }
