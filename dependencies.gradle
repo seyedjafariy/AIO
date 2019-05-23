@@ -232,7 +232,8 @@ ext {
                     navigation = ":navigation",
                     home = ":home",
                     movieDetail = ":moviedetail",
-                    slider = ":slider"
+                    slider = ":slider",
+                    gallery = ":gallery"
             ],
 
             plugins = [
