@@ -1,4 +1,4 @@
-include ':app', ':moviedetail',
+include ':app', ':moviedetail', ':gallery',
         ':base',
         ':mvi',
         ':core',
