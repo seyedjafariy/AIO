@@ -8,6 +8,8 @@ import androidx.core.content.ContextCompat
 import com.worldsnas.base.ButterKnifeController
 import com.worldsnas.core.getScreenWidth
 import com.worldsnas.domain.helpers.coverFullUrl
+import com.worldsnas.domain.helpers.posterFullUrl
+import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
 
 class GalleryView(bundle: Bundle) : ButterKnifeController(bundle), OnDismissListener {
@@ -16,11 +18,7 @@ class GalleryView(bundle: Bundle) : ButterKnifeController(bundle), OnDismissList
         ?: throw NullPointerException("gallery local model can not be null")
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
-        val images = with(container.context) {
-            localModel.images.map {
-                it.coverFullUrl(getScreenWidth())
-            }
-        }
+        val images = prepareImageUrls(container)
 
         return ImageViewerView(container.context).apply {
             //            setCustomImageRequestBuilder(builder.customImageRequestBuilder)
@@ -42,6 +40,19 @@ class GalleryView(bundle: Bundle) : ButterKnifeController(bundle), OnDismissList
 //            })
         }
     }
+
+    private fun prepareImageUrls(container: ViewGroup) =
+        with(container.context) {
+            localModel.images.map {
+                when (localModel.type) {
+                    GalleryImageType.COVER ->
+                        it.coverFullUrl(getScreenWidth())
+                    GalleryImageType.POSTER ->
+                        it.posterFullUrl(getScreenWidth())
+                }
+            }
+        }
+
 
     override fun onDismiss() {
         router.popController(this)
