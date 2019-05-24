@@ -3,12 +3,14 @@ package com.worldsnas.moviedetail.view
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.facebook.drawee.view.SimpleDraweeView
+import com.jakewharton.rxbinding2.view.clicks
 import com.worldsnas.base.BaseView
 import com.worldsnas.core.getScreenWidth
 import com.worldsnas.core.pixel
@@ -26,7 +28,7 @@ import kotlin.math.roundToInt
 
 class MovieDetailView(
     bundle: Bundle
-) : BaseView<MovieDetailState, MovieDetailIntent>(bundle) {
+) : BaseView<MovieDetailState, MovieDetailIntent>(bundle), BaseSliderView.OnSliderClickListener {
 
     @BindView(R2.id.sliderMovieCover)
     lateinit var coverSlider: SliderLayout
@@ -91,7 +93,10 @@ class MovieDetailView(
     }
 
     override fun intents(): Observable<MovieDetailIntent> =
-        Observable.just(MovieDetailIntent.Initial(movieLocal))
+        Observable.merge(
+            Observable.just(MovieDetailIntent.Initial(movieLocal)),
+            posterClicks()
+        )
 
     private fun submitCovers(covers: List<String>) {
         if (this.covers != covers) {
@@ -101,6 +106,12 @@ class MovieDetailView(
                     coverSlider.addSlider(
                         TextSliderView(this)
                             .image(it.coverFullUrl(getScreenWidth()))
+                            .bundle(
+                                bundleOf(
+                                    "url" to it
+                                )
+                            )
+                            .setOnSliderClickListener(this@MovieDetailView)
                             .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                     )
                     coverSlider.setPresetTransformer(SliderLayout.Transformer.Default)
@@ -109,4 +120,19 @@ class MovieDetailView(
             }
         }
     }
+
+    override fun onSliderClick(slider: BaseSliderView?) {
+        presenter
+            .processIntents(
+                MovieDetailIntent.CoverClicked(
+                    slider?.bundle?.getString("url") ?: ""
+                )
+            )
+    }
+
+    private fun posterClicks() =
+        poster.clicks()
+            .map {
+                MovieDetailIntent.PosterClicked
+            }
 }

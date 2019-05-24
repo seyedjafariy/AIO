@@ -20,6 +20,8 @@ class MovieDetailRepoImpl @Inject constructor(
     private val movieMapper: Mapper<MovieServerModel, MovieRepoModel>
 ) : MovieDetailRepo {
 
+    private var movie : MovieRepoModel? = null
+
     override fun getMovieDetail(param: MovieDetailRepoParamModel): Single<MovieDetailRepoOutPutModel> =
         fetcher
             .fetch(
@@ -45,6 +47,16 @@ class MovieDetailRepoImpl @Inject constructor(
                     movieMapper.map(body)
                 )
             }
+            .doOnSuccess{
+                if (it is MovieDetailRepoOutPutModel.Success) {
+                    movie = it.movie
+                }
+            }
 
-
+    override fun getCached() : Single<MovieDetailRepoOutPutModel> =
+            Single.just(
+                MovieDetailRepoOutPutModel.Cached(
+                    movie
+                )
+            )
 }
