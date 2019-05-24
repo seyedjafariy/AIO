@@ -118,7 +118,8 @@ ext {
                     vectorDrawable = "androidx.vectordrawable:vectordrawable:$supportLibraryVersion",
                     recyclerView = "androidx.recyclerview:recyclerview:$supportLibraryVersion",
                     multiDex = "androidx.multidex:multidex:$multidexVersion",
-                    constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+                    constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+                    viewPager2 = "androidx.viewpager2:viewpager2:1.0.0-alpha04"
             ],
 
             archComponent = [
@@ -199,6 +200,7 @@ ext {
                     timber = "com.jakewharton.timber:timber:$timberVersion",
                     fresco = "com.facebook.fresco:fresco:$frescoVersion",
                     frescoOkHttp = "com.facebook.fresco:imagepipeline-okhttp3:$frescoVersion",
+                    photoDraweeView = "me.relex:photodraweeview:2.0.0",
                     conductor = "com.bluelinelabs:conductor:$conductorVersion",
                     leakCanary = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
                     leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
@@ -232,7 +234,8 @@ ext {
                     navigation = ":navigation",
                     home = ":home",
                     movieDetail = ":moviedetail",
-                    slider = ":slider"
+                    slider = ":slider",
+                    gallery = ":gallery"
             ],
 
             plugins = [

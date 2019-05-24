@@ -36,14 +36,13 @@ dependencies {
     implementation rxJava
     implementation rxAndroid
     implementation rxKotlin
-    implementation rxBindingKotlin
-
     implementation coreKts
     implementation timber
 
     implementation fresco
 
     implementation constraintLayout
+    implementation photoDraweeView
 
     implementation project(slider)
     implementation nineOldAndroidAnim

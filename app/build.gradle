@@ -105,6 +105,7 @@ dependencies {
     implementation(project(home))
     implementation(project(navigation))
     implementation(project(movieDetail))
+    implementation(project(gallery))
 
     implementation dagger
     implementation findBugs

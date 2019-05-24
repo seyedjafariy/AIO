@@ -7,4 +7,6 @@ import io.reactivex.Single
 interface MovieDetailRepo {
 
     fun getMovieDetail(param: MovieDetailRepoParamModel): Single<MovieDetailRepoOutPutModel>
+
+    fun getCached() : Single<MovieDetailRepoOutPutModel>
 }
