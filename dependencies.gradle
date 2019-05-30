@@ -27,7 +27,7 @@ ext {
             firebaseCoreVersion = "16.0.4",
             crashlyticsVersion = "2.9.5",
 
-            daggerVersion = "2.22.1",
+            daggerVersion = "2.23",
             javaxVersion = "1.0",
             jetbrainsAnnotationVersion = "15.0",
             javaxInjectVersion = "1",

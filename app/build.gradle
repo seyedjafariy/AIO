@@ -33,7 +33,6 @@ android {
         release {
             debuggable isReleaseDebuggable
             minifyEnabled isReleaseMinify
-//            shrinkResources true
             multiDexEnabled isReleaseMultiDex
             proguardFiles(getDefaultProguardFile("proguard-android.txt"),
                     "$proguardFileAddress")
@@ -41,7 +40,6 @@ android {
         }
         debug {
             ext.alwaysUpdateBuildId = false
-//            shrinkResources false
             debuggable isDebugDebuggable
             minifyEnabled isDebugMinify
             multiDexEnabled isDebugMultiDex
@@ -54,8 +52,13 @@ android {
         variant.outputs.all { output ->
             def date = new Date()
             def formattedDate = date.format('dd.MM.yy-HH.mm')
-//            outputFileName = output.outputFile.name.replace(".apk", "-v${variant.versionName}-${formattedDate}.apk")
-            outputFileName = variant.getPackageApplicationProvider().get().outputs.files[1].name.replace(".apk", "-v${variant.versionName}-${formattedDate}.apk")
+            outputFileName = output.outputFile.name.replace(".apk", "-v${variant.versionName}-${formattedDate}.apk")
+//            outputFileName = variant.getPackageApplicationProvider()
+//                    .get()
+//                    .outputs
+//                    .files[0]
+//                    .name
+//                    .replace(".apk", "-v${variant.versionName}-${formattedDate}.apk")
         }
     }
     compileOptions {
