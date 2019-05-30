@@ -2,14 +2,17 @@ package com.worldsnas.moviedetail
 
 import com.worldsnas.base.toErrorState
 import com.worldsnas.core.delayEvent
+import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
+import com.worldsnas.moviedetail.model.GenreUIModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
+import com.worldsnas.panther.Mapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +22,8 @@ import javax.inject.Inject
 
 class MovieDetailProcessor @Inject constructor(
     repo: MovieDetailRepo,
-    navigator: Navigator
+    navigator: Navigator,
+    genreMapper: Mapper<GenreRepoModel, GenreUIModel>
 ) : MviProcessor<MovieDetailIntent, MovieDetailResult> {
     override val actionProcessor =
         ObservableTransformer<MovieDetailIntent, MovieDetailResult> { intents ->
@@ -64,7 +68,8 @@ class MovieDetailProcessor @Inject constructor(
                                         getTime(it.movie.runtime),
                                         it.movie.releaseDate,
                                         it.movie.overview,
-                                        it.movie.backdrops.map { back -> back.filePath }
+                                        it.movie.backdrops.map { back -> back.filePath },
+                                        it.movie.genres.map { genre -> genreMapper.map(genre) }
                                     )
                                 }
                         )
@@ -76,6 +81,7 @@ class MovieDetailProcessor @Inject constructor(
                             "",
                             intent.movie.releasedDate,
                             intent.movie.description,
+                            emptyList(),
                             emptyList()
                         )
                     )

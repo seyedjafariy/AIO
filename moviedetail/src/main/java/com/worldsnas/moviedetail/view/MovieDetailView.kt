@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.daimajia.slider.library.SliderLayout
@@ -21,9 +22,11 @@ import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R
 import com.worldsnas.moviedetail.R2
+import com.worldsnas.moviedetail.adapter.GenreAdapter
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import io.reactivex.Observable
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class MovieDetailView(
@@ -45,6 +48,9 @@ class MovieDetailView(
     @BindView(R2.id.txtMovieDescription)
     lateinit var description: TextView
 
+    @Inject
+    lateinit var genreAdapter: GenreAdapter
+
     private val movieLocal: MovieDetailLocalModel = bundle
         .getParcelable(MovieDetailLocalModel.EXTRA_MOVIE)
         ?: throw NullPointerException("${MovieDetailLocalModel.EXTRA_MOVIE} can not be null")
@@ -60,6 +66,9 @@ class MovieDetailView(
             .build()
             .inject(this)
 
+    override fun onViewBound(view: View) {
+        initGenreRV()
+    }
 
     override fun onAttach(view: View) {
         super.onAttach(view)
@@ -68,6 +77,7 @@ class MovieDetailView(
 
     override fun onDetach(view: View) {
         coverSlider.stopAutoCycle()
+        genres.adapter = null
         super.onDetach(view)
     }
 
@@ -97,6 +107,15 @@ class MovieDetailView(
             Observable.just(MovieDetailIntent.Initial(movieLocal)),
             posterClicks()
         )
+
+    private fun initGenreRV() {
+        genres.adapter = genreAdapter
+        genres.layoutManager = LinearLayoutManager(
+            genres.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
 
     private fun submitCovers(covers: List<String>) {
         if (this.covers != covers) {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:background="?android:attr/selectableItemBackground"
+        android:maxLines="1"
+        android:paddingHorizontal="@dimen/min_margin"
+        android:paddingVertical="@dimen/low_margin"
+        android:textColor="@android:color/white"
+        tools:ignore="UnusedAttribute"
+        tools:text="@tools:sample/full_names"
+        tools:textColor="@android:color/black" />
+</LinearLayout>
+
