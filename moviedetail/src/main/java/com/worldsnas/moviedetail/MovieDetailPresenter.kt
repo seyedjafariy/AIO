@@ -3,18 +3,19 @@ package com.worldsnas.moviedetail
 import com.worldsnas.base.BasePresenter
 import com.worldsnas.base.BaseState
 import com.worldsnas.core.notOfType
+import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.mvi.MviProcessor
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.ofType
 import javax.inject.Inject
 
+@FeatureScope
 class MovieDetailPresenter @Inject constructor(
     processor: MviProcessor<MovieDetailIntent, MovieDetailResult>
 ) : BasePresenter<MovieDetailIntent, MovieDetailState, MovieDetailResult>(
     processor,
     MovieDetailState.start()
 ) {
-
 
     override fun filterIntent(intents: Observable<MovieDetailIntent>):
             Observable<MovieDetailIntent> =
@@ -41,7 +42,8 @@ class MovieDetailPresenter @Inject constructor(
                     duration = result.duration,
                     date = result.date,
                     description = result.description,
-                    covers = result.covers
+                    covers = result.covers,
+                    genres = result.genres
                 )
         }
 }

@@ -1,6 +1,7 @@
 package com.worldsnas.moviedetail
 
 import com.worldsnas.base.BaseState
+import com.worldsnas.moviedetail.model.GenreUIModel
 import com.worldsnas.mvi.MviResult
 
 sealed class MovieDetailResult : MviResult {
@@ -12,6 +13,7 @@ sealed class MovieDetailResult : MviResult {
             val duration: String,
             val date: String,
             val description: String,
-            val covers : List<String>
+            val covers : List<String>,
+            val genres : List<GenreUIModel>
     ) : MovieDetailResult()
 }
