@@ -5,11 +5,13 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import com.bluelinelabs.conductor.changehandler.AnimatorChangeHandler;
 
 public class ScaleFadeChangeHandler extends AnimatorChangeHandler {
 
+    @Keep
     public ScaleFadeChangeHandler() {
         super(DEFAULT_ANIMATION_DURATION, true);
     }

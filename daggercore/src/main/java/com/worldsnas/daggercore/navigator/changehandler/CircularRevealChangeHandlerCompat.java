@@ -6,10 +6,12 @@ import android.animation.ObjectAnimator;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 
 public class CircularRevealChangeHandlerCompat extends CircularRevealChangeHandler {
 
+    @Keep
     public CircularRevealChangeHandlerCompat() { }
 
     public CircularRevealChangeHandlerCompat(@NonNull View fromView, @NonNull View containerView) {

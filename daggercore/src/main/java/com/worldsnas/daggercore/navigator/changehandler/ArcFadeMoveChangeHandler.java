@@ -7,6 +7,7 @@ import android.transition.*;
 import android.transition.Transition.TransitionListener;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.bluelinelabs.conductor.changehandler.SharedElementTransitionChangeHandler;
@@ -22,6 +23,7 @@ public class ArcFadeMoveChangeHandler extends SharedElementTransitionChangeHandl
 
     private final ArrayList<String> sharedElementNames = new ArrayList<>();
 
+    @Keep
     public ArcFadeMoveChangeHandler() { }
 
     public ArcFadeMoveChangeHandler(String... sharedElementNames) {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import com.bluelinelabs.conductor.changehandler.AnimatorChangeHandler;
 
@@ -22,6 +23,7 @@ public class CircularRevealChangeHandler extends AnimatorChangeHandler {
     private int cx;
     private int cy;
 
+    @Keep
     public CircularRevealChangeHandler() { }
 
     /**

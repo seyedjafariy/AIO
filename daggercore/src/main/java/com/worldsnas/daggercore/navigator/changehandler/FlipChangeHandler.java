@@ -7,6 +7,7 @@ import android.util.Property;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import com.bluelinelabs.conductor.changehandler.AnimatorChangeHandler;
 
@@ -34,6 +35,7 @@ public class FlipChangeHandler extends AnimatorChangeHandler {
     private final long animationDuration;
     private final FlipDirection flipDirection;
 
+    @Keep
     public FlipChangeHandler() {
         this(FlipDirection.RIGHT);
     }

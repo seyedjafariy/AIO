@@ -321,3 +321,7 @@
 
 #very very important
 -keep class * extends com.worldsnas.base.RefWatchingController
+
+-keep class * extends com.bluelinelabs.conductor.changehandler.ControllerChangeHandler {
+    public <init>(...);
+}
