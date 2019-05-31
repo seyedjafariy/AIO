@@ -8,6 +8,7 @@ import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.moviedetail.model.GenreUIModel
 import com.worldsnas.mvi.MviProcessor
+import com.worldsnas.navigation.NavigationAnimation
 import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.GalleryImageType
@@ -97,17 +98,34 @@ class MovieDetailProcessor @Inject constructor(
                     .ofType<MovieDetailRepoOutPutModel.Cached>()
                     .filter { it.movie != null }
                     .map { cached ->
-                        cached.movie!!
+                        intent to cached.movie!!
                     }
             }.map { movie ->
-                GalleryLocalModel(
-                    movie.posters.map {
+                movie.first to GalleryLocalModel(
+                    movie.second.posters.map {
                         it.filePath
                     },
                     0,
                     GalleryImageType.POSTER
                 )
-            }.compose(galleryProcessor)
+            }.doOnNext {
+                navigator.goTo(
+                    Screens.Gallery(
+                        it.second,
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
+                        ),
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
+                        )
+                    )
+                )
+            }.ignoreElements()
+                .toObservable()
         }
 
     private val coverClickProcessor =
@@ -120,38 +138,55 @@ class MovieDetailProcessor @Inject constructor(
                     .map { cached ->
                         cached.movie!!
                     }
-                    .zipWith(Observable.just(intent.coverUrl))
+                    .zipWith(Observable.just(intent))
             }.map { pair ->
                 var index = pair.first.backdrops.indexOfFirst {
-                    it.filePath == pair.second
+                    it.filePath == pair.second.coverUrl
                 }
                 if (index == -1) {
                     index = 0
                 }
 
-                GalleryLocalModel(
+                pair.second to GalleryLocalModel(
                     pair.first.backdrops.map {
                         it.filePath
                     },
                     index,
                     GalleryImageType.COVER
                 )
-            }.compose(galleryProcessor)
-        }
-
-    private val galleryProcessor =
-        ObservableTransformer<GalleryLocalModel, MovieDetailResult> { localModels ->
-            localModels
-                .doOnNext {
-                    navigator.goTo(
-                        Screens.Gallery(
-                            it
+            }.doOnNext {
+                navigator.goTo(
+                    Screens.Gallery(
+                        it.second,
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
+                        ),
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
                         )
                     )
-                }
-                .ignoreElements()
+                )
+            }.ignoreElements()
                 .toObservable()
         }
+
+//    private val galleryProcessor =
+//        ObservableTransformer<GalleryLocalModel, MovieDetailResult> { localModels ->
+//            localModels
+//                .doOnNext {
+//                    navigator.goTo(
+//                        Screens.Gallery(
+//                            it
+//                        )
+//                    )
+//                }
+//                .ignoreElements()
+//                .toObservable()
+//        }
 
     private fun getTime(runtime: Int): String =
         "${runtime / 60}:${runtime % 60}"

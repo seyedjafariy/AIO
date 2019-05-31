@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import androidx.core.view.ViewCompat;
 import com.daimajia.slider.library.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -221,6 +222,7 @@ public abstract class BaseSliderView {
             mLoadListener.onStart(me);
         }
 
+        ViewCompat.setTransitionName(targetImageView, mUrl);
 
         targetImageView
                 .getViewTreeObserver()

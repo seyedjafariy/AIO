@@ -15,8 +15,8 @@ android {
         applicationId "com.worldsnas.aio"
         minSdkVersion projectMinSdkVersion
         targetSdkVersion projectTargetSdkVersion
-        versionCode 21000102
-        versionName "0.1.2"
+        versionCode 21000203
+        versionName "0.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""

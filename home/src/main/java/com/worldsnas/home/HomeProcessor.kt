@@ -12,6 +12,7 @@ import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
 import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.mvi.MviProcessor
+import com.worldsnas.navigation.NavigationAnimation
 import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.MovieDetailLocalModel
@@ -114,11 +115,26 @@ class HomeProcessor @Inject constructor(
                     it.movie.cover,
                     it.movie.title,
                     "",
-                    it.movie.releaseDate
+                    it.movie.releaseDate,
+                    it.posterTransName,
+                    it.releaseTransName,
+                    it.titleTransName
                 )
             }
             .doOnNext {
-                navigator.goTo(Screens.MovieDetail(it))
+                navigator.goTo(
+                    Screens.MovieDetail(
+                        it,
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
+                        ),
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
+                        )
+                    )
+                )
             }
             .ignoreElements()
             .toObservable()
@@ -140,13 +156,20 @@ class HomeProcessor @Inject constructor(
                         it.backdropPath,
                         it.title,
                         "",
-                        it.releaseDate
+                        it.releaseDate,
+                        coverTransName = click.imgTransName
                     )
                 }
                 .doOnNext {
                     navigator.goTo(
                         Screens.MovieDetail(
-                            it
+                            it,
+                            NavigationAnimation.ArcFadeMove(
+                                click.imgTransName
+                            ),
+                            NavigationAnimation.ArcFadeMove(
+                                click.imgTransName
+                            )
                         )
                     )
                 }

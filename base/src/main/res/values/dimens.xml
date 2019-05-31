@@ -9,4 +9,8 @@
 	<dimen name="medium_text">14dp</dimen>
 	<dimen name="large_text">16dp</dimen>
 	<dimen name="extra_large_text">18dp</dimen>
+
+
+	<dimen name="dialog_elevation">6dp</dimen>
+	<dimen name="dialog_corners">2dp</dimen>
 </resources>

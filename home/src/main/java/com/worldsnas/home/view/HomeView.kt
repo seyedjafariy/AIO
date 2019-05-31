@@ -104,7 +104,8 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
                             .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                             .bundle(
                                 bundleOf(
-                                    "id" to it.id
+                                    "id" to it.id,
+                                    "url" to it.cover.coverFullUrl(getScreenWidth())
                                 )
                             )
                             .setOnSliderClickListener(this@HomeView)
@@ -118,6 +119,10 @@ class HomeView : BaseView<HomeState, HomeIntent>(),
 
     override fun onSliderClick(slider: BaseSliderView?) {
         val id = slider!!.bundle.getLong("id")
-        presenter.processIntents(HomeIntent.SliderClicked(id))
+        presenter.processIntents(
+            HomeIntent.SliderClicked(
+                id
+            )
+        )
     }
 }

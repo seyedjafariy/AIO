@@ -8,7 +8,12 @@ import com.worldsnas.navigation.model.GalleryLocalModel.Companion.EXTRA_IMAGES
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import com.worldsnas.navigation.model.MovieDetailLocalModel.Companion.EXTRA_MOVIE
 
-sealed class Screens(val name: String, val extras: Bundle? = null) {
+sealed class Screens(
+    val name: String,
+    val extras: Bundle? = null,
+    val pushAnimation: NavigationAnimation? = null,
+    val popAnimation: NavigationAnimation? = null
+) {
 
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     internal object Test : Screens("com.worldsnas.navigation.TestController")
@@ -16,20 +21,28 @@ sealed class Screens(val name: String, val extras: Bundle? = null) {
     object Home : Screens("com.worldsnas.home.HomeView")
 
     class MovieDetail(
-        movie: MovieDetailLocalModel
+        movie: MovieDetailLocalModel,
+        pushAnimation: NavigationAnimation? = null,
+        popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.moviedetail.view.MovieDetailView",
         bundleOf(
             EXTRA_MOVIE to movie
-        )
+        ),
+        pushAnimation,
+        popAnimation
     )
 
     class Gallery(
-        model : GalleryLocalModel
+        model: GalleryLocalModel,
+        pushAnimation: NavigationAnimation? = null,
+        popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.gallery.GalleryView",
         bundleOf(
             EXTRA_IMAGES to model
-        )
+        ),
+        pushAnimation,
+        popAnimation
     )
 }

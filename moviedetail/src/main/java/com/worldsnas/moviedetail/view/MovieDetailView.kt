@@ -3,7 +3,9 @@ package com.worldsnas.moviedetail.view
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -13,6 +15,8 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding2.view.clicks
 import com.worldsnas.base.BaseView
+import com.worldsnas.core.getCenterX
+import com.worldsnas.core.getCenterY
 import com.worldsnas.core.getScreenWidth
 import com.worldsnas.core.pixel
 import com.worldsnas.daggercore.CoreComponent
@@ -67,6 +71,10 @@ class MovieDetailView(
             .inject(this)
 
     override fun onViewBound(view: View) {
+        ViewCompat.setTransitionName(poster, movieLocal.posterTransName)
+        ViewCompat.setTransitionName(title, movieLocal.titleTransName)
+        ViewCompat.setTransitionName(date, movieLocal.releaseTransName)
+
         initGenreRV()
     }
 
@@ -144,7 +152,9 @@ class MovieDetailView(
         presenter
             .processIntents(
                 MovieDetailIntent.CoverClicked(
-                    slider?.bundle?.getString("url") ?: ""
+                    slider?.bundle?.getString("url") ?: "",
+                    coverSlider.parent as ConstraintLayout getCenterX coverSlider.parent as ConstraintLayout,
+                    coverSlider.parent as ConstraintLayout getCenterY coverSlider.parent as ConstraintLayout
                 )
             )
     }
@@ -152,6 +162,10 @@ class MovieDetailView(
     private fun posterClicks() =
         poster.clicks()
             .map {
-                MovieDetailIntent.PosterClicked
+                MovieDetailIntent.PosterClicked(
+                    poster getCenterX poster.parent as ConstraintLayout,
+                    poster getCenterY poster.parent as ConstraintLayout
+
+                )
             }
 }

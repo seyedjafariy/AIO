@@ -10,7 +10,11 @@ data class MovieDetailLocalModel(
         val cover: String,
         val title: String,
         val description: String,
-        val releasedDate: String
+        val releasedDate: String,
+        val posterTransName : String = "",
+        val releaseTransName : String = "",
+        val titleTransName : String = "",
+        val coverTransName : String = ""
 ) : Parcelable {
     companion object {
         const val EXTRA_MOVIE = "extra_movie"

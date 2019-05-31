@@ -1,7 +1,7 @@
 ext{
     isReleaseDebuggable = false
     isDebugDebuggable = true
-    isDebugMinify = false
+    isDebugMinify = true
     isReleaseMinify = true
     isReleaseMultiDex = false
     isDebugMultiDex = false
