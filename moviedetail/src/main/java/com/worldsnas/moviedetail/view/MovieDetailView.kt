@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
@@ -67,6 +68,10 @@ class MovieDetailView(
             .inject(this)
 
     override fun onViewBound(view: View) {
+        ViewCompat.setTransitionName(poster, movieLocal.posterTransName)
+        ViewCompat.setTransitionName(title, movieLocal.titleTransName)
+        ViewCompat.setTransitionName(date, movieLocal.releaseTransName)
+
         initGenreRV()
     }
 

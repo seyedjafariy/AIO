@@ -3,6 +3,7 @@ package com.worldsnas.home.view
 import android.net.Uri
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.ViewCompat
 import butterknife.BindView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -13,6 +14,7 @@ import com.worldsnas.base.BaseViewHolder
 import com.worldsnas.core.getDisplaySize
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.home.HomeIntent
+import com.worldsnas.home.R
 import com.worldsnas.home.R2
 import com.worldsnas.home.model.MovieUIModel
 import io.reactivex.Observable
@@ -37,19 +39,53 @@ class HomeMovieViewHolder(
         val url = obj.poster posterFullUrl width
 
         val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(url))
-                .setResizeOptions(ResizeOptions.forDimensions(width, height))
-                .build()
+            .setResizeOptions(ResizeOptions.forDimensions(width, height))
+            .build()
         poster.controller = Fresco.newDraweeControllerBuilder()
-                .setOldController(poster.controller)
-                .setImageRequest(request)
-                .build()
+            .setOldController(poster.controller)
+            .setImageRequest(request)
+            .build()
         title.text = obj.title
         releaseDate.text = obj.releaseDate
     }
 
-    override fun intents(obj : MovieUIModel): Observable<HomeIntent> =
-            itemView.clicks()
-                    .map{
-                        HomeIntent.LatestMovieClicked(obj)
-                    }
+    override fun intents(obj: MovieUIModel): Observable<HomeIntent> =
+        itemView.clicks()
+            .doOnNext {
+                ViewCompat.setTransitionName(
+                    poster,
+                    itemView
+                        .context
+                        .getString(
+                            R.string.transition_img_1_id,
+                            adapterPosition
+                        )
+                )
+                ViewCompat.setTransitionName(
+                    title,
+                    itemView
+                        .context
+                        .getString(
+                            R.string.transition_txt_1_id,
+                            adapterPosition
+                        )
+                )
+                ViewCompat.setTransitionName(
+                    releaseDate,
+                    itemView
+                        .context
+                        .getString(
+                            R.string.transition_txt_2_id,
+                            adapterPosition
+                        )
+                )
+            }
+            .map {
+                HomeIntent.LatestMovieClicked(
+                    obj,
+                    ViewCompat.getTransitionName(poster) ?: "",
+                    ViewCompat.getTransitionName(title) ?: "",
+                    ViewCompat.getTransitionName(releaseDate) ?: ""
+                )
+            }
 }
