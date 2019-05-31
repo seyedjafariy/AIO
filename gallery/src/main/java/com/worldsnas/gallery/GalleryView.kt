@@ -12,7 +12,9 @@ import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
 
-class GalleryView(bundle: Bundle) : ButterKnifeController(bundle), OnDismissListener {
+class GalleryView(
+    bundle: Bundle
+) : ButterKnifeController(bundle), OnDismissListener {
 
     private val localModel = bundle.getParcelable<GalleryLocalModel>(GalleryLocalModel.EXTRA_IMAGES)
         ?: throw NullPointerException("gallery local model can not be null")

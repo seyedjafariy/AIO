@@ -318,3 +318,6 @@
     <init>(...);
     <fields>;
 }
+
+#very very important
+-keep class * extends com.worldsnas.base.RefWatchingController
