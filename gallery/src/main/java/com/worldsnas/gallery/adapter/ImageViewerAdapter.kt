@@ -24,11 +24,7 @@ class ImageViewerAdapter(
     private val hierarchyBuilder: GenericDraweeHierarchyBuilder?,
     private val isZoomingAllowed: Boolean
 ) : RecyclingPagerAdapter<ImageViewerAdapter.ImageViewHolder>() {
-    private val holders: HashSet<ImageViewHolder>
-
-    init {
-        this.holders = HashSet()
-    }
+    private val holders: HashSet<ImageViewHolder> = HashSet()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val drawee = ZoomableDraweeView(context)
@@ -84,12 +80,8 @@ class ImageViewerAdapter(
     inner class ImageViewHolder(itemView: View) : ViewHolder(itemView), OnScaleChangeListener {
 
         var position = -1
-        val drawee: ZoomableDraweeView
+        private val drawee: ZoomableDraweeView = itemView as ZoomableDraweeView
         var isScaled: Boolean = false
-
-        init {
-            drawee = itemView as ZoomableDraweeView
-        }
 
         fun bind(position: Int) {
             this.position = position

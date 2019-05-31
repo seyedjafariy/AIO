@@ -4,6 +4,7 @@ import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.worldsnas.daggercore.navigator.changehandler.ArcFadeMoveChangeHandlerCompat
+import com.worldsnas.daggercore.navigator.changehandler.CircularRevealChangeHandlerCompat
 import com.worldsnas.daggercore.navigator.changehandler.FlipChangeHandler
 import com.worldsnas.daggercore.navigator.changehandler.ScaleFadeChangeHandler
 import com.worldsnas.navigation.Navigation
@@ -34,7 +35,18 @@ class ControllerNavigator(
                     *anim.transitionNames
                 )
             is NavigationAnimation.CircularReveal ->
-                TODO()
+                if (anim.duration == -1L){
+                    CircularRevealChangeHandlerCompat(
+                        anim.fromCX,
+                        anim.fromCY
+                    )
+                }else{
+                    CircularRevealChangeHandlerCompat(
+                        anim.fromCX,
+                        anim.fromCY,
+                        anim.duration
+                    )
+                }
             NavigationAnimation.Flip ->
                 FlipChangeHandler()
             NavigationAnimation.ScaleFade ->

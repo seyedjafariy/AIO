@@ -156,13 +156,20 @@ class HomeProcessor @Inject constructor(
                         it.backdropPath,
                         it.title,
                         "",
-                        it.releaseDate
+                        it.releaseDate,
+                        coverTransName = click.imgTransName
                     )
                 }
                 .doOnNext {
                     navigator.goTo(
                         Screens.MovieDetail(
-                            it
+                            it,
+                            NavigationAnimation.ArcFadeMove(
+                                click.imgTransName
+                            ),
+                            NavigationAnimation.ArcFadeMove(
+                                click.imgTransName
+                            )
                         )
                     )
                 }

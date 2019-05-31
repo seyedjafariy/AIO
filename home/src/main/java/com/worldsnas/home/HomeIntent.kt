@@ -11,5 +11,8 @@ sealed class HomeIntent : MviIntent {
         val posterTransName : String = "",
         val titleTransName : String = "",
         val releaseTransName : String = "") : HomeIntent()
-    class SliderClicked(val movieId : Long) : HomeIntent()
+    class SliderClicked(
+        val movieId : Long,
+        val imgTransName : String = ""
+    ) : HomeIntent()
 }

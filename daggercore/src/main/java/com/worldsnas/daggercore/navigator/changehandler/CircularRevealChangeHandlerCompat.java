@@ -16,6 +16,14 @@ public class CircularRevealChangeHandlerCompat extends CircularRevealChangeHandl
         super(fromView, containerView);
     }
 
+    public CircularRevealChangeHandlerCompat(int cx, int cy){
+        super(cx, cy);
+    }
+
+    public CircularRevealChangeHandlerCompat(int cx, int cy, long duration){
+        super(cx, cy, duration);
+    }
+
     @Override @NonNull
     protected Animator getAnimator(@NonNull ViewGroup container, View from, View to, boolean isPush, boolean toAddedToContainer) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

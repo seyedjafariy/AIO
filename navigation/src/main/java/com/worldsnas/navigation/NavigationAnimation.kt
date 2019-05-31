@@ -7,8 +7,9 @@ sealed class NavigationAnimation {
     ) : NavigationAnimation()
 
     class CircularReveal(
-        val fromId: Int,
-        val toId: Int
+        val fromCX: Int,
+        val fromCY: Int,
+        val duration : Long = -1
     ) : NavigationAnimation()
 
     object Flip : NavigationAnimation()

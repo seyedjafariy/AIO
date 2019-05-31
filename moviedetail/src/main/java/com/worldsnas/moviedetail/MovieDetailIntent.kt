@@ -5,6 +5,13 @@ import com.worldsnas.navigation.model.MovieDetailLocalModel
 
 sealed class MovieDetailIntent : MviIntent {
     class Initial(val movie: MovieDetailLocalModel) : MovieDetailIntent()
-    class CoverClicked(val coverUrl : String) : MovieDetailIntent()
-    object PosterClicked : MovieDetailIntent()
+    class CoverClicked(
+        val coverUrl : String,
+        val cx : Int,
+        val cy : Int
+    ) : MovieDetailIntent()
+    class PosterClicked(
+        val cx : Int,
+        val cy : Int
+    ) : MovieDetailIntent()
 }

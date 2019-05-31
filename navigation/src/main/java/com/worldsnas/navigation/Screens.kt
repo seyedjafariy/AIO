@@ -34,11 +34,15 @@ sealed class Screens(
     )
 
     class Gallery(
-        model: GalleryLocalModel
+        model: GalleryLocalModel,
+        pushAnimation: NavigationAnimation? = null,
+        popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.gallery.GalleryView",
         bundleOf(
             EXTRA_IMAGES to model
-        )
+        ),
+        pushAnimation,
+        popAnimation
     )
 }
