@@ -78,7 +78,8 @@ class MovieDetailProcessor @Inject constructor(
                                         it.movie.overview,
                                         it.movie.backdrops.map { back -> back.filePath },
                                         it.movie.genres.map { genre -> genreMapper.map(genre) },
-                                        it.movie.recommendations.map { movie -> movieMapper.map(movie) })
+                                        it.movie.recommendations.map { movie -> movieMapper.map(movie) },
+                                        it.movie.similar.map { movie -> movieMapper.map(movie) })
                                 }
                         )
                     }
@@ -91,8 +92,8 @@ class MovieDetailProcessor @Inject constructor(
                             intent.movie.description,
                             emptyList(),
                             emptyList(),
-                            emptyList()
-                        )
+                            emptyList(),
+                            emptyList())
                     )
             }
         }

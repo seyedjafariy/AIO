@@ -21,7 +21,7 @@ import io.reactivex.Observable
 import kotlin.math.roundToInt
 
 
-class RecommendationMovieViewHolder(
+class MovieCoverViewHolder(
     view: View
 ) : BaseViewHolder<MovieUIModel, MovieDetailIntent>(view) {
 

@@ -44,7 +44,10 @@ class MovieDetailPresenter @Inject constructor(
                     description = result.description,
                     covers = result.covers,
                     genres = result.genres,
-                    recommendations = result.recommendations
+                    recommendations = result.recommendations,
+                    showRecommendation = result.recommendations.isNotEmpty(),
+                    similars = result.similars,
+                    showSimilar = result.similars.isNotEmpty()
                 )
         }
 }

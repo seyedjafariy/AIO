@@ -15,10 +15,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding2.view.clicks
 import com.worldsnas.base.BaseView
-import com.worldsnas.core.getCenterX
-import com.worldsnas.core.getCenterY
-import com.worldsnas.core.getScreenWidth
-import com.worldsnas.core.pixel
+import com.worldsnas.core.*
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.domain.helpers.posterFullUrl
@@ -27,7 +24,7 @@ import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R
 import com.worldsnas.moviedetail.R2
 import com.worldsnas.moviedetail.adapter.GenreAdapter
-import com.worldsnas.moviedetail.adapter.recommendation.RecommendationMoviesAdapter
+import com.worldsnas.moviedetail.adapter.covermovie.MovieCoverAdapter
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import io.reactivex.Observable
@@ -54,12 +51,21 @@ class MovieDetailView(
     lateinit var description: TextView
     @BindView(R2.id.rvRecommendations)
     lateinit var recommendations : RecyclerView
+    @BindView(R2.id.txtMovieRecommendationTitle)
+    lateinit var recommendationTitle : TextView
+    @BindView(R2.id.rvSimilars)
+    lateinit var similars : RecyclerView
+    @BindView(R2.id.txtMovieSimilarTitle)
+    lateinit var similarTitle : TextView
 
     @Inject
     lateinit var genreAdapter: GenreAdapter
 
     @Inject
-    lateinit var recommendationAdapter: RecommendationMoviesAdapter
+    lateinit var recommendationAdapter: MovieCoverAdapter
+
+    @Inject
+    lateinit var similarAdapter: MovieCoverAdapter
 
     private val movieLocal: MovieDetailLocalModel = bundle
         .getParcelable(MovieDetailLocalModel.EXTRA_MOVIE)
@@ -83,6 +89,7 @@ class MovieDetailView(
 
         initGenreRV()
         initRecommendationRV()
+        initSimilarRV()
     }
 
     override fun onAttach(view: View) {
@@ -104,6 +111,15 @@ class MovieDetailView(
     override fun render(state: MovieDetailState) {
         renderLoading(state.base)
         renderError(state.base)
+
+        recommendationTitle visible state.showRecommendation
+        recommendations visible state.showRecommendation
+
+        similarTitle visible state.showSimilar
+        similars visible state.showSimilar
+
+        similarAdapter.submitList(state.similars)
+        recommendationAdapter.submitList(state.recommendations)
 
         title.text = state.title
         description.text = state.description
@@ -135,7 +151,16 @@ class MovieDetailView(
     private fun initRecommendationRV() {
         recommendations.adapter = recommendationAdapter
         recommendations.layoutManager = LinearLayoutManager(
-            genres.context,
+            recommendations.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
+
+    private fun initSimilarRV() {
+        similars.adapter = similarAdapter
+        similars.layoutManager = LinearLayoutManager(
+            similars.context,
             LinearLayoutManager.HORIZONTAL,
             false
         )

@@ -155,6 +155,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtMovieRecommendationTitle"
                 tools:ignore="RtlSymmetry" />
 
+            <TextView
+                android:id="@+id/txtMovieSimilarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/similars"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvRecommendations"
+                tools:ignore="SpUsage" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSimilars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/min_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieSimilarTitle"
+                tools:ignore="RtlSymmetry" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>
