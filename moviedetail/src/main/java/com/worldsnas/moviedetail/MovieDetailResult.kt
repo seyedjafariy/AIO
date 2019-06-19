@@ -16,6 +16,7 @@ sealed class MovieDetailResult : MviResult {
         val description: String,
         val covers: List<String>,
         val genres: List<GenreUIModel>,
-        val recommendations: List<MovieUIModel>
+        val recommendations: List<MovieUIModel>,
+        val similars: List<MovieUIModel>
     ) : MovieDetailResult()
 }

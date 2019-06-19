@@ -15,7 +15,9 @@ data class MovieDetailState(
         val covers : List<String>,
         val genres : List<GenreUIModel>,
         val recommendations : List<MovieUIModel>,
-        val showRecommendation : Boolean
+        val showRecommendation : Boolean,
+        val similars : List<MovieUIModel>,
+        val showSimilar : Boolean
 ) : BaseViewState {
     companion object {
         fun start() =
@@ -29,6 +31,8 @@ data class MovieDetailState(
                         covers = emptyList(),
                         genres = emptyList(),
                         recommendations = emptyList(),
-                        showRecommendation = false)
+                        showRecommendation = false,
+                        similars = emptyList(),
+                        showSimilar = false)
     }
 }
