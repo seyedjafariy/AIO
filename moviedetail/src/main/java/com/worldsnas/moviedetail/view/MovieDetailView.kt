@@ -15,10 +15,7 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding2.view.clicks
 import com.worldsnas.base.BaseView
-import com.worldsnas.core.getCenterX
-import com.worldsnas.core.getCenterY
-import com.worldsnas.core.getScreenWidth
-import com.worldsnas.core.pixel
+import com.worldsnas.core.*
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.domain.helpers.posterFullUrl
@@ -54,6 +51,8 @@ class MovieDetailView(
     lateinit var description: TextView
     @BindView(R2.id.rvRecommendations)
     lateinit var recommendations : RecyclerView
+    @BindView(R2.id.txtMovieRecommendationTitle)
+    lateinit var recommendationTitle : TextView
 
     @Inject
     lateinit var genreAdapter: GenreAdapter
@@ -104,6 +103,9 @@ class MovieDetailView(
     override fun render(state: MovieDetailState) {
         renderLoading(state.base)
         renderError(state.base)
+
+        recommendationTitle visible state.showRecommendation
+        recommendations visible state.showRecommendation
 
         title.text = state.title
         description.text = state.description
