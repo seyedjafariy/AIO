@@ -1,5 +1,6 @@
 package com.worldsnas.moviedetail
 
+import com.worldsnas.moviedetail.model.MovieUIModel
 import com.worldsnas.mvi.MviIntent
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 
@@ -13,5 +14,12 @@ sealed class MovieDetailIntent : MviIntent {
     class PosterClicked(
         val cx : Int,
         val cy : Int
+    ) : MovieDetailIntent()
+
+    class RecommendationClicked(
+        val movie : MovieUIModel,
+        val posterTransName : String = "",
+        val titleTransName : String = "",
+        val releaseTransName : String = ""
     ) : MovieDetailIntent()
 }
