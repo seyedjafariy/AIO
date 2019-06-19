@@ -3,6 +3,7 @@ package com.worldsnas.moviedetail
 import com.worldsnas.base.BaseState
 import com.worldsnas.base.BaseViewState
 import com.worldsnas.moviedetail.model.GenreUIModel
+import com.worldsnas.moviedetail.model.MovieUIModel
 
 data class MovieDetailState(
         override val base: BaseState,
@@ -12,7 +13,8 @@ data class MovieDetailState(
         val date: String,
         val description: String,
         val covers : List<String>,
-        val genres : List<GenreUIModel>
+        val genres : List<GenreUIModel>,
+        val recommendations : List<MovieUIModel>
 ) : BaseViewState {
     companion object {
         fun start() =
@@ -24,6 +26,8 @@ data class MovieDetailState(
                         date = "",
                         description = "",
                         covers = emptyList(),
-                        genres = emptyList())
+                        genres = emptyList(),
+                        recommendations = emptyList()
+                        )
     }
 }

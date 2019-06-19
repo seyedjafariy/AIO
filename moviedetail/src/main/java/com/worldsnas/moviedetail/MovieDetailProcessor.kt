@@ -3,16 +3,19 @@ package com.worldsnas.moviedetail
 import com.worldsnas.base.toErrorState
 import com.worldsnas.core.delayEvent
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.moviedetail.model.GenreUIModel
+import com.worldsnas.moviedetail.model.MovieUIModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.navigation.NavigationAnimation
 import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
+import com.worldsnas.navigation.model.MovieDetailLocalModel
 import com.worldsnas.panther.Mapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -24,7 +27,8 @@ import javax.inject.Inject
 class MovieDetailProcessor @Inject constructor(
     repo: MovieDetailRepo,
     navigator: Navigator,
-    genreMapper: Mapper<GenreRepoModel, GenreUIModel>
+    genreMapper: Mapper<GenreRepoModel, GenreUIModel>,
+    movieMapper: Mapper<MovieRepoModel, MovieUIModel>
 ) : MviProcessor<MovieDetailIntent, MovieDetailResult> {
     override val actionProcessor =
         ObservableTransformer<MovieDetailIntent, MovieDetailResult> { intents ->
@@ -38,7 +42,10 @@ class MovieDetailProcessor @Inject constructor(
                         .compose(coverClickProcessor),
                     intents
                         .ofType<MovieDetailIntent.PosterClicked>()
-                        .compose(posterClickProcessor)
+                        .compose(posterClickProcessor),
+                    intents
+                        .ofType<MovieDetailIntent.RecommendationClicked>()
+                        .compose(recommendationClickProcessor)
                 ).observeOn(AndroidSchedulers.mainThread())
             }
         }
@@ -70,8 +77,8 @@ class MovieDetailProcessor @Inject constructor(
                                         it.movie.releaseDate,
                                         it.movie.overview,
                                         it.movie.backdrops.map { back -> back.filePath },
-                                        it.movie.genres.map { genre -> genreMapper.map(genre) }
-                                    )
+                                        it.movie.genres.map { genre -> genreMapper.map(genre) },
+                                        it.movie.recommendations.map { movie -> movieMapper.map(movie) })
                                 }
                         )
                     }
@@ -82,6 +89,7 @@ class MovieDetailProcessor @Inject constructor(
                             "",
                             intent.movie.releasedDate,
                             intent.movie.description,
+                            emptyList(),
                             emptyList(),
                             emptyList()
                         )
@@ -121,6 +129,38 @@ class MovieDetailProcessor @Inject constructor(
                             it.first.cx,
                             it.first.cy,
                             200
+                        )
+                    )
+                )
+            }.ignoreElements()
+                .toObservable()
+        }
+
+    private val recommendationClickProcessor =
+        ObservableTransformer<MovieDetailIntent.RecommendationClicked, MovieDetailResult> { intents ->
+            intents.map {
+                MovieDetailLocalModel(
+                    it.movie.id,
+                    it.movie.poster,
+                    it.movie.cover,
+                    it.movie.title,
+                    "",
+                    it.movie.releaseDate,
+                    it.posterTransName,
+                    it.releaseTransName,
+                    it.titleTransName
+                )
+            }.doOnNext {
+                navigator.goTo(
+                    Screens.MovieDetail(
+                        it,
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
+                        ),
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
                         )
                     )
                 )

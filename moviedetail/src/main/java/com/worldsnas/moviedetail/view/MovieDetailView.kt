@@ -27,6 +27,7 @@ import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R
 import com.worldsnas.moviedetail.R2
 import com.worldsnas.moviedetail.adapter.GenreAdapter
+import com.worldsnas.moviedetail.adapter.recommendation.RecommendationMoviesAdapter
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import io.reactivex.Observable
@@ -51,9 +52,14 @@ class MovieDetailView(
     lateinit var genres: RecyclerView
     @BindView(R2.id.txtMovieDescription)
     lateinit var description: TextView
+    @BindView(R2.id.rvRecommendations)
+    lateinit var recommendations : RecyclerView
 
     @Inject
     lateinit var genreAdapter: GenreAdapter
+
+    @Inject
+    lateinit var recommendationAdapter: RecommendationMoviesAdapter
 
     private val movieLocal: MovieDetailLocalModel = bundle
         .getParcelable(MovieDetailLocalModel.EXTRA_MOVIE)
@@ -76,6 +82,7 @@ class MovieDetailView(
         ViewCompat.setTransitionName(date, movieLocal.releaseTransName)
 
         initGenreRV()
+        initRecommendationRV()
     }
 
     override fun onAttach(view: View) {
@@ -125,6 +132,15 @@ class MovieDetailView(
         )
     }
 
+    private fun initRecommendationRV() {
+        recommendations.adapter = recommendationAdapter
+        recommendations.layoutManager = LinearLayoutManager(
+            genres.context,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+    }
+
     private fun submitCovers(covers: List<String>) {
         if (this.covers != covers) {
             view?.context?.run {
@@ -165,7 +181,6 @@ class MovieDetailView(
                 MovieDetailIntent.PosterClicked(
                     poster getCenterX poster.parent as ConstraintLayout,
                     poster getCenterY poster.parent as ConstraintLayout
-
                 )
             }
 }

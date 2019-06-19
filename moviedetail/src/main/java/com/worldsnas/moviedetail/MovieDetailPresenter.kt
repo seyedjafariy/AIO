@@ -43,7 +43,8 @@ class MovieDetailPresenter @Inject constructor(
                     date = result.date,
                     description = result.description,
                     covers = result.covers,
-                    genres = result.genres
+                    genres = result.genres,
+                    recommendations = result.recommendations
                 )
         }
 }
