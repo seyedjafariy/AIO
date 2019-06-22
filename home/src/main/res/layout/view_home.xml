@@ -9,21 +9,61 @@
         android:id="@+id/ablHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/min_margin"
+        android:layout_marginHorizontal="@dimen/low_margin"
         android:background="@android:color/transparent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
         tools:ignore="UnusedAttribute">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarHome"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@android:color/darker_gray"
-            app:layout_scrollFlags="scroll|snap|enterAlways"
-            app:subtitle="This is a subtitle"
-            app:subtitleTextColor="@android:color/white"
-            app:title="AIO"
-            app:titleTextColor="@android:color/white" />
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/low_margin"
+            android:layout_marginVertical="@dimen/low_margin"
+            app:cardCornerRadius="14dp"
+            app:layout_scrollFlags="scroll|snap|enterAlways">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbarHome"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@color/blue_l1"
+
+                app:titleTextColor="@color/yellow">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="AIO"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/extra_large_text"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText,SpUsage" />
+
+                    <ImageView
+                        android:id="@+id/imgSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/min_margin"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:contentDescription="@string/search"
+                        android:padding="@dimen/low_margin"
+                        app:srcCompat="@drawable/ic_search_black_24dp"
+                        app:tint="@color/yellow" />
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </androidx.cardview.widget.CardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
