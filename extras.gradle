@@ -17,4 +17,5 @@ ext{
 
     kotlinLib = "$rootDir/kotlinLib.gradle"
     androidLib = "$rootDir/androidLib.gradle"
+    dynamicFeature = "$rootDir/dynamicFeature.gradle"
 }

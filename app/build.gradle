@@ -80,7 +80,7 @@ android {
     }
 
 
-    dynamicFeatures = [":domy"]
+    dynamicFeatures = [":search"]
 
 
 }

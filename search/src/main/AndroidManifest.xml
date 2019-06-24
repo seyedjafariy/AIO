@@ -1,10 +1,10 @@
 <manifest
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.worldsnas.domy">
+    package="com.worldsnas.search">
     <dist:module
         dist:onDemand="true"
         dist:instant="false"
-        dist:title="@string/title_domy">
+        dist:title="search">
         <dist:fusing dist:include="true"/>
     </dist:module>
 </manifest>

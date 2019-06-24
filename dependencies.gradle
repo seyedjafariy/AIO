@@ -224,6 +224,7 @@ ext {
             ],
 
             modules = [
+                    appModule = ":app",
                     kotlinTestHelper = ":kotlintesthelpers",
                     domain = ":domain",
                     panther = ":panther",
