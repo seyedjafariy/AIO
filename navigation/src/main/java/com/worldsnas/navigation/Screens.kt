@@ -45,4 +45,14 @@ sealed class Screens(
         pushAnimation,
         popAnimation
     )
+
+    class Search(
+        pushAnimation: NavigationAnimation? = null,
+        popAnimation: NavigationAnimation? = null
+    ) : Screens(
+        "com.worldsnas.search.view.SearchView",
+        Bundle.EMPTY,
+        pushAnimation,
+        popAnimation
+    )
 }
