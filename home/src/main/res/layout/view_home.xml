@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/low_margin"
             android:layout_marginVertical="@dimen/low_margin"
-            app:cardCornerRadius="14dp"
+            app:cardCornerRadius="12dp"
             app:layout_scrollFlags="scroll|snap|enterAlways">
 
             <androidx.appcompat.widget.Toolbar
@@ -27,7 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:background="@color/blue_l1"
-
                 app:titleTextColor="@color/yellow">
 
                 <RelativeLayout

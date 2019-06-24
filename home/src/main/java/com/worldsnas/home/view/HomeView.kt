@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
+import com.google.android.material.appbar.AppBarLayout
 import com.worldsnas.base.BaseView
 import com.worldsnas.core.helpers.pages
 import com.worldsnas.daggercore.CoreComponent
@@ -23,6 +24,8 @@ class HomeView : BaseView<HomeState, HomeIntent>(){
     lateinit var homeList: RecyclerView
     @Inject
     lateinit var homeAdapter: HomeAdapter
+    @BindView(R2.id.ablHome)
+    lateinit var appBar : AppBarLayout
 
     override fun getLayoutId(): Int = R.layout.view_home
 
@@ -37,6 +40,7 @@ class HomeView : BaseView<HomeState, HomeIntent>(){
 
     override fun onViewBound(view: View) {
         initRv(view)
+        appBar.outlineProvider = null
     }
 
     override fun onDestroyView(view: View) {
