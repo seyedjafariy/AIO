@@ -25,20 +25,20 @@ import javax.inject.Inject
 
 @FeatureScope
 class HomeProcessor @Inject constructor(
-    private val navigator: Navigator,
-    latestRepo: LatestMovieRepo,
-    trendingRepo: TrendingRepo,
-    movieMapper: Mapper<MovieRepoModel, MovieUIModel>
+        private val navigator: Navigator,
+        latestRepo: LatestMovieRepo,
+        trendingRepo: TrendingRepo,
+        movieMapper: Mapper<MovieRepoModel, MovieUIModel>
 ) : MviProcessor<HomeIntent, HomeResult> {
 
     override val actionProcessor = ObservableTransformer<HomeIntent, HomeResult> {
         it.publish { publish ->
             Observable.mergeArray(
-                publish.ofType<HomeIntent.Initial>().compose(latestProcessor),
-                publish.ofType<HomeIntent.Initial>().compose(trendingProcessor),
-                publish.ofType<HomeIntent.NextPage>().compose(nextPageProcessor),
-                publish.ofType<HomeIntent.LatestMovieClicked>().compose(latestClickProcessor),
-                publish.ofType<HomeIntent.SliderClicked>().compose(sliderClicked)
+                    publish.ofType<HomeIntent.Initial>().compose(latestProcessor),
+                    publish.ofType<HomeIntent.Initial>().compose(trendingProcessor),
+                    publish.ofType<HomeIntent.NextPage>().compose(nextPageProcessor),
+                    publish.ofType<HomeIntent.LatestMovieClicked>().compose(latestClickProcessor),
+                    publish.ofType<HomeIntent.SliderClicked>().compose(sliderClicked)
             )
         }.observeOn(AndroidSchedulers.mainThread())
     }
@@ -46,136 +46,142 @@ class HomeProcessor @Inject constructor(
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     private val latestProcessor = ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
         actions
-            .map { LatestMovieRepoParamModel(1) }
-            .compose(latestMovieProcessor)
+                .map { LatestMovieRepoParamModel(1) }
+                .compose(latestMovieProcessor)
     }
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     private val trendingProcessor = ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
         actions.switchMap { intent ->
             trendingRepo.fetch(TrendingRepoParamModel(1))
-                .toObservable()
-                .switchMap { repoModel ->
-                    when (repoModel) {
-                        is TrendingRepoOutputModel.Success ->
-                            Observable.just(HomeResult.TrendingMovies(
-                                repoModel.allPages.map { movie ->
-                                    movieMapper.map(movie)
-                                }
-                            ))
-                        is TrendingRepoOutputModel.Error ->
-                            delayEvent(
-                                HomeResult.Error(repoModel.err.toErrorState()),
-                                HomeResult.LastStable
-                            )
+                    .toObservable()
+                    .publish { publish ->
+                        Observable.merge(
+                                publish.ofType<TrendingRepoOutputModel.Success>()
+                                        .map {
+                                            HomeResult.TrendingMovies(it.allPages.map { movie ->
+                                                movieMapper.map(movie)
+                                            })
+                                        },
+                                publish.ofType<TrendingRepoOutputModel.Error>()
+                                        .switchMap {
+                                            delayEvent(
+                                                    HomeResult.Error(it.err.toErrorState()),
+                                                    HomeResult.LastStable
+                                            )
+                                        }
+                        )
                     }
-                }
-                .startWith(HomeResult.Loading)
+                    .startWith(HomeResult.Loading)
         }
     }
 
     private val nextPageProcessor = ObservableTransformer<HomeIntent.NextPage, HomeResult> { actions ->
         actions
-            .map { intent ->
-                LatestMovieRepoParamModel((intent.totalCount / 20) + 1)
-            }
-            .filter { it.page > 1 }
-            .compose(latestMovieProcessor)
+                .map { intent ->
+                    LatestMovieRepoParamModel((intent.totalCount / 20) + 1)
+                }
+                .filter { it.page > 1 }
+                .compose(latestMovieProcessor)
     }
 
     private val latestMovieProcessor = ObservableTransformer<LatestMovieRepoParamModel, HomeResult> { actions ->
         actions.switchMap { param ->
             latestRepo.fetch(param)
-                .toObservable()
-                .switchMap { repoModel ->
-                    when (repoModel) {
-                        is LatestMovieRepoOutputModel.Success ->
-                            Observable.just(HomeResult.LatestMovies(
-                                repoModel.all.map { movie ->
-                                    movieMapper.map(movie)
-                                }
-                            ))
-                        is LatestMovieRepoOutputModel.Error ->
-                            delayEvent(
-                                HomeResult.Error(repoModel.err.toErrorState()),
-                                HomeResult.LastStable
-                            )
+                    .toObservable()
+                    .publish { publish ->
+                        Observable.merge(
+                                publish.ofType<LatestMovieRepoOutputModel.Success>()
+                                        .map {
+                                            HomeResult.LatestMovies(
+                                                    it.all.map { movie ->
+                                                        movieMapper.map(movie)
+
+                                                    }
+                                            )
+                                        },
+                                publish.ofType<LatestMovieRepoOutputModel.Error>()
+                                        .switchMap {
+                                            delayEvent(
+                                                    HomeResult.Error(it.err.toErrorState()),
+                                                    HomeResult.LastStable
+                                            )
+                                        }
+                        )
                     }
-                }
                 .startWith(HomeResult.Loading)
         }
     }
 
     private val latestClickProcessor = ObservableTransformer<HomeIntent.LatestMovieClicked, HomeResult> { actions ->
         actions
-            .map {
-                MovieDetailLocalModel(
-                    it.movie.id,
-                    it.movie.poster,
-                    it.movie.cover,
-                    it.movie.title,
-                    "",
-                    it.movie.releaseDate,
-                    it.posterTransName,
-                    it.releaseTransName,
-                    it.titleTransName
-                )
-            }
-            .doOnNext {
-                navigator.goTo(
-                    Screens.MovieDetail(
-                        it,
-                        NavigationAnimation.ArcFadeMove(
+                .map {
+                    MovieDetailLocalModel(
+                            it.movie.id,
+                            it.movie.poster,
+                            it.movie.cover,
+                            it.movie.title,
+                            "",
+                            it.movie.releaseDate,
                             it.posterTransName,
+                            it.releaseTransName,
                             it.titleTransName
-                        ),
-                        NavigationAnimation.ArcFadeMove(
-                            it.posterTransName,
-                            it.titleTransName
-                        )
                     )
-                )
-            }
-            .ignoreElements()
-            .toObservable()
+                }
+                .doOnNext {
+                    navigator.goTo(
+                            Screens.MovieDetail(
+                                    it,
+                                    NavigationAnimation.ArcFadeMove(
+                                            it.posterTransName,
+                                            it.titleTransName
+                                    ),
+                                    NavigationAnimation.ArcFadeMove(
+                                            it.posterTransName,
+                                            it.titleTransName
+                                    )
+                            )
+                    )
+                }
+                .ignoreElements()
+                .toObservable()
     }
 
     private val sliderClicked = ObservableTransformer<HomeIntent.SliderClicked, HomeResult> { actions ->
         actions.switchMap { click ->
             trendingRepo.getCache()
-                .toObservable()
-                .map {
-                    it.allPages.first { movie ->
-                        movie.id == click.movieId
+                    .toObservable()
+                    .map {
+                        it.allPages.first { movie ->
+                            movie.id == click.movieId
+                        }
                     }
-                }
-                .map {
-                    MovieDetailLocalModel(
-                        it.id,
-                        it.posterPath,
-                        it.backdropPath,
-                        it.title,
-                        "",
-                        it.releaseDate,
-                        coverTransName = click.imgTransName
-                    )
-                }
-                .doOnNext {
-                    navigator.goTo(
-                        Screens.MovieDetail(
-                            it,
-                            NavigationAnimation.ArcFadeMove(
-                                click.imgTransName
-                            ),
-                            NavigationAnimation.ArcFadeMove(
-                                click.imgTransName
-                            )
+                    .map {
+                        MovieDetailLocalModel(
+                                it.id,
+                                it.posterPath,
+                                it.backdropPath,
+                                it.title,
+                                "",
+                                it.releaseDate,
+                                coverTransName = click.imgTransName
                         )
-                    )
-                }
-                .ignoreElements()
-                .toObservable<HomeResult>()
-
+                    }
+                    .doOnNext {
+                        navigator.goTo(
+                                Screens.MovieDetail(
+                                        it,
+                                        NavigationAnimation.ArcFadeMove(
+                                                click.imgTransName
+                                        ),
+                                        NavigationAnimation.ArcFadeMove(
+                                                click.imgTransName
+                                        )
+                                )
+                        )
+                    }
+                    .ignoreElements()
+                    .toObservable<HomeResult>()
         }
     }
 }

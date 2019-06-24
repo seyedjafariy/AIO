@@ -9,4 +9,5 @@ interface LatestMovieRepo {
     fun observerAndUpdate(): Observable<LatestMovieRepoOutputModel>
     fun fetch(param: LatestMovieRepoParamModel) : Single<LatestMovieRepoOutputModel>
     fun update(param: LatestMovieRepoParamModel): Maybe<LatestMovieRepoOutputModel.Error>
+    fun memCache() : Single<LatestMovieRepoOutputModel.Success>
 }

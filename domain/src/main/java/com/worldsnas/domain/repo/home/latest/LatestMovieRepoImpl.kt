@@ -24,6 +24,14 @@ class LatestMovieRepoImpl @Inject constructor(
 
     var list: MutableList<MovieRepoModel> = mutableListOf()
 
+    override fun memCache(): Single<LatestMovieRepoOutputModel.Success> =
+        Single.just(
+            LatestMovieRepoOutputModel.Success(
+                emptyList(),
+                list
+            )
+        )
+
     override fun observeLatest(): Observable<LatestMovieRepoOutputModel> =
             latestMoviePersister.observe(LatestMoviePersisterKey())
                     .map {
