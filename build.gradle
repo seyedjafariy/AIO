@@ -45,6 +45,7 @@ ext {
     keyStorePass = values.getProperty('keyStorePass')
     aioAlias = values.getProperty('aioAlias')
     keyPass = values.getProperty('keyPass')
+    keyStoreAddress = values.getProperty('keyStoreAddress')
 }
 
 def loadValues() {
@@ -56,6 +57,7 @@ def loadValues() {
         localProperties.setProperty('keyStorePass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD"))
         localProperties.setProperty('aioAlias', System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS"))
         localProperties.setProperty('keyPass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD"))
+        localProperties.setProperty('keyStoreAddress', System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL"))
     }
     return localProperties
 }
