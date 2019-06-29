@@ -7,6 +7,8 @@ import com.worldsnas.navigation.model.GalleryLocalModel
 import com.worldsnas.navigation.model.GalleryLocalModel.Companion.EXTRA_IMAGES
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import com.worldsnas.navigation.model.MovieDetailLocalModel.Companion.EXTRA_MOVIE
+import com.worldsnas.navigation.model.SearchLocalModel
+import com.worldsnas.navigation.model.SearchLocalModel.Companion.EXTRA_SEARCH
 
 sealed class Screens(
     val name: String,
@@ -47,11 +49,14 @@ sealed class Screens(
     )
 
     class Search(
+        model : SearchLocalModel,
         pushAnimation: NavigationAnimation? = null,
         popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.search.view.SearchView",
-        Bundle.EMPTY,
+        bundleOf(
+            EXTRA_SEARCH to model
+        ),
         pushAnimation,
         popAnimation
     )

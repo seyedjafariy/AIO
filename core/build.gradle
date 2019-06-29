@@ -8,6 +8,7 @@ dependencies{
     implementation findBugs
     kapt daggerCompiler
 
+    implementation conductor
     implementation retrofit
     implementation okHttpLogging
     implementation moshiRetrofit

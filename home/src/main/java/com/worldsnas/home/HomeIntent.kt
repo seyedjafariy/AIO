@@ -15,4 +15,8 @@ sealed class HomeIntent : MviIntent {
         val movieId : Long,
         val imgTransName : String = ""
     ) : HomeIntent()
+    class SearchClicks(
+        val backTransName : String,
+        val textTransName : String
+    ) : HomeIntent()
 }

@@ -49,5 +49,6 @@ dependencies {
     implementation project(slider)
     implementation nineOldAndroidAnim
 
+    implementation butterKnife
     kapt butterKnifeCompiler
 }

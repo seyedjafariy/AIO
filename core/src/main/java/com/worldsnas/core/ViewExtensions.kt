@@ -3,6 +3,7 @@ package com.worldsnas.core
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 
 @Suppress("LiftReturnOrAssignment")
 infix fun View.visible(visible: Boolean) =
@@ -21,7 +22,7 @@ fun View.getDisplaySize(): DisplaySize =
         context.resources.displayMetrics.widthPixels
     )
 
-infix fun View.getCenterX(container : View): Int {
+infix fun View.getCenterX(container: View): Int {
 
     val fromLocation = IntArray(2)
     getLocationInWindow(fromLocation)
@@ -30,12 +31,12 @@ infix fun View.getCenterX(container : View): Int {
     container.getLocationInWindow(containerLocation)
 
     val relativeLeft = fromLocation[0] - containerLocation[0]
-    val relativeTop = fromLocation[1] - containerLocation[1]
+    fromLocation[1] - containerLocation[1]
 
     return width / 2 + relativeLeft
 }
 
-infix fun View.getCenterY(container : View): Int {
+infix fun View.getCenterY(container: View): Int {
 
     val fromLocation = IntArray(2)
     getLocationInWindow(fromLocation)
@@ -47,3 +48,7 @@ infix fun View.getCenterY(container : View): Int {
 
     return height / 2 + relativeTop
 }
+
+var View.transitionNameCompat: String?
+    get() = ViewCompat.getTransitionName(this)
+    set(value) = ViewCompat.setTransitionName(this, value)
