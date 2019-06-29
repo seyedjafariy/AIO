@@ -18,3 +18,7 @@ android {
         sourceCompatibility 1.8
     }
 }
+
+kapt {
+    correctErrorTypes = true
+}
