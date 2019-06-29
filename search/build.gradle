@@ -1,6 +1,7 @@
 apply from : dynamicFeature
 
 dependencies {
+    implementation(project(base))
     testImplementation junit
     testImplementation assertJ
     testImplementation mockkUnit
@@ -17,7 +18,7 @@ dependencies {
 
     implementation(project(domain))
     implementation(project(daggerCore))
-    implementation(project(base))
+
     implementation(project(core))
     implementation(project(mvi))
     implementation(project(navigation))

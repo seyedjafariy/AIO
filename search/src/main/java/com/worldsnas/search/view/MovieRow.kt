@@ -55,20 +55,20 @@ class MovieRow(
         poster.transitionNameCompat = poster
             .context
             .getString(
-                R.string.transition_img_1_id,
+                com.worldsnas.base.R.string.transition_img_1_id,
                 movie.id
             )
         title.transitionNameCompat = title
             .context
             .getString(
-                R.string.transition_txt_1_id,
+                com.worldsnas.base.R.string.transition_txt_1_id,
                 movie.id
             )
 
         releaseDate.transitionNameCompat = releaseDate
             .context
             .getString(
-                R.string.transition_txt_2_id,
+                com.worldsnas.base.R.string.transition_txt_2_id,
                 movie.id
             )
     }

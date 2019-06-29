@@ -7,12 +7,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding2.widget.textChangeEvents
 import com.worldsnas.base.BaseView
+import com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
 import com.worldsnas.core.helpers.pages
 import com.worldsnas.core.showKeyboard
 import com.worldsnas.core.transitionNameCompat
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.navigation.model.SearchLocalModel
-import com.worldsnas.search.EpoxyAsyncRecyclerView
 import com.worldsnas.search.R
 import com.worldsnas.search.SearchIntent
 import com.worldsnas.search.SearchState
@@ -58,19 +58,15 @@ class SearchView(
         backBtn.setOnClickListener {
             router.handleBack()
         }
+        searchEditText.requestFocus()
+        view.showKeyboard()
 
         val layoutManager = GridLayoutManager(view.context, 3)
         searchList.layoutManager = layoutManager
     }
 
-    override fun onAttach(view: View) {
-        super.onAttach(view)
-        searchEditText.requestFocus()
-        showKeyboard()
-    }
-
-    override fun onDetach(view: View) {
-        super.onDetach(view)
+    override fun onDestroyView(view: View) {
+        super.onDestroyView(view)
         searchList.adapter = null
     }
 

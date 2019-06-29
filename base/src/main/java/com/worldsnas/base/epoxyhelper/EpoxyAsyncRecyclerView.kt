@@ -1,4 +1,4 @@
-package com.worldsnas.search
+package com.worldsnas.base.epoxyhelper
 
 import android.content.Context
 import android.util.AttributeSet

@@ -49,7 +49,7 @@
         app:layout_constraintTop_toTopOf="@+id/vSearchBack"
         tools:ignore="RtlHardcoded,RtlSymmetry,UnusedAttribute" />
 
-    <com.worldsnas.search.EpoxyAsyncRecyclerView
+    <com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
         android:id="@+id/searchList"
         android:layout_width="0dp"
         android:layout_height="0dp"
