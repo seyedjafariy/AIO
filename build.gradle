@@ -57,7 +57,7 @@ def loadValues() {
         localProperties.setProperty('keyStorePass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD"))
         localProperties.setProperty('aioAlias', System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS"))
         localProperties.setProperty('keyPass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD"))
-        localProperties.setProperty('keyStoreAddress', System.getenv("BITRISEIO_ANDROID_KEYSTORE_URL"))
+        localProperties.setProperty('keyStoreAddress', System.getenv("HOME") + "/keystores/aio-key.jks")
     }
     return localProperties
 }
