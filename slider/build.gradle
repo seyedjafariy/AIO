@@ -1,0 +1,9 @@
+apply from : androidLib
+
+dependencies {
+    implementation compat
+    implementation supportLegacy
+    implementation fresco
+    implementation nineOldAndroidAnim
+
+}

@@ -1,0 +1,42 @@
+apply from: androidLib
+android{
+
+    defaultConfig{
+        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation junit
+    androidTestImplementation supportTestRunner
+    androidTestImplementation espressoCore
+
+    implementation(project(domain))
+    implementation(project(panther))
+    implementation(project(core))
+    implementation(project(navigation))
+
+    implementation conductor
+    implementation compat
+
+    implementation kotlinStd8
+
+    implementation dagger
+    kapt daggerCompiler
+
+    implementation rxJavaRetrofit
+    implementation retrofit
+    implementation moshiRetrofit
+    implementation moshi
+    implementation okHttp
+    implementation okHttpLogging
+
+    implementation fresco
+    implementation frescoOkHttp
+
+    implementation javaxAnnotation
+    implementation findBugs
+    implementation timber
+}

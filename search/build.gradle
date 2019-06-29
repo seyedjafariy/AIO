@@ -1,0 +1,58 @@
+apply from : dynamicFeature
+
+dependencies {
+    implementation(project(base))
+    testImplementation junit
+    testImplementation assertJ
+    testImplementation mockkUnit
+    testImplementation supportCore
+    testImplementation supportJunitExt
+    testImplementation supportTestRule
+    testImplementation supportTestRunner
+    testImplementation espressoCore
+    testImplementation robolectric
+    testImplementation(project(kotlinTestHelper))
+    androidTestImplementation supportTestRunner
+    androidTestImplementation espressoCore
+    testImplementation jsonTest
+
+    implementation(project(domain))
+    implementation(project(daggerCore))
+
+    implementation(project(core))
+    implementation(project(mvi))
+    implementation(project(navigation))
+    implementation(project(panther))
+    implementation(project(appModule))
+
+    implementation kotlinStd8
+
+    implementation compat
+    implementation design
+    implementation constraintLayout
+
+    implementation dagger
+    kapt daggerCompiler
+
+    implementation conductor
+    implementation rxJava
+    implementation rxAndroid
+    implementation rxKotlin
+    implementation rxBindingKotlin
+
+    implementation coreKts
+    implementation timber
+
+    implementation fresco
+
+    implementation constraintLayout
+
+    implementation project(slider)
+    implementation nineOldAndroidAnim
+
+    implementation butterKnife
+    kapt butterKnifeCompiler
+
+    implementation epoxy
+    kapt epoxy
+}

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nsvMovieDetailParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/defaultBackground"
+        android:fillViewport="true"
+        tools:ignore="RedundantNamespace">
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/medium_margin">
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/sliderMovieCover"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@android:color/darker_gray" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imgMoviePoster"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                app:layout_constraintBottom_toBottomOf="@+id/sliderMovieCover"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sliderMovieCover"
+                app:roundedCornerRadius="@dimen/min_corner_radius"
+                app:viewAspectRatio="0.65"
+                tools:background="@android:color/holo_blue_light" />
+
+            <TextView
+                android:id="@+id/txtMovieTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgMoviePoster"
+                app:layout_constraintTop_toBottomOf="@+id/sliderMovieCover"
+                tools:ignore="SpUsage"
+                tools:text="Doom patrol" />
+
+            <TextView
+                android:id="@+id/txtMovieDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/min_margin"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text"
+                app:layout_constraintStart_toEndOf="@+id/imgMoviePoster"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"
+                tools:ignore="SpUsage"
+                tools:text="2:09" />
+
+            <TextView
+                android:id="@+id/txtMovieDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin"
+                android:layout_marginTop="@dimen/min_margin"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text"
+                app:layout_constraintStart_toEndOf="@+id/txtMovieDuration"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieTitle"
+                tools:ignore="SpUsage"
+                tools:text="1999-05-03" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMovieGenre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/min_margin"
+                android:layout_marginTop="@dimen/low_margin"
+                android:overScrollMode="never"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgMoviePoster"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieDuration" />
+
+            <TextView
+                android:id="@+id/txtMovieOverviewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/overview"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgMoviePoster"
+                tools:ignore="SpUsage" />
+
+            <TextView
+                android:id="@+id/txtMovieDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieOverviewTitle"
+                tools:ignore="SpUsage"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/txtMovieRecommendationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/recommendation"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieDescription"
+                tools:ignore="SpUsage" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRecommendations"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/min_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieRecommendationTitle"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/txtMovieSimilarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/similars"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/large_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvRecommendations"
+                tools:ignore="SpUsage" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSimilars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:clipToPadding="false"
+                android:paddingStart="@dimen/min_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMovieSimilarTitle"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Base</string>
+
+    <string name="overview">Overview</string>
+    <string name="recommendation">Recommendation</string>
+
+    <string name="error_server">Server Error</string>
+    <string name="transition_img_1_id">transition_img_1_%d</string>
+    <string name="transition_img_2_id">transition_img_2_%d</string>
+    <string name="transition_txt_1_id">transition_txt_1_%d</string>
+    <string name="transition_txt_2_id">transition_txt_2_%d</string>
+    <string name="fab_dialog_transition_name">transition.fab</string>
+
+</resources>

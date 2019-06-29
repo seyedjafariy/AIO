@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/defaultBackground"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/vSearchBack"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/blue_l1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/medium_margin"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/back"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="@+id/vSearchBack"
+        app:layout_constraintLeft_toLeftOf="@+id/vSearchBack"
+        app:layout_constraintTop_toTopOf="@+id/vSearchBack"
+        app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+        app:tint="@color/yellow"
+        tools:ignore="RtlHardcoded" />
+
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/montserrat"
+        android:hint="@string/search"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingLeft="@dimen/medium_margin"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/yellow"
+        app:layout_constraintBottom_toBottomOf="@+id/vSearchBack"
+        app:layout_constraintLeft_toRightOf="@+id/imgBack"
+        app:layout_constraintRight_toRightOf="@+id/vSearchBack"
+        app:layout_constraintTop_toTopOf="@+id/vSearchBack"
+        tools:ignore="RtlHardcoded,RtlSymmetry,UnusedAttribute" />
+
+    <com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
+        android:id="@+id/searchList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vSearchBack" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

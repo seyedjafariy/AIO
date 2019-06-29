@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+apply plugin: "com.jakewharton.butterknife"
+
+android {
+    compileSdkVersion prjectCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion projectMinSdkVersion
+        targetSdkVersion projectTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            debuggable isReleaseDebuggable
+            minifyEnabled isReleaseMinify
+            shrinkResources isReleaseShrinkResources
+            multiDexEnabled isReleaseMultiDex
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"),
+                    "$proguardFileAddress")
+        }
+        debug {
+            ext.alwaysUpdateBuildId = false
+            shrinkResources isDebugShrinkResources
+            debuggable isDebugDebuggable
+            minifyEnabled isDebugMinify
+            multiDexEnabled isDebugMultiDex
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"),
+                    "$proguardFileAddress")
+//            testCoverageEnabled isDebugTestCoverage
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+    androidExtensions {
+        defaultCacheImplementation = "SPARSE_ARRAY"
+        experimental = true
+    }
+
+}
+
+dependencies{
+    implementation kotlinStd8
+    implementation butterKnife
+}

@@ -1,0 +1,249 @@
+ext {
+    libVersion = [
+
+            jUnitVersion = "4.12",
+            assertJVersion = "2.9.1",
+            supportTestVersion = "1.1.0",
+            supportCoreVersion = "1.0.0",
+            espressoVersion = "3.1.0-alpha3",
+            mockkVersion = "1.9.3.kotlin12",
+            fakeItVersion = "v0.5",
+            robolectricVersion = "4.2",
+
+            kotlinVersion = "1.3.21",
+
+            supportLibraryVersion = "1.0.0",
+            googleMaterialVersion = "1.0.0-rc01",
+            pagingComponentVersion = "1.0.0-alpha6",
+            constraintLayoutVersion = "2.0.0-beta1",
+            archComponentVersion = "2.0.0-rc01",
+            multidexVersion = "2.0.0",
+
+            androidKotlinExtVersion1 = "1.0.0",
+            androidKotlinExtVersion2 = "2.0.0",
+
+            firebaseMessagingVersion = "17.3.4",
+            firebaseCrashVersion = "16.2.1",
+            firebaseCoreVersion = "16.0.4",
+            crashlyticsVersion = "2.9.5",
+
+            daggerVersion = "2.23",
+            javaxVersion = "1.0",
+            jetbrainsAnnotationVersion = "15.0",
+            javaxInjectVersion = "1",
+
+            rxJavaVersion = "2.1.6",
+            rxKotlinVersion = "2.3.0",
+            rxBindingVersion = "2.0.0",
+            rxAndroidVersion = "2.0.1",
+            rxBroadCastVersion = "2.0.0",
+            rxPreferencesVersion = "2.0.0",
+
+            butterKnifeVersion = "10.1.0",
+
+            timberVersion = "4.7.1",
+
+            retrofitVersion = "2.5.0",
+            okHttpVersion = "3.14.0",
+
+            moshiVersion = "1.8.0",
+            koshiVersion = "2.0-rc1",
+
+            conductorVersion = "3.0.0-rc1",
+
+            leakCanaryVersion = "1.6.3",
+
+            objectboxVersion = "2.3.4",
+
+            zXingVersion = "1.9.8",
+
+            frescoVersion = "1.13.0",
+
+            lottieVersion = "3.0.0",
+
+            recyclerViewItemDecorationVersion = "1.0.0",
+
+            imagePickerVersion = "1.5",
+
+            materialDialogsVersion = "0.9.6.0",
+            roundCardViewVersion = "1.0.0",
+            progressVersion = "2.1.3",
+            roundImageViewVersion = "2.3.0",
+            btmNavVersion = "2.1.0",
+
+            jsonTestVersion = "20140107",
+
+            bottomNavVersion = "2.1.0",
+            epoxyVersion = "3.6.0"
+    ]
+}
+ext {
+    libs = [
+            testing = [
+                    //testing
+                    junit = "junit:junit:$jUnitVersion",
+                    assertJ = "org.assertj:assertj-core:$assertJVersion",
+
+                    mockkUnit = "io.mockk:mockk:$mockkVersion",
+                    mockkAndroid = "io.mockk:mockk-android:$mockkVersion",
+
+                    supportTestRunner = "androidx.test:runner:$supportTestVersion",
+                    supportTestRule = "androidx.test:rules:$supportTestVersion",
+                    supportJunitExt = "androidx.test.ext:junit:$supportCoreVersion",
+                    supportCore = "androidx.test:core:$supportTestVersion",
+
+                    espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion",
+                    espressoContrib = "androidx.test.espresso:espresso-contrib:$espressoVersion",
+
+                    jsonTest = "org.json:json:$jsonTestVersion",
+
+                    fakeIt = "com.github.moove-it:fakeit:$fakeItVersion",
+
+                    robolectric = "org.robolectric:robolectric:$robolectricVersion"
+            ],
+
+            kotlin = [
+                    //kotlin
+                    kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+                    kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+            ],
+
+            support = [
+                    //support
+                    compat = "androidx.appcompat:appcompat:$supportLibraryVersion",
+                    supportLegacy = "androidx.legacy:legacy-support-v4:$supportLibraryVersion",
+                    androidxCore = "androidx.core:core:$supportLibraryVersion",
+                    design = "com.google.android.material:material:$googleMaterialVersion",
+                    cardView = "androidx.cardview:cardview:$supportLibraryVersion",
+                    annotation = "androidx.annotation:annotation:$supportLibraryVersion",
+                    vectorDrawable = "androidx.vectordrawable:vectordrawable:$supportLibraryVersion",
+                    recyclerView = "androidx.recyclerview:recyclerview:$supportLibraryVersion",
+                    multiDex = "androidx.multidex:multidex:$multidexVersion",
+                    constraintLayout = "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion",
+                    viewPager2 = "androidx.viewpager2:viewpager2:1.0.0-alpha04"
+            ],
+
+            archComponent = [
+                    //architecture comps
+                    lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime:$archComponentVersion",
+                    lifecycleExtension = "androidx.lifecycle:lifecycle-extensions:$archComponentVersion"
+            ],
+
+            androidKts = [
+                    //androidKTS
+                    coreKts = "androidx.core:core-ktx:$androidKotlinExtVersion1",
+                    fragmentKts = "androidx.fragment:fragment-ktx:$androidKotlinExtVersion1",
+                    collectionKts = "androidx.collection:collection-ktx:$androidKotlinExtVersion1",
+                    viewModelKts = "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidKotlinExtVersion2"
+            ],
+
+            network = [
+                    //network
+                    retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion",
+                    okHttp = "com.squareup.okhttp3:okhttp:$okHttpVersion",
+                    okHttpLogging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+            ],
+
+            rxJavaLibs = [
+                    //rxjava
+                    rxJava = "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+                    rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
+                    rxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:$rxPreferencesVersion",
+                    rxJavaRetrofit = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+
+                    rxBindingKotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion",
+                    rxBindingCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion",
+                    rxBindingCompatKotlin = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
+//                    rxBinding = "com.jakewharton.rxbinding3:rxbinding-core:$rxBindingVersion",
+//                    rxBindingCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion",
+//                    rxBindingMaterial = "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion",
+//                    rxBindingViewPager = "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindingVersion",
+//                    rxBindingRecyclerView = "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindingVersion",
+//                    rxBindingSlidingPanel = "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindingVersion",
+//                    rxBindingSwipeRefresh = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindingVersion"
+            ],
+
+            moshiLibs = [
+                    //moshi
+                    moshi = "com.squareup.moshi:moshi:$moshiVersion",
+                    moshiKotlin = "com.squareup.moshi:moshi-kotlin:$moshiVersion",
+                    moshiRetrofit = "com.squareup.retrofit2:converter-moshi:$retrofitVersion",
+                    kotshi = "se.ansman.kotshi:api:$koshiVersion",
+                    kotshiCompiler = "se.ansman.kotshi:compiler:$koshiVersion",
+            ],
+
+            daggerLibs = [
+                    //Dagger
+                    dagger = "com.google.dagger:dagger:$daggerVersion",
+                    daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion",
+                    daggerAndroid = "com.google.dagger:dagger-android-support:$daggerVersion",
+                    daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:$daggerVersion",
+                    findBugs = "com.google.code.findbugs:jsr305:3.0.2"
+            ],
+
+            annotationLibs = [
+                    javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion",
+                    jetbrainsAnnotation = "org.jetbrains:annotations-java5:$jetbrainsAnnotationVersion",
+                    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion"
+            ],
+
+            ui = [
+                    //Ui
+                    roundCardView = "com.github.captain-miao:optroundcardview:$roundCardViewVersion",
+                    recyclerViewtemDecoration = "com.bignerdranch.android:simple-item-decoration:$recyclerViewItemDecorationVersion",
+                    lottie = "com.airbnb.android:lottie:$lottieVersion",
+                    bottomBar = "com.aurelhubert:ahbottomnavigation:$bottomNavVersion"
+            ],
+
+            utils = [
+                    //Utils
+                    timber = "com.jakewharton.timber:timber:$timberVersion",
+                    fresco = "com.facebook.fresco:fresco:$frescoVersion",
+                    frescoOkHttp = "com.facebook.fresco:imagepipeline-okhttp3:$frescoVersion",
+                    photoDraweeView = "me.relex:photodraweeview:2.0.0",
+                    conductor = "com.bluelinelabs:conductor:$conductorVersion",
+                    leakCanary = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
+                    leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
+                    epoxy = "com.airbnb.android:epoxy:$epoxyVersion",
+                    epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
+            ],
+
+            objectboxLib = [
+                    objectboxJava = "io.objectbox:objectbox-java-api:$objectboxVersion",
+                    objectboxKotlin = "io.objectbox:objectbox-kotlin:$objectboxVersion",
+                    objectboxRxJava = "io.objectbox:objectbox-rxjava:$objectboxVersion",
+                    objectboxBrowser = "io.objectbox:objectbox-android-objectbrowser:$objectboxVersion",
+                    objectboxAndroid = "io.objectbox:objectbox-android:$objectboxVersion"
+            ],
+
+            imageSlider = [
+                    nineOldAndroidAnim = "com.nineoldandroids:library:2.4.0"
+            ],
+
+            butterKnifeLib = [
+                    butterKnife = "com.jakewharton:butterknife:$butterKnifeVersion",
+                    butterKnifeCompiler = "com.jakewharton:butterknife-compiler:$butterKnifeVersion",
+            ],
+
+            modules = [
+                    appModule = ":app",
+                    kotlinTestHelper = ":kotlintesthelpers",
+                    domain = ":domain",
+                    panther = ":panther",
+                    daggerCore = ":daggercore",
+                    base = ":base",
+                    core = ":core",
+                    mvi = ":mvi",
+                    navigation = ":navigation",
+                    home = ":home",
+                    movieDetail = ":moviedetail",
+                    slider = ":slider",
+                    gallery = ":gallery"
+            ],
+
+            plugins = [
+                    objectboxPlugin = "io.objectbox"
+            ]
+    ]
+}

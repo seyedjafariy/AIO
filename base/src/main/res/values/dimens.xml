@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="low_margin">4dp</dimen>
+    <dimen name="min_margin">8dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="large_margin">24dp</dimen>
+    <dimen name="min_corner_radius">10dp</dimen>
+    <dimen name="small_text">12dp</dimen>
+    <dimen name="medium_text">14dp</dimen>
+    <dimen name="large_text">16dp</dimen>
+    <dimen name="extra_large_text">18dp</dimen>
+
+
+    <dimen name="dialog_elevation">6dp</dimen>
+    <dimen name="dialog_corners">2dp</dimen>
+
+    <dimen name="toolbar_elevation">10dp</dimen>
+</resources>

@@ -1,0 +1,12 @@
+include ':app', ':moviedetail', ':gallery',
+        ':base',
+        ':mvi',
+        ':core',
+        ':domain',
+        ':panther',
+        ':search',
+        ':daggercore',
+        ':home',
+        ':navigation',
+        ':kotlintesthelpers',
+        ':slider'

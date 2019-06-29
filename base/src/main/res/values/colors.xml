@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="defaultBackground">#110E21</color>
+    <color name="immersive_background">#88000000</color>
+    <color name="dialog_background">#fafafa</color>
+
+    <color name="blue_l1">#FF1B1730</color>
+    <color name="yellow">#FFFDE701</color>
+</resources>

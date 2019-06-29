@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">domain</string>
+    <string name="error_wrong_passed_data">Passed Data Is Wrong</string>
+    <string name="error_internal">Internal Error</string>
+    <string name="error_not_found">Not Found</string>
+    <string name="error_wrong_received_params">Receiving Parameters are Wrong</string>
+    <string name="error_time_out">Connection TimeOut</string>
+    <string name="error_connection_failure">Connection Failure</string>
+    <string name="error_illegal_argument">Wrong Parameter</string>
+    <string name="error_unknown_host">Could Not Find Host</string>
+    <string name="error_data_receive">Wrong Data Received</string>
+    <string name="error_element_not_found">Item Not Found</string>
+    <string name="error_server_failure">Server Failed</string>
+    <string name="error_no_item_received">No Data Received</string>
+    <string name="error_server">Server Error</string>
+    <string name="error_unknown">Unknown Error</string>
+    <string name="error_unAuthorized">UnAuthorized</string>
+    <string name="error_permission_denied">Overlay Permission Denied</string>
+    <string name="error_user_unauthorized">Your Session has been expired, please login again</string>
+    <string name="error_submit_error">Submit failed</string>
+    <string name="error_loading_data">Failed to Load</string>
+    <string name="error_transmission">Transmission Failed</string>
+</resources>

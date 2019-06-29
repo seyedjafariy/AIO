@@ -1,0 +1,8 @@
+apply from : kotlinLib
+
+dependencies {
+    implementation kotlinStd8
+    implementation retrofit
+    implementation rxJava
+}
+
