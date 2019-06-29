@@ -16,6 +16,7 @@ import com.worldsnas.navigation.NavigationAnimation
 import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.MovieDetailLocalModel
+import com.worldsnas.navigation.model.SearchLocalModel
 import com.worldsnas.panther.Mapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -38,7 +39,8 @@ class HomeProcessor @Inject constructor(
                     publish.ofType<HomeIntent.Initial>().compose(trendingProcessor),
                     publish.ofType<HomeIntent.NextPage>().compose(nextPageProcessor),
                     publish.ofType<HomeIntent.LatestMovieClicked>().compose(latestClickProcessor),
-                    publish.ofType<HomeIntent.SliderClicked>().compose(sliderClicked)
+                    publish.ofType<HomeIntent.SliderClicked>().compose(sliderClicked),
+                    publish.ofType<HomeIntent.SearchClicks>().compose(searchClicked)
             )
         }.observeOn(AndroidSchedulers.mainThread())
     }
@@ -184,4 +186,32 @@ class HomeProcessor @Inject constructor(
                     .toObservable<HomeResult>()
         }
     }
+
+    private val searchClicked = ObservableTransformer<HomeIntent.SearchClicks, HomeResult> { actions ->
+        actions.
+                map {
+                    Screens.Search(
+                        SearchLocalModel(
+                            it.backTransName,
+                            it.textTransName
+                        ),
+                        NavigationAnimation.ArcFadeMove(
+                            it.backTransName,
+                            it.textTransName
+                        ),
+                        NavigationAnimation.ArcFadeMove(
+                            it.backTransName,
+                            it.textTransName
+                        )
+                    )
+
+                }
+            .doOnNext {
+                navigator.goTo(it)
+            }
+            .ignoreElements()
+            .toObservable()
+    }
+
+
 }

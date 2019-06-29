@@ -1,0 +1,24 @@
+apply plugin: 'com.android.dynamic-feature'
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+apply plugin: "com.jakewharton.butterknife"
+
+android {
+    compileSdkVersion prjectCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion projectMinSdkVersion
+        targetSdkVersion projectTargetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+kapt {
+    correctErrorTypes = true
+}

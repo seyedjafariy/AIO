@@ -31,4 +31,6 @@ dependencies {
 
     debugImplementation leakCanary
     releaseImplementation leakCanaryNoOp
+
+    implementation epoxy
 }

@@ -15,8 +15,8 @@ android {
         applicationId "com.worldsnas.aio"
         minSdkVersion projectMinSdkVersion
         targetSdkVersion projectTargetSdkVersion
-        versionCode 21000503
-        versionName "0.5.3"
+        versionCode 21000603
+        versionName "0.6.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
@@ -80,7 +80,7 @@ android {
     }
 
 
-    dynamicFeatures = [":domy"]
+    dynamicFeatures = [":search"]
 
 
 }
@@ -135,6 +135,8 @@ dependencies {
 
     debugImplementation leakCanary
     releaseImplementation leakCanaryNoOp
+
+    implementation epoxy
 }
 
 

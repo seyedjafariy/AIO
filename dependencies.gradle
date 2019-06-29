@@ -73,7 +73,8 @@ ext {
 
             jsonTestVersion = "20140107",
 
-            bottomNavVersion = "2.1.0"
+            bottomNavVersion = "2.1.0",
+            epoxyVersion = "3.6.0"
     ]
 }
 ext {
@@ -203,7 +204,9 @@ ext {
                     photoDraweeView = "me.relex:photodraweeview:2.0.0",
                     conductor = "com.bluelinelabs:conductor:$conductorVersion",
                     leakCanary = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion",
-                    leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+                    leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
+                    epoxy = "com.airbnb.android:epoxy:$epoxyVersion",
+                    epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
             ],
 
             objectboxLib = [
@@ -224,6 +227,7 @@ ext {
             ],
 
             modules = [
+                    appModule = ":app",
                     kotlinTestHelper = ":kotlintesthelpers",
                     domain = ":domain",
                     panther = ":panther",

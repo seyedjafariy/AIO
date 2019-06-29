@@ -11,6 +11,7 @@ import com.worldsnas.domain.di.DomainModule
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
+import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import dagger.BindsInstance
 import dagger.Component
 import io.objectbox.BoxStore
@@ -36,6 +37,7 @@ interface CoreComponent {
     fun store(): BoxStore
     fun latestMovieRepo(): LatestMovieRepo
     fun trendingRepo(): TrendingRepo
+    fun movieSearchRepo(): MovieSearchRepo
     fun movieDetailRepo(): MovieDetailRepo
     fun frescoConfig(): ImagePipelineConfig
 
@@ -43,9 +45,9 @@ interface CoreComponent {
     interface Builder {
 
         @BindsInstance
-        fun setApplication(app: Application): CoreComponent.Builder
+        fun setApplication(app: Application): Builder
 
-        fun setDatabaseModule(module: DatabaseModule): CoreComponent.Builder
+        fun setDatabaseModule(module: DatabaseModule): Builder
 
         fun build(): CoreComponent
     }
