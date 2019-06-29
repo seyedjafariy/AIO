@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/defaultBackground">
+    android:background="@color/defaultBackground"
+    android:orientation="vertical">
 
     <View
         android:id="@+id/vSearchBack"
@@ -35,12 +35,12 @@
         android:id="@+id/edtSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:fontFamily="@font/montserrat"
         android:hint="@string/search"
         android:importantForAutofill="no"
         android:inputType="text"
         android:paddingLeft="@dimen/medium_margin"
-        android:background="@android:color/transparent"
         android:textColor="@android:color/white"
         android:textColorHint="@color/yellow"
         app:layout_constraintBottom_toBottomOf="@+id/vSearchBack"
@@ -48,6 +48,15 @@
         app:layout_constraintRight_toRightOf="@+id/vSearchBack"
         app:layout_constraintTop_toTopOf="@+id/vSearchBack"
         tools:ignore="RtlHardcoded,RtlSymmetry,UnusedAttribute" />
+
+    <com.worldsnas.search.EpoxyAsyncRecyclerView
+        android:id="@+id/searchList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vSearchBack" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

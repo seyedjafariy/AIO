@@ -4,16 +4,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
+import com.jakewharton.rxbinding2.widget.textChangeEvents
 import com.worldsnas.base.BaseView
+import com.worldsnas.core.helpers.pages
 import com.worldsnas.core.showKeyboard
 import com.worldsnas.core.transitionNameCompat
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.navigation.model.SearchLocalModel
+import com.worldsnas.search.EpoxyAsyncRecyclerView
 import com.worldsnas.search.R
 import com.worldsnas.search.SearchIntent
 import com.worldsnas.search.SearchState
 import com.worldsnas.search.di.DaggerSearchComponent
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.withLatestFrom
+import java.util.concurrent.TimeUnit
 
 class SearchView(
     bundle: Bundle
@@ -22,6 +28,7 @@ class SearchView(
     lateinit var searchBack: View
     lateinit var searchEditText: EditText
     lateinit var backBtn: ImageView
+    lateinit var searchList: EpoxyAsyncRecyclerView
 
     private val searchLocal = bundle.getParcelable<SearchLocalModel>(SearchLocalModel.EXTRA_SEARCH)
 
@@ -41,6 +48,7 @@ class SearchView(
         searchBack = view.findViewById(R.id.vSearchBack)
         searchEditText = view.findViewById(R.id.edtSearch)
         backBtn = view.findViewById(R.id.imgBack)
+        searchList = view.findViewById(R.id.searchList)
 
         searchLocal?.run {
             searchBack.transitionNameCompat = backTransitionName
@@ -50,6 +58,9 @@ class SearchView(
         backBtn.setOnClickListener {
             router.handleBack()
         }
+
+        val layoutManager = GridLayoutManager(view.context, 3)
+        searchList.layoutManager = layoutManager
     }
 
     override fun onAttach(view: View) {
@@ -58,11 +69,58 @@ class SearchView(
         showKeyboard()
     }
 
+    override fun onDetach(view: View) {
+        super.onDetach(view)
+        searchList.adapter = null
+    }
+
     override fun render(state: SearchState) {
         renderLoading(state.base)
         renderError(state.base)
+
+        renderList(state)
     }
 
     override fun intents(): Observable<SearchIntent> =
-        Observable.just(SearchIntent.Initial)
+        Observable.merge(
+            searchQueryIntents(),
+            nextPageIntents()
+        )
+
+    private fun searchQueryIntents() =
+        searchEditText.textChangeEvents()
+            .skipInitialValue()
+            .filter { it.text().toString().length > 1 }
+            .debounce(1, TimeUnit.SECONDS)
+            .map {
+                it.text().toString()
+            }
+            .map {
+                SearchIntent.Search(it)
+            }
+
+    private fun nextPageIntents() =
+        searchList.pages()
+            .withLatestFrom(
+                searchEditText.textChangeEvents()
+                    .skipInitialValue()
+                    .filter { it.text().toString().length > 1 }
+            )
+            .map {
+                SearchIntent.NextPage(
+                    it.second.text().toString(),
+                    it.first.totalItemsCount,
+                    it.first.page
+                )
+            }
+
+    private fun renderList(state: SearchState) {
+        searchList.withModelsAsync {
+            state.movies.forEach {
+                MovieRow(it, presenter)
+                    .id(it.id)
+                    .addTo(this)
+            }
+        }
+    }
 }

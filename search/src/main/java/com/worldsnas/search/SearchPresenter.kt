@@ -1,6 +1,7 @@
 package com.worldsnas.search
 
 import com.worldsnas.base.BasePresenter
+import com.worldsnas.base.BaseState
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.mvi.MviProcessor
 import javax.inject.Inject
@@ -11,5 +12,19 @@ class SearchPresenter @Inject constructor(
 ) : BasePresenter<SearchIntent, SearchState, SearchResult>(processor, SearchState.idle()) {
 
     override fun reduce(preState: SearchState, result: SearchResult): SearchState =
-            preState
+        when (result) {
+            SearchResult.LastStable ->
+                preState.copy(
+                    base = BaseState.stable()
+                )
+            is SearchResult.Error ->
+                preState.copy(
+                    base = BaseState.withError(result.err)
+                )
+            is SearchResult.Result ->
+                preState.copy(
+                    base = BaseState.stable(),
+                    movies = result.movies
+                )
+        }
 }
