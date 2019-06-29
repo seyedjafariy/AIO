@@ -6,11 +6,10 @@ import com.worldsnas.domain.repo.search.movie.MovieSearchFetcher
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepoImpl
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRequestParam
-import com.worldsnas.panther.Fetcher
+import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.create
 
@@ -20,16 +19,15 @@ abstract class SearchRepoModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideRetrofit(retrofit: Retrofit) = retrofit.create<SearchAPI>()
+        fun provideRetrofit(retrofit: Retrofit): SearchAPI =
+            retrofit.create()
     }
 
-
     @Binds
-    abstract fun bindMovieSearchRepo(repo: MovieSearchRepoImpl) :
+    abstract fun bindMovieSearchRepo(repo: MovieSearchRepoImpl):
             MovieSearchRepo
 
     @Binds
-    abstract fun bindMovieSearchFetcher(fetcher : MovieSearchFetcher) :
-            Fetcher<MovieSearchRequestParam, Response<ResultsServerModel<MovieServerModel>>>
-
+    abstract fun bindMovieSearchFetcher(fetcher: MovieSearchFetcher):
+            RFetcher<MovieSearchRequestParam, ResultsServerModel<MovieServerModel>>
 }

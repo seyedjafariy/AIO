@@ -8,15 +8,14 @@ import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoOutputModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoParamModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRequestParam
-import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Mapper
+import com.worldsnas.panther.RFetcher
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.Response
 import javax.inject.Inject
 
 class MovieSearchRepoImpl @Inject constructor(
-    private val fetcher: Fetcher<MovieSearchRequestParam, Response<ResultsServerModel<MovieServerModel>>>,
+    private val fetcher: RFetcher<MovieSearchRequestParam, ResultsServerModel<MovieServerModel>>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>
 ) : MovieSearchRepo {
 
