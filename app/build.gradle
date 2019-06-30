@@ -137,6 +137,8 @@ dependencies {
     releaseImplementation leakCanaryNoOp
 
     implementation epoxy
+    kapt epoxyCompiler
+    implementation jetbrainsAnnotation
 }
 
 

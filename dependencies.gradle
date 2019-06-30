@@ -184,8 +184,8 @@ ext {
 
             annotationLibs = [
                     javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion",
-                    jetbrainsAnnotation = "org.jetbrains:annotations-java5:$jetbrainsAnnotationVersion",
-                    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion"
+                    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion",
+                    jetbrainsAnnotation = "org.jetbrains:annotations:16.0.2"
             ],
 
             ui = [

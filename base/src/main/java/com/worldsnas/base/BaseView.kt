@@ -66,12 +66,16 @@ abstract class BaseView<S : BaseViewState, I : MviIntent> @JvmOverloads construc
 
     private fun bind() {
         intents()
-            .subscribeBy {
-                presenter.processIntents(it)
-            }
-            .addTo(disposables)
+            .newIntents()
+
         presenter.states().subscribeBy { render(it) }.addTo(disposables)
     }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    protected fun Observable<I>.newIntents() =
+        subscribeBy {
+            presenter.processIntents(it)
+        }.addTo(disposables)
 
     protected fun renderError(baseState: BaseState) {
 //        view?.run {
