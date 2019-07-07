@@ -4,7 +4,7 @@
     <dist:module
         dist:onDemand="true"
         dist:instant="false"
-        dist:title="search">
+        dist:title="@string/search">
         <dist:fusing dist:include="true"/>
     </dist:module>
 </manifest>
