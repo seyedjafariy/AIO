@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AIO</string>
-    <string name="title_domy">domy</string>
+    <string name="title_search">search</string>
+    <string name="search">search</string>
 </resources>

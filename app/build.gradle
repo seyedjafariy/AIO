@@ -15,8 +15,8 @@ android {
         applicationId "com.worldsnas.aio"
         minSdkVersion projectMinSdkVersion
         targetSdkVersion projectTargetSdkVersion
-        versionCode 21000603
-        versionName "0.6.3"
+        versionCode 21000705
+        versionName "0.7.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
@@ -133,11 +133,19 @@ dependencies {
     implementation frescoOkHttp
     implementation project(slider)
 
+    implementation firebaseCore
+    implementation firebaseCrashlytics
+    implementation firebaseMessaging
+    implementation firebaseRemoteConfig
+
     debugImplementation leakCanary
     releaseImplementation leakCanaryNoOp
 
     implementation epoxy
+    kapt epoxyCompiler
+    implementation jetbrainsAnnotation
 }
+apply plugin: 'com.google.gms.google-services'
 
 
 project.afterEvaluate {

@@ -3,6 +3,8 @@ package com.worldsnas.base.epoxyhelper
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import butterknife.ButterKnife
+import butterknife.Unbinder
 import com.airbnb.epoxy.EpoxyModel
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -11,16 +13,20 @@ abstract class KotlinModel(
     @LayoutRes private val layoutRes: Int
 ) : EpoxyModel<View>() {
 
-    private var view: View? = null
+    var view: View? = null
+    private var unBinder : Unbinder? = null
 
-    abstract fun bind()
+    abstract fun viewBound(view : View)
 
     override fun bind(view: View) {
+        unBinder = ButterKnife.bind(this, view)
         this.view = view
-        bind()
+        viewBound(view)
     }
 
     override fun unbind(view: View) {
+        unBinder?.unbind()
+        unBinder = null
         this.view = null
     }
 

@@ -137,6 +137,13 @@ ext {
                     viewModelKts = "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidKotlinExtVersion2"
             ],
 
+            firebase = [
+                    firebaseCore = "com.google.firebase:firebase-core:17.0.0",
+                    firebaseCrashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1",
+                    firebaseMessaging = "com.google.firebase:firebase-messaging:19.0.1",
+                    firebaseRemoteConfig = "com.google.firebase:firebase-config:18.0.0"
+            ],
+
             network = [
                     //network
                     retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion",
@@ -184,8 +191,8 @@ ext {
 
             annotationLibs = [
                     javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion",
-                    jetbrainsAnnotation = "org.jetbrains:annotations-java5:$jetbrainsAnnotationVersion",
-                    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion"
+                    injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion",
+                    jetbrainsAnnotation = "org.jetbrains:annotations:16.0.2"
             ],
 
             ui = [

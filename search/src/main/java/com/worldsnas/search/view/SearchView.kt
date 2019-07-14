@@ -5,10 +5,12 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
+import butterknife.BindView
 import com.jakewharton.rxbinding2.widget.textChangeEvents
 import com.worldsnas.base.BaseView
 import com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
 import com.worldsnas.core.helpers.pages
+import com.worldsnas.core.hideKeyboard
 import com.worldsnas.core.showKeyboard
 import com.worldsnas.core.transitionNameCompat
 import com.worldsnas.daggercore.CoreComponent
@@ -25,9 +27,13 @@ class SearchView(
     bundle: Bundle
 ) : BaseView<SearchState, SearchIntent>(bundle) {
 
+    @BindView(R.id.vSearchBack)
     lateinit var searchBack: View
+    @BindView(R.id.edtSearch)
     lateinit var searchEditText: EditText
+    @BindView(R.id.imgBack)
     lateinit var backBtn: ImageView
+    @BindView(R.id.searchList)
     lateinit var searchList: EpoxyAsyncRecyclerView
 
     private val searchLocal = bundle.getParcelable<SearchLocalModel>(SearchLocalModel.EXTRA_SEARCH)
@@ -45,10 +51,6 @@ class SearchView(
 
     override fun onViewBound(view: View) {
         super.onViewBound(view)
-        searchBack = view.findViewById(R.id.vSearchBack)
-        searchEditText = view.findViewById(R.id.edtSearch)
-        backBtn = view.findViewById(R.id.imgBack)
-        searchList = view.findViewById(R.id.searchList)
 
         searchLocal?.run {
             searchBack.transitionNameCompat = backTransitionName
@@ -56,6 +58,7 @@ class SearchView(
         }
 
         backBtn.setOnClickListener {
+            it.hideKeyboard()
             router.handleBack()
         }
         searchEditText.requestFocus()
@@ -66,8 +69,8 @@ class SearchView(
     }
 
     override fun onDestroyView(view: View) {
-        super.onDestroyView(view)
         searchList.adapter = null
+        super.onDestroyView(view)
     }
 
     override fun render(state: SearchState) {

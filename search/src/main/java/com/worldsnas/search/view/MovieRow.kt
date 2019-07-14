@@ -3,6 +3,7 @@ package com.worldsnas.search.view
 import android.net.Uri
 import android.view.View
 import android.widget.TextView
+import butterknife.BindView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
@@ -30,12 +31,14 @@ class MovieRow(
 ) {
     private val disposables = CompositeDisposable()
 
-    private val poster by bind<SimpleDraweeView>(R.id.poster)
-    private val title by bind<TextView>(R.id.title)
-    private val releaseDate by bind<TextView>(R.id.releaseDate)
+    @BindView(R.id.poster)
+    lateinit var poster: SimpleDraweeView
+    @BindView(R.id.title)
+    lateinit var title: TextView
+    @BindView(R.id.releaseDate)
+    lateinit var releaseDate: TextView
 
-
-    override fun bind() {
+    override fun viewBound(view: View) {
         val width = poster.getDisplaySize().width / 3
         val height = (width * 1.5).roundToInt()
 
@@ -73,10 +76,9 @@ class MovieRow(
             )
     }
 
-    override fun onViewAttachedToWindow(view: View) {
-        super.onViewAttachedToWindow(view)
-        view.clicks()
-            .map {
+    private fun actions(){
+        view?.clicks()
+            ?.map {
                 SearchIntent.SearchResultClicked(
                     movie,
                     poster.transitionNameCompat ?: "",
@@ -84,10 +86,15 @@ class MovieRow(
                     releaseDate.transitionNameCompat ?: ""
                 )
             }
-            .subscribeBy {
+            ?.subscribeBy {
                 presenter.processIntents(it)
             }
-            .addTo(disposables)
+            ?.addTo(disposables)
+    }
+
+    override fun onViewAttachedToWindow(view: View) {
+        super.onViewAttachedToWindow(view)
+        actions()
     }
 
     override fun onViewDetachedFromWindow(view: View) {
