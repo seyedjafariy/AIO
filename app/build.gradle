@@ -133,6 +133,11 @@ dependencies {
     implementation frescoOkHttp
     implementation project(slider)
 
+    implementation firebaseCore
+    implementation firebaseCrashlytics
+    implementation firebaseMessaging
+    implementation firebaseRemoteConfig
+
     debugImplementation leakCanary
     releaseImplementation leakCanaryNoOp
 
@@ -140,6 +145,7 @@ dependencies {
     kapt epoxyCompiler
     implementation jetbrainsAnnotation
 }
+apply plugin: 'com.google.gms.google-services'
 
 
 project.afterEvaluate {
