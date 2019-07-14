@@ -2,6 +2,8 @@ package com.worldsnas.aio
 
 import android.app.Application
 import android.util.Log
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.common.logging.FLog
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -13,6 +15,7 @@ import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.CoreComponentProvider
 import com.worldsnas.daggercore.DaggerCoreComponent
 import com.worldsnas.daggercore.modules.DatabaseModule
+import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
 class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
@@ -50,6 +53,22 @@ class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
                 Log.VERBOSE
             else
                 Log.ERROR
+        )
+
+        initCrashlytics()
+    }
+
+    private fun initCrashlytics() {
+        val crashlyticsCore = CrashlyticsCore
+            .Builder()
+            .disabled(DEBUG)
+            .build()
+
+        Fabric.with(
+            this,
+            Crashlytics.Builder()
+                .core(crashlyticsCore)
+                .build()
         )
     }
 }
