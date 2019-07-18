@@ -12,6 +12,7 @@ import com.worldsnas.domain.repo.genre.MovieGenreRepo
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
+import com.worldsnas.domain.repo.people.PeopleRepo
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import dagger.BindsInstance
 import dagger.Component
@@ -42,6 +43,7 @@ interface CoreComponent {
     fun movieSearchRepo(): MovieSearchRepo
     fun movieDetailRepo(): MovieDetailRepo
     fun movieGenreRepo(): MovieGenreRepo
+    fun peopleRepo(): PeopleRepo
 
     fun frescoConfig(): ImagePipelineConfig
 

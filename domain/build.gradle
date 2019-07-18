@@ -29,4 +29,7 @@ dependencies {
     implementation objectboxKotlin
 
     implementation timber
+
+    implementation arrowCore
+    implementation arrowExtensions
 }
