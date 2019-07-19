@@ -10,9 +10,9 @@ import javax.inject.Inject
 
 class PeopleFetcher @Inject constructor(
     private val api: PeopleAPI
-) : RFetcher<Unit, ResultsServerModel<PersonServerModel>> {
+) : RFetcher<PeopleRequestModel, ResultsServerModel<PersonServerModel>> {
 
-    override fun fetch(param: Unit): Single<Response<ResultsServerModel<PersonServerModel>>> =
-            api.getPopularPeople()
+    override fun fetch(param: PeopleRequestModel): Single<Response<ResultsServerModel<PersonServerModel>>> =
+            api.getPopularPeople(param.page)
                 .errorHandler()
 }

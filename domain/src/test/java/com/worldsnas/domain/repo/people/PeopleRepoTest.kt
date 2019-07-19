@@ -80,7 +80,7 @@ class PeopleRepoTest {
                 .setBody(getJson("json/People.json"))
         )
 
-        val testObserver = repo.fetchPeople()
+        val testObserver = repo.fetchPeople(1)
             .test()
 
         RxTestSchedulerRule.TEST_SCHEDULER_INSTANCE.triggerActions()
@@ -117,7 +117,7 @@ class PeopleRepoTest {
                 .setBody(getJson("json/Sample404Error.json"))
         )
 
-        val testObserver = repo.fetchPeople()
+        val testObserver = repo.fetchPeople(1)
             .test()
 
 
@@ -136,5 +136,43 @@ class PeopleRepoTest {
                     "server returned error"
                 )
         }
+    }
+
+    @Test
+    fun `correctly caches first page`() {
+        val resultType = Types.newParameterizedType(
+            ResultsServerModel::class.java,
+            PersonServerModel::class.java
+        )
+        val actualModels = moshi
+            .adapter<ResultsServerModel<PersonServerModel>>(resultType)
+            .fromJson(getJson(("json/People.json")))!!
+            .list
+            .map {
+                mapper.map(it)
+            }
+
+        server.enqueue(
+            MockResponse()
+                .setResponseCode(200)
+                .setBody(getJson("json/People.json"))
+        )
+
+        repo.fetchPeople(1)
+            .test()
+            .awaitCount(1)
+            .assertComplete()
+
+        RxTestSchedulerRule.TEST_SCHEDULER_INSTANCE.triggerActions()
+
+        val values = repo.cachedPeople()
+            .test()
+            .awaitCount(1)
+            .assertComplete()
+            .values()
+
+        assertThat(values.first()!!)
+            .usingRecursiveFieldByFieldElementComparator()
+            .containsExactlyElementsOf(actualModels)
     }
 }

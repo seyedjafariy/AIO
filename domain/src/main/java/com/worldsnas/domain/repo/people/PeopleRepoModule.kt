@@ -20,7 +20,7 @@ abstract class PeopleRepoModule {
     @Binds
     abstract fun bindPeopleFetcher(
         fetcher : PeopleFetcher
-    ): RFetcher<Unit, ResultsServerModel<PersonServerModel>>
+    ): RFetcher<PeopleRequestModel, ResultsServerModel<PersonServerModel>>
 
     @Module
     companion object{

@@ -12,11 +12,13 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class PeopleRepoImpl @Inject constructor(
-    private val fetcher: RFetcher<Unit, ResultsServerModel<PersonServerModel>>,
+    private val fetcher: RFetcher<PeopleRequestModel, ResultsServerModel<PersonServerModel>>,
     private val personMapper: Mapper<PersonServerModel, PersonRepoModel>
 ) : PeopleRepo {
-    override fun fetchPeople(): Single<Either<ErrorHolder, List<PersonRepoModel>>> =
-        fetcher.fetch(Unit)
+    private var people : MutableList<PersonRepoModel> = mutableListOf()
+
+    override fun fetchPeople(page : Int): Single<Either<ErrorHolder, List<PersonRepoModel>>> =
+        fetcher.fetch(PeopleRequestModel(1))
             .eitherError {
                 it
                     .list
@@ -24,5 +26,15 @@ class PeopleRepoImpl @Inject constructor(
                         personMapper
                             .map(person)
                     }
+                    .also {personList->
+                        if (page == 1){
+                            people = ArrayList(personList)
+                        }else{
+                            people.addAll(personList)
+                        }
+                    }
             }
+
+    override fun cachedPeople() : Single<List<PersonRepoModel>> =
+            Single.just(people)
 }
