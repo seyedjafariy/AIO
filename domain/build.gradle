@@ -9,6 +9,12 @@ dependencies {
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
     testImplementation jsonTest
+    testImplementation mockWebServer
+    testImplementation rxJavaRetrofit
+    testImplementation moshiRetrofit
+    testImplementation okHttp
+
+
 
     implementation(project(panther))
     implementation(project(core))

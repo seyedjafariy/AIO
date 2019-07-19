@@ -59,17 +59,17 @@ fun <T> Single<Response<T>>.errorHandler(times: Int = 3): Single<Response<T>> =
     }
 
 fun <T, U> Single<Response<T>>.eitherError(map: (T) -> U):
-        Single<Either<U, ErrorHolder>> =
+        Single<Either<ErrorHolder, U>> =
     toObservable()
         .publish { publish ->
             Observable.merge(
                 publish
                     .filter { it.isNotSuccessful || it.body() == null }
-                    .map { it.getErrorRepoModel().right() },
+                    .map { it.getErrorRepoModel().left() },
                 publish
                     .filter { it.isSuccessful && it.body() != null }
                     .map {
-                        map(it.body()!!).left()
+                        map(it.body()!!).right()
                     }
             )
         }

@@ -6,5 +6,5 @@ import com.worldsnas.domain.model.repomodel.PersonRepoModel
 import io.reactivex.Single
 
 interface PeopleRepo {
-    fun fetchPeople(): Single<Either<List<PersonRepoModel>, ErrorHolder>>
+    fun fetchPeople(): Single<Either<ErrorHolder, List<PersonRepoModel>>>
 }
