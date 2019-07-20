@@ -1,5 +1,6 @@
 package com.worldsnas.domain.repo.search
 
+import com.worldsnas.domain.model.servermodels.KeywordServerModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import io.reactivex.Single
@@ -11,8 +12,21 @@ interface SearchAPI {
 
     @GET("/3/search/movie")
     fun searchMovie(
-        @Query("query") query : String,
-        @Query("page") page : Int,
-        @Query("include_adult") includeAdult : Boolean
+        @Query("query")
+        query: String,
+        @Query("page")
+        page: Int,
+        @Query("include_adult")
+        includeAdult: Boolean
     ): Single<Response<ResultsServerModel<MovieServerModel>>>
+
+    @GET("/3/search/keyword")
+    fun searchKeywords(
+        @Query("query")
+        query: String,
+        @Query("page")
+        page: Int,
+        @Query("include_adult")
+        includeAdult: Boolean
+    ) : Single<Response<ResultsServerModel<KeywordServerModel>>>
 }

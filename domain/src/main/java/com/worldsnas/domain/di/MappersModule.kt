@@ -103,4 +103,8 @@ abstract class MappersModule {
     abstract fun bindPersonServerRepoMapper(mapper: PersonServerRepoMapper):
             Mapper<PersonServerModel, PersonRepoModel>
 
+    @Binds
+    abstract fun bindKeywordServerRepoMapper(mapper: KeywordServerRepoMapper):
+            Mapper<KeywordServerModel, KeywordRepoModel>
+
 }

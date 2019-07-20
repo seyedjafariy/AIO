@@ -1,11 +1,15 @@
 package com.worldsnas.domain.repo.search
 
+import com.worldsnas.domain.model.servermodels.KeywordServerModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
+import com.worldsnas.domain.repo.search.keywords.SearchKeywordFetcher
+import com.worldsnas.domain.repo.search.keywords.SearchKeywordsRepo
+import com.worldsnas.domain.repo.search.keywords.SearchKeywordsRepoImpl
 import com.worldsnas.domain.repo.search.movie.MovieSearchFetcher
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepoImpl
-import com.worldsnas.domain.repo.search.movie.model.MovieSearchRequestParam
+import com.worldsnas.domain.repo.search.movie.model.SearchRequestParam
 import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
@@ -28,6 +32,14 @@ abstract class SearchRepoModule {
             MovieSearchRepo
 
     @Binds
+    abstract fun bindSearchKeywordsRepo(repo: SearchKeywordsRepoImpl):
+            SearchKeywordsRepo
+
+    @Binds
+    abstract fun bindSearchKeywordFetcher(repo: SearchKeywordFetcher):
+            RFetcher<SearchRequestParam, ResultsServerModel<KeywordServerModel>>
+
+    @Binds
     abstract fun bindMovieSearchFetcher(fetcher: MovieSearchFetcher):
-            RFetcher<MovieSearchRequestParam, ResultsServerModel<MovieServerModel>>
+            RFetcher<SearchRequestParam, ResultsServerModel<MovieServerModel>>
 }
