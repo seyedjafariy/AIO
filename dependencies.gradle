@@ -1,16 +1,15 @@
 ext {
         libVersion = [
 
-            jUnitVersion = "4.12",
-            assertJVersion = "2.9.1",
+            jUnitVersion = "4.13-beta-3",
+            assertJVersion = "3.12.2",
             supportTestVersion = "1.1.0",
             supportCoreVersion = "1.0.0",
             espressoVersion = "3.1.0-alpha3",
-            mockkVersion = "1.9.3.kotlin12",
+            mockkVersion = "1.9.3",
             fakeItVersion = "v0.5",
-            robolectricVersion = "4.2",
 
-            kotlinVersion = "1.3.31",
+            kotlinVersion = "1.3.41",
             arrowVersion = "0.9.0",
 
             supportLibraryVersion = "1.0.0",
@@ -28,14 +27,14 @@ ext {
             firebaseCoreVersion = "16.0.4",
             crashlyticsVersion = "2.9.5",
 
-            daggerVersion = "2.23",
+            daggerVersion = "2.24",
             javaxVersion = "1.0",
             jetbrainsAnnotationVersion = "15.0",
             javaxInjectVersion = "1",
 
             rxJavaVersion = "2.1.6",
-            rxKotlinVersion = "2.3.0",
-            rxBindingVersion = "2.0.0",
+            rxKotlinVersion = "2.4.0-RC3",
+            rxBindingVersion = "3.0.0",
             rxAndroidVersion = "2.0.1",
             rxBroadCastVersion = "2.0.0",
             rxPreferencesVersion = "2.0.0",
@@ -48,9 +47,9 @@ ext {
             okHttpVersion = "4.0.1",
 
             moshiVersion = "1.8.0",
-            koshiVersion = "2.0-rc1",
+            koshiVersion = "2.0.1",
 
-            conductorVersion = "3.0.0-rc1",
+            conductorVersion = "3.0.0-rc2",
 
             leakCanaryVersion = "1.6.3",
 
@@ -58,7 +57,7 @@ ext {
 
             zXingVersion = "1.9.8",
 
-            frescoVersion = "1.13.0",
+            frescoVersion = "2.0.0",
 
             lottieVersion = "3.0.0",
 
@@ -75,7 +74,7 @@ ext {
             jsonTestVersion = "20140107",
 
             bottomNavVersion = "2.1.0",
-            epoxyVersion = "3.6.0"
+            epoxyVersion = "3.7.0"
     ]
 }
 ext {
@@ -100,7 +99,7 @@ ext {
 
                     fakeIt = "com.github.moove-it:fakeit:$fakeItVersion",
 
-                    robolectric = "org.robolectric:robolectric:$robolectricVersion"
+                    robolectric = "org.robolectric:robolectric:4.2"
             ],
 
             kotlin = [
@@ -177,21 +176,14 @@ ext {
             rxJavaLibs = [
                     //rxjava
                     rxJava = "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
-                    rxKotlin = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion",
+                    rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.4.0-RC3",
                     rxAndroid = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
                     rxPreferences = "com.f2prateek.rx.preferences2:rx-preferences:$rxPreferencesVersion",
                     rxJavaRetrofit = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
 
-                    rxBindingKotlin = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion",
-                    rxBindingCompat = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion",
-                    rxBindingCompatKotlin = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:$rxBindingVersion"
-//                    rxBinding = "com.jakewharton.rxbinding3:rxbinding-core:$rxBindingVersion",
-//                    rxBindingCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion",
-//                    rxBindingMaterial = "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion",
-//                    rxBindingViewPager = "com.jakewharton.rxbinding3:rxbinding-viewpager:$rxBindingVersion",
-//                    rxBindingRecyclerView = "com.jakewharton.rxbinding3:rxbinding-recyclerview:$rxBindingVersion",
-//                    rxBindingSlidingPanel = "com.jakewharton.rxbinding3:rxbinding-slidingpanelayout:$rxBindingVersion",
-//                    rxBindingSwipeRefresh = "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:$rxBindingVersion"
+                    rxBindingKotlin = "com.jakewharton.rxbinding3:rxbinding:$rxBindingVersion",
+                    rxBindingCompat = "com.jakewharton.rxbinding3:rxbinding-appcompat:$rxBindingVersion",
+                    rxBindingMaterial = "com.jakewharton.rxbinding3:rxbinding-material:$rxBindingVersion"
             ],
 
             moshiLibs = [
@@ -215,7 +207,7 @@ ext {
             annotationLibs = [
                     javaxAnnotation = "javax.annotation:jsr250-api:$javaxVersion",
                     injectAnnotation = "javax.inject:javax.inject:$javaxInjectVersion",
-                    jetbrainsAnnotation = "org.jetbrains:annotations:16.0.2"
+                    jetbrainsAnnotation = "org.jetbrains:annotations:17.0.0"
             ],
 
             ui = [

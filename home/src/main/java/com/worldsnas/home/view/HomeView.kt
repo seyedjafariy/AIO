@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.google.android.material.appbar.AppBarLayout
-import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.base.BaseView
 import com.worldsnas.core.helpers.pages
 import com.worldsnas.core.transitionNameCompat

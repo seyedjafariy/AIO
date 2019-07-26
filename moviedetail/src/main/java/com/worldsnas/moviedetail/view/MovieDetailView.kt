@@ -13,7 +13,7 @@ import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.facebook.drawee.view.SimpleDraweeView
-import com.jakewharton.rxbinding2.view.clicks
+import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.base.BaseView
 import com.worldsnas.core.*
 import com.worldsnas.daggercore.CoreComponent

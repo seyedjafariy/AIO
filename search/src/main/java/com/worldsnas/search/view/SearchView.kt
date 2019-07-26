@@ -6,7 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import butterknife.BindView
-import com.jakewharton.rxbinding2.widget.textChangeEvents
+import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.worldsnas.base.BaseView
 import com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
 import com.worldsnas.core.helpers.pages
@@ -89,10 +89,10 @@ class SearchView(
     private fun searchQueryIntents() =
         searchEditText.textChangeEvents()
             .skipInitialValue()
-            .filter { it.text().toString().length > 1 }
+            .filter { it.text.toString().length > 1 }
             .debounce(1, TimeUnit.SECONDS)
             .map {
-                it.text().toString()
+                it.text.toString()
             }
             .map {
                 SearchIntent.Search(it)
@@ -103,11 +103,11 @@ class SearchView(
             .withLatestFrom(
                 searchEditText.textChangeEvents()
                     .skipInitialValue()
-                    .filter { it.text().toString().length > 1 }
+                    .filter { it.text.toString().length > 1 }
             )
             .map {
                 SearchIntent.NextPage(
-                    it.second.text().toString(),
+                    it.second.text.toString(),
                     it.first.totalItemsCount,
                     it.first.page
                 )
