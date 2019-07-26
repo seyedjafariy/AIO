@@ -5,6 +5,7 @@ import com.worldsnas.domain.helpers.TMDBImageUrlFactory
 import com.worldsnas.domain.repo.genre.GenreRepoModule
 import com.worldsnas.domain.repo.home.HomeRepoModule
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepoModule
+import com.worldsnas.domain.repo.people.PeopleRepoModule
 import com.worldsnas.domain.repo.search.SearchRepoModule
 import com.worldsnas.panther.Factory
 import dagger.Binds
@@ -16,7 +17,8 @@ import dagger.Module
         HomeRepoModule::class,
         MovieDetailRepoModule::class,
         SearchRepoModule::class,
-        GenreRepoModule::class]
+        GenreRepoModule::class,
+        PeopleRepoModule::class]
 )
 abstract class DomainModule {
 

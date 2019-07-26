@@ -13,7 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
         classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
@@ -36,7 +36,7 @@ allprojects {
         maven {
             url 'http://storage.googleapis.com/r8-releases/raw'
         }
-        
+        maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
     }
 }
 

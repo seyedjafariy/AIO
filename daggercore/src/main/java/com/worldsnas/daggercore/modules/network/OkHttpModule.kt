@@ -19,7 +19,11 @@ object OkHttpModule {
     @JvmStatic
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor { message -> Timber.d(message) }
+        val httpLoggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Timber.d(message)
+            }
+        })
 
         httpLoggingInterceptor.level = if (DEBUG) BODY else NONE
 

@@ -1,5 +1,5 @@
 ext {
-    libVersion = [
+        libVersion = [
 
             jUnitVersion = "4.12",
             assertJVersion = "2.9.1",
@@ -10,7 +10,8 @@ ext {
             fakeItVersion = "v0.5",
             robolectricVersion = "4.2",
 
-            kotlinVersion = "1.3.21",
+            kotlinVersion = "1.3.31",
+            arrowVersion = "0.9.0",
 
             supportLibraryVersion = "1.0.0",
             googleMaterialVersion = "1.0.0-rc01",
@@ -43,8 +44,8 @@ ext {
 
             timberVersion = "4.7.1",
 
-            retrofitVersion = "2.5.0",
-            okHttpVersion = "3.14.0",
+            retrofitVersion = "2.6.0",
+            okHttpVersion = "4.0.1",
 
             moshiVersion = "1.8.0",
             koshiVersion = "2.0-rc1",
@@ -108,6 +109,27 @@ ext {
                     kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
             ],
 
+            arrowKotlin = [
+                    arrowCore = "io.arrow-kt:arrow-core-data:$arrowVersion",
+                    arrowExtensions = "io.arrow-kt:arrow-core-extensions:$arrowVersion",
+
+                    arrowSyntax = "io.arrow-kt:arrow-syntax:$arrowVersion",
+                    arrowTypeClasses = "io.arrow-kt:arrow-typeclasses:$arrowVersion",
+
+                    arrowExtras = "io.arrow-kt:arrow-extras-data:$arrowVersion",
+                    arrowExtrasExtensions = "io.arrow-kt:arrow-extras-extensions:$arrowVersion",
+
+                    arrowEffectData = "io.arrow-kt:arrow-effects-data:$arrowVersion",
+                    arrowEffectExtensions = "io.arrow-kt:arrow-effects-extensions:$arrowVersion",
+
+                    arrowEffectRx = "io.arrow-kt:arrow-effects-rx2-data:$arrowVersion",
+                    arrowEffectRxExtensions = "io.arrow-kt:arrow-effects-rx2-extensions:$arrowVersion",
+
+                    arrowEffectCoroutine = "io.arrow-kt:arrow-effects-kotlinx-coroutines-data:$arrowVersion",
+                    arrowEffectCoroutineExtensions = "io.arrow-kt:arrow-effects-kotlinx-coroutines-extensions:$arrowVersion",
+
+                    arrowCompiler = "io.arrow-kt:arrow-meta:$arrowVersion"
+            ],
             support = [
                     //support
                     compat = "androidx.appcompat:appcompat:$supportLibraryVersion",
@@ -148,6 +170,7 @@ ext {
                     //network
                     retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion",
                     okHttp = "com.squareup.okhttp3:okhttp:$okHttpVersion",
+                    mockWebServer = "com.squareup.okhttp3:mockwebserver:4.0.1",
                     okHttpLogging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
             ],
 

@@ -1,6 +1,6 @@
 package com.worldsnas.domain.repo.genre
 
-import com.worldsnas.domain.model.servermodels.GenreServerModel
+import com.worldsnas.domain.model.servermodels.GenreListServerModel
 import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
@@ -24,7 +24,7 @@ abstract class GenreRepoModule {
     @Binds
     abstract fun bindMovieGenreFetcher(
         fetcher: MovieGenreFetcher
-    ): RFetcher<Unit, ArrayList<GenreServerModel>>
+    ): RFetcher<Unit, GenreListServerModel>
 
     @Binds
     abstract fun bindRepo(
