@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'jacoco-android'
 
+apply from: "$rootDir/projectDependencyGraph.gradle"
+
 android {
     compileSdkVersion 28
     defaultConfig {

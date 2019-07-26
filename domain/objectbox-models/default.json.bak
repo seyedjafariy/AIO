@@ -638,11 +638,32 @@
           "name": "movies"
         }
       ]
+    },
+    {
+      "id": "14:8480177365503104013",
+      "lastPropertyId": "2:3461921493123422284",
+      "name": "TrendingEntity",
+      "properties": [
+        {
+          "id": "1:4690762583715356968",
+          "name": "id"
+        },
+        {
+          "id": "2:3461921493123422284",
+          "name": "cache_time"
+        }
+      ],
+      "relations": [
+        {
+          "id": "25:4192747782714681676",
+          "name": "movies"
+        }
+      ]
     }
   ],
-  "lastEntityId": "13:5374747026880338855",
+  "lastEntityId": "14:8480177365503104013",
   "lastIndexId": "3:1984258595997344081",
-  "lastRelationId": "24:7094961245671802927",
+  "lastRelationId": "25:4192747782714681676",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
