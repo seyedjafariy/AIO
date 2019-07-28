@@ -59,6 +59,7 @@ ext {
     aioAlias = values.getProperty('aioAlias')
     keyPass = values.getProperty('keyPass')
     keyStoreAddress = values.getProperty('keyStoreAddress')
+    fabricAPIKey = values.getProperty('Fabric_API_KEY')
 }
 
 def loadValues() {
@@ -71,6 +72,7 @@ def loadValues() {
         localProperties.setProperty('aioAlias', System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS"))
         localProperties.setProperty('keyPass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD"))
         localProperties.setProperty('keyStoreAddress', System.getenv("HOME") + "/keystores/aio-key.jks")
+        localProperties.setProperty('Fabric_API_KEY', System.getenv("BITRISEIO_FABRIC_API_KEY"))
     }
     return localProperties
 }

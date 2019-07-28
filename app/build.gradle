@@ -22,6 +22,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
+        manifestPlaceholders = [
+                fabric_api_key:"$fabricAPIKey"
+        ]
     }
     signingConfigs {
         release {
