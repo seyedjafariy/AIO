@@ -1,5 +1,5 @@
 ext {
-        libVersion = [
+    libVersion = [
 
             jUnitVersion = "4.13-beta-3",
             assertJVersion = "3.12.2",
@@ -21,11 +21,6 @@ ext {
 
             androidKotlinExtVersion1 = "1.0.0",
             androidKotlinExtVersion2 = "2.0.0",
-
-            firebaseMessagingVersion = "17.3.4",
-            firebaseCrashVersion = "16.2.1",
-            firebaseCoreVersion = "16.0.4",
-            crashlyticsVersion = "2.9.5",
 
             daggerVersion = "2.24",
             javaxVersion = "1.0",
@@ -74,7 +69,8 @@ ext {
             jsonTestVersion = "20140107",
 
             bottomNavVersion = "2.1.0",
-            epoxyVersion = "3.7.0"
+            epoxyVersion = "3.7.0",
+            flipperVersion = "0.23.3"
     ]
 }
 ext {
@@ -159,7 +155,7 @@ ext {
             ],
 
             firebase = [
-                    firebaseCore = "com.google.firebase:firebase-core:17.0.0",
+                    firebaseCore = "com.google.firebase:firebase-core:17.0.1",
                     firebaseCrashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1",
                     firebaseMessaging = "com.google.firebase:firebase-messaging:19.0.1",
                     firebaseRemoteConfig = "com.google.firebase:firebase-config:18.0.0"
@@ -229,6 +225,9 @@ ext {
                     leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
                     epoxy = "com.airbnb.android:epoxy:$epoxyVersion",
                     epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
+                    flipper = "com.facebook.flipper:flipper:$flipperVersion",
+                    flipperNoOp = "com.facebook.flipper:flipper-noop:$flipperVersion",
+                    soLoader = "com.facebook.soloader:soloader:0.5.1"
             ],
 
             objectboxLib = [

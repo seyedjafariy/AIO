@@ -35,6 +35,14 @@ object OkHttpModule {
     fun provideOkhttpCache(app: Application): Cache =
         Cache(app.cacheDir, 50_000_000)
 
+
+
+//    @JvmStatic
+//    @Provides
+//    @Singleton
+//    fun provideFlipperPlugin() : NetworkFlipperPlugin =
+//        NetworkFlipperPlugin()
+
     @JvmStatic
     @Provides
     @Singleton
@@ -43,6 +51,8 @@ object OkHttpModule {
         protocolInterceptor: NoContentProtocolExceptionInterceptor,
         authInterceptor: AuthTokenAdderInterceptor,
         cache: Cache
+//        ,
+//        flipperPlugin : NetworkFlipperPlugin
     ): OkHttpClient {
 
         val builder = OkHttpClient.Builder()
@@ -53,6 +63,7 @@ object OkHttpModule {
             .addInterceptor(loggingInterceptor)
             .addInterceptor(protocolInterceptor)
             .addInterceptor(authInterceptor)
+//            .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
         return builder.build()
     }
 }

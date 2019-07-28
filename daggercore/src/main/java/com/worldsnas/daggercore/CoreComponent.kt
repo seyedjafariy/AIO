@@ -48,6 +48,7 @@ interface CoreComponent {
     fun searchKeywordsRepo(): SearchKeywordsRepo
 
     fun frescoConfig(): ImagePipelineConfig
+//    fun networkFlipperPlugin(): NetworkFlipperPlugin
 
     @Component.Builder
     interface Builder {
