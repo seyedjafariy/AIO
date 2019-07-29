@@ -40,6 +40,6 @@ dependencies {
     implementation findBugs
     implementation timber
 
-//    debugImplementation flipper
-//    releaseImplementation flipperNoOp
+    debugImplementation flipper
+    releaseImplementation flipperNoOp
 }

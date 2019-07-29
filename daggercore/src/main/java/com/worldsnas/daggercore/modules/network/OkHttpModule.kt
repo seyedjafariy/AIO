@@ -1,6 +1,8 @@
 package com.worldsnas.daggercore.modules.network
 
 import android.app.Application
+import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.worldsnas.daggercore.BuildConfig.DEBUG
 import dagger.Module
 import dagger.Provides
@@ -37,11 +39,11 @@ object OkHttpModule {
 
 
 
-//    @JvmStatic
-//    @Provides
-//    @Singleton
-//    fun provideFlipperPlugin() : NetworkFlipperPlugin =
-//        NetworkFlipperPlugin()
+    @JvmStatic
+    @Provides
+    @Singleton
+    fun provideFlipperPlugin() : NetworkFlipperPlugin =
+        NetworkFlipperPlugin()
 
     @JvmStatic
     @Provides
@@ -50,9 +52,8 @@ object OkHttpModule {
         loggingInterceptor: HttpLoggingInterceptor,
         protocolInterceptor: NoContentProtocolExceptionInterceptor,
         authInterceptor: AuthTokenAdderInterceptor,
-        cache: Cache
-//        ,
-//        flipperPlugin : NetworkFlipperPlugin
+        cache: Cache,
+        flipperPlugin : NetworkFlipperPlugin
     ): OkHttpClient {
 
         val builder = OkHttpClient.Builder()
@@ -63,7 +64,7 @@ object OkHttpModule {
             .addInterceptor(loggingInterceptor)
             .addInterceptor(protocolInterceptor)
             .addInterceptor(authInterceptor)
-//            .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
+            .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
         return builder.build()
     }
 }

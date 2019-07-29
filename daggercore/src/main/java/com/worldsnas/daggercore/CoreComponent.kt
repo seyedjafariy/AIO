@@ -1,6 +1,7 @@
 package com.worldsnas.daggercore
 
 import android.app.Application
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.squareup.moshi.Moshi
 import com.worldsnas.daggercore.modules.CoreModule
@@ -48,7 +49,7 @@ interface CoreComponent {
     fun searchKeywordsRepo(): SearchKeywordsRepo
 
     fun frescoConfig(): ImagePipelineConfig
-//    fun networkFlipperPlugin(): NetworkFlipperPlugin
+    fun networkFlipperPlugin(): NetworkFlipperPlugin
 
     @Component.Builder
     interface Builder {

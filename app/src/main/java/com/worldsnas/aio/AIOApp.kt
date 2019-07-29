@@ -6,6 +6,15 @@ import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.common.logging.FLog
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.flipper.android.AndroidFlipperClient
+import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
+import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin
+import com.facebook.flipper.plugins.inspector.DescriptorMapping
+import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
+import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin
+import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
+import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.facebook.soloader.SoLoader
 import com.squareup.leakcanary.LeakCanary
@@ -24,7 +33,7 @@ class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
 
     private lateinit var frescoConfig: ImagePipelineConfig
     private lateinit var refWatcher: RefWatcher
-//    private lateinit var networkFlipperPlugin: NetworkFlipperPlugin
+    private lateinit var networkFlipperPlugin: NetworkFlipperPlugin
 
     private val coreComponent by lazy {
         DaggerCoreComponent
@@ -43,7 +52,7 @@ class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
     override fun onCreate() {
         super.onCreate()
         frescoConfig = coreComponent.frescoConfig()
-//        networkFlipperPlugin = coreComponent.networkFlipperPlugin()
+        networkFlipperPlugin = coreComponent.networkFlipperPlugin()
 
         refWatcher = LeakCanary.install(this)
 
@@ -80,32 +89,32 @@ class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
     }
 
     private fun initFlipper() {
-        SoLoader.init(this, false)
+        if (DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+            SoLoader.init(this, false)
 
-//        if (DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
-//            val client = AndroidFlipperClient.getInstance(this)
-//            client.addPlugin(
-//                InspectorFlipperPlugin(
-//                    this,
-//                    DescriptorMapping.withDefaults()
-//                )
-//            )
-//            client.addPlugin(
-//                networkFlipperPlugin
-//            )
-//            client.addPlugin(
-//                FrescoFlipperPlugin()
-//            )
-//            client.addPlugin(
-//                SharedPreferencesFlipperPlugin(this, this.packageName)
-//            )
-//            client.addPlugin(
-//                LeakCanaryFlipperPlugin()
-//            )
-//            client.addPlugin(
-//                CrashReporterPlugin.getInstance()
-//            )
-//            client.start()
-//        }
+            val client = AndroidFlipperClient.getInstance(this)
+            client.addPlugin(
+                InspectorFlipperPlugin(
+                    this,
+                    DescriptorMapping.withDefaults()
+                )
+            )
+            client.addPlugin(
+                networkFlipperPlugin
+            )
+            client.addPlugin(
+                FrescoFlipperPlugin()
+            )
+            client.addPlugin(
+                SharedPreferencesFlipperPlugin(this, this.packageName)
+            )
+            client.addPlugin(
+                LeakCanaryFlipperPlugin()
+            )
+            client.addPlugin(
+                CrashReporterPlugin.getInstance()
+            )
+            client.start()
+        }
     }
 }
