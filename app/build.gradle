@@ -22,6 +22,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
+        manifestPlaceholders = [
+                fabric_api_key:"$fabricAPIKey"
+        ]
     }
     signingConfigs {
         release {
@@ -115,6 +118,7 @@ dependencies {
     implementation dagger
     implementation findBugs
     kapt daggerCompiler
+    implementation jetbrainsAnnotation
 
     implementation retrofit
     implementation moshi
@@ -145,7 +149,10 @@ dependencies {
 
     implementation epoxy
     kapt epoxyCompiler
-    implementation jetbrainsAnnotation
+
+    implementation soLoader
+    debugImplementation flipper
+    releaseImplementation flipperNoOp
 }
 apply plugin: 'com.google.gms.google-services'
 
