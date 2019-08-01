@@ -10,6 +10,8 @@ apply plugin: 'jacoco-android'
 
 apply from: "$rootDir/projectDependencyGraph.gradle"
 
+check.dependsOn detekt
+
 android {
     compileSdkVersion 28
     defaultConfig {

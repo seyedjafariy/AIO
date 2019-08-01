@@ -1,15 +1,6 @@
-apply plugin: "com.github.ben-manes.versions"
-/*
-    you may use
-        gradle dependencyUpdates -Drevision=release
-    to check if all the dependencies are uptodate.
-    for further configuration check
-        https://github.com/ben-manes/gradle-versions-plugin
- */
-
 buildscript {
-    apply from : "dependencies.gradle"
-    apply from : "extras.gradle"
+    apply from: "dependencies.gradle"
+    apply from: "extras.gradle"
     repositories {
         google()
         jcenter()
@@ -31,8 +22,13 @@ buildscript {
     }
 }
 
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC16")
+}
+
+apply plugin: "com.github.ben-manes.versions"
+
 allprojects {
-    apply from: "$rootDir/ktlint.gradle"
     repositories {
         google()
         jcenter()
@@ -46,10 +42,17 @@ allprojects {
         }
         maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
     }
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+    dependencies{
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detektPluginVersion"
+    }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+detekt {
+    toolVersion = detektPluginVersion
+    input = files("src/main/kotlin")
+    filters = ".*/resources/.*,.*/build/.*"
+    config = files("detekt.yml")
 }
 
 ext {
