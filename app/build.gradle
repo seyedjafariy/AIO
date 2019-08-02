@@ -19,8 +19,8 @@ android {
         applicationId "com.worldsnas.aio"
         minSdkVersion projectMinSdkVersion
         targetSdkVersion projectTargetSdkVersion
-        versionCode 21000705
-        versionName "0.7.5"
+        versionCode 21000706
+        versionName "0.7.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
@@ -142,6 +142,7 @@ dependencies {
     implementation project(slider)
 
     implementation firebaseCore
+    implementation firebaseAnalytics
     implementation firebaseCrashlytics
     implementation firebaseMessaging
     implementation firebaseRemoteConfig
@@ -152,7 +153,7 @@ dependencies {
     implementation epoxy
     kapt epoxyCompiler
 
-    implementation soLoader
+    debugImplementation soLoader
     debugImplementation flipper
     releaseImplementation flipperNoOp
 }

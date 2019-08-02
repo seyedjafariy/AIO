@@ -76,7 +76,6 @@ fastlane/readme.md
 .idea/markdown-navigator/
 libs/
 src/main/kotlin/com/
-release/
 src/androidTest/
 src/main/java/com/worldsnas/aio/home/
 src/test/
