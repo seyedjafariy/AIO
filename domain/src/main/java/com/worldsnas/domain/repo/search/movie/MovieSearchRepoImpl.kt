@@ -7,7 +7,7 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoOutputModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoParamModel
-import com.worldsnas.domain.repo.search.movie.model.MovieSearchRequestParam
+import com.worldsnas.domain.repo.search.movie.model.SearchRequestParam
 import com.worldsnas.panther.Mapper
 import com.worldsnas.panther.RFetcher
 import io.reactivex.Observable
@@ -15,7 +15,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class MovieSearchRepoImpl @Inject constructor(
-    private val fetcher: RFetcher<MovieSearchRequestParam, ResultsServerModel<MovieServerModel>>,
+    private val fetcher: RFetcher<SearchRequestParam, ResultsServerModel<MovieServerModel>>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>
 ) : MovieSearchRepo {
 
@@ -23,7 +23,7 @@ class MovieSearchRepoImpl @Inject constructor(
 
     override fun search(param: MovieSearchRepoParamModel): Single<MovieSearchRepoOutputModel> =
         fetcher.fetch(
-            MovieSearchRequestParam(
+            SearchRequestParam(
                 param.query,
                 param.page
             )

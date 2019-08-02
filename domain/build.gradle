@@ -9,6 +9,12 @@ dependencies {
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
     testImplementation jsonTest
+    testImplementation mockWebServer
+    testImplementation rxJavaRetrofit
+    testImplementation moshiRetrofit
+    testImplementation okHttp
+
+
 
     implementation(project(panther))
     implementation(project(core))
@@ -30,5 +36,6 @@ dependencies {
 
     implementation timber
 
-    implementation "com.nytimes.android:store3:3.1.1"
+    implementation arrowCore
+    implementation arrowExtensions
 }

@@ -1,31 +1,42 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.worldsnas.aio">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.worldsnas.aio">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-            android:allowBackup="true"
-            android:label="@string/app_name"
-            android:icon="@mipmap/ic_launcher"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:extractNativeLibs="true"
-            android:theme="@style/AppTheme"
-            tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
-            android:name=".AIOApp"
-            tools:replace="extractNativeLibs"
-            android:fullBackupContent="true">
+        android:name=".AIOApp"
+        android:allowBackup="true"
+        android:extractNativeLibs="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
+        tools:replace="extractNativeLibs">
 
-
-        <activity android:name=".MainActivity"
-                  android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
+            android:exported="true" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${fabric_api_key}"
+            />
     </application>
 </manifest>

@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 apply plugin: "com.jakewharton.butterknife"
 
+check.dependsOn detekt
+
 android {
     compileSdkVersion prjectCompileSdkVersion
 
@@ -12,6 +14,14 @@ android {
         targetSdkVersion projectTargetSdkVersion
         versionCode 1
         versionName "1.0"
+    }
+    buildTypes {
+        release {
+            debuggable isReleaseDebuggable
+        }
+        debug {
+            debuggable isDebugDebuggable
+        }
     }
     compileOptions {
         targetCompatibility 1.8

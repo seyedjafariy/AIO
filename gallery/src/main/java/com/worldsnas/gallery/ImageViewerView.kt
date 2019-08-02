@@ -97,7 +97,7 @@ internal class ImageViewerView : RelativeLayout, OnDismissListener, SwipeToDismi
     fun setOverlayView(view: View) {
         this.overlayView = view
         if (overlayView != null) {
-            dismissContainer!!.addView(view)
+            dismissContainer.addView(view)
         }
     }
 
@@ -130,10 +130,10 @@ internal class ImageViewerView : RelativeLayout, OnDismissListener, SwipeToDismi
 
         dismissContainer = findViewById(R.id.container)
         swipeDismissListener = SwipeToDismissListener(findViewById(R.id.dismissView), this, this)
-        dismissContainer!!.setOnTouchListener(swipeDismissListener)
+        dismissContainer.setOnTouchListener(swipeDismissListener)
 
         directionDetector = object : SwipeDirectionDetector(context) {
-            override fun onDirectionDetected(direction: SwipeDirectionDetector.Direction) {
+            override fun onDirectionDetected(direction: Direction) {
                 this@ImageViewerView.direction = direction
             }
         }
@@ -177,6 +177,8 @@ internal class ImageViewerView : RelativeLayout, OnDismissListener, SwipeToDismi
                         return pager!!.dispatchTouchEvent(
                             event
                         )
+                    SwipeDirectionDetector.Direction.NOT_DETECTED ->
+                        return false
                 }
             }
             return true

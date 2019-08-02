@@ -5,8 +5,9 @@ import android.telephony.IccOpenLogicalChannelResponse.STATUS_NO_SUCH_ELEMENT
 import com.squareup.moshi.JsonDataException
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.R
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -29,7 +30,7 @@ fun getServerErrorStatusCode(throwable: Throwable): Int = when (throwable) {
 }
 
 fun getServerErrorBody(throwable: Throwable): ResponseBody {
-    val type = MediaType.parse("text")
+    val type = "text".toMediaTypeOrNull()
 
     val message: String = when (throwable) {
         is JsonDataException -> "Malformed Json"
@@ -41,7 +42,7 @@ fun getServerErrorBody(throwable: Throwable): ResponseBody {
         else -> "Error"
     }
 
-    return ResponseBody.create(type, message)
+    return message.toResponseBody(type)
 }
 
 fun <T> createErrorResponse(throwable: Throwable): Response<T> {

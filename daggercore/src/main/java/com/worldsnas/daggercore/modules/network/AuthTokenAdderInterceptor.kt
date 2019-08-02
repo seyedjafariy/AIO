@@ -9,7 +9,7 @@ class AuthTokenAdderInterceptor @Inject constructor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val originalUrl = request.url()
+        val originalUrl = request.url
         val url = originalUrl
             .newBuilder()
             .addQueryParameter("api_key", BuildConfig.API_KEY)
@@ -19,7 +19,7 @@ class AuthTokenAdderInterceptor @Inject constructor(
                 response
                     .newBuilder()
                     .request(
-                        response.request()
+                        response.request
                             .newBuilder()
                             .url(originalUrl)
                             .build()

@@ -16,19 +16,18 @@ import com.worldsnas.daggercore.CoreComponentProvider
 import com.worldsnas.daggercore.DaggerCoreComponent
 import com.worldsnas.daggercore.modules.DatabaseModule
 import io.fabric.sdk.android.Fabric
-import timber.log.Timber
 
-class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
+abstract class BaseApp : Application(), CoreComponentProvider, RefWatcherProvider {
 
     private lateinit var frescoConfig: ImagePipelineConfig
     private lateinit var refWatcher: RefWatcher
 
-    private val coreComponent by lazy {
+    protected val coreComponent by lazy {
         DaggerCoreComponent
             .builder()
             .setApplication(this)
             .setDatabaseModule(DatabaseModule())
-            .build()
+            .build() as CoreComponent
     }
 
     override fun core(): CoreComponent =
@@ -40,11 +39,8 @@ class AIOApp : Application(), CoreComponentProvider, RefWatcherProvider {
     override fun onCreate() {
         super.onCreate()
         frescoConfig = coreComponent.frescoConfig()
-        refWatcher = LeakCanary.install(this)
 
-        if (DEBUG) {
-            Timber.plant(Timber.DebugTree())
-        }
+        refWatcher = LeakCanary.install(this)
 
         Fresco.initialize(this, frescoConfig)
 

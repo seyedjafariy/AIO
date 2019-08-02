@@ -8,6 +8,10 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'jacoco-android'
 
+apply from: "$rootDir/projectDependencyGraph.gradle"
+
+check.dependsOn detekt
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -15,11 +19,14 @@ android {
         applicationId "com.worldsnas.aio"
         minSdkVersion projectMinSdkVersion
         targetSdkVersion projectTargetSdkVersion
-        versionCode 21000705
-        versionName "0.7.5"
+        versionCode 21000706
+        versionName "0.7.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
+        manifestPlaceholders = [
+                fabric_api_key:"$fabricAPIKey"
+        ]
     }
     signingConfigs {
         release {
@@ -113,6 +120,7 @@ dependencies {
     implementation dagger
     implementation findBugs
     kapt daggerCompiler
+    implementation jetbrainsAnnotation
 
     implementation retrofit
     implementation moshi
@@ -134,6 +142,7 @@ dependencies {
     implementation project(slider)
 
     implementation firebaseCore
+    implementation firebaseAnalytics
     implementation firebaseCrashlytics
     implementation firebaseMessaging
     implementation firebaseRemoteConfig
@@ -143,7 +152,10 @@ dependencies {
 
     implementation epoxy
     kapt epoxyCompiler
-    implementation jetbrainsAnnotation
+
+    debugImplementation soLoader
+    debugImplementation flipper
+    releaseImplementation flipperNoOp
 }
 apply plugin: 'com.google.gms.google-services'
 

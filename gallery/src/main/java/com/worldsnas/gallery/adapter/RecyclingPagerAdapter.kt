@@ -63,9 +63,9 @@ abstract class RecyclingPagerAdapter<VH : ViewHolder> : PagerAdapter() {
         return itemCount
     }
 
-    override fun getItemPosition(`object`: Any): Int {
-        return PagerAdapter.POSITION_NONE
-    }
+    override fun getItemPosition(`object`: Any): Int =
+        POSITION_NONE
+
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
         val viewType = getItemViewType(position)
@@ -74,6 +74,7 @@ abstract class RecyclingPagerAdapter<VH : ViewHolder> : PagerAdapter() {
         }
         val viewHolder = mRecycleTypeCaches.get(viewType).getFreeViewHolder(parent, viewType)
         viewHolder.attach(parent, position)
+        @Suppress("UNCHECKED_CAST")
         onBindViewHolder(viewHolder as VH, position)
         viewHolder.onRestoreInstanceState(mSavedStates.get(getItemId(position)))
         return viewHolder
@@ -86,7 +87,7 @@ abstract class RecyclingPagerAdapter<VH : ViewHolder> : PagerAdapter() {
     override fun notifyDataSetChanged() {
         super.notifyDataSetChanged()
         for (viewHolder in attachedViewHolders) {
-            onNotifyItemChanged(viewHolder)
+            onNotifyItemChanged()
         }
     }
 
@@ -94,7 +95,8 @@ abstract class RecyclingPagerAdapter<VH : ViewHolder> : PagerAdapter() {
         if (state is Bundle) {
             val bundle = state as Bundle?
             bundle!!.classLoader = loader
-            val ss = if (bundle.containsKey(STATE)) bundle.getSparseParcelableArray<Parcelable>(STATE) else null
+            val ss =
+                if (bundle.containsKey(STATE)) bundle.getSparseParcelableArray<Parcelable>(STATE) else null
             mSavedStates = ss ?: SparseArray()
         }
         super.restoreState(state, loader)
@@ -109,18 +111,20 @@ abstract class RecyclingPagerAdapter<VH : ViewHolder> : PagerAdapter() {
         return bundle
     }
 
-    fun getItemId(position: Int): Int {
-        return position
-    }
+    private fun getItemId(position: Int): Int =
+        position
 
-    fun getItemViewType(position: Int): Int {
-        return 0
-    }
 
-    protected fun onNotifyItemChanged(viewHolder: ViewHolder) {}
+    private fun getItemViewType(
+        @Suppress("UNUSED_PARAMETER")
+        position: Int
+    ): Int = 0
 
-    private class RecycleCache internal constructor(private val mAdapter: RecyclingPagerAdapter<*>) {
+    private fun onNotifyItemChanged() {}
 
+    private class RecycleCache internal constructor(
+        private val mAdapter: RecyclingPagerAdapter<*>
+    ) {
         val mCaches: MutableList<ViewHolder>
 
         init {
@@ -145,11 +149,6 @@ abstract class RecyclingPagerAdapter<VH : ViewHolder> : PagerAdapter() {
     }
 
     companion object {
-
         private val STATE = RecyclingPagerAdapter::class.java.simpleName
-
-        private val TAG = RecyclingPagerAdapter::class.java.simpleName
-
-        var DEBUG = false
     }
 }

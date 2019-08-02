@@ -3,7 +3,8 @@ package com.worldsnas.daggercore.modules.network
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response
-import okhttp3.internal.Util
+import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.internal.EMPTY_BYTE_ARRAY
 import java.io.IOException
 import java.net.ProtocolException
 import javax.inject.Inject
@@ -21,7 +22,7 @@ class NoContentProtocolExceptionInterceptor @Inject constructor(
                         .code(204)
                         .protocol(Protocol.HTTP_1_1)
                         .message("")
-                        .body(Util.EMPTY_RESPONSE)
+                        .body(EMPTY_BYTE_ARRAY.toResponseBody())
                         .build()
             }
 

@@ -1,8 +1,6 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    apply from : "dependencies.gradle"
-    apply from : "extras.gradle"
+    apply from: "dependencies.gradle"
+    apply from: "extras.gradle"
     repositories {
         google()
         jcenter()
@@ -13,18 +11,24 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
         classpath "io.objectbox:objectbox-gradle-plugin:$objectboxVersion"
         classpath "com.jakewharton:butterknife-gradle-plugin:$butterKnifeVersion"
         classpath 'com.google.gms:google-services:4.3.0'
-        classpath 'io.fabric.tools:gradle:1.30.0'
+        classpath 'io.fabric.tools:gradle:1.31.0'
+        classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
     }
 }
 
+plugins {
+    id("io.gitlab.arturbosch.detekt").version("1.0.0-RC16")
+}
+
+apply plugin: "com.github.ben-manes.versions"
+
 allprojects {
-    apply from: "$rootDir/ktlint.gradle"
     repositories {
         google()
         jcenter()
@@ -36,12 +40,19 @@ allprojects {
         maven {
             url 'http://storage.googleapis.com/r8-releases/raw'
         }
-        
+        maven { url "https://dl.bintray.com/arrow-kt/arrow-kt/" }
+    }
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+    dependencies{
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:$detektPluginVersion"
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+detekt {
+    toolVersion = detektPluginVersion
+    input = files("src/main/kotlin")
+    filters = ".*/resources/.*,.*/build/.*"
+    config = files("detekt.yml")
 }
 
 ext {
@@ -51,6 +62,7 @@ ext {
     aioAlias = values.getProperty('aioAlias')
     keyPass = values.getProperty('keyPass')
     keyStoreAddress = values.getProperty('keyStoreAddress')
+    fabricAPIKey = values.getProperty('Fabric_API_KEY')
 }
 
 def loadValues() {
@@ -63,6 +75,7 @@ def loadValues() {
         localProperties.setProperty('aioAlias', System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS"))
         localProperties.setProperty('keyPass', System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD"))
         localProperties.setProperty('keyStoreAddress', System.getenv("HOME") + "/keystores/aio-key.jks")
+        localProperties.setProperty('Fabric_API_KEY', System.getenv("Fabric_API_KEY"))
     }
     return localProperties
 }
