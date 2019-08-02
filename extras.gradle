@@ -1,5 +1,5 @@
 ext{
-    isReleaseDebuggable = true
+    isReleaseDebuggable = false
     isDebugDebuggable = true
     isDebugMinify = false
     isReleaseMinify = true
