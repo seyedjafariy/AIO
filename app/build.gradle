@@ -8,6 +8,8 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'jacoco-android'
 
+apply plugin: 'io.fabric'
+
 apply from: "$rootDir/projectDependencyGraph.gradle"
 
 check.dependsOn detekt
