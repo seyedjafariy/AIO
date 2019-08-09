@@ -29,8 +29,8 @@ class MovieDetailPresenterTest {
     @Before
     fun setUp() {
         clearMocks(repo)
-        processor = MovieDetailProcessor(repo)
-        presenter = MovieDetailPresenter(processor)
+//        processor = MovieDetailProcessor(repo)
+//        presenter = MovieDetailPresenter(processor)
     }
 
     @Test

@@ -121,7 +121,6 @@ dependencies {
     testImplementation supportJunitExt
     testImplementation espressoCore
 
-//    androidTestImplementation mockkAndroid
     androidTestImplementation supportTestRunner
     androidTestImplementation supportTestCore
     androidTestImplementation supportTestRule

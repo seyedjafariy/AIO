@@ -1,22 +1,28 @@
 apply from : dynamicFeature
 
 dependencies {
-    implementation(project(base))
     testImplementation junit
     testImplementation assertJ
     testImplementation mockkUnit
-    testImplementation supportCore
-    testImplementation supportJunitExt
-    testImplementation supportTestRule
-    testImplementation supportTestRunner
-    testImplementation espressoCore
     testImplementation robolectric
-    testImplementation(project(kotlinTestHelper))
+    testImplementation supportTestRunner
+    testImplementation supportTestCore
+    testImplementation supportTestRule
+    testImplementation supportJunitExt
+    testImplementation espressoCore
+
     androidTestImplementation supportTestRunner
+    androidTestImplementation supportTestCore
+    androidTestImplementation supportTestRule
+    androidTestImplementation supportJunitExt
     androidTestImplementation espressoCore
+    androidTestImplementation espressoIntents
     testImplementation jsonTest
 
+    testImplementation(project(kotlinTestHelper))
+
     implementation(project(domain))
+    implementation(project(base))
     implementation(project(daggerCore))
 
     implementation(project(core))
@@ -44,6 +50,7 @@ dependencies {
     implementation timber
 
     implementation fresco
+    testImplementation soLoader
 
     implementation constraintLayout
 
@@ -55,4 +62,5 @@ dependencies {
 
     implementation epoxy
     kapt epoxy
+
 }

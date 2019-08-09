@@ -20,7 +20,7 @@ sealed class Screens(
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     internal object Test : Screens("com.worldsnas.navigation.TestController")
 
-    object Home : Screens("com.worldsnas.home.HomeView")
+    object Home : Screens("com.worldsnas.home.view.HomeView")
 
     class MovieDetail(
         movie: MovieDetailLocalModel,

@@ -1,19 +1,26 @@
 apply from: androidLib
 
 dependencies {
+
     testImplementation junit
     testImplementation assertJ
     testImplementation mockkUnit
-    testImplementation supportCore
-    testImplementation supportJunitExt
-    testImplementation supportTestRule
-    testImplementation supportTestRunner
-    testImplementation espressoCore
     testImplementation robolectric
-    testImplementation(project(kotlinTestHelper))
+    testImplementation supportTestRunner
+    testImplementation supportTestCore
+    testImplementation supportTestRule
+    testImplementation supportJunitExt
+    testImplementation espressoCore
+
     androidTestImplementation supportTestRunner
+    androidTestImplementation supportTestCore
+    androidTestImplementation supportTestRule
+    androidTestImplementation supportJunitExt
     androidTestImplementation espressoCore
+    androidTestImplementation espressoIntents
     testImplementation jsonTest
+
+    testImplementation(project(kotlinTestHelper))
 
     implementation(project(domain))
     implementation(project(daggerCore))
