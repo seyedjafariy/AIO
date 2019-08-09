@@ -91,12 +91,13 @@ android {
 
     testOptions.unitTests.includeAndroidResources = true
     sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
         test {
-            java.srcDirs += "$projectDir/src/sharedTest"
+            java.srcDirs += sharedTestDir
         }
 
         androidTest {
-            java.srcDirs += "$projectDir/src/sharedTest"
+            java.srcDirs += sharedTestDir
         }
     }
 }
