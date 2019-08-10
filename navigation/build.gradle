@@ -2,9 +2,22 @@ apply from: androidLib
 
 dependencies {
     testImplementation junit
-    androidTestImplementation supportTestRunner
-    androidTestImplementation espressoCore
     testImplementation assertJ
+    testImplementation mockkUnit
+    testImplementation robolectric
+    testImplementation supportTestRunner
+    testImplementation supportTestCore
+    testImplementation supportTestRule
+    testImplementation supportJunitExt
+    testImplementation espressoCore
+
+    androidTestImplementation supportTestRunner
+    androidTestImplementation supportTestCore
+    androidTestImplementation supportTestRule
+    androidTestImplementation supportJunitExt
+    androidTestImplementation espressoCore
+    androidTestImplementation espressoIntents
+
 
     implementation coreKts
     implementation androidxCore

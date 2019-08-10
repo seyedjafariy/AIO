@@ -17,10 +17,14 @@ sealed class Screens(
     val popAnimation: NavigationAnimation? = null
 ) {
 
+    interface Split{
+        val module : String
+    }
+
     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     internal object Test : Screens("com.worldsnas.navigation.TestController")
 
-    object Home : Screens("com.worldsnas.home.HomeView")
+    object Home : Screens("com.worldsnas.home.view.HomeView")
 
     class MovieDetail(
         movie: MovieDetailLocalModel,
@@ -59,5 +63,8 @@ sealed class Screens(
         ),
         pushAnimation,
         popAnimation
-    )
+    ), Split {
+        override val module: String
+            get() = "search"
+    }
 }
