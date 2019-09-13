@@ -16,7 +16,7 @@ A project with a future to show latest trends on Android.
 
 ## Images of AIO
 
-![AIO demo](../assets/AIO-demo.gif?raw=true "AIO-demo-1")
+![AIO demo](../assets/AIO-demo.gif?raw=true)
 
 
 ## About
