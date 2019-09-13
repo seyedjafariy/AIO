@@ -19,11 +19,15 @@ A project with a future to show latest trends on Android.
 
 ## Images of AIO
 
-![AIO demo](../assets/AIO-demo.gif?raw=true)
-![AIO main 1](../assets/AIO-main-1.png?raw=true)
-![AIO main 2](../assets/AIO-main-2.png?raw=true)
-![AIO detail](../assets/AIO-detail-1.png?raw=true)
-![AIO search](../assets/AIO-search-1.png?raw=true)
+![AIO demo](assets/AIO-demo.gif)
+
+![AIO main 1](assets/AIO-main-1.png)
+
+![AIO main 2](assets/AIO-main-2.png)
+
+![AIO detail](assets/AIO-detail-1.png)
+
+![AIO search](assets/AIO-search-1.png)
 
 
 ## About
