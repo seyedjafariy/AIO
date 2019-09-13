@@ -91,7 +91,17 @@ android {
 
     dynamicFeatures = [":search"]
 
+    testOptions.unitTests.includeAndroidResources = true
+    sourceSets {
+        String sharedTestDir = 'src/sharedTest/java'
+        test {
+            java.srcDirs += sharedTestDir
+        }
 
+        androidTest {
+            java.srcDirs += sharedTestDir
+        }
+    }
 }
 configurations {
     cleanedAnnotations
@@ -104,10 +114,21 @@ dependencies {
     implementation kotlinStd8
 
     testImplementation junit
-    //noinspection GradleDependency
+    testImplementation assertJ
+    testImplementation mockkUnit
+    testImplementation robolectric
+    testImplementation supportTestRunner
+    testImplementation supportTestCore
+    testImplementation supportTestRule
+    testImplementation supportJunitExt
+    testImplementation espressoCore
+
     androidTestImplementation supportTestRunner
-    //noinspection GradleDependency
+    androidTestImplementation supportTestCore
+    androidTestImplementation supportTestRule
+    androidTestImplementation supportJunitExt
     androidTestImplementation espressoCore
+    androidTestImplementation espressoIntents
 
     implementation(project(core))
     implementation(project(domain))

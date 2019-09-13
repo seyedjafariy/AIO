@@ -1,5 +1,6 @@
 package com.worldsnas.aio
 
+import android.os.Build
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.plugins.crashreporter.CrashReporterPlugin
@@ -12,6 +13,7 @@ import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPl
 import com.facebook.soloader.SoLoader
 import com.worldsnas.aio.BuildConfig.DEBUG
 import timber.log.Timber
+
 
 class AIOApp : BaseApp() {
 
@@ -30,7 +32,10 @@ class AIOApp : BaseApp() {
     }
 
     private fun initFlipper() {
-        if (DEBUG && FlipperUtils.shouldEnableFlipper(this)) {
+        if (DEBUG &&
+            FlipperUtils.shouldEnableFlipper(this) &&
+            isNotRobolectricUnitTest()
+        ) {
             SoLoader.init(this, false)
 
             val client = AndroidFlipperClient.getInstance(this)
@@ -58,4 +63,7 @@ class AIOApp : BaseApp() {
             client.start()
         }
     }
+
+    private fun isNotRobolectricUnitTest(): Boolean =
+        "robolectric" != Build.FINGERPRINT
 }

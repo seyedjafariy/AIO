@@ -85,11 +85,13 @@ ext {
                     mockkAndroid = "io.mockk:mockk-android:$mockkVersion",
 
                     supportTestRunner = "androidx.test:runner:$supportTestVersion",
+                    supportTestCore = "androidx.test:core:$supportTestVersion",
                     supportTestRule = "androidx.test:rules:$supportTestVersion",
                     supportJunitExt = "androidx.test.ext:junit:$supportCoreVersion",
                     supportCore = "androidx.test:core:$supportTestVersion",
 
                     espressoCore = "androidx.test.espresso:espresso-core:$espressoVersion",
+                    espressoIntents = "androidx.test.espresso:espresso-intents:$espressoVersion",
                     espressoContrib = "androidx.test.espresso:espresso-contrib:$espressoVersion",
 
                     jsonTest = "org.json:json:$jsonTestVersion",
