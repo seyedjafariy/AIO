@@ -16,7 +16,7 @@ A project with a future to show latest trends on Android.
 
 ## Images of AIO
 
-//show some image
+![AIO demo](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "AIO-demo-1")
 
 
 ## About
