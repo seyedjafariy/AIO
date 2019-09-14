@@ -5,7 +5,7 @@
 [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
 
  
-A project with a future to show latest trends on Android.
+A highly modularized Android project with a future to show latest trends on Android.
 
 ## Who is it for?
 
