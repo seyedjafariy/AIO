@@ -17,6 +17,7 @@ dependencies {
     implementation(project(panther))
     implementation(project(core))
     implementation(project(navigation))
+    implementation(project(db))
 
     implementation conductor
     implementation compat
@@ -32,6 +33,7 @@ dependencies {
     implementation moshi
     implementation okHttp
     implementation okHttpLogging
+    implementation sqlDelightAndroidAdapter
 
     implementation fresco
     implementation frescoOkHttp

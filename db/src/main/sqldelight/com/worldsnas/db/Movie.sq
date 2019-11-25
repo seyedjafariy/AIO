@@ -1,0 +1,19 @@
+CREATE TABLE movie (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    backdropImage TEXT,
+    posterImage TEXT
+);
+
+getMovies:
+SELECT *
+FROM movie;
+
+getMovie:
+SELECT *
+FROM movie
+WHERE id == ?;
+
+insertMovie:
+REPLACE INTO movie (id, title, backdropImage, posterImage)
+VALUES (?,?,?,?);

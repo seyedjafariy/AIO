@@ -18,6 +18,7 @@ dependencies {
 
     implementation(project(panther))
     implementation(project(core))
+    implementation(project(db))
 
     implementation dagger
     kapt daggerCompiler
@@ -35,6 +36,9 @@ dependencies {
     implementation objectboxKotlin
 
     implementation timber
+
+    implementation coroutines
+    implementation coroutinesAndroid
 
     implementation arrowCore
     implementation arrowExtensions
