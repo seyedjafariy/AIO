@@ -1,8 +1,8 @@
 package com.worldsnas.panther
 
-import io.reactivex.Single
+import retrofit2.Response
 
-interface Fetcher<in T : Any?, R : Any>{
+interface Fetcher<T : Any?, R : Any>{
 
-    fun fetch(param : T) : Single<R>
+    suspend fun fetch(param : T) : Response<R>
 }

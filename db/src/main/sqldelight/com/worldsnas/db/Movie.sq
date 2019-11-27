@@ -17,3 +17,6 @@ WHERE id == ?;
 insertMovie:
 REPLACE INTO movie (id, title, backdropImage, posterImage)
 VALUES (?,?,?,?);
+
+clearMovies:
+DELETE FROM movie;

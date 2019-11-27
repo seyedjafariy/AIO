@@ -10,8 +10,12 @@ import retrofit2.http.Query
 interface HomeAPI {
 
     @GET("/3/discover/movie?include_video=false&include_adult=false")
-    fun getLatestMovie(@Query("page") page: Int):
+    fun getLatestMovieOld(@Query("page") page: Int):
         Single<Response<ResultsServerModel<MovieServerModel>>>
+
+    @GET("/3/discover/movie?include_video=false&include_adult=false")
+    suspend fun getLatestMovie(@Query("page") page: Int):
+        Response<ResultsServerModel<MovieServerModel>>
 
     @GET("/3/trending/movie/day")
     fun getTerndingMovie() :

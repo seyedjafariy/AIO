@@ -2,19 +2,11 @@ package com.worldsnas.domain.repo.home
 
 import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.entity.TrendingEntity
-import com.worldsnas.domain.repo.home.latest.LatestMovieFetcher
-import com.worldsnas.domain.repo.home.latest.LatestMoviePersister
-import com.worldsnas.domain.repo.home.latest.LatestMoviePersisterKey
-import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
-import com.worldsnas.domain.repo.home.latest.LatestMovieRepoImpl
-import com.worldsnas.domain.repo.home.latest.LatestMovieRequestParam
-import com.worldsnas.domain.repo.home.trending.TrendingFetcher
-import com.worldsnas.domain.repo.home.trending.TrendingPersister
-import com.worldsnas.domain.repo.home.trending.TrendingPersisterKey
-import com.worldsnas.domain.repo.home.trending.TrendingRepo
-import com.worldsnas.domain.repo.home.trending.TrendingRepoImpl
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
+import com.worldsnas.domain.repo.home.latest.*
+import com.worldsnas.domain.repo.home.trending.*
+import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher
 import dagger.Binds
@@ -34,26 +26,30 @@ abstract class HomeRepoModule {
     }
 
     @Binds
+    abstract fun bindLatestFetcherOld(fetcher: OldLatestMovieFetcher):
+            RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>
+
+    @Binds
     abstract fun bindLatestFetcher(fetcher: LatestMovieFetcher):
-        RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>
+            Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>
 
     @Binds
     abstract fun bindTrendingFetcher(fetcher: TrendingFetcher):
-        RFetcher<Int, ResultsServerModel<MovieServerModel>>
+            RFetcher<Int, ResultsServerModel<MovieServerModel>>
 
     @Binds
     abstract fun bindLatestMoviePersister(persister: LatestMoviePersister):
-        Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>
+            Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>
 
     @Binds
     abstract fun bindTrendingPersister(persister: TrendingPersister):
-        Persister<TrendingPersisterKey, TrendingEntity>
+            Persister<TrendingPersisterKey, TrendingEntity>
 
     @Binds
     abstract fun bindLatestMovieRepo(repo: LatestMovieRepoImpl):
-        LatestMovieRepo
+            LatestMovieRepo
 
     @Binds
     abstract fun bindTrendingRepo(repo: TrendingRepoImpl):
-        TrendingRepo
+            TrendingRepo
 }

@@ -38,6 +38,7 @@ dependencies {
     implementation timber
 
     implementation coroutines
+    implementation coroutinesRx2
     implementation coroutinesAndroid
 
     implementation arrowCore

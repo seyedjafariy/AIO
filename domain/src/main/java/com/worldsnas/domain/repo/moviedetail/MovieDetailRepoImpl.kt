@@ -9,18 +9,17 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRequestModel
-import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Mapper
+import com.worldsnas.panther.RFetcher
 import io.reactivex.Single
-import retrofit2.Response
 import javax.inject.Inject
 
 class MovieDetailRepoImpl @Inject constructor(
-    private val fetcher: Fetcher<@JvmSuppressWildcards MovieDetailRequestModel, Response<MovieServerModel>>,
+    private val fetcher: RFetcher<@JvmSuppressWildcards MovieDetailRequestModel, MovieServerModel>,
     private val movieMapper: Mapper<MovieServerModel, MovieRepoModel>
 ) : MovieDetailRepo {
 
-    private var movie : MovieRepoModel? = null
+    private var movie: MovieRepoModel? = null
 
     override fun getMovieDetail(param: MovieDetailRepoParamModel): Single<MovieDetailRepoOutPutModel> =
         fetcher
@@ -47,16 +46,16 @@ class MovieDetailRepoImpl @Inject constructor(
                     movieMapper.map(body)
                 )
             }
-            .doOnSuccess{
+            .doOnSuccess {
                 if (it is MovieDetailRepoOutPutModel.Success) {
                     movie = it.movie
                 }
             }
 
-    override fun getCached() : Single<MovieDetailRepoOutPutModel> =
-            Single.just(
-                MovieDetailRepoOutPutModel.Cached(
-                    movie
-                )
+    override fun getCached(): Single<MovieDetailRepoOutPutModel> =
+        Single.just(
+            MovieDetailRepoOutPutModel.Cached(
+                movie
             )
+        )
 }

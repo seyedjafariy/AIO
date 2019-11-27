@@ -9,10 +9,14 @@ class MoviePersisterImpl constructor(
     private val queries: MovieQueries
 ) : MoviePersister {
 
-    override fun getMovies(): Flow<List<Movie>> =
+    override fun observeMovies(): Flow<List<Movie>> =
         queries.getMovies()
             .asFlow()
             .mapToList()
+
+    override suspend fun clearMovies() {
+        queries.clearMovies()
+    }
 
     override suspend fun insertMovie(movie: Movie) : Unit =
         queries.insertMovie(
