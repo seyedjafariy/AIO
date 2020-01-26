@@ -45,11 +45,14 @@ fun Response<*>.getErrorRepoModel(): ErrorHolder =
                 }
             }
             .let {
-                val code = it?.optInt("status_code", this.code()) ?: 0
-                val message = it?.optString("status_message", this.message() ?: "") ?: ""
+                val code = it?.optInt("status_code", this.code()) ?: code()
+                val message = it?.optString("status_message", getNonNullMessage()) ?: getNonNullMessage()
 
                 ErrorHolder.Message(message, code)
             }
+
+fun <T> Response<T>.getNonNullMessage() =
+    message()?:""
 
 fun <T> Single<Response<T>>.errorHandler(times: Int = 3): Single<Response<T>> =
     retry { retried, _ ->

@@ -19,7 +19,10 @@ import com.worldsnas.panther.RFetcher
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 class LatestMovieRepoImpl @Inject constructor(
@@ -51,20 +54,25 @@ class LatestMovieRepoImpl @Inject constructor(
                 LatestMovieRepoOutputModel.Success(it, list)
             }
 
-    override fun observerAndUpdate(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
-        val entireDb: List<MovieRepoModel> = moviePersister.observeMovies().first()
-            .map {
-                MovieRepoModel(
-                    it.id,
-                    backdropPath = it.backdropImage ?: "",
-                    posterPath = it.posterImage ?: "",
-                    title = it.title ?: ""
-                )
-            }
+    override fun receiveAndUpdate(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
+        val entireDb: List<MovieRepoModel> =
+            moviePersister.observeMovies()
+                .take(1)
+                .toList()
+                .flatten()
+                .map {
+                    MovieRepoModel(
+                        it.id,
+                        backdropPath = it.backdropImage ?: "",
+                        posterPath = it.posterImage ?: "",
+                        title = it.title ?: ""
+                    )
+                }
 
         val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(0))
 
         if (serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null) {
+            list = entireDb.toMutableList()
             emit(entireDb.right())
             emit(serverFirstPageResponse.getErrorRepoModel().left())
             return@flow
@@ -80,72 +88,22 @@ class LatestMovieRepoImpl @Inject constructor(
             }?.let { true } ?: false
         }
 
-        if (!dbValid) {
+        if (dbValid) {
+            list.addAll(serverFirstPage)
+            list.addAll(entireDb)
+        } else {
             moviePersister.clearMovies()
             list.clear()
-        } else {
-            list.addAll(entireDb)
+            list.addAll(serverFirstPage)
         }
 
-        list.addAll(0, serverFirstPage)
         emit(list.right())
 
         moviePersister.insertMovies(serverFirstPage.map {
             Movie.Impl(it.id, it.originalTitle, it.backdropPath, it.posterPath)
         })
-
-
-    }.flatMapConcat {
-        moviePersister.observeMovies()
-            .map {
-                it.map { movie ->
-                    MovieRepoModel(
-                        movie.id,
-                        backdropPath = movie.backdropImage ?: "",
-                        posterPath = movie.posterImage ?: "",
-                        title = movie.title ?: ""
-                    )
-                }
-            }
-            .drop(1)
-            .map {
-                it.right()
-            }
     }
 
-    //        val updateObs = oldFetcher.fetch(LatestMovieRequestParam(1))
-//            .toObservable()
-//            .publish { publish ->
-//                Observable.merge(
-//                    publish
-//                        .filter { it.isNotSuccessful || it.body() == null }
-//                        .map { LatestMovieRepoOutputModel.Error(it.getErrorRepoModel()) },
-//                    publish
-//                        .filter { it.isSuccessful && it.body() != null }
-//                        .map {
-//                            it
-//                                .body()!!
-//                                .list
-//                                .map { movie ->
-//                                    movieServerMapper
-//                                        .map(movie)
-//                                }
-//                        }
-//                        .flatMapCompletable {
-//                            latestMoviePersister
-//                                .write(it)
-//                        }
-//                        .toObservable()
-//                )
-//            }
-//        return latestMoviePersister.observe(LatestMoviePersisterKey())
-//            .map {
-//                it.map { movie -> movieEntityMapper.map(movie) }
-//            }
-//            .map {
-//                LatestMovieRepoOutputModel.Success(it, list) as LatestMovieRepoOutputModel
-//            }
-//            .mergeWith(updateObs)
     override fun update(param: LatestMovieRepoParamModel): Maybe<LatestMovieRepoOutputModel.Error> =
         oldFetcher.fetch(LatestMovieRequestParam(param.page))
             .toObservable()
