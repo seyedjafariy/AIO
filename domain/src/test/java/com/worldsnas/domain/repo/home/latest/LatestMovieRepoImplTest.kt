@@ -224,16 +224,23 @@ class LatestMovieRepoImplTest {
 
     @Test
     fun `when response overlaps adds response to the top of the list`() = runBlockingTest {
-        val overlappingId = Random.nextLong()
+        val firstOverlappingId = Random.nextLong()
+        val secondOverlappingId = Random.nextLong()
         val dbMovies = listOf(
             Movie.Impl(
-                Random.nextLong(),
+                firstOverlappingId,
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
             ),
             Movie.Impl(
-                overlappingId,
+                secondOverlappingId,
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString()
+            ),
+            Movie.Impl(
+                Random.nextLong(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
@@ -248,13 +255,13 @@ class LatestMovieRepoImplTest {
 
         val serverList = listOf(
             MovieServerModel(
-                overlappingId
-            ),
-            MovieServerModel(
                 Random.nextLong()
             ),
             MovieServerModel(
-                Random.nextLong()
+                firstOverlappingId
+            ),
+            MovieServerModel(
+                secondOverlappingId
             )
         )
 
@@ -273,7 +280,7 @@ class LatestMovieRepoImplTest {
         assertThat(actualList).isEqualTo(serverList.map {
             movieServerRepoMapper.map(it)
         }.toMutableList().also {
-            it.addAll(dbMovies.map {
+            it.addAll(dbMovies.subList(2, dbMovies.size).map {
                 MovieRepoModel(
                     it.id,
                     backdropPath = it.backdropImage ?: "",
@@ -285,6 +292,48 @@ class LatestMovieRepoImplTest {
         )
     }
 
+    @Test
+    fun `inserts network movies in db`() = runBlockingTest {
+        every {
+            moviePersister.observeMovies()
+        } returns flowOf(emptyList())
+
+        val networkMovies = listOf(
+            MovieServerModel(
+                Random.nextLong()
+            ),
+            MovieServerModel(
+                Random.nextLong()
+            ),
+            MovieServerModel(
+                Random.nextLong()
+            ),
+            MovieServerModel(
+                Random.nextLong()
+            )
+        )
+
+        coEvery {
+            movieFetcher.fetch(any())
+        } returns Response.success(
+            ResultsServerModel(
+                networkMovies
+            )
+        )
+
+        repo.receiveAndUpdate().toList()
+
+        coVerify(atLeast = 1) {
+            moviePersister.insertMovies(networkMovies.map {
+                Movie.Impl(
+                    it.id,
+                    title = it.title,
+                    backdropImage = it.backdropPath,
+                    posterImage = it.posterPath
+                )
+            })
+        }
+    }
 
 }
 

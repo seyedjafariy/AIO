@@ -89,8 +89,14 @@ class LatestMovieRepoImpl @Inject constructor(
         }
 
         if (dbValid) {
+            val updatedDB = entireDb.toMutableList().apply {
+                removeAll { entity ->
+                    serverFirstPage.find { dto -> entity.id == dto.id } != null
+                }
+            }
+
             list.addAll(serverFirstPage)
-            list.addAll(entireDb)
+            list.addAll(updatedDB)
         } else {
             moviePersister.clearMovies()
             list.clear()
