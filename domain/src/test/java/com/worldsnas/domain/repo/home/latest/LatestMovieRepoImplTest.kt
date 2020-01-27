@@ -6,6 +6,9 @@ import com.worldsnas.core.ErrorHolder
 import com.worldsnas.db.Movie
 import com.worldsnas.db.MoviePersister
 import com.worldsnas.domain.entity.MovieEntity
+import com.worldsnas.domain.mappers.MovieDbRepoMapper
+import com.worldsnas.domain.mappers.MovieRepoDbMapper
+import com.worldsnas.domain.mappers.MovieServerDbMapper
 import com.worldsnas.domain.mappers.server.*
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
@@ -45,6 +48,10 @@ class LatestMovieRepoImplTest {
                     >
             >()
 
+    val movieRepoDBMapper = MovieRepoDbMapper()
+    val movieDBRepoMapper = MovieDbRepoMapper()
+    val movieServerDbMapper = MovieServerDbMapper()
+
     val movieServerEntityMapper = mockk<Mapper<MovieServerModel, MovieEntity>>()
     val movieServerRepoMapper = MovieServerRepoMapper(
         GenreServerRepoMapper(),
@@ -80,7 +87,9 @@ class LatestMovieRepoImplTest {
             movieServerEntityMapper,
             movieServerRepoMapper,
             movieEntityRepoMapper,
-            moviePersister
+            moviePersister,
+            movieRepoDBMapper,
+            movieDBRepoMapper
         )
     }
 
@@ -120,17 +129,12 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.error(400, byteArrayOf().toResponseBody("text/text".toMediaType()))
 
-        val movieListEither = repo.receiveAndUpdate().first()
+        val movieListEither = repo.receiveAndUpdate().atIndex(1)
 
         val actualList = (movieListEither as Either.Right).b
 
         assertThat(actualList).isEqualTo(dbMovies.map {
-            MovieRepoModel(
-                it.id,
-                backdropPath = it.backdropImage ?: "",
-                posterPath = it.posterImage ?: "",
-                title = it.title ?: ""
-            )
+            movieDBRepoMapper.map(it)
         })
     }
 
@@ -145,7 +149,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.error(400, byteArrayOf().toResponseBody("text/text".toMediaType()))
 
-        val movieListEither = repo.receiveAndUpdate().atIndex(1)
+        val movieListEither = repo.receiveAndUpdate().atIndex(2)
 
         val actualError = (movieListEither as Either.Left).a
 
@@ -177,7 +181,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.success(networkResponse)
 
-        repo.receiveAndUpdate().first()
+        repo.receiveAndUpdate().atIndex(1)
 
         coVerify(atLeast = 1) {
             moviePersister.clearMovies()
@@ -211,7 +215,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.success(networkResponse)
 
-        val eitherList = repo.receiveAndUpdate().first()
+        val eitherList = repo.receiveAndUpdate().atIndex(1)
 
         val actualList = eitherList.orNull()!!
 
@@ -273,7 +277,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.success(ResultsServerModel(serverList))
 
-        val movieListEither = repo.receiveAndUpdate().first()
+        val movieListEither = repo.receiveAndUpdate().atIndex(1)
 
         val actualList = (movieListEither as Either.Right).b
 
@@ -281,12 +285,7 @@ class LatestMovieRepoImplTest {
             movieServerRepoMapper.map(it)
         }.toMutableList().also {
             it.addAll(dbMovies.subList(2, dbMovies.size).map {
-                MovieRepoModel(
-                    it.id,
-                    backdropPath = it.backdropImage ?: "",
-                    posterPath = it.posterImage ?: "",
-                    title = it.title ?: ""
-                )
+                movieDBRepoMapper.map(it)
             })
         }
         )
@@ -325,12 +324,7 @@ class LatestMovieRepoImplTest {
 
         coVerify(atLeast = 1) {
             moviePersister.insertMovies(networkMovies.map {
-                Movie.Impl(
-                    it.id,
-                    title = it.title,
-                    backdropImage = it.backdropPath,
-                    posterImage = it.posterPath
-                )
+                movieServerDbMapper.map(it)
             })
         }
     }

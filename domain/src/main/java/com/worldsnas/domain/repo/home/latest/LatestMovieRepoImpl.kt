@@ -32,7 +32,9 @@ class LatestMovieRepoImpl @Inject constructor(
     private val movieServerMapper: Mapper<MovieServerModel, MovieEntity>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
     private val movieEntityMapper: Mapper<MovieEntity, MovieRepoModel>,
-    private val moviePersister: MoviePersister
+    private val moviePersister: MoviePersister,
+    private val movieRepoDBMapper: Mapper<MovieRepoModel, Movie>,
+    private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>
 ) : LatestMovieRepo {
 
     var list: MutableList<MovieRepoModel> = mutableListOf()
@@ -61,13 +63,10 @@ class LatestMovieRepoImpl @Inject constructor(
                 .toList()
                 .flatten()
                 .map {
-                    MovieRepoModel(
-                        it.id,
-                        backdropPath = it.backdropImage ?: "",
-                        posterPath = it.posterImage ?: "",
-                        title = it.title ?: ""
-                    )
+                    movieDBRepoMapper.map(it)
                 }
+
+        emit(entireDb.right())
 
         val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(0))
 
@@ -106,7 +105,7 @@ class LatestMovieRepoImpl @Inject constructor(
         emit(list.right())
 
         moviePersister.insertMovies(serverFirstPage.map {
-            Movie.Impl(it.id, it.originalTitle, it.backdropPath, it.posterPath)
+            movieRepoDBMapper.map(it)
         })
     }
 
