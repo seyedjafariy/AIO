@@ -2,7 +2,8 @@ CREATE TABLE movie (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     title TEXT,
     backdropImage TEXT,
-    posterImage TEXT
+    posterImage TEXT,
+    updated_at TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL
 );
 
 getMovies:
@@ -20,3 +21,8 @@ VALUES (?,?,?,?);
 
 clearMovies:
 DELETE FROM movie;
+
+-- getMovies:
+-- SELECT *
+-- FROM movie
+-- WHERE

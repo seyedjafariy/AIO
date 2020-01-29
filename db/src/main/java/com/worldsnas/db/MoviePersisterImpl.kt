@@ -4,6 +4,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneNotNull
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class MoviePersisterImpl constructor(
     private val queries: MovieQueries
@@ -36,4 +37,8 @@ class MoviePersisterImpl constructor(
         queries.getMovie(id)
             .asFlow()
             .mapToOneNotNull()
+
+    override fun getMovies(fromId: Long, count: Int): Flow<List<Movie>> = flow {
+
+    }
 }

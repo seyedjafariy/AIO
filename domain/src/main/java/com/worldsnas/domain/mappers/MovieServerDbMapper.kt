@@ -12,6 +12,6 @@ class MovieServerDbMapper @Inject constructor(
             item.id,
             item.originalTitle,
             item.backdropPath,
-            item.posterPath
-        )
+            item.posterPath,
+        "")
 }

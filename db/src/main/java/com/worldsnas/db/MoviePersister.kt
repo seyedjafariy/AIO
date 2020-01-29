@@ -9,4 +9,5 @@ interface MoviePersister {
     suspend fun insertMovie(movie: Movie)
     suspend fun insertMovies(movies: List<Movie>)
     fun getMovie(id: Long): Flow<Movie>
+    fun getMovies(fromId : Long, count : Int) : Flow<List<Movie>>
 }
