@@ -14,6 +14,9 @@ import retrofit2.Response
 val Response<*>.isNotSuccessful
     get() = !isSuccessful
 
+val Response<*>.isEmptyBody
+    get() = body() == null
+
 fun Response<*>.getErrorServerModel(): ErrorServerModel =
     errorBody()
         ?.use { it.string() }
@@ -46,13 +49,14 @@ fun Response<*>.getErrorRepoModel(): ErrorHolder =
             }
             .let {
                 val code = it?.optInt("status_code", this.code()) ?: code()
-                val message = it?.optString("status_message", getNonNullMessage()) ?: getNonNullMessage()
+                val message =
+                    it?.optString("status_message", getNonNullMessage()) ?: getNonNullMessage()
 
                 ErrorHolder.Message(message, code)
             }
 
 fun <T> Response<T>.getNonNullMessage() =
-    message()?:""
+    message() ?: ""
 
 fun <T> Single<Response<T>>.errorHandler(times: Int = 3): Single<Response<T>> =
     retry { retried, _ ->

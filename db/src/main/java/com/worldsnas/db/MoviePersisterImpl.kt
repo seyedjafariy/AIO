@@ -3,6 +3,7 @@ package com.worldsnas.db
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneNotNull
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrDefault
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -24,7 +25,8 @@ class MoviePersisterImpl constructor(
             movie.id,
             movie.title,
             movie.backdropImage,
-            movie.posterImage
+            movie.posterImage,
+            movie.release_date
         )
 
     override suspend fun insertMovies(movies: List<Movie>) : Unit =
@@ -41,4 +43,10 @@ class MoviePersisterImpl constructor(
     override fun getMovies(fromId: Long, count: Int): Flow<List<Movie>> = flow {
 
     }
+
+    override fun movieCount(): Flow<Long> =
+        queries.movieCount()
+            .asFlow()
+            .mapToOneOrDefault(0)
+
 }

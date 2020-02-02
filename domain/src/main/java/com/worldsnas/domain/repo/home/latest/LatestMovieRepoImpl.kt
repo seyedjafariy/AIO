@@ -8,7 +8,9 @@ import com.worldsnas.db.Movie
 import com.worldsnas.db.MoviePersister
 import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.helpers.getErrorRepoModel
+import com.worldsnas.domain.helpers.isEmptyBody
 import com.worldsnas.domain.helpers.isNotSuccessful
+import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
@@ -19,10 +21,9 @@ import com.worldsnas.panther.RFetcher
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import retrofit2.Response
 import javax.inject.Inject
 
 class LatestMovieRepoImpl @Inject constructor(
@@ -56,7 +57,13 @@ class LatestMovieRepoImpl @Inject constructor(
                 LatestMovieRepoOutputModel.Success(it, list)
             }
 
-    override fun receiveAndUpdate(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
+    override fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
+        when (param) {
+            PageModel.First -> loadFirstPage()
+            is PageModel.NextPage -> loadNextPage()
+        }
+
+    private fun loadFirstPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
         val entireDb: List<MovieRepoModel> =
             moviePersister.observeMovies()
                 .take(1)
@@ -108,6 +115,53 @@ class LatestMovieRepoImpl @Inject constructor(
             movieRepoDBMapper.map(it)
         })
     }
+
+    private fun loadNextPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
+        moviePersister.movieCount()
+            .map {
+                it / MOVIE_PAGE_SIZE
+            }
+            .map { page ->
+                fetcher.fetch(LatestMovieRequestParam(page.toInt()))
+            }
+            .let { responseFlow ->
+                listOf(
+                    responseFailed(responseFlow),
+                    responseSuccess(responseFlow)
+                )
+            }
+            .merge()
+            .flowOn(Dispatchers.Default)
+
+    private fun responseFailed(responseFlow: Flow<Response<ResultsServerModel<MovieServerModel>>>) =
+        responseFlow
+            .filter { response ->
+                response.isNotSuccessful || response.isEmptyBody || response.body()!!.list.isEmpty()
+            }
+            .map { response ->
+                response.getErrorRepoModel().left()
+            }
+
+
+    private fun responseSuccess(responseFlow: Flow<Response<ResultsServerModel<MovieServerModel>>>) =
+        responseFlow
+            .filter { response ->
+                response.body()?.list?.isNotEmpty() ?: false
+            }
+            .map { response ->
+                response.body()?.list ?: emptyList()
+            }
+            .map { serverList ->
+                serverList.map {
+                    movieServerRepoMapper.map(it)
+                }
+            }
+            .onEach { repoList ->
+                moviePersister.insertMovies(repoList.map { movieRepoDBMapper.map(it) })
+            }
+            .map {
+                it.right()
+            }
 
     override fun update(param: LatestMovieRepoParamModel): Maybe<LatestMovieRepoOutputModel.Error> =
         oldFetcher.fetch(LatestMovieRequestParam(param.page))
@@ -170,3 +224,5 @@ class LatestMovieRepoImpl @Inject constructor(
             }
             .firstOrError()
 }
+
+private const val MOVIE_PAGE_SIZE = 20

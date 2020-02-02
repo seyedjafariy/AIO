@@ -12,6 +12,7 @@ class MovieDbRepoMapper @Inject constructor(
             item.id,
             backdropPath = item.backdropImage ?: "",
             posterPath = item.posterImage ?: "",
-            title = item.title ?: ""
+            title = item.title,
+            releaseDate = item.release_date
         )
 }

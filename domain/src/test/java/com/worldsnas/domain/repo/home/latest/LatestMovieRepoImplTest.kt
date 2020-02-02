@@ -10,6 +10,7 @@ import com.worldsnas.domain.mappers.MovieDbRepoMapper
 import com.worldsnas.domain.mappers.MovieRepoDbMapper
 import com.worldsnas.domain.mappers.MovieServerDbMapper
 import com.worldsnas.domain.mappers.server.*
+import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
@@ -20,7 +21,6 @@ import com.worldsnas.panther.RFetcher
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
@@ -41,12 +41,7 @@ class LatestMovieRepoImplTest {
     val movieFetcher =
         mockk<Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>>(relaxed = true)
 
-    val oldPersister = mockk<
-            Persister<
-                    LatestMoviePersisterKey,
-                    List<@JvmSuppressWildcards MovieEntity>
-                    >
-            >()
+    val oldPersister = mockk<Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>>()
 
     val movieRepoDBMapper = MovieRepoDbMapper()
     val movieDBRepoMapper = MovieDbRepoMapper()
@@ -105,16 +100,22 @@ class LatestMovieRepoImplTest {
                 Random.nextLong(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
-            ),
-            Movie.Impl(
-                Random.nextLong(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
             ),
             Movie.Impl(
                 Random.nextLong(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString()
+            ),
+            Movie.Impl(
+                Random.nextLong(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
@@ -129,7 +130,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.error(400, byteArrayOf().toResponseBody("text/text".toMediaType()))
 
-        val movieListEither = repo.receiveAndUpdate().atIndex(1)
+        val movieListEither = repo.receiveAndUpdate(PageModel.First).atIndex(1)
 
         val actualList = (movieListEither as Either.Right).b
 
@@ -149,7 +150,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.error(400, byteArrayOf().toResponseBody("text/text".toMediaType()))
 
-        val movieListEither = repo.receiveAndUpdate().atIndex(2)
+        val movieListEither = repo.receiveAndUpdate(PageModel.First).atIndex(2)
 
         val actualError = (movieListEither as Either.Left).a
 
@@ -161,6 +162,8 @@ class LatestMovieRepoImplTest {
         val dbMovies = listOf(
             Movie.Impl(
                 Random.nextLong(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
@@ -181,7 +184,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.success(networkResponse)
 
-        repo.receiveAndUpdate().atIndex(1)
+        repo.receiveAndUpdate(PageModel.First).atIndex(1)
 
         coVerify(atLeast = 1) {
             moviePersister.clearMovies()
@@ -193,6 +196,8 @@ class LatestMovieRepoImplTest {
         val dbMovies = listOf(
             Movie.Impl(
                 Random.nextLong(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
@@ -215,7 +220,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.success(networkResponse)
 
-        val eitherList = repo.receiveAndUpdate().atIndex(1)
+        val eitherList = repo.receiveAndUpdate(PageModel.First).atIndex(1)
 
         val actualList = eitherList.orNull()!!
 
@@ -235,22 +240,30 @@ class LatestMovieRepoImplTest {
                 firstOverlappingId,
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
                 Random.nextLong().toString()
             ),
             Movie.Impl(
                 secondOverlappingId,
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
-            ),
-            Movie.Impl(
-                Random.nextLong(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
             ),
             Movie.Impl(
                 Random.nextLong(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString()
+            ),
+            Movie.Impl(
+                Random.nextLong(),
+                Random.nextLong().toString(),
+                Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString()
@@ -277,7 +290,7 @@ class LatestMovieRepoImplTest {
             movieFetcher.fetch(any())
         } returns Response.success(ResultsServerModel(serverList))
 
-        val movieListEither = repo.receiveAndUpdate().atIndex(1)
+        val movieListEither = repo.receiveAndUpdate(PageModel.First).atIndex(1)
 
         val actualList = (movieListEither as Either.Right).b
 
@@ -320,7 +333,7 @@ class LatestMovieRepoImplTest {
             )
         )
 
-        repo.receiveAndUpdate().toList()
+        repo.receiveAndUpdate(PageModel.First).toList()
 
         coVerify(atLeast = 1) {
             moviePersister.insertMovies(networkMovies.map {

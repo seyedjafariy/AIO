@@ -1,14 +1,16 @@
 CREATE TABLE movie (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
+    title TEXT NOT NULL,
     backdropImage TEXT,
     posterImage TEXT,
+    release_date TEXT NOT NULL,
     updated_at TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL
 );
 
 getMovies:
 SELECT *
-FROM movie;
+FROM movie
+ORDER BY release_date DESC;
 
 getMovie:
 SELECT *
@@ -16,13 +18,12 @@ FROM movie
 WHERE id == ?;
 
 insertMovie:
-REPLACE INTO movie (id, title, backdropImage, posterImage)
-VALUES (?,?,?,?);
+REPLACE INTO movie (id, title, backdropImage, posterImage, release_date)
+VALUES (?,?,?,?, ?);
 
 clearMovies:
 DELETE FROM movie;
 
--- getMovies:
--- SELECT *
--- FROM movie
--- WHERE
+movieCount:
+SELECT COUNT(*)
+FROM movie;

@@ -13,6 +13,7 @@ class MovieRepoDbMapper @Inject constructor(
             item.originalTitle,
             item.backdropPath,
             item.posterPath,
+            item.releaseDate,
             ""
         )
 }
