@@ -9,6 +9,7 @@ dependencies{
     kapt daggerCompiler
 
     implementation conductor
+    implementation coroutines
     implementation retrofit
     implementation okHttpLogging
     implementation moshiRetrofit

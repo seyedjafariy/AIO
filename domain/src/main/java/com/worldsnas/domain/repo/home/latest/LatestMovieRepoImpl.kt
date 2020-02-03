@@ -4,6 +4,7 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.worldsnas.core.ErrorHolder
+import com.worldsnas.core.listMerge
 import com.worldsnas.db.Movie
 import com.worldsnas.db.MoviePersister
 import com.worldsnas.domain.entity.MovieEntity
@@ -23,6 +24,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.asPublisher
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -124,13 +126,12 @@ class LatestMovieRepoImpl @Inject constructor(
             .map { page ->
                 fetcher.fetch(LatestMovieRequestParam(page.toInt()))
             }
-            .let { responseFlow ->
+            .listMerge { responseFlow ->
                 listOf(
                     responseFailed(responseFlow),
                     responseSuccess(responseFlow)
                 )
             }
-            .merge()
             .flowOn(Dispatchers.Default)
 
     private fun responseFailed(responseFlow: Flow<Response<ResultsServerModel<MovieServerModel>>>) =

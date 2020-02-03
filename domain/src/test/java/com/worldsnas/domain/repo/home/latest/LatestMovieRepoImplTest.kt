@@ -21,6 +21,7 @@ import com.worldsnas.panther.RFetcher
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runBlockingTest
@@ -41,7 +42,8 @@ class LatestMovieRepoImplTest {
     val movieFetcher =
         mockk<Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>>(relaxed = true)
 
-    val oldPersister = mockk<Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>>()
+    val oldPersister =
+        mockk<Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>>()
 
     val movieRepoDBMapper = MovieRepoDbMapper()
     val movieDBRepoMapper = MovieDbRepoMapper()
@@ -340,6 +342,48 @@ class LatestMovieRepoImplTest {
                 movieServerDbMapper.map(it)
             })
         }
+    }
+
+    @Test
+    fun `load second page from server`() = runBlockingTest {
+        every {
+            moviePersister.movieCount()
+        } returns flowOf(1)
+
+        val networkMovies = listOf(
+            MovieServerModel(id = Random.nextLong()),
+            MovieServerModel(id = Random.nextLong()),
+            MovieServerModel(id = Random.nextLong())
+        )
+
+        coEvery {
+            movieFetcher.fetch(LatestMovieRequestParam(0))
+        } returns Response.success(
+            ResultsServerModel(
+                networkMovies
+            )
+        )
+
+        val items = repo.receiveAndUpdate(PageModel.NextPage.Next).first().orNull()
+
+        assertThat(items)
+            .isEqualTo(networkMovies.map { movieServerRepoMapper.map(it) })
+    }
+
+    @Test
+    fun `next page returns error`() = runBlockingTest {
+        every {
+            moviePersister.movieCount()
+        } returns flowOf(1)
+
+        coEvery {
+            movieFetcher.fetch(LatestMovieRequestParam(0))
+        } returns Response.error(400, byteArrayOf().toResponseBody("text/text".toMediaType()))
+
+        val items = repo.receiveAndUpdate(PageModel.NextPage.Next).first() as Either.Left
+
+        assertThat(items.a)
+            .isEqualTo(ErrorHolder.Message(EMPTY_MESSAGE_ERROR, 400))
     }
 
 }
