@@ -5,6 +5,7 @@ import arrow.core.left
 import arrow.core.right
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.listMerge
+import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
 import com.worldsnas.db.MoviePersister
 import com.worldsnas.domain.entity.MovieEntity
@@ -35,7 +36,7 @@ class LatestMovieRepoImpl @Inject constructor(
     private val movieServerMapper: Mapper<MovieServerModel, MovieEntity>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
     private val movieEntityMapper: Mapper<MovieEntity, MovieRepoModel>,
-    private val moviePersister: MoviePersister,
+    private val moviePersister: LatestMoviePersister,
     private val movieRepoDBMapper: Mapper<MovieRepoModel, Movie>,
     private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>
 ) : LatestMovieRepo {

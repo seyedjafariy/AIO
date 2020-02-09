@@ -14,6 +14,7 @@ class MovieServerDbMapper @Inject constructor(
             item.backdropPath,
             item.posterPath,
             item.releaseDate,
-            ""
+            "",
+            false
         )
 }

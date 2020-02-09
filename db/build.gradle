@@ -1,6 +1,5 @@
 apply from: kotlinLib
 apply plugin: "com.squareup.sqldelight"
-//apply plugin: "kotlin-kapt"
 
 sqldelight {
     Main {
@@ -29,6 +28,8 @@ sqldelight {
 
 dependencies {
 
+    testImplementation junit
+    testImplementation assertJ
     implementation coroutines
     implementation sqlDelightCoroutines
     implementation injectAnnotation

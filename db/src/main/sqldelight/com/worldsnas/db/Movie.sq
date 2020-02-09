@@ -4,12 +4,14 @@ CREATE TABLE movie (
     backdropImage TEXT,
     posterImage TEXT,
     release_date TEXT NOT NULL,
-    updated_at TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL
+    updated_at TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL,
+    is_latest INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
 getMovies:
 SELECT *
 FROM movie
+WHERE is_latest = ?
 ORDER BY release_date DESC;
 
 getMovie:
@@ -19,11 +21,12 @@ WHERE id == ?;
 
 insertMovie:
 REPLACE INTO movie (id, title, backdropImage, posterImage, release_date)
-VALUES (?,?,?,?, ?);
+VALUES (?,?,?,?,?);
 
 clearMovies:
 DELETE FROM movie;
 
 movieCount:
 SELECT COUNT(*)
-FROM movie;
+FROM movie
+WHERE is_latest = ?;

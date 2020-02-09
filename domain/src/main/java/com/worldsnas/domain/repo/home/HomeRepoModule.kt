@@ -38,14 +38,6 @@ abstract class HomeRepoModule {
             RFetcher<Int, ResultsServerModel<MovieServerModel>>
 
     @Binds
-    abstract fun bindLatestMoviePersister(persister: LatestMoviePersister):
-            Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>
-
-    @Binds
-    abstract fun bindTrendingPersister(persister: TrendingPersister):
-            Persister<TrendingPersisterKey, TrendingEntity>
-
-    @Binds
     abstract fun bindLatestMovieRepo(repo: LatestMovieRepoImpl):
             LatestMovieRepo
 
