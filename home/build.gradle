@@ -58,4 +58,7 @@ dependencies {
     implementation nineOldAndroidAnim
 
     kapt butterKnifeCompiler
+
+    implementation arrowCore
+    implementation arrowExtensions
 }

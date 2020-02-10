@@ -7,7 +7,6 @@ import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.listMerge
 import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
-import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.helpers.isEmptyBody
 import com.worldsnas.domain.helpers.isNotSuccessful
@@ -18,16 +17,16 @@ import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Mapper
 import com.worldsnas.panther.RFetcher
-import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.rx2.asObservable
 import retrofit2.Response
+import java.util.*
 import javax.inject.Inject
 
 class LatestMovieRepoImpl @Inject constructor(
-    private val oldFetcher: RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
     private val fetcher: Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
     private val moviePersister: LatestMoviePersister,
@@ -63,7 +62,7 @@ class LatestMovieRepoImpl @Inject constructor(
 
         emit(entireDb.right())
 
-        val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(1))
+        val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(Date(), 1))
 
         if (serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null) {
             list = entireDb.toMutableList()
@@ -106,11 +105,14 @@ class LatestMovieRepoImpl @Inject constructor(
 
     private fun loadNextPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
         moviePersister.movieCount()
+            .take(1)
             .map {
-                it / MOVIE_PAGE_SIZE
+                (it / MOVIE_PAGE_SIZE) + 1
             }
+            .filter { it > 1 }
+            .distinctUntilChanged()
             .map { page ->
-                fetcher.fetch(LatestMovieRequestParam(page.toInt()))
+                fetcher.fetch(LatestMovieRequestParam(Date(), page.toInt()))
             }
             .listMerge { responseFlow ->
                 listOf(
@@ -143,16 +145,24 @@ class LatestMovieRepoImpl @Inject constructor(
                     movieServerRepoMapper.map(it)
                 }
             }
-            .onEach { repoList ->
+            .map { repoList ->
                 moviePersister.insertMovies(repoList.map { movieRepoDBMapper.map(it) })
             }
+            .flatMapConcat {
+                moviePersister.observeMovies()
+                    .take(1)
+            }
             .map {
-                it.right()
+                it.map { movie ->
+                    movieDBRepoMapper.map(movie)
+                }.right()
             }
 
     override fun fetch(param: LatestMovieRepoParamModel): Single<LatestMovieRepoOutputModel> =
-        oldFetcher.fetch(LatestMovieRequestParam(param.page))
-            .toObservable()
+        flow {
+            emit(fetcher.fetch(LatestMovieRequestParam(Date(), param.page)))
+        }
+            .asObservable()
             .publish { publish ->
                 Observable.merge(
                     publish

@@ -1,5 +1,6 @@
 package com.worldsnas.domain.repo.home.latest
 
+import com.worldsnas.domain.helpers.toStringDate
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.domain.repo.home.HomeAPI
@@ -14,6 +15,9 @@ class LatestMovieFetcher @Inject constructor(
 ) : Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>> {
     override suspend fun fetch(param: LatestMovieRequestParam): Response<ResultsServerModel<MovieServerModel>> =
         withContext(Dispatchers.IO) {
-            api.getLatestMovie(param.page)
+            api.getLatestMovie(
+                param.date.toStringDate(),
+                param.page
+            )
         }
 }

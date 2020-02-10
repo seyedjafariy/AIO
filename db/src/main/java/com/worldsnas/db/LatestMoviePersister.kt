@@ -32,5 +32,5 @@ class LatestMoviePersisterImpl (
         moviePersister.getMovie(id)
 
     override fun movieCount(): Flow<Long> =
-        moviePersister.movieCount()
+        moviePersister.movieCount(true)
 }

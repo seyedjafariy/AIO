@@ -1,6 +1,8 @@
 package com.worldsnas.home
 
+import arrow.core.Either
 import com.worldsnas.base.toErrorState
+import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.delayEvent
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.domain.model.PageModel
@@ -24,6 +26,7 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
 import kotlinx.coroutines.rx2.asObservable
+import timber.log.Timber
 import javax.inject.Inject
 
 @FeatureScope
@@ -50,7 +53,7 @@ class HomeProcessor @Inject constructor(
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
     private val latestProcessor = ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
         actions
-            .map { LatestMovieRepoParamModel(1) }
+            .map { PageModel.First }
             .compose(latestMovieProcessor)
     }
 
@@ -84,41 +87,33 @@ class HomeProcessor @Inject constructor(
     private val nextPageProcessor =
         ObservableTransformer<HomeIntent.NextPage, HomeResult> { actions ->
             actions
-                .map { intent ->
-                    LatestMovieRepoParamModel((intent.totalCount / 20) + 1)
+                .map {
+                    PageModel.NextPage.Next
                 }
-                .filter { it.page > 1 }
                 .compose(latestMovieProcessor)
         }
 
     private val latestMovieProcessor =
-        ObservableTransformer<LatestMovieRepoParamModel, HomeResult> { actions ->
+        ObservableTransformer<PageModel, HomeResult> { actions ->
             actions
-                .map {
-                    if (it.page == 1) {
-                        PageModel.First
-                    } else {
-                        PageModel.NextPage.Next
-                    }
-                }
                 .switchMap { param ->
                     latestRepo.receiveAndUpdate(param)
                         .asObservable()
                         .publish { publish ->
                             Observable.merge(
-                                publish.ofType<LatestMovieRepoOutputModel.Success>()
+                                publish.ofType<Either.Right<List<MovieRepoModel>>>()
                                     .map {
                                         HomeResult.LatestMovies(
-                                            it.all.map { movie ->
+                                            it.b.map { movie ->
                                                 movieMapper.map(movie)
 
                                             }
                                         )
                                     },
-                                publish.ofType<LatestMovieRepoOutputModel.Error>()
+                                publish.ofType<Either.Left<ErrorHolder>>()
                                     .switchMap {
                                         delayEvent(
-                                            HomeResult.Error(it.err.toErrorState()),
+                                            HomeResult.Error(it.a.toErrorState()),
                                             HomeResult.LastStable
                                         )
                                     }

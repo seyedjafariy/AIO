@@ -26,10 +26,6 @@ abstract class HomeRepoModule {
     }
 
     @Binds
-    abstract fun bindLatestFetcherOld(fetcher: OldLatestMovieFetcher):
-            RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>
-
-    @Binds
     abstract fun bindLatestFetcher(fetcher: LatestMovieFetcher):
             Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>
 

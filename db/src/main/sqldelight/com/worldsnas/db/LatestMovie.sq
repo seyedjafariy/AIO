@@ -1,0 +1,17 @@
+
+
+
+getLatestMovies:
+SELECT *
+FROM movie
+ORDER BY release_date DESC;
+
+setLatestMovie:
+UPDATE movie
+SET  is_latest = ?
+WHERE id = ?;
+
+latestMovieCount:
+SELECT COUNT(*)
+FROM movie
+WHERE is_latest = ?;

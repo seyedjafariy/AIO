@@ -21,7 +21,7 @@ class MoviePersisterImpl constructor(
 ) : MoviePersister {
 
     override fun observeMovies(isLatest : Boolean): Flow<List<Movie>> =
-        queries.getMovies(isLatest)
+        queries.getMovies()
             .asFlow()
             .mapToList()
 
@@ -36,7 +36,7 @@ class MoviePersisterImpl constructor(
             movie.backdropImage,
             movie.posterImage,
             movie.release_date,
-            movie.is_latest
+            movie.id
         )
 
     override suspend fun insertMovies(movies: List<Movie>) : Unit =
@@ -50,7 +50,7 @@ class MoviePersisterImpl constructor(
             .mapToOneNotNull()
 
     override fun movieCount(isLatest : Boolean): Flow<Long> =
-        queries.movieCount(false)
+        queries.movieCount()
             .asFlow()
             .mapToOneOrDefault(0)
 }

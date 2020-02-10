@@ -1,18 +1,18 @@
+import java.util.Date;
+
 CREATE TABLE movie (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     backdropImage TEXT,
     posterImage TEXT,
-    release_date TEXT NOT NULL,
+    release_date INTEGER AS Date NOT NULL,
     updated_at TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL,
     is_latest INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
 getMovies:
 SELECT *
-FROM movie
-WHERE is_latest = ?
-ORDER BY release_date DESC;
+FROM movie;
 
 getMovie:
 SELECT *
@@ -21,17 +21,11 @@ WHERE id == ?;
 
 insertMovie:
 INSERT OR REPLACE INTO movie (id, title, backdropImage, posterImage, release_date, is_latest)
-VALUES (?,?,?,?,?,?);
-
-setLatestMovie:
-UPDATE movie
-SET  is_latest = ?
-WHERE id = ?;
+VALUES (?,?,?,?,?,(SELECT is_latest FROM movie WHERE id = ?));
 
 clearMovies:
 DELETE FROM movie;
 
 movieCount:
 SELECT COUNT(*)
-FROM movie
-WHERE is_latest = ?;
+FROM movie;
