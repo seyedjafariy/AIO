@@ -47,6 +47,8 @@ dependencies {
     implementation timber
     implementation rxBindingKotlin
 
+    implementation coroutines
+
     implementation fresco
 
     implementation constraintLayout

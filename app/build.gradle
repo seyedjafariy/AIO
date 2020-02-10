@@ -158,6 +158,8 @@ dependencies {
     implementation compat
     implementation coreKts
 
+    implementation coroutines
+
     implementation conductor
 
     implementation timber

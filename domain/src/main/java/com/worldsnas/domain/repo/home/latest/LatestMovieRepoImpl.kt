@@ -7,7 +7,6 @@ import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.listMerge
 import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
-import com.worldsnas.db.MoviePersister
 import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.helpers.isEmptyBody
@@ -18,24 +17,19 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Mapper
-import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.asPublisher
 import retrofit2.Response
 import javax.inject.Inject
 
 class LatestMovieRepoImpl @Inject constructor(
     private val oldFetcher: RFetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
     private val fetcher: Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
-    private val latestMoviePersister: Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>,
-    private val movieServerMapper: Mapper<MovieServerModel, MovieEntity>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
-    private val movieEntityMapper: Mapper<MovieEntity, MovieRepoModel>,
     private val moviePersister: LatestMoviePersister,
     private val movieRepoDBMapper: Mapper<MovieRepoModel, Movie>,
     private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>
@@ -50,15 +44,6 @@ class LatestMovieRepoImpl @Inject constructor(
                 list
             )
         )
-
-    override fun observeLatest(): Observable<LatestMovieRepoOutputModel> =
-        latestMoviePersister.observe(LatestMoviePersisterKey())
-            .map {
-                it.map { movie -> movieEntityMapper.map(movie) }
-            }
-            .map {
-                LatestMovieRepoOutputModel.Success(it, list)
-            }
 
     override fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
         when (param) {
@@ -164,34 +149,6 @@ class LatestMovieRepoImpl @Inject constructor(
             .map {
                 it.right()
             }
-
-    override fun update(param: LatestMovieRepoParamModel): Maybe<LatestMovieRepoOutputModel.Error> =
-        oldFetcher.fetch(LatestMovieRequestParam(param.page))
-            .toObservable()
-            .publish { publish ->
-                Observable.merge(
-                    publish
-                        .filter { it.isNotSuccessful || it.body() == null }
-                        .map { LatestMovieRepoOutputModel.Error(it.getErrorRepoModel()) },
-                    publish
-                        .filter { it.isSuccessful && it.body() != null }
-                        .map {
-                            it
-                                .body()!!
-                                .list
-                                .map { movie ->
-                                    movieServerMapper
-                                        .map(movie)
-                                }
-                        }
-                        .flatMapCompletable {
-                            latestMoviePersister
-                                .write(it)
-                        }
-                        .toObservable()
-                )
-            }
-            .firstElement()
 
     override fun fetch(param: LatestMovieRepoParamModel): Single<LatestMovieRepoOutputModel> =
         oldFetcher.fetch(LatestMovieRequestParam(param.page))

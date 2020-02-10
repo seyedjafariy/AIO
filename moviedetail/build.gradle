@@ -49,6 +49,8 @@ dependencies {
 
     implementation fresco
 
+    implementation coroutines
+
     implementation constraintLayout
 
     implementation project(slider)

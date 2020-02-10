@@ -69,14 +69,6 @@ abstract class MappersModule {
             Mapper<LanguageServerModel, LanguageEntity>
 
     @Binds
-    abstract fun bindMovieEntityRepoMapper(mapper: MovieEntityRepoMapper):
-            Mapper<MovieEntity, MovieRepoModel>
-
-    @Binds
-    abstract fun bindMovieServerEntityMapper(mapper: MovieServerEntityMapper):
-            Mapper<MovieServerModel, MovieEntity>
-
-    @Binds
     abstract fun bindReviewEntityRepoMapper(mapper: ReviewEntityRepoMapper):
             Mapper<ReviewEntity, ReviewRepoModel>
 

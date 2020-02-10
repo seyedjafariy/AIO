@@ -3,8 +3,8 @@ package com.worldsnas.domain.repo.home.latest
 import arrow.core.Either
 import arrow.core.orNull
 import com.worldsnas.core.ErrorHolder
+import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
-import com.worldsnas.db.MoviePersister
 import com.worldsnas.domain.entity.MovieEntity
 import com.worldsnas.domain.mappers.MovieDbRepoMapper
 import com.worldsnas.domain.mappers.MovieRepoDbMapper
@@ -16,7 +16,6 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Mapper
-import com.worldsnas.panther.Persister
 import com.worldsnas.panther.RFetcher
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,9 +41,6 @@ class LatestMovieRepoImplTest {
     val movieFetcher =
         mockk<Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>>(relaxed = true)
 
-    val oldPersister =
-        mockk<Persister<LatestMoviePersisterKey, List<@JvmSuppressWildcards MovieEntity>>>()
-
     val movieRepoDBMapper = MovieRepoDbMapper()
     val movieDBRepoMapper = MovieDbRepoMapper()
     val movieServerDbMapper = MovieServerDbMapper()
@@ -63,16 +59,14 @@ class LatestMovieRepoImplTest {
         TranslationServerRepoMapper()
     )
     val movieEntityRepoMapper = mockk<Mapper<MovieEntity, MovieRepoModel>>()
-    val moviePersister = mockk<MoviePersister>(relaxed = true)
+    val moviePersister = mockk<LatestMoviePersister>(relaxed = true)
 
     lateinit var repo: LatestMovieRepoImpl
-
 
     @Before
     fun setUp() {
         clearMocks(
             oldFetcher,
-            oldPersister,
             movieServerEntityMapper,
             moviePersister,
             movieEntityRepoMapper
@@ -80,10 +74,7 @@ class LatestMovieRepoImplTest {
         repo = LatestMovieRepoImpl(
             oldFetcher,
             movieFetcher,
-            oldPersister,
-            movieServerEntityMapper,
             movieServerRepoMapper,
-            movieEntityRepoMapper,
             moviePersister,
             movieRepoDBMapper,
             movieDBRepoMapper
@@ -104,7 +95,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             ),
             Movie.Impl(
                 Random.nextLong(),
@@ -112,7 +104,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             ),
             Movie.Impl(
                 Random.nextLong(),
@@ -120,7 +113,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             )
         )
 
@@ -168,7 +162,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             )
         )
 
@@ -202,7 +197,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             )
         )
 
@@ -244,7 +240,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             ),
             Movie.Impl(
                 secondOverlappingId,
@@ -252,7 +249,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             ),
             Movie.Impl(
                 Random.nextLong(),
@@ -260,7 +258,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             ),
             Movie.Impl(
                 Random.nextLong(),
@@ -268,7 +267,8 @@ class LatestMovieRepoImplTest {
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
                 Random.nextLong().toString(),
-                Random.nextLong().toString()
+                Random.nextLong().toString(),
+                false
             )
         )
 

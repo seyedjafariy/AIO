@@ -35,6 +35,8 @@ dependencies {
     implementation okHttpLogging
     implementation sqlDelightAndroidAdapter
 
+    implementation coroutines
+
     implementation fresco
     implementation frescoOkHttp
 
