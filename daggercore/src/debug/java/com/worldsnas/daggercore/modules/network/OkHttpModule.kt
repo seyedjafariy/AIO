@@ -60,7 +60,7 @@ object OkHttpModule {
             .connectTimeout(120, TimeUnit.SECONDS)// Set connection timeout
             .readTimeout(120, TimeUnit.SECONDS)// Read timeout
             .writeTimeout(120, TimeUnit.SECONDS)// Write timeout
-            .cache(cache)
+//            .cache(cache)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(protocolInterceptor)
             .addInterceptor(authInterceptor)

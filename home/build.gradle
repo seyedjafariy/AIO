@@ -48,6 +48,7 @@ dependencies {
     implementation rxBindingKotlin
 
     implementation coroutines
+    implementation coroutinesRx2
 
     implementation fresco
 

@@ -20,8 +20,13 @@ FROM movie
 WHERE id == ?;
 
 insertMovie:
-REPLACE INTO movie (id, title, backdropImage, posterImage, release_date)
+INSERT OR REPLACE INTO movie (id, title, backdropImage, posterImage, release_date)
 VALUES (?,?,?,?,?);
+
+setLatestMovie:
+UPDATE movie
+SET  is_latest = ?
+WHERE id = ?;
 
 clearMovies:
 DELETE FROM movie;
