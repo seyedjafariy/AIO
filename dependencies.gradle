@@ -238,13 +238,15 @@ ext {
                     epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
                     flipper = "com.facebook.flipper:flipper:$flipperVersion",
                     flipperNoOp = "com.facebook.flipper:flipper-noop:$flipperVersion",
-                    soLoader = "com.facebook.soloader:soloader:0.5.1"
+                    soLoader = "com.facebook.soloader:soloader:0.5.1",
+                    stetho = "com.facebook.stetho:stetho:1.5.1"
             ],
 
             databse = [
                     sqlDelightAndroidAdapter = "com.squareup.sqldelight:android-driver:$sqlDelightVersion",
                     sqlDelightRuntime = "com.squareup.sqldelight:runtime-jvm:$sqlDelightVersion",
-                    sqlDelightCoroutines = "com.squareup.sqldelight:coroutines-extensions:$sqlDelightVersion"
+                    sqlDelightCoroutines = "com.squareup.sqldelight:coroutines-extensions:$sqlDelightVersion",
+                    sqlDelightJVM = "com.squareup.sqldelight:sqlite-driver:$sqlDelightVersion"
             ],
 
             objectboxLib = [

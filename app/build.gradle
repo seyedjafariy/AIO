@@ -183,6 +183,8 @@ dependencies {
     debugImplementation soLoader
     debugImplementation flipper
     releaseImplementation flipperNoOp
+
+    debugImplementation stetho
 }
 apply plugin: 'com.google.gms.google-services'
 

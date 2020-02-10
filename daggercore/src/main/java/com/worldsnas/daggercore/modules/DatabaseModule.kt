@@ -24,5 +24,5 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabaseDriver(context: Application) : SqlDriver =
-        AndroidSqliteDriver(Schema, context)
+        AndroidSqliteDriver(Schema, context, "main")
 }

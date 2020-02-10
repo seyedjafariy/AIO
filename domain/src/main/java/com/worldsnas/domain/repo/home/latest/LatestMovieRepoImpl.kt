@@ -63,7 +63,7 @@ class LatestMovieRepoImpl @Inject constructor(
 
         emit(entireDb.right())
 
-        val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(0))
+        val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(1))
 
         if (serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null) {
             list = entireDb.toMutableList()
