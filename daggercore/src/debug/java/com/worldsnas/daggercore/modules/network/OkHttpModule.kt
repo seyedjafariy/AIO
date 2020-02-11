@@ -1,6 +1,7 @@
 package com.worldsnas.daggercore.modules.network
 
 import android.app.Application
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.worldsnas.daggercore.BuildConfig.DEBUG
@@ -37,12 +38,16 @@ object OkHttpModule {
     fun provideOkhttpCache(app: Application): Cache =
         Cache(app.cacheDir, 50_000_000)
 
+    @JvmStatic
+    @Provides
+    fun provideChucker(app: Application) =
+        ChuckerInterceptor(app)
 
 
     @JvmStatic
     @Provides
     @Singleton
-    fun provideFlipperPlugin() : NetworkFlipperPlugin =
+    fun provideFlipperPlugin(): NetworkFlipperPlugin =
         NetworkFlipperPlugin()
 
     @JvmStatic
@@ -53,18 +58,19 @@ object OkHttpModule {
         protocolInterceptor: NoContentProtocolExceptionInterceptor,
         authInterceptor: AuthTokenAdderInterceptor,
         cache: Cache,
-        flipperPlugin : NetworkFlipperPlugin
+        flipperPlugin: NetworkFlipperPlugin,
+        chucker: ChuckerInterceptor
     ): OkHttpClient {
-
-        val builder = OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .connectTimeout(120, TimeUnit.SECONDS)// Set connection timeout
             .readTimeout(120, TimeUnit.SECONDS)// Read timeout
             .writeTimeout(120, TimeUnit.SECONDS)// Write timeout
 //            .cache(cache)
+            .addInterceptor(chucker)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(protocolInterceptor)
             .addInterceptor(authInterceptor)
             .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
-        return builder.build()
+            .build()
     }
 }

@@ -1,10 +1,11 @@
-
-
-
 getLatestMovies:
 SELECT *
 FROM movie
 ORDER BY release_date DESC;
+
+insertMovie:
+INSERT OR REPLACE INTO movie (id, title, backdropImage, posterImage, release_date, is_latest)
+VALUES (:id,?,?,?,?,?);
 
 setLatestMovie:
 UPDATE movie
@@ -14,4 +15,8 @@ WHERE id = ?;
 latestMovieCount:
 SELECT COUNT(*)
 FROM movie
-WHERE is_latest = ?;
+WHERE is_latest = 1;
+
+clearLatestMovies:
+DELETE FROM movie
+WHERE is_latest = 1;

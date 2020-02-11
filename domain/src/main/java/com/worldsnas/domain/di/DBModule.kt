@@ -22,12 +22,17 @@ object DBModule {
 
     @Provides
     @JvmStatic
+    fun provideLatestMovieQueries(main: Main): LatestMovieQueries =
+        main.latestMovieQueries
+
+    @Provides
+    @JvmStatic
     fun provideMoviePersister(queries: MovieQueries): MoviePersister =
         MoviePersisterImpl(queries)
 
     @Provides
     @JvmStatic
-    fun provideLatestMoviePersister(persister: MoviePersister): LatestMoviePersister =
-        LatestMoviePersisterImpl(persister)
+    fun provideLatestMoviePersister(queries: LatestMovieQueries): LatestMoviePersister =
+        LatestMoviePersisterImpl(queries)
 
 }

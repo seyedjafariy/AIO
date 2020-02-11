@@ -1,5 +1,8 @@
 package com.worldsnas.db
 
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrDefault
 import kotlinx.coroutines.flow.Flow
 
 interface LatestMoviePersister {
@@ -7,30 +10,39 @@ interface LatestMoviePersister {
     suspend fun clearMovies()
     suspend fun insertMovie(movie: Movie)
     suspend fun insertMovies(movies: List<Movie>)
-    fun getMovie(id: Long): Flow<Movie>
     fun movieCount(): Flow<Long>
 }
 
 class LatestMoviePersisterImpl (
-    private val moviePersister: MoviePersister
+    private val queries: LatestMovieQueries
 ): LatestMoviePersister{
     override fun observeMovies(): Flow<List<Movie>> =
-        moviePersister.observeMovies(true)
+        queries
+            .getLatestMovies()
+            .asFlow()
+            .mapToList()
 
     override suspend fun clearMovies() =
-        moviePersister.clearMovies()
+        queries.clearLatestMovies()
 
     override suspend fun insertMovie(movie: Movie) =
-        moviePersister.insertMovie(movie.castToImpl().copy(is_latest = true))
+        queries.insertMovie(
+            movie.id,
+            movie.title,
+            movie.backdropImage,
+            movie.posterImage,
+            movie.release_date,
+            true
+        )
 
     override suspend fun insertMovies(movies: List<Movie>) =
         movies.forEach {
             insertMovie(it)
         }
 
-    override fun getMovie(id: Long): Flow<Movie> =
-        moviePersister.getMovie(id)
-
     override fun movieCount(): Flow<Long> =
-        moviePersister.movieCount(true)
+        queries
+            .latestMovieCount()
+            .asFlow()
+            .mapToOneOrDefault(0)
 }

@@ -73,7 +73,8 @@ ext {
 
             bottomNavVersion = "2.1.0",
             epoxyVersion = "3.7.0",
-            flipperVersion = "0.23.3"
+            flipperVersion = "0.23.3",
+            chuckerVersion = "3.1.2"
     ]
 }
 ext {
@@ -238,6 +239,8 @@ ext {
                     epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
                     flipper = "com.facebook.flipper:flipper:$flipperVersion",
                     flipperNoOp = "com.facebook.flipper:flipper-noop:$flipperVersion",
+                    chucker = "com.github.ChuckerTeam.Chucker:library:$chuckerVersion",
+                    chuckerNoop = "com.github.ChuckerTeam.Chucker:library-no-op:$chuckerVersion",
                     soLoader = "com.facebook.soloader:soloader:0.5.1",
                     stetho = "com.facebook.stetho:stetho:1.5.1"
             ],

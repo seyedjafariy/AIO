@@ -46,4 +46,7 @@ dependencies {
 
     debugImplementation flipper
     releaseImplementation flipperNoOp
+
+    debugImplementation chucker
+    releaseImplementation chuckerNoop
 }
