@@ -17,11 +17,11 @@ FROM movie;
 getMovie:
 SELECT *
 FROM movie
-WHERE id == ?;
+WHERE id = ?;
 
 insertMovie:
 INSERT OR REPLACE INTO movie (id, title, backdropImage, posterImage, release_date, is_latest)
-VALUES (?,?,?,?,?,(SELECT is_latest FROM movie WHERE id = ?));
+VALUES (:id,?,?,?,?,(SELECT is_latest FROM movie WHERE id = :id));
 
 clearMovies:
 DELETE FROM movie;

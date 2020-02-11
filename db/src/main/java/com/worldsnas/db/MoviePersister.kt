@@ -35,8 +35,7 @@ class MoviePersisterImpl constructor(
             movie.title,
             movie.backdropImage,
             movie.posterImage,
-            movie.release_date,
-            movie.id
+            movie.release_date
         )
 
     override suspend fun insertMovies(movies: List<Movie>) : Unit =
