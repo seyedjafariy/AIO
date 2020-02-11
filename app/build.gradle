@@ -183,6 +183,8 @@ dependencies {
     debugImplementation soLoader
     debugImplementation flipper
     releaseImplementation flipperNoOp
+    debugImplementation flipperNetworkPlugin
+    debugImplementation flipperFrescoPlugin
 
     debugImplementation stetho
 }

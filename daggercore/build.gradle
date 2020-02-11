@@ -46,6 +46,8 @@ dependencies {
 
     debugImplementation flipper
     releaseImplementation flipperNoOp
+    debugImplementation flipperNetworkPlugin
+    debugImplementation flipperFrescoPlugin
 
     debugImplementation chucker
     releaseImplementation chuckerNoop

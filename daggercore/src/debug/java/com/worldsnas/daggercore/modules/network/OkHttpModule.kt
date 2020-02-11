@@ -16,27 +16,8 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [InnerOkHttpModule::class])
 object OkHttpModule {
-
-    @JvmStatic
-    @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-            override fun log(message: String) {
-                Timber.d(message)
-            }
-        })
-
-        httpLoggingInterceptor.level = if (DEBUG) BODY else NONE
-
-        return httpLoggingInterceptor
-    }
-
-    @JvmStatic
-    @Provides
-    fun provideOkhttpCache(app: Application): Cache =
-        Cache(app.cacheDir, 50_000_000)
 
     @JvmStatic
     @Provides
@@ -54,22 +35,12 @@ object OkHttpModule {
     @Provides
     @Singleton
     fun provideClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        protocolInterceptor: NoContentProtocolExceptionInterceptor,
-        authInterceptor: AuthTokenAdderInterceptor,
-        cache: Cache,
         flipperPlugin: NetworkFlipperPlugin,
-        chucker: ChuckerInterceptor
+        chucker: ChuckerInterceptor,
+        @InnerOkHttpQualifier client: OkHttpClient
     ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .connectTimeout(120, TimeUnit.SECONDS)// Set connection timeout
-            .readTimeout(120, TimeUnit.SECONDS)// Read timeout
-            .writeTimeout(120, TimeUnit.SECONDS)// Write timeout
-//            .cache(cache)
+        return client.newBuilder()
             .addInterceptor(chucker)
-            .addInterceptor(loggingInterceptor)
-            .addInterceptor(protocolInterceptor)
-            .addInterceptor(authInterceptor)
             .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
             .build()
     }

@@ -8,14 +8,12 @@ import com.facebook.flipper.plugins.databases.DatabasesFlipperPlugin
 import com.facebook.flipper.plugins.fresco.FrescoFlipperPlugin
 import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
-import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.facebook.stetho.Stetho
 import com.worldsnas.aio.BuildConfig.DEBUG
 import timber.log.Timber
-
 
 class AIOApp : BaseApp() {
 
@@ -57,9 +55,6 @@ class AIOApp : BaseApp() {
             )
             client.addPlugin(
                 SharedPreferencesFlipperPlugin(this, this.packageName)
-            )
-            client.addPlugin(
-                LeakCanaryFlipperPlugin()
             )
             client.addPlugin(
                 CrashReporterPlugin.getInstance()
