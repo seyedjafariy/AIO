@@ -25,12 +25,14 @@ object NetworkModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideInvestRetrofit2Helper(client: OkHttpClient, moshi: Moshi): Retrofit {
+    fun provideInvestRetrofit2Helper(client: Lazy<OkHttpClient>, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(MoshiConverterFactory.create(moshi))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .build()
+            .baseUrl(BASE_URL)
+            .callFactory {
+                client.value.newCall(it)
+            }
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .build()
     }
 }
