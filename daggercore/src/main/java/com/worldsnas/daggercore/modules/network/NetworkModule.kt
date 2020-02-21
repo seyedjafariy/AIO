@@ -2,6 +2,7 @@ package com.worldsnas.daggercore.modules.network
 
 import com.squareup.moshi.Moshi
 import com.worldsnas.domain.model.servermodels.AppJsonAdapterFactory
+import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
@@ -29,7 +30,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .callFactory {
-                client.value.newCall(it)
+                client.get().newCall(it)
             }
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
