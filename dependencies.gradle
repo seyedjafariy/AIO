@@ -111,6 +111,7 @@ ext {
                     kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
                     kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
                     coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+                    coroutinesCommon = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion",
                     coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
                     coroutinesRx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutinesVersion"
             ],

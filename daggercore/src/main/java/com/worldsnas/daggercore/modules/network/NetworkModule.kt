@@ -6,7 +6,9 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import io.reactivex.schedulers.Schedulers
+import okhttp3.Call
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -29,9 +31,11 @@ object NetworkModule {
     fun provideInvestRetrofit2Helper(client: Lazy<OkHttpClient>, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .callFactory {
-                client.get().newCall(it)
-            }
+            .callFactory(object : Call.Factory {
+                override fun newCall(request: Request): Call {
+                    return client.get().newCall(request)
+                }
+            })
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()

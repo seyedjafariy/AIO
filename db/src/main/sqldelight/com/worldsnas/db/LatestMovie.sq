@@ -3,6 +3,17 @@ SELECT *
 FROM movie
 ORDER BY release_date DESC;
 
+getLatestMovie:
+SELECT *
+FROM movie
+WHERE id = ?;
+
+findMovie:
+SELECT *
+FROM movie
+WHERE id IN ?
+LIMIT 1;
+
 insertMovie:
 INSERT OR REPLACE INTO movie (id, title, backdropImage, posterImage, release_date, is_latest)
 VALUES (:id,?,?,?,?,?);

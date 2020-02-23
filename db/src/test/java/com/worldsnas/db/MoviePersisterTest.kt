@@ -4,7 +4,6 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import org.junit.After
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Test
 
 class MoviePersisterTest {
@@ -16,7 +15,7 @@ class MoviePersisterTest {
     fun init() {
         driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
         Main.Schema.create(driver)
-        queries = Main(driver).movieQueries
+        queries = Main(driver, Movie.Adapter(DateLongAdapter())).movieQueries
     }
 
     @After

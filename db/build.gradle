@@ -31,8 +31,10 @@ dependencies {
     testImplementation junit
     testImplementation assertJ
     testImplementation sqlDelightJVM
+    testImplementation coroutinesTest
 
     implementation coroutines
+    implementation coroutinesCommon
     implementation sqlDelightCoroutines
     implementation injectAnnotation
 }

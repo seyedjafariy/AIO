@@ -2,8 +2,9 @@ package com.worldsnas.db
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import com.squareup.sqldelight.runtime.coroutines.mapToOneOrDefault
-import kotlinx.coroutines.flow.Flow
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 
 interface LatestMoviePersister {
     fun observeMovies(): Flow<List<Movie>>
@@ -11,16 +12,18 @@ interface LatestMoviePersister {
     suspend fun insertMovie(movie: Movie)
     suspend fun insertMovies(movies: List<Movie>)
     fun movieCount(): Flow<Long>
+    fun getMovie(id: Long): Flow<Movie?>
+    fun findAny(ids: List<Long>): Flow<Movie?>
 }
 
-class LatestMoviePersisterImpl (
+class LatestMoviePersisterImpl(
     private val queries: LatestMovieQueries
-): LatestMoviePersister{
+) : LatestMoviePersister {
     override fun observeMovies(): Flow<List<Movie>> =
         queries
             .getLatestMovies()
             .asFlow()
-            .mapToList()
+            .mapToList(Dispatchers.IO)
 
     override suspend fun clearMovies() =
         queries.clearLatestMovies()
@@ -41,8 +44,35 @@ class LatestMoviePersisterImpl (
         }
 
     override fun movieCount(): Flow<Long> =
-        queries
-            .latestMovieCount()
+        flow {
+            emit(
+                queries
+                    .latestMovieCount()
+                    .executeAsOne()
+            )
+        }
+
+    override fun getMovie(id: Long): Flow<Movie?> =
+        queries.getLatestMovie(id)
             .asFlow()
-            .mapToOneOrDefault(0)
+            .mapToOneOrNull(Dispatchers.IO)
+            .take(1)
+
+    override fun findAny(ids: List<Long>): Flow<Movie?> =
+        queries.findMovie(ids)
+            .asFlow()
+            .mapToOneOrNull(Dispatchers.IO)
 }
+
+fun <T> Flow<T>.ifEmptyEmit(item: T): Flow<T> =
+    flow {
+        var emitted = false
+        collect { value ->
+            emitted = true
+            emit(value)
+        }
+
+        if (!emitted) {
+            emit(item)
+        }
+    }

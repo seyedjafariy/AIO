@@ -13,7 +13,7 @@ object DBModule {
     @Provides
     @Singleton
     fun provideDatabase(driver: SqlDriver): Main =
-        Main(driver, Movie.Adapter(DateIntegerAdapter()))
+        Main(driver, Movie.Adapter(DateLongAdapter()))
 
     @Provides
     @JvmStatic

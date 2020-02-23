@@ -159,6 +159,7 @@ dependencies {
     implementation coreKts
 
     implementation coroutines
+    implementation coroutinesCommon
 
     implementation conductor
 

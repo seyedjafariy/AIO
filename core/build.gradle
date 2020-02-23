@@ -1,6 +1,10 @@
 apply from: androidLib
 
 dependencies{
+    testImplementation coroutinesTest
+    testImplementation junit
+    testImplementation assertJ
+
     implementation kotlinStd8
     implementation dagger
     implementation javaxAnnotation
