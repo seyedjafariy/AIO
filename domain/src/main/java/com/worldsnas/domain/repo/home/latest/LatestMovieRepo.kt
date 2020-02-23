@@ -9,7 +9,8 @@ import com.worldsnas.core.toListFlow
 import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
 import com.worldsnas.domain.helpers.getErrorRepoModel
-import com.worldsnas.domain.helpers.isEmptyBody
+import com.worldsnas.domain.helpers.isBodyEmpty
+import com.worldsnas.domain.helpers.isBodyNotEmpty
 import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
@@ -23,7 +24,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.rx2.asObservable
 import retrofit2.Response
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -59,64 +59,149 @@ class LatestMovieRepoImpl @Inject constructor(
             is PageModel.NextPage -> loadNextPage()
         }
 
-    private fun loadFirstPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
-        //refactor to use flow operators
-        //create a new module for android core and depend db on core  (to use extensions)
-        val entireDb: List<MovieRepoModel> =
-            moviePersister.observeMovies()
-                .take(1)
-                .first()
-                .map {
-                    movieDBRepoMapper.map(it)
+    private fun loadFirstPage() =
+        moviePersister.observeMovies()
+            .take(1)
+            .map { movies ->
+                movies.map { movieDBRepoMapper.map(it) }
+            }
+            .listMerge { dbFLow ->
+                listOf(
+                    dbFLow
+                        .onEach { list = it.toMutableList() }
+                        .map { it.right() },
+                    fetchAndSave()
+                )
+            }
+
+    private fun fetchAndSave() =
+        flow {
+            emit(fetcher.fetch(LatestMovieRequestParam(Date(), 1)))
+        }
+            .listMerge { responseFlow ->
+                listOf(
+                    responseFlow.errorLeft(),
+                    responseFlow.parseAndSave(true)
+                )
+            }
+
+    private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.errorLeft() =
+        filter { serverFirstPageResponse ->
+            serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null
+        }.map { serverFirstPageResponse ->
+            serverFirstPageResponse.getErrorRepoModel().left()
+        }
+
+    private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.parseAndSave(validateDb: Boolean) =
+        filter { serverFirstPageResponse ->
+            serverFirstPageResponse.isSuccessful && serverFirstPageResponse.isBodyNotEmpty
+        }.map { serverFirstPageResponse ->
+            serverFirstPageResponse.body()!!.list.map {
+                movieServerRepoMapper.map(it)
+            }
+        }.onEach { serverFirstPage ->
+            if (!validateDb) {
+                return@onEach
+            }
+
+            val dbValid = serverFirstPage.map { it.id }
+                .asFlow()
+                .toListFlow()
+                .flatMapConcat {
+                    moviePersister.findAny(it)
                 }
+                .map {
+                    it != null
+                }
+                .first()
 
-        emit(entireDb.right())
-
-        val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(Date(), 1))
-
-        if (serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null) {
-            list = entireDb.toMutableList()
-            emit(entireDb.right())
-            emit(serverFirstPageResponse.getErrorRepoModel().left())
-            return@flow
-        }
-
-        val serverFirstPage: List<MovieRepoModel> = serverFirstPageResponse.body()!!.list.map {
-            movieServerRepoMapper.map(it)
-        }
-
-        val dbValid = serverFirstPage.map { it.id }
-            .asFlow()
-            .toListFlow()
-            .flatMapConcat {
-                moviePersister.findAny(it)
+            if (!dbValid) {
+                moviePersister.clearMovies()
+                list.clear()
             }
-            .map {
-                it != null
-            }
-            .first()
-
-        if (!dbValid) {
-            moviePersister.clearMovies()
-            list.clear()
-        }
-
-        moviePersister.insertMovies(serverFirstPage.map {
-            movieRepoDBMapper.map(it)
-        })
-
-        list.addAll(
+        }.onEach { serverFirstPage ->
+            moviePersister.insertMovies(serverFirstPage.map {
+                movieRepoDBMapper.map(it)
+            })
+        }.flatMapConcat {
             moviePersister
                 .observeMovies()
-                .first()
-                .map {
-                    movieDBRepoMapper.map(it)
+                .take(1)
+        }.map { movies ->
+            movies.map {
+                movieDBRepoMapper.map(it)
+            }
+        }.onEach {
+            list = it.toMutableList()
+        }.map {
+            list.right()
+        }
+
+    /*
+        private fun loadFirstPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
+            //refactor to use flow operators
+
+
+            val entireDb: List<MovieRepoModel> =
+                moviePersister.observeMovies()
+                    .take(1)
+                    .map { movies ->
+                        movies.map { movieDBRepoMapper.map(it) }
+                    }
+                    .listMerge { dbFLow ->
+                        listOf(
+                            dbFLow.map { it.right() }, //save to list as cache
+                            fetchAndSave()
+                        )
+                    }
+
+            emit(entireDb.right())
+
+            val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(Date(), 1))
+
+            if (serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null) {
+                list = entireDb.toMutableList()
+                emit(entireDb.right())
+                emit(serverFirstPageResponse.getErrorRepoModel().left())
+                return@flow
+            }
+
+            val serverFirstPage: List<MovieRepoModel> = serverFirstPageResponse.body()!!.list.map {
+                movieServerRepoMapper.map(it)
+            }
+
+            val dbValid = serverFirstPage.map { it.id }
+                .asFlow()
+                .toListFlow()
+                .flatMapConcat {
+                    moviePersister.findAny(it)
                 }
-        )
+                .map {
+                    it != null
+                }
+                .first()
 
-        emit(list.right())
-    }
+            if (!dbValid) {
+                moviePersister.clearMovies()
+                list.clear()
+            }
 
+            moviePersister.insertMovies(serverFirstPage.map {
+                movieRepoDBMapper.map(it)
+            })
+
+            list.addAll(
+                moviePersister
+                    .observeMovies()
+                    .first()
+                    .map {
+                        movieDBRepoMapper.map(it)
+                    }
+            )
+
+            emit(list.right())
+        }
+    */
     private fun loadNextPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
         moviePersister.movieCount()
             .map {
@@ -128,47 +213,11 @@ class LatestMovieRepoImpl @Inject constructor(
             }
             .listMerge { responseFlow ->
                 listOf(
-                    responseFailed(responseFlow),
-                    responseSuccess(responseFlow)
+                    responseFlow.errorLeft(),
+                    responseFlow.parseAndSave(false)
                 )
             }
             .flowOn(Dispatchers.Default)
-
-    private fun responseFailed(responseFlow: Flow<Response<ResultsServerModel<MovieServerModel>>>) =
-        responseFlow
-            .filter { response ->
-                response.isNotSuccessful || response.isEmptyBody || response.body()!!.list.isEmpty()
-            }
-            .map { response ->
-                response.getErrorRepoModel().left()
-            }
-
-
-    private fun responseSuccess(responseFlow: Flow<Response<ResultsServerModel<MovieServerModel>>>) =
-        responseFlow
-            .filter { response ->
-                response.body()?.list?.isNotEmpty() ?: false
-            }
-            .map { response ->
-                response.body()?.list!!
-            }
-            .map { serverList ->
-                serverList.map {
-                    movieServerRepoMapper.map(it)
-                }
-            }
-            .map { repoList ->
-                moviePersister.insertMovies(repoList.map { movieRepoDBMapper.map(it) })
-            }
-            .flatMapConcat {
-                moviePersister.observeMovies()
-                    .take(1)
-            }
-            .map {
-                it.map { movie ->
-                    movieDBRepoMapper.map(movie)
-                }.right()
-            }
 
     override fun fetch(param: LatestMovieRepoParamModel): Single<LatestMovieRepoOutputModel> =
         flow {

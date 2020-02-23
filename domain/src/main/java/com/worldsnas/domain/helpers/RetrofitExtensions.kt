@@ -14,8 +14,11 @@ import retrofit2.Response
 val Response<*>.isNotSuccessful
     get() = !isSuccessful
 
-val Response<*>.isEmptyBody
+val Response<*>.isBodyEmpty
     get() = body() == null
+
+val Response<*>.isBodyNotEmpty
+    get() = !isBodyEmpty
 
 fun Response<*>.getErrorServerModel(): ErrorServerModel =
     errorBody()

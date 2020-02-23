@@ -15,8 +15,7 @@ interface HomeAPI {
         finalDate : String,
         @Query("page")
         page: Int
-    ):
-            Response<ResultsServerModel<MovieServerModel>>
+    ): Response<ResultsServerModel<MovieServerModel>>
 
     @GET("/3/trending/movie/day")
     fun getTerndingMovie():
