@@ -32,9 +32,27 @@ class LatestMoviePersisterImpl(
         queries.insertMovie(
             movie.id,
             movie.title,
+            movie.adult,
+            movie.originalTitle,
+            movie.originalLanguage,
+            movie.budget,
+            movie.homePage,
+            movie.imdbId,
+            movie.facebookId,
+            movie.instagramId,
+            movie.twitterId,
+            movie.overview,
+            movie.popularity,
             movie.backdropImage,
             movie.posterImage,
-            movie.release_date,
+            movie.releaseDate,
+            movie.revenue,
+            movie.runtime,
+            movie.status,
+            movie.tagLine,
+            movie.video,
+            movie.voteAverage,
+            movie.voteCount,
             true
         )
 

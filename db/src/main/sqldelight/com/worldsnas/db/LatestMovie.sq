@@ -1,7 +1,7 @@
 getLatestMovies:
 SELECT *
 FROM movie
-ORDER BY release_date DESC;
+ORDER BY releaseDate DESC;
 
 getLatestMovie:
 SELECT *
@@ -15,19 +15,68 @@ WHERE id IN ?
 LIMIT 1;
 
 insertMovie:
-INSERT OR REPLACE INTO movie (id, title, backdropImage, posterImage, release_date, is_latest)
-VALUES (:id,?,?,?,?,?);
+INSERT OR REPLACE INTO movie
+(id,
+ title,
+ adult,
+ originalTitle,
+ originalLanguage,
+ budget,
+ homePage,
+ imdbId,
+ facebookId,
+ instagramId,
+ twitterId,
+ overview,
+ popularity,
+ backdropImage,
+ posterImage,
+ releaseDate,
+ revenue,
+ runtime,
+ status,
+ tagLine,
+ video,
+ voteAverage,
+ voteCount,
+ isLatest
+)
+VALUES (
+:id,
+:title,
+:adult,
+:originalTitle,
+:originalLanguage,
+:budget,
+:homePage,
+:imdbId,
+:facebookId,
+:instagramId,
+:twitterId,
+:overview,
+:popularity,
+:backdropImage,
+:posterImage,
+:releaseDate,
+:revenue,
+:runtime,
+:status,
+:tagLine,
+:video,
+:voteAverage,
+:voteCount,
+:isLatest);
 
 setLatestMovie:
 UPDATE movie
-SET  is_latest = ?
+SET  isLatest = ?
 WHERE id = ?;
 
 latestMovieCount:
 SELECT COUNT(*)
 FROM movie
-WHERE is_latest = 1;
+WHERE isLatest = 1;
 
 clearLatestMovies:
 DELETE FROM movie
-WHERE is_latest = 1;
+WHERE isLatest = 1;

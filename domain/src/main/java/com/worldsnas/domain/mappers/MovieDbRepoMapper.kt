@@ -7,13 +7,31 @@ import com.worldsnas.panther.Mapper
 import javax.inject.Inject
 
 class MovieDbRepoMapper @Inject constructor(
-): Mapper<Movie, MovieRepoModel> {
+) : Mapper<Movie, MovieRepoModel> {
     override fun map(item: Movie): MovieRepoModel =
         MovieRepoModel(
             item.id,
-            backdropPath = item.backdropImage ?: "",
-            posterPath = item.posterImage ?: "",
-            title = item.title,
-            releaseDate = item.release_date.toStringDate()
+            item.adult,
+            item.backdropImage,
+            item.budget,
+            item.homePage,
+            item.imdbId,
+            item.originalLanguage,
+            item.originalTitle,
+            item.overview,
+            item.popularity,
+            item.posterImage,
+            item.releaseDate.toStringDate(),
+            item.revenue,
+            item.runtime.toInt(),
+            item.status,
+            item.tagLine,
+            item.title,
+            item.video,
+            item.voteAverage,
+            item.voteCount,
+            item.facebookId,
+            item.instagramId,
+            item.twitterId
         )
 }
