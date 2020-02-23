@@ -1,4 +1,4 @@
-apply from: androidLib
+apply from: kotlinLib
 
 dependencies{
     testImplementation coroutinesTest
@@ -6,20 +6,7 @@ dependencies{
     testImplementation assertJ
 
     implementation kotlinStd8
-    implementation dagger
-    implementation javaxAnnotation
-    implementation jetbrainsAnnotation
-    implementation findBugs
-    kapt daggerCompiler
 
-    implementation conductor
     implementation coroutines
-    implementation retrofit
-    implementation okHttpLogging
-    implementation moshiRetrofit
-    implementation rxJavaRetrofit
-    implementation moshi
-    implementation timber
     implementation rxJava
-    implementation recyclerView
 }

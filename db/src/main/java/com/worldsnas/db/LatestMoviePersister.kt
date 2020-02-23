@@ -63,16 +63,3 @@ class LatestMoviePersisterImpl(
             .asFlow()
             .mapToOneOrNull(Dispatchers.IO)
 }
-
-fun <T> Flow<T>.ifEmptyEmit(item: T): Flow<T> =
-    flow {
-        var emitted = false
-        collect { value ->
-            emitted = true
-            emit(value)
-        }
-
-        if (!emitted) {
-            emit(item)
-        }
-    }
