@@ -10,6 +10,9 @@ CREATE TABLE movie (
     is_latest INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
+CREATE UNIQUE INDEX movie_id
+ON movie (id);
+
 getMovies:
 SELECT *
 FROM movie;
