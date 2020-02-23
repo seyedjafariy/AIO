@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 interface LatestMovieRepo {
     fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>>
-    fun fetch(param: LatestMovieRepoParamModel): Single<LatestMovieRepoOutputModel>
+    fun fetch(param: LatestMovieRepoParamModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>>
     fun memCache(): Single<LatestMovieRepoOutputModel.Success>
 }
 
@@ -70,18 +70,17 @@ class LatestMovieRepoImpl @Inject constructor(
                     dbFLow
                         .onEach { list = it.toMutableList() }
                         .map { it.right() },
-                    fetchAndSave()
+                    fetchAndSave(LatestMovieRequestParam(Date(), 1), true)
                 )
             }
 
-    private fun fetchAndSave() =
+    private fun fetchAndSave(param : LatestMovieRequestParam, validateDb : Boolean) =
         flow {
-            emit(fetcher.fetch(LatestMovieRequestParam(Date(), 1)))
-        }
-            .listMerge { responseFlow ->
+            emit(fetcher.fetch(param))
+        }.listMerge { responseFlow ->
                 listOf(
                     responseFlow.errorLeft(),
-                    responseFlow.parseAndSave(true)
+                    responseFlow.parseAndSave(validateDb)
                 )
             }
 
@@ -209,48 +208,13 @@ class LatestMovieRepoImpl @Inject constructor(
             }
             .filter { it > 1 }
             .map { page ->
-                fetcher.fetch(LatestMovieRequestParam(Date(), page.toInt()))
-            }
-            .listMerge { responseFlow ->
-                listOf(
-                    responseFlow.errorLeft(),
-                    responseFlow.parseAndSave(false)
-                )
+                LatestMovieRequestParam(Date(), page.toInt())
             }
             .flowOn(Dispatchers.Default)
-
-    override fun fetch(param: LatestMovieRepoParamModel): Single<LatestMovieRepoOutputModel> =
-        flow {
-            emit(fetcher.fetch(LatestMovieRequestParam(Date(), param.page)))
-        }
-            .asObservable()
-            .publish { publish ->
-                Observable.merge(
-                    publish
-                        .filter { it.isNotSuccessful || it.body() == null }
-                        .map { LatestMovieRepoOutputModel.Error(it.getErrorRepoModel()) },
-                    publish
-                        .filter { it.isSuccessful && it.body() != null }
-                        .map {
-                            it
-                                .body()!!
-                                .list
-                                .map { movie ->
-                                    movieServerRepoMapper
-                                        .map(movie)
-                                }
-                        }
-                        .doOnNext {
-                            if (param.page == 1) {
-                                list = it.toMutableList()
-                            } else {
-                                list.addAll(it)
-                            }
-                        }
-                        .map {
-                            LatestMovieRepoOutputModel.Success(it, list)
-                        }
-                )
+            .flatMapConcat {
+                fetchAndSave(it, false)
             }
-            .firstOrError()
+
+    override fun fetch(param: LatestMovieRepoParamModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
+        fetchAndSave(LatestMovieRequestParam(Date(), param.page), false)
 }
