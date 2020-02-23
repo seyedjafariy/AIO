@@ -108,8 +108,4 @@ abstract class MappersModule {
     abstract fun bindMovieDbRepoMapper(mapper: MovieDbRepoMapper):
             Mapper<Movie, MovieRepoModel>
 
-    @Binds
-    abstract fun bindMovieServerDbMapper(mapper: MovieServerDbMapper):
-            Mapper<MovieServerModel, Movie>
-
 }

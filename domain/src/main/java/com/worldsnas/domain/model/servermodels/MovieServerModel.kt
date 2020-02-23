@@ -52,7 +52,7 @@ data class MovieServerModel(
     @Json(name = "vote_average")
     val voteAverage: Double = 0.0,
     @Json(name = "vote_count")
-    val voteCount: Int = 0,
+    val voteCount: Long = 0,
     @Json(name = "videos")
     val videos: ResultsServerModel<VideoServerModel>? = null,
     @Json(name = "images")
