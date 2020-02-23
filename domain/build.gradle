@@ -18,6 +18,7 @@ dependencies {
 
     implementation(project(panther))
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(db))
 
     implementation dagger

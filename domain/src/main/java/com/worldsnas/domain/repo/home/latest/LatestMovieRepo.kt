@@ -60,6 +60,8 @@ class LatestMovieRepoImpl @Inject constructor(
         }
 
     private fun loadFirstPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
+        //refactor to use flow operators
+        //create a new module for android core and depend db on core  (to use extensions)
         val entireDb: List<MovieRepoModel> =
             moviePersister.observeMovies()
                 .take(1)

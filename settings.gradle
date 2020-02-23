@@ -9,4 +9,5 @@ include ':app', ':moviedetail', ':gallery', ':db',
         ':home',
         ':navigation',
         ':kotlintesthelpers',
-        ':slider'
+        ':slider',
+        ':androidcore'

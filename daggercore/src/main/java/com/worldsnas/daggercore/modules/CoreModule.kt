@@ -1,8 +1,7 @@
 package com.worldsnas.daggercore.modules
 
 import android.app.Application
-import com.worldsnas.core.DisplaySize
-import com.worldsnas.core.DisplaySizeFactory
+import com.worldsnas.androidcore.DisplaySizeFactory
 import dagger.Module
 import dagger.Provides
 
@@ -11,6 +10,6 @@ object CoreModule {
 
     @JvmStatic
     @Provides
-    fun provideDisplaySize(context: Application, provider: DisplaySizeFactory): DisplaySize =
+    fun provideDisplaySize(context: Application, provider: DisplaySizeFactory) =
         provider.create(context)
 }

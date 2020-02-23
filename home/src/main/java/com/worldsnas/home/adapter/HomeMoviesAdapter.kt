@@ -3,7 +3,7 @@ package com.worldsnas.home.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.worldsnas.core.inflate
+import com.worldsnas.androidcore.inflate
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState

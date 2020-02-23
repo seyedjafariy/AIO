@@ -25,6 +25,7 @@ dependencies {
     implementation(project(daggerCore))
     implementation(project(base))
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(mvi))
     implementation(project(navigation))
     implementation(project(panther))

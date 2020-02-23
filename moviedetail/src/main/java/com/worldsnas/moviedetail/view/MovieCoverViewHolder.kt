@@ -10,8 +10,8 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.jakewharton.rxbinding3.view.clicks
+import com.worldsnas.androidcore.getDisplaySize
 import com.worldsnas.base.BaseViewHolder
-import com.worldsnas.core.getDisplaySize
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.R

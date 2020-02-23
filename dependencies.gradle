@@ -286,7 +286,8 @@ ext {
                     movieDetail = ":moviedetail",
                     slider = ":slider",
                     gallery = ":gallery",
-                    db = ":db"
+                    db = ":db",
+                    androidCore = ":androidcore"
             ],
 
             plugins = [
