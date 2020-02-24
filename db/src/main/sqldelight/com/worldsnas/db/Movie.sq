@@ -32,6 +32,13 @@ CREATE TABLE movie (
 CREATE UNIQUE INDEX movie_id
 ON movie (id);
 
+latestMovieView:
+CREATE VIEW latest_movie AS
+SELECT *
+FROM movie
+WHERE isLatest = 1
+ORDER BY releaseDate DESC;
+
 getMovies:
 SELECT *
 FROM movie;

@@ -10,3 +10,9 @@ CREATE TABLE movies_genres(
     FOREIGN KEY (genreId) REFERENCES  genre (id),
     FOREIGN KEY (movieId) REFERENCES  movie (id)
 );
+
+getMovieGenres:
+SELECT genre.id, genre.title, genre.updatedAt
+FROM movies_genres
+LEFT JOIN genre ON movies_genres.genreId = genre.id
+WHERE movies_genres.movieId = :movieId;

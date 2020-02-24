@@ -9,7 +9,6 @@ import com.worldsnas.core.toListFlow
 import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
 import com.worldsnas.domain.helpers.getErrorRepoModel
-import com.worldsnas.domain.helpers.isBodyEmpty
 import com.worldsnas.domain.helpers.isBodyNotEmpty
 import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.PageModel
@@ -18,11 +17,9 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.Mapper
-import io.reactivex.Observable
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.rx2.asObservable
 import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
@@ -60,7 +57,7 @@ class LatestMovieRepoImpl @Inject constructor(
         }
 
     private fun loadFirstPage() =
-        moviePersister.observeMovies()
+        moviePersister.observeSimpleMovies()
             .take(1)
             .map { movies ->
                 movies.map { movieDBRepoMapper.map(it) }
@@ -124,7 +121,7 @@ class LatestMovieRepoImpl @Inject constructor(
             })
         }.flatMapConcat {
             moviePersister
-                .observeMovies()
+                .observeSimpleMovies()
                 .take(1)
         }.map { movies ->
             movies.map {

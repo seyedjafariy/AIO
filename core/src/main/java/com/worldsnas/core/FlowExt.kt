@@ -1,9 +1,6 @@
 package com.worldsnas.core
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.*
 
 fun <T, U> Flow<T>.listMerge(block: (Flow<T>) -> List<Flow<U>>) =
     block(this)
@@ -30,6 +27,18 @@ fun <T> Flow<T>.toListFlow(): Flow<List<T>> = flow {
         }
         emit(finalList.toList())
     }
+
+fun <T> Flow<List<T>>.mergeIterable(): Flow<T> =
+        flatMapMerge {
+            it.asFlow()
+        }
+
+fun <T> Flow<List<T>>.concatIterable(): Flow<T> =
+        flatMapConcat {
+            it.asFlow()
+        }
+
+
 
 
 

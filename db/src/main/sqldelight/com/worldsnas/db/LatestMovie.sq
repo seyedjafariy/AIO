@@ -4,20 +4,6 @@ FROM movie
 WHERE isLatest = 1
 ORDER BY releaseDate DESC;
 
-latestMovieView:
-CREATE VIEW latestMovie AS
-SELECT *
-FROM movie
-WHERE isLatest = 1
-ORDER BY releaseDate DESC;
-
-getLatestMoviesWithGenre:
-SELECT *
-FROM movie
-LEFT JOIN movies_genres ON movie.id = movies_genres.movieId
-LEFT JOIN genre ON movies_genres.genreId = genre.id
-ORDER BY releaseDate DESC;
-
 getLatestMovie:
 SELECT *
 FROM movie
