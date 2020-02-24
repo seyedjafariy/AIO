@@ -3,6 +3,7 @@ package com.worldsnas.db
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
+import com.worldsnas.core.listMerge
 import com.worldsnas.core.mergeIterable
 import com.worldsnas.core.toListFlow
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.*
 
 interface LatestMoviePersister {
     fun observeSimpleMovies(): Flow<List<Movie>>
-    fun observeMovies(): Flow<List<MovieGenre>>
+    fun observeMovies(): Flow<List<CompleteMovie>>
     suspend fun clearMovies()
     suspend fun insertMovie(movie: Movie)
     suspend fun insertMovies(movies: List<Movie>)
@@ -19,9 +20,12 @@ interface LatestMoviePersister {
     fun findAny(ids: List<Long>): Flow<Movie?>
 }
 
+typealias MovieToComplete = (CompleteMovie) -> Flow<CompleteMovie>
+
 class LatestMoviePersisterImpl(
         private val queries: LatestMovieQueries,
-        private val genreQueries: GenreQueries
+        private val genreQueries: GenreQueries,
+        private val movieQueries: MovieQueries
 ) : LatestMoviePersister {
     override fun observeSimpleMovies(): Flow<List<Movie>> =
             queries
@@ -29,30 +33,52 @@ class LatestMoviePersisterImpl(
                     .asFlow()
                     .mapToList(Dispatchers.IO)
 
-    override fun observeMovies(): Flow<List<MovieGenre>> =
+    override fun observeMovies(): Flow<List<CompleteMovie>> =
             observeSimpleMovies()
-                    .movieGenres()
+                    .addToMovie(listOf(
+                            ::movieGenres,
+                            ::movieSimilars
+                    ))
 
-    private fun Flow<List<Movie>>.movieGenres(): Flow<List<MovieGenre>> = flatMapMerge { movies ->
-        movies.asFlow()
-                .flatMapConcat { movie ->
-                    genreQueries.getMovieGenres(movie.id) { id, title, updatedAt ->
-                        Genre.Impl(
-                                id!!, title!!, updatedAt!!
-                        )
+
+    private fun Flow<List<Movie>>.addToMovie(calls: List<MovieToComplete>): Flow<List<CompleteMovie>> =
+            flatMapMerge { movies ->
+                val completeFlow = movies.asFlow()
+                        .map {
+                            CompleteMovie(it)
+                        }
+
+                calls.forEach { call ->
+                    completeFlow.flatMapConcat{
+                        call(it)
                     }
-                            .asFlow()
-                            .mapToList(Dispatchers.IO)
-                            .take(1)
-                            .map { genres ->
-                                MovieGenre(
-                                        movie,
-                                        genres
-                                )
-                            }
                 }
-                .toListFlow()
-    }
+
+                completeFlow.toListFlow()
+            }
+
+    private fun movieGenres(completeMovie: CompleteMovie): Flow<CompleteMovie> =
+            genreQueries.getMovieGenres(completeMovie.movie.id) { id, title, updatedAt ->
+                Genre.Impl(
+                        id!!, title!!, updatedAt!!
+                )
+            }
+                    .asFlow()
+                    .mapToList(Dispatchers.IO)
+                    .take(1)
+                    .map { genres ->
+                        completeMovie.copy(genres = genres)
+                    }
+
+    private fun movieSimilars(completeMovie: CompleteMovie): Flow<CompleteMovie> =
+            movieQueries.getSimilarMovies(completeMovie.movie.id)
+                    .asFlow()
+                    .mapToList(Dispatchers.IO)
+                    .take(1)
+                    .map { similars ->
+                        completeMovie.copy(similars = similars)
+                    }
+
 
     override suspend fun clearMovies() =
             queries.clearLatestMovies()

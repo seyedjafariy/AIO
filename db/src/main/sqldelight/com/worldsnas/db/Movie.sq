@@ -29,6 +29,13 @@ CREATE TABLE movie (
     isLatest INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
+CREATE TABLE similar_movie(
+    movieId INTEGER NOT NULL,
+    similarMovie INTEGER NOT NULL,
+    FOREIGN KEY (movieId) REFERENCES  movie (id),
+    FOREIGN KEY (similarMovie) REFERENCES  movie (id)
+);
+
 CREATE UNIQUE INDEX movie_id
 ON movie (id);
 
@@ -111,3 +118,8 @@ DELETE FROM movie;
 movieCount:
 SELECT COUNT(*)
 FROM movie;
+
+getSimilarMovies:
+SELECT movie.* FROM movie
+JOIN similar_movie ON movie.id = similar_movie.similarMovie
+WHERE similar_movie.similarMovie = :movieId;
