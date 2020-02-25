@@ -4,6 +4,9 @@ CREATE TABLE genre (
     updatedAt TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL
 );
 
+CREATE UNIQUE INDEX genre_id
+ON genre (id);
+
 CREATE TABLE movies_genres(
     genreId INTEGER NOT NULL,
     movieId INTEGER NOT NULL,
@@ -16,3 +19,9 @@ SELECT genre.id, genre.title, genre.updatedAt
 FROM movies_genres
 LEFT JOIN genre ON movies_genres.genreId = genre.id
 WHERE movies_genres.movieId = :movieId;
+
+getMoviesGenres:
+SELECT movies_genres.movieId AS originalMovieID, genre.id, genre.title, genre.updatedAt
+FROM movies_genres
+LEFT JOIN genre ON movies_genres.genreId = genre.id
+WHERE movies_genres.movieId IN :movieIds;

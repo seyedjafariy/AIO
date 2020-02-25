@@ -62,24 +62,27 @@ class LatestMovieRepoImpl @Inject constructor(
             .map { movies ->
                 movies.map { movieDBRepoMapper.map(it) }
             }
-            .listMerge { dbFLow ->
-                listOf(
-                    dbFLow
-                        .onEach { list = it.toMutableList() }
-                        .map { it.right() },
+            .listMerge(
+                {
+                    onEach { list = it.toMutableList() }
+                        .map { it.right() }
+                },
+                {
                     fetchAndSave(LatestMovieRequestParam(Date(), 1), true)
-                )
-            }
+                }
+            )
 
-    private fun fetchAndSave(param : LatestMovieRequestParam, validateDb : Boolean) =
+    private fun fetchAndSave(param: LatestMovieRequestParam, validateDb: Boolean) =
         flow {
             emit(fetcher.fetch(param))
-        }.listMerge { responseFlow ->
-                listOf(
-                    responseFlow.errorLeft(),
-                    responseFlow.parseAndSave(validateDb)
-                )
+        }.listMerge(
+            {
+                errorLeft()
+            },
+            {
+                parseAndSave(validateDb)
             }
+        )
 
     private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.errorLeft() =
         filter { serverFirstPageResponse ->

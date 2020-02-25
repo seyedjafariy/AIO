@@ -1,17 +1,20 @@
 package com.worldsnas.db
 
+import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
-import com.worldsnas.core.listMerge
-import com.worldsnas.core.mergeIterable
-import com.worldsnas.core.toListFlow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
 interface LatestMoviePersister {
     fun observeSimpleMovies(): Flow<List<Movie>>
-    fun observeMovies(): Flow<List<CompleteMovie>>
+    fun observeMovies(
+            genres: Boolean = false,
+            similars: Boolean = false,
+            recomendations: Boolean = false
+    ): Flow<List<CompleteMovie>>
+
     suspend fun clearMovies()
     suspend fun insertMovie(movie: Movie)
     suspend fun insertMovies(movies: List<Movie>)
@@ -20,7 +23,7 @@ interface LatestMoviePersister {
     fun findAny(ids: List<Long>): Flow<Movie?>
 }
 
-typealias MovieToComplete = (CompleteMovie) -> Flow<CompleteMovie>
+typealias MovieCompletor = (List<CompleteMovie>) -> Flow<List<CompleteMovie>>
 
 class LatestMoviePersisterImpl(
         private val queries: LatestMovieQueries,
@@ -33,52 +36,142 @@ class LatestMoviePersisterImpl(
                     .asFlow()
                     .mapToList(Dispatchers.IO)
 
-    override fun observeMovies(): Flow<List<CompleteMovie>> =
-            observeSimpleMovies()
-                    .addToMovie(listOf(
-                            ::movieGenres,
-                            ::movieSimilars
-                    ))
+    private fun Flow<List<Movie>>.addToMovie(vararg calls: MovieCompletor?): Flow<List<CompleteMovie>> =
+            map { movies ->
+                movies.map { CompleteMovie(it) }
+            }
+                    .apply {
+                        calls
+                                .filterNotNull()
+                                .forEach { call ->
+                                    this.flatMapMerge {
+                                        call(it)
+                                    }
+                                }
+                    }
 
-
-    private fun Flow<List<Movie>>.addToMovie(calls: List<MovieToComplete>): Flow<List<CompleteMovie>> =
-            flatMapMerge { movies ->
-                val completeFlow = movies.asFlow()
-                        .map {
-                            CompleteMovie(it)
+    private fun <T : Any> Query<T>.addChildrenToComplete(
+            completeMovies: List<CompleteMovie>,
+            transform: suspend (List<T>, CompleteMovie) -> CompleteMovie
+    ): Flow<List<CompleteMovie>> =
+            asFlow()
+                    .mapToList(Dispatchers.IO)
+                    .take(1)
+                    .combine(flowOf(completeMovies)) { items, completes ->
+                        completes.map { complete ->
+                            transform(items, complete)
                         }
-
-                calls.forEach { call ->
-                    completeFlow.flatMapConcat{
-                        call(it)
-                    }
-                }
-
-                completeFlow.toListFlow()
-            }
-
-    private fun movieGenres(completeMovie: CompleteMovie): Flow<CompleteMovie> =
-            genreQueries.getMovieGenres(completeMovie.movie.id) { id, title, updatedAt ->
-                Genre.Impl(
-                        id!!, title!!, updatedAt!!
-                )
-            }
-                    .asFlow()
-                    .mapToList(Dispatchers.IO)
-                    .take(1)
-                    .map { genres ->
-                        completeMovie.copy(genres = genres)
                     }
 
-    private fun movieSimilars(completeMovie: CompleteMovie): Flow<CompleteMovie> =
-            movieQueries.getSimilarMovies(completeMovie.movie.id)
-                    .asFlow()
-                    .mapToList(Dispatchers.IO)
-                    .take(1)
-                    .map { similars ->
-                        completeMovie.copy(similars = similars)
+    override fun observeMovies(
+            genres: Boolean,
+            similars: Boolean,
+            recomendations: Boolean
+    ): Flow<List<CompleteMovie>> =
+            observeSimpleMovies()
+                    .addToMovie(
+                            ::movieGenres.takeIf { genres },
+                            ::movieSimilars.takeIf { similars },
+                            ::movieRecommended.takeIf { recomendations }
+                    )
+
+    private fun movieGenres(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
+            genreQueries.getMoviesGenres(completeMovies.map { it.movie.id })
+                    .addChildrenToComplete(completeMovies) { genres, complete ->
+                        complete.copy(
+                                genres = genres
+                                        .filter {
+                                            it.originalMovieID == complete.movie.id
+                                        }
+                                        .map { genre ->
+                                            with(genre) {
+                                                Genre.Impl(id!!, title!!, updatedAt!!)
+                                            }
+                                        }
+                        )
                     }
 
+    private fun movieSimilars(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
+            movieQueries.getMoviesSimilar(completeMovies.map { it.movie.id })
+                    .addChildrenToComplete(completeMovies) { similars, complete ->
+                        complete.copy(similars = similars
+                                .filter { similar ->
+                                    similar.originalMovieID == complete.movie.id
+                                }
+                                .map { similar ->
+                                    with(similar) {
+                                        Movie.Impl(
+                                                id,
+                                                title,
+                                                adult,
+                                                originalTitle,
+                                                budget,
+                                                homePage,
+                                                imdbId,
+                                                facebookId,
+                                                instagramId,
+                                                twitterId,
+                                                originalLanguage,
+                                                overview,
+                                                popularity,
+                                                backdropImage,
+                                                posterImage,
+                                                releaseDate,
+                                                revenue,
+                                                runtime,
+                                                status,
+                                                tagLine,
+                                                video,
+                                                voteAverage,
+                                                voteCount,
+                                                updatedAt,
+                                                isLatest
+                                        )
+                                    }
+                                }
+                        )
+                    }
+
+    private fun movieRecommended(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
+            movieQueries.getMoviesRecommended(completeMovies.map { it.movie.id })
+                    .addChildrenToComplete(completeMovies) { recommendeds, complete ->
+                        complete.copy(recommended = recommendeds
+                                .filter { recommended ->
+                                    recommended.originalMovieID == complete.movie.id
+                                }
+                                .map { recommended ->
+                                    with(recommended) {
+                                        Movie.Impl(
+                                                id,
+                                                title,
+                                                adult,
+                                                originalTitle,
+                                                budget,
+                                                homePage,
+                                                imdbId,
+                                                facebookId,
+                                                instagramId,
+                                                twitterId,
+                                                originalLanguage,
+                                                overview,
+                                                popularity,
+                                                backdropImage,
+                                                posterImage,
+                                                releaseDate,
+                                                revenue,
+                                                runtime,
+                                                status,
+                                                tagLine,
+                                                video,
+                                                voteAverage,
+                                                voteCount,
+                                                updatedAt,
+                                                isLatest
+                                        )
+                                    }
+                                }
+                        )
+                    }
 
     override suspend fun clearMovies() =
             queries.clearLatestMovies()

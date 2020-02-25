@@ -29,6 +29,9 @@ CREATE TABLE movie (
     isLatest INTEGER AS Boolean NOT NULL DEFAULT 0
 );
 
+CREATE UNIQUE INDEX movie_id
+ON movie (id);
+
 CREATE TABLE similar_movie(
     movieId INTEGER NOT NULL,
     similarMovie INTEGER NOT NULL,
@@ -36,8 +39,12 @@ CREATE TABLE similar_movie(
     FOREIGN KEY (similarMovie) REFERENCES  movie (id)
 );
 
-CREATE UNIQUE INDEX movie_id
-ON movie (id);
+CREATE TABLE recommended_movie(
+    movieId INTEGER NOT NULL,
+    recommendedMovie INTEGER NOT NULL,
+    FOREIGN KEY (movieId) REFERENCES  movie (id),
+    FOREIGN KEY (recommendedMovie) REFERENCES  movie (id)
+);
 
 latestMovieView:
 CREATE VIEW latest_movie AS
@@ -119,7 +126,17 @@ movieCount:
 SELECT COUNT(*)
 FROM movie;
 
-getSimilarMovies:
+getMovieSimilar:
 SELECT movie.* FROM movie
 JOIN similar_movie ON movie.id = similar_movie.similarMovie
 WHERE similar_movie.similarMovie = :movieId;
+
+getMoviesSimilar:
+SELECT similar_movie.movieId AS originalMovieID, movie.* FROM movie
+JOIN similar_movie ON movie.id = similar_movie.similarMovie
+WHERE similar_movie.movieId IN :movieIds;
+
+getMoviesRecommended:
+SELECT recommended_movie.movieId AS originalMovieID, movie.* FROM movie
+JOIN recommended_movie ON movie.id = recommended_movie.recommendedMovie
+WHERE recommended_movie.movieId IN :movieIds;
