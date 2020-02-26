@@ -140,3 +140,13 @@ getMoviesRecommended:
 SELECT recommended_movie.movieId AS originalMovieID, movie.* FROM movie
 JOIN recommended_movie ON movie.id = recommended_movie.recommendedMovie
 WHERE recommended_movie.movieId IN :movieIds;
+
+insertSimilarMovie:
+INSERT INTO similar_movie
+(movieId, similarMovie)
+VALUES (:originalMovieId, :similarMovieId);
+
+insertRecommendedMovie:
+INSERT INTO recommended_movie
+(movieId, recommendedMovie)
+VALUES (:originalMovieId, :recommendedMovieId);
