@@ -6,12 +6,15 @@ import arrow.core.right
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.listMerge
 import com.worldsnas.core.toListFlow
+import com.worldsnas.db.CompleteMovie
+import com.worldsnas.db.Genre
 import com.worldsnas.db.LatestMoviePersister
 import com.worldsnas.db.Movie
 import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.helpers.isBodyNotEmpty
 import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.PageModel
+import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
@@ -21,8 +24,10 @@ import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import kotlin.system.measureTimeMillis
 
 interface LatestMovieRepo {
     fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>>
@@ -37,7 +42,8 @@ class LatestMovieRepoImpl @Inject constructor(
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
     private val moviePersister: LatestMoviePersister,
     private val movieRepoDBMapper: Mapper<MovieRepoModel, Movie>,
-    private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>
+    private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>,
+    private val genreRepoDbMapper: Mapper<GenreRepoModel, Genre>
 ) : LatestMovieRepo {
 
     var list: MutableList<MovieRepoModel> = mutableListOf()
@@ -98,7 +104,25 @@ class LatestMovieRepoImpl @Inject constructor(
             serverFirstPageResponse.body()!!.list.map {
                 movieServerRepoMapper.map(it)
             }
-        }.onEach { serverFirstPage ->
+        }
+            .validateDb(validateDb)
+            .saveToDb()
+            .flatMapConcat {
+                moviePersister
+                    .observeSimpleMovies()
+                    .take(1)
+            }.map { movies ->
+                movies.map {
+                    movieDBRepoMapper.map(it)
+                }
+            }.onEach {
+                list = it.toMutableList()
+            }.map {
+                list.right()
+            }
+
+    private fun Flow<List<MovieRepoModel>>.validateDb(validateDb: Boolean) =
+        onEach { serverFirstPage: List<MovieRepoModel> ->
             if (!validateDb) {
                 return@onEach
             }
@@ -118,91 +142,26 @@ class LatestMovieRepoImpl @Inject constructor(
                 moviePersister.clearMovies()
                 list.clear()
             }
-        }.onEach { serverFirstPage ->
-            moviePersister.insertMovies(serverFirstPage.map {
-                movieRepoDBMapper.map(it)
-            })
-        }.flatMapConcat {
-            moviePersister
-                .observeSimpleMovies()
-                .take(1)
-        }.map { movies ->
-            movies.map {
-                movieDBRepoMapper.map(it)
-            }
-        }.onEach {
-            list = it.toMutableList()
-        }.map {
-            list.right()
         }
 
-    /*
-        private fun loadFirstPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> = flow {
-            //refactor to use flow operators
-
-
-            val entireDb: List<MovieRepoModel> =
-                moviePersister.observeMovies()
-                    .take(1)
-                    .map { movies ->
-                        movies.map { movieDBRepoMapper.map(it) }
-                    }
-                    .listMerge { dbFLow ->
-                        listOf(
-                            dbFLow.map { it.right() }, //save to list as cache
-                            fetchAndSave()
-                        )
-                    }
-
-            emit(entireDb.right())
-
-            val serverFirstPageResponse = fetcher.fetch(LatestMovieRequestParam(Date(), 1))
-
-            if (serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null) {
-                list = entireDb.toMutableList()
-                emit(entireDb.right())
-                emit(serverFirstPageResponse.getErrorRepoModel().left())
-                return@flow
-            }
-
-            val serverFirstPage: List<MovieRepoModel> = serverFirstPageResponse.body()!!.list.map {
-                movieServerRepoMapper.map(it)
-            }
-
-            val dbValid = serverFirstPage.map { it.id }
-                .asFlow()
-                .toListFlow()
-                .flatMapConcat {
-                    moviePersister.findAny(it)
-                }
-                .map {
-                    it != null
-                }
-                .first()
-
-            if (!dbValid) {
-                moviePersister.clearMovies()
-                list.clear()
-            }
-
-            moviePersister.insertMovies(serverFirstPage.map {
-                movieRepoDBMapper.map(it)
+    private fun Flow<List<MovieRepoModel>>.saveToDb() = onEach { networkResult ->
+        val timeSpent = measureTimeMillis {
+            moviePersister.insertMovies(networkResult.map { mainMovie ->
+                CompleteMovie(
+                    movieRepoDBMapper.map(mainMovie),
+                    genres = mainMovie.genres.map { genreRepoDbMapper.map(it) },
+                    similars = mainMovie.similar.map { movieRepoDBMapper.map(it) },
+                    recommended = mainMovie.recommendations.map { movieRepoDBMapper.map(it) }
+                )
             })
-
-            list.addAll(
-                moviePersister
-                    .observeMovies()
-                    .first()
-                    .map {
-                        movieDBRepoMapper.map(it)
-                    }
-            )
-
-            emit(list.right())
         }
-    */
+
+        Timber.d("timeSpent to save 20 movies to db= $timeSpent")
+    }
+
     private fun loadNextPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
         moviePersister.movieCount()
+            .take(1)
             .map {
                 (it / MOVIE_PAGE_SIZE) + 1
             }

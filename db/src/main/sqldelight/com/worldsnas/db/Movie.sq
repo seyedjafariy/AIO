@@ -53,15 +53,6 @@ FROM movie
 WHERE isLatest = 1
 ORDER BY releaseDate DESC;
 
-getMovies:
-SELECT *
-FROM movie;
-
-getMovie:
-SELECT *
-FROM movie
-WHERE id = ?;
-
 insertMovie:
 INSERT OR REPLACE INTO movie
 (id,
@@ -118,6 +109,25 @@ VALUES (
 insertEntireMovie:
 INSERT OR REPLACE INTO movie
 VALUES ?;
+
+insertRecommendedMovie:
+INSERT INTO recommended_movie
+(movieId, recommendedMovie)
+VALUES (:movieId, :recommendedMovieId);
+
+insertSimilarMovie:
+INSERT INTO similar_movie
+(movieId, similarMovie)
+VALUES (:movieId, :similarMovieId);
+
+getMovies:
+SELECT *
+FROM movie;
+
+getMovie:
+SELECT *
+FROM movie
+WHERE id = ?;
 
 clearMovies:
 DELETE FROM movie;

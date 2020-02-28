@@ -14,6 +14,20 @@ CREATE TABLE movies_genres(
     FOREIGN KEY (movieId) REFERENCES  movie (id)
 );
 
+insertEntireGenre:
+INSERT OR REPLACE INTO genre
+VALUES ?;
+
+insertGenre:
+INSERT OR REPLACE INTO genre
+(id, title)
+VALUES (:id, :title);
+
+insertMovieGenres:
+INSERT INTO movies_genres
+(genreId, movieId)
+VALUES (:genreId, :movieId);
+
 getMovieGenres:
 SELECT genre.id, genre.title, genre.updatedAt
 FROM movies_genres

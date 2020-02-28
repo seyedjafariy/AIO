@@ -1,5 +1,6 @@
 package com.worldsnas.domain.di
 
+import com.worldsnas.db.Genre
 import com.worldsnas.db.Movie
 import com.worldsnas.domain.entity.*
 import com.worldsnas.domain.mappers.*
@@ -107,5 +108,9 @@ abstract class MappersModule {
     @Binds
     abstract fun bindMovieDbRepoMapper(mapper: MovieDbRepoMapper):
             Mapper<Movie, MovieRepoModel>
+
+    @Binds
+    abstract fun bindGenreRepoDBMapper(mapper: GenreRepoDBMapper):
+            Mapper<GenreRepoModel, Genre>
 
 }
