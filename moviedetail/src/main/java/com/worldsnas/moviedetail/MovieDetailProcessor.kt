@@ -1,6 +1,8 @@
 package com.worldsnas.moviedetail
 
+import arrow.core.Either
 import com.worldsnas.base.toErrorState
+import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.delayEvent
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
@@ -22,6 +24,7 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.rxkotlin.zipWith
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class MovieDetailProcessor @Inject constructor(
@@ -54,32 +57,38 @@ class MovieDetailProcessor @Inject constructor(
         ObservableTransformer<MovieDetailIntent.Initial, MovieDetailResult> { intents ->
             intents.switchMap { intent ->
                 repo.getMovieDetail(MovieDetailRepoParamModel(intent.movie.movieID))
-                    .toObservable()
+                    .asObservable()
                     .publish { publish ->
                         Observable.merge(
                             publish
-                                .ofType<MovieDetailRepoOutPutModel.Error>()
+                                .ofType<Either.Left<ErrorHolder>>()
                                 .switchMap { error ->
                                     delayEvent(
                                         MovieDetailResult.Error(
-                                            error.err.toErrorState()
+                                            error.a.toErrorState()
                                         ),
                                         MovieDetailResult.LastStable
                                     )
                                 },
                             publish
-                                .ofType<MovieDetailRepoOutPutModel.Success>()
+                                .ofType<Either.Right<MovieRepoModel>>()
                                 .map {
-                                    MovieDetailResult.Detail(
-                                        it.movie.title,
-                                        it.movie.posterPath,
-                                        getTime(it.movie.runtime),
-                                        it.movie.releaseDate,
-                                        it.movie.overview,
-                                        it.movie.backdrops.map { back -> back.filePath },
-                                        it.movie.genres.map { genre -> genreMapper.map(genre) },
-                                        it.movie.recommendations.map { movie -> movieMapper.map(movie) },
-                                        it.movie.similar.map { movie -> movieMapper.map(movie) })
+                                    with(it.b) {
+                                        MovieDetailResult.Detail(
+                                            title,
+                                            posterPath,
+                                            getTime(runtime),
+                                            releaseDate,
+                                            overview,
+                                            backdrops.map { back -> back.filePath },
+                                            genres.map { genre -> genreMapper.map(genre) },
+                                            recommendations.map { movie ->
+                                                movieMapper.map(
+                                                    movie
+                                                )
+                                            },
+                                            similar.map { movie -> movieMapper.map(movie) })
+                                    }
                                 }
                         )
                     }
@@ -93,7 +102,8 @@ class MovieDetailProcessor @Inject constructor(
                             emptyList(),
                             emptyList(),
                             emptyList(),
-                            emptyList())
+                            emptyList()
+                        )
                     )
             }
         }

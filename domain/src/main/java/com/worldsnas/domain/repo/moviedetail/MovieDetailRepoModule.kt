@@ -4,6 +4,7 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRequestModel
 import com.worldsnas.domain.repo.moviedetail.network.MovieDetailAPI
 import com.worldsnas.domain.repo.moviedetail.network.MovieDetailFetcher
+import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
@@ -33,5 +34,5 @@ abstract class MovieDetailRepoModule {
 
     @Binds
     abstract fun bindMovieDetailFetcher(repo: MovieDetailFetcher):
-            RFetcher<@JvmSuppressWildcards MovieDetailRequestModel, MovieServerModel>
+            Fetcher<MovieDetailRequestModel, MovieServerModel>
 }

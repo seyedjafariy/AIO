@@ -76,17 +76,16 @@ class LatestMovieRepoImpl @Inject constructor(
                 }
             )
 
-    private fun fetchAndSave(param: LatestMovieRequestParam, validateDb: Boolean) =
-        flow {
-            emit(fetcher.fetch(param))
-        }.listMerge(
-            {
-                errorLeft()
-            },
-            {
-                parseAndSave(validateDb)
-            }
-        )
+    private fun fetchAndSave(param: LatestMovieRequestParam, validateDb: Boolean): Flow<Either<ErrorHolder, MutableList<MovieRepoModel>>> =
+        fetcher.fetch(param)
+            .listMerge(
+                {
+                    errorLeft()
+                },
+                {
+                    parseAndSave(validateDb)
+                }
+            )
 
     private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.errorLeft() =
         filter { serverFirstPageResponse ->
@@ -95,7 +94,7 @@ class LatestMovieRepoImpl @Inject constructor(
             serverFirstPageResponse.getErrorRepoModel().left()
         }
 
-    private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.parseAndSave(validateDb: Boolean) =
+    private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.parseAndSave(validateDb: Boolean): Flow<Either<Nothing, MutableList<MovieRepoModel>>> =
         filter { serverFirstPageResponse ->
             serverFirstPageResponse.isSuccessful && serverFirstPageResponse.isBodyNotEmpty
         }.map { serverFirstPageResponse ->

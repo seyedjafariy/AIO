@@ -44,6 +44,11 @@ dependencies {
     implementation rxAndroid
     implementation rxKotlin
     implementation rxBindingKotlin
+    implementation coroutinesRx2
+    implementation coroutines
+
+    implementation arrowCore
+    implementation arrowExtensions
 
     implementation coreKts
     implementation timber

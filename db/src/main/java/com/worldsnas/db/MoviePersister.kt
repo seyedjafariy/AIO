@@ -23,6 +23,13 @@ interface MoviePersister {
         recomendations: Boolean = false
     ): Flow<List<CompleteMovie>>
 
+    fun addToMovie(
+        moviesFlow: Flow<Movie>,
+        genres: Boolean = false,
+        similars: Boolean = false,
+        recomendations: Boolean = false
+    ): Flow<CompleteMovie>
+
     suspend fun clearMovies(latestOnly: Boolean = false)
     suspend fun insertMovie(movie: Movie)
     suspend fun insertMovies(movies: List<CompleteMovie>)
@@ -43,6 +50,7 @@ class MoviePersisterImpl constructor(
         queries.getMovies()
             .asFlow()
             .mapToList()
+            .flowOn(Dispatchers.IO)
 
     override suspend fun clearMovies(latestOnly: Boolean) {
         queries.clearMovies()
@@ -87,6 +95,22 @@ class MoviePersisterImpl constructor(
             ::movieRecommended.takeIf { recomendations }
         )
 
+    override fun addToMovie(
+        moviesFlow: Flow<Movie>,
+        genres: Boolean,
+        similars: Boolean,
+        recomendations: Boolean
+    ): Flow<CompleteMovie> =
+        moviesFlow.map {
+            listOf(it)
+        }.addToMovie(
+            ::movieGenres.takeIf { genres },
+            ::movieSimilars.takeIf { similars },
+            ::movieRecommended.takeIf { recomendations }
+        ).map {
+            it.first()
+        }
+
     override fun observeMovies(
         genres: Boolean,
         similars: Boolean,
@@ -113,7 +137,7 @@ class MoviePersisterImpl constructor(
                             }
                         }
                 )
-            }
+            }.flowOn(Dispatchers.IO)
 
     private fun movieSimilars(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
         queries.getMoviesSimilar(completeMovies.map { it.movie.id })
@@ -154,7 +178,7 @@ class MoviePersisterImpl constructor(
                         }
                     }
                 )
-            }
+            }.flowOn(Dispatchers.IO)
 
     private fun movieRecommended(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
         queries.getMoviesRecommended(completeMovies.map { it.movie.id })
@@ -195,7 +219,7 @@ class MoviePersisterImpl constructor(
                         }
                     }
                 )
-            }
+            }.flowOn(Dispatchers.IO)
 
     override suspend fun insertMovies(movies: List<CompleteMovie>) =
         withContext(Dispatchers.IO) {
@@ -259,11 +283,13 @@ class MoviePersisterImpl constructor(
         queries.getMovie(id)
             .asFlow()
             .mapToOneNotNull()
+            .flowOn(Dispatchers.IO)
 
     override fun movieCount(isLatest: Boolean): Flow<Long> =
         queries.movieCount()
             .asFlow()
             .mapToOneOrDefault(0)
+            .flowOn(Dispatchers.IO)
 
     override fun findAny(ids: List<Long>): Flow<Movie?> =
         queries.findMovie(ids)
