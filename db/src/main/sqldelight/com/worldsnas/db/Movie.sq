@@ -129,6 +129,12 @@ SELECT *
 FROM movie
 WHERE id = ?;
 
+findMovie:
+SELECT *
+FROM movie
+WHERE id IN ?
+LIMIT 1;
+
 clearMovies:
 DELETE FROM movie;
 

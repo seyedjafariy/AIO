@@ -6,10 +6,7 @@ import arrow.core.right
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.listMerge
 import com.worldsnas.core.toListFlow
-import com.worldsnas.db.CompleteMovie
-import com.worldsnas.db.Genre
-import com.worldsnas.db.LatestMoviePersister
-import com.worldsnas.db.Movie
+import com.worldsnas.db.*
 import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.helpers.isBodyNotEmpty
 import com.worldsnas.domain.helpers.isNotSuccessful
@@ -40,7 +37,8 @@ private const val MOVIE_PAGE_SIZE = 20
 class LatestMovieRepoImpl @Inject constructor(
     private val fetcher: Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
-    private val moviePersister: LatestMoviePersister,
+    private val latestMoviePersister: LatestMoviePersister,
+    private val moviePersister: MoviePersister,
     private val movieRepoDBMapper: Mapper<MovieRepoModel, Movie>,
     private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>,
     private val genreRepoDbMapper: Mapper<GenreRepoModel, Genre>
@@ -63,7 +61,7 @@ class LatestMovieRepoImpl @Inject constructor(
         }
 
     private fun loadFirstPage() =
-        moviePersister.observeSimpleMovies()
+        latestMoviePersister.observeSimpleMovies()
             .take(1)
             .map { movies ->
                 movies.map { movieDBRepoMapper.map(it) }
@@ -108,7 +106,7 @@ class LatestMovieRepoImpl @Inject constructor(
             .validateDb(validateDb)
             .saveToDb()
             .flatMapConcat {
-                moviePersister
+                latestMoviePersister
                     .observeSimpleMovies()
                     .take(1)
             }.map { movies ->
@@ -139,14 +137,14 @@ class LatestMovieRepoImpl @Inject constructor(
                 .first()
 
             if (!dbValid) {
-                moviePersister.clearMovies()
+                latestMoviePersister.clearMovies()
                 list.clear()
             }
         }
 
     private fun Flow<List<MovieRepoModel>>.saveToDb() = onEach { networkResult ->
         val timeSpent = measureTimeMillis {
-            moviePersister.insertMovies(networkResult.map { mainMovie ->
+            latestMoviePersister.insertMovies(networkResult.map { mainMovie ->
                 CompleteMovie(
                     movieRepoDBMapper.map(mainMovie),
                     genres = mainMovie.genres.map { genreRepoDbMapper.map(it) },
@@ -160,7 +158,7 @@ class LatestMovieRepoImpl @Inject constructor(
     }
 
     private fun loadNextPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
-        moviePersister.movieCount()
+        latestMoviePersister.movieCount()
             .take(1)
             .map {
                 (it / MOVIE_PAGE_SIZE) + 1
