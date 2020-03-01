@@ -60,14 +60,18 @@ class MoviePersisterImpl constructor(
         map { movies ->
             movies.map { CompleteMovie(it) }
         }
-            .apply {
+            .let { comingFlow ->
+                var originalFlow = comingFlow
+
                 calls
                     .filterNotNull()
                     .forEach { call ->
-                        this.flatMapMerge {
+                        originalFlow = originalFlow.flatMapMerge {
                             call(it)
                         }
                     }
+
+                originalFlow
             }
 
     private fun <T : Any> Query<T>.addChildrenToComplete(
@@ -101,12 +105,13 @@ class MoviePersisterImpl constructor(
         similars: Boolean,
         recomendations: Boolean
     ): Flow<CompleteMovie> =
-        moviesFlow.map {
-            listOf(it)
-        }.addToMovie(
-            ::movieGenres.takeIf { genres },
-            ::movieSimilars.takeIf { similars },
-            ::movieRecommended.takeIf { recomendations }
+        addToMovies(
+            moviesFlow.map {
+                listOf(it)
+            },
+            genres = genres,
+            similars = similars,
+            recomendations = recomendations
         ).map {
             it.first()
         }
@@ -250,7 +255,7 @@ class MoviePersisterImpl constructor(
     }
 
     private fun insertGenre(genre: Genre) =
-        genreQueries.insertGenre(genre.id, genre.updatedAt)
+        genreQueries.insertGenre(genre.id, genre.title)
 
     override suspend fun insertMovie(movie: Movie): Unit =
         queries.insertMovie(

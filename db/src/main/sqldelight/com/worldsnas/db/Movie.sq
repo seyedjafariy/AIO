@@ -111,14 +111,18 @@ INSERT OR REPLACE INTO movie
 VALUES ?;
 
 insertRecommendedMovie:
-INSERT INTO recommended_movie
+INSERT INTO  recommended_movie
 (movieId, recommendedMovie)
-VALUES (:movieId, :recommendedMovieId);
+SELECT :movieId, :recommendedMovieId
+WHERE NOT EXISTS
+(SELECT * FROM recommended_movie WHERE movieId = :movieId AND recommendedMovie = :recommendedMovieId);
 
 insertSimilarMovie:
 INSERT INTO similar_movie
 (movieId, similarMovie)
-VALUES (:movieId, :similarMovieId);
+SELECT :movieId, :similarMovieId
+WHERE NOT EXISTS
+(SELECT * FROM similar_movie WHERE movieId = :movieId AND similarMovie = :similarMovieId);
 
 getMovies:
 SELECT *
