@@ -1,6 +1,6 @@
 package com.worldsnas.domain.helpers
 
-import com.worldsnas.core.DisplaySize
+import com.worldsnas.androidcore.DisplaySize
 import com.worldsnas.panther.Factory
 import dagger.Reusable
 import javax.inject.Inject

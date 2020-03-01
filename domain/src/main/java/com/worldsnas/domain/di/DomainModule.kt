@@ -18,7 +18,9 @@ import dagger.Module
         MovieDetailRepoModule::class,
         SearchRepoModule::class,
         GenreRepoModule::class,
-        PeopleRepoModule::class]
+        PeopleRepoModule::class,
+        DBModule::class
+    ]
 )
 abstract class DomainModule {
 

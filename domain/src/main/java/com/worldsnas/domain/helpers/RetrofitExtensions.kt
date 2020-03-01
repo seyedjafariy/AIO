@@ -8,11 +8,22 @@ import com.worldsnas.domain.R
 import com.worldsnas.domain.model.servermodels.error.ErrorServerModel
 import io.reactivex.Observable
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onErrorReturn
+import kotlinx.coroutines.flow.retry
 import org.json.JSONObject
 import retrofit2.Response
+import java.io.IOException
 
 val Response<*>.isNotSuccessful
     get() = !isSuccessful
+
+val Response<*>.isBodyEmpty
+    get() = body() == null
+
+val Response<*>.isBodyNotEmpty
+    get() = !isBodyEmpty
 
 fun Response<*>.getErrorServerModel(): ErrorServerModel =
     errorBody()
@@ -45,17 +56,28 @@ fun Response<*>.getErrorRepoModel(): ErrorHolder =
                 }
             }
             .let {
-                val code = it?.optInt("status_code", this.code()) ?: 0
-                val message = it?.optString("status_message", this.message() ?: "") ?: ""
+                val code = it?.optInt("status_code", this.code()) ?: code()
+                val message =
+                    it?.optString("status_message", getNonNullMessage()) ?: getNonNullMessage()
 
                 ErrorHolder.Message(message, code)
             }
+
+fun <T> Response<T>.getNonNullMessage() =
+    message() ?: ""
 
 fun <T> Single<Response<T>>.errorHandler(times: Int = 3): Single<Response<T>> =
     retry { retried, _ ->
         retried <= times
     }.onErrorReturn {
         createErrorResponse(it)
+    }
+
+fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
+    retry(times) { throwable ->
+        throwable is IOException
+    }.catch { t: Throwable ->
+        emit(createErrorResponse(t))
     }
 
 fun <T, U> Single<Response<T>>.eitherError(map: (T) -> U):

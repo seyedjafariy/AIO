@@ -1,4 +1,4 @@
-package com.worldsnas.core
+package com.worldsnas.androidcore
 
 import android.view.LayoutInflater
 import android.view.View

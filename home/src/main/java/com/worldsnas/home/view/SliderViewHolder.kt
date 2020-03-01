@@ -6,8 +6,8 @@ import butterknife.BindView
 import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
+import com.worldsnas.androidcore.getScreenWidth
 import com.worldsnas.base.ButterKnifeViewHolder
-import com.worldsnas.core.getScreenWidth
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.home.R2
 import com.worldsnas.home.model.MovieUIModel

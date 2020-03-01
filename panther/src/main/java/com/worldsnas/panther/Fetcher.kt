@@ -1,8 +1,9 @@
 package com.worldsnas.panther
 
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
-interface Fetcher<in T : Any?, R : Any>{
+interface Fetcher<T : Any?, R : Any>{
 
-    fun fetch(param : T) : Single<R>
+    fun fetch(param : T) : Flow<Response<R>>
 }

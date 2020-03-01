@@ -1,4 +1,4 @@
-package com.worldsnas.core.helpers
+package com.worldsnas.androidcore.helpers
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager

@@ -1,4 +1,4 @@
-include ':app', ':moviedetail', ':gallery',
+include ':app', ':moviedetail', ':gallery', ':db',
         ':base',
         ':mvi',
         ':core',
@@ -9,4 +9,5 @@ include ':app', ':moviedetail', ':gallery',
         ':home',
         ':navigation',
         ':kotlintesthelpers',
-        ':slider'
+        ':slider',
+        ':androidcore'

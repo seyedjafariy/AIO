@@ -16,7 +16,9 @@ dependencies {
     implementation(project(domain))
     implementation(project(panther))
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(navigation))
+    implementation(project(db))
 
     implementation conductor
     implementation compat
@@ -32,6 +34,9 @@ dependencies {
     implementation moshi
     implementation okHttp
     implementation okHttpLogging
+    implementation sqlDelightAndroidAdapter
+
+    implementation coroutines
 
     implementation fresco
     implementation frescoOkHttp
@@ -42,4 +47,9 @@ dependencies {
 
     debugImplementation flipper
     releaseImplementation flipperNoOp
+    debugImplementation flipperNetworkPlugin
+    debugImplementation flipperFrescoPlugin
+
+    debugImplementation chucker
+    releaseImplementation chuckerNoop
 }

@@ -1,6 +1,7 @@
 package com.worldsnas.daggercore.modules.network
 
 import android.app.Application
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.worldsnas.daggercore.BuildConfig.DEBUG
@@ -15,56 +16,32 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [InnerOkHttpModule::class])
 object OkHttpModule {
 
     @JvmStatic
     @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
-            override fun log(message: String) {
-                Timber.d(message)
-            }
-        })
-
-        httpLoggingInterceptor.level = if (DEBUG) BODY else NONE
-
-        return httpLoggingInterceptor
-    }
-
-    @JvmStatic
-    @Provides
-    fun provideOkhttpCache(app: Application): Cache =
-        Cache(app.cacheDir, 50_000_000)
-
+    fun provideChucker(app: Application) =
+        ChuckerInterceptor(app)
 
 
     @JvmStatic
     @Provides
     @Singleton
-    fun provideFlipperPlugin() : NetworkFlipperPlugin =
+    fun provideFlipperPlugin(): NetworkFlipperPlugin =
         NetworkFlipperPlugin()
 
     @JvmStatic
     @Provides
     @Singleton
     fun provideClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        protocolInterceptor: NoContentProtocolExceptionInterceptor,
-        authInterceptor: AuthTokenAdderInterceptor,
-        cache: Cache,
-        flipperPlugin : NetworkFlipperPlugin
+        flipperPlugin: NetworkFlipperPlugin,
+        chucker: ChuckerInterceptor,
+        @InnerOkHttpQualifier client: OkHttpClient
     ): OkHttpClient {
-
-        val builder = OkHttpClient.Builder()
-            .connectTimeout(120, TimeUnit.SECONDS)// Set connection timeout
-            .readTimeout(120, TimeUnit.SECONDS)// Read timeout
-            .writeTimeout(120, TimeUnit.SECONDS)// Write timeout
-            .cache(cache)
-            .addInterceptor(loggingInterceptor)
-            .addInterceptor(protocolInterceptor)
-            .addInterceptor(authInterceptor)
+        return client.newBuilder()
+            .addInterceptor(chucker)
             .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
-        return builder.build()
+            .build()
     }
 }

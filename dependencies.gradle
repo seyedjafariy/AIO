@@ -9,7 +9,8 @@ ext {
             mockkVersion = "1.9.3",
             fakeItVersion = "v0.5",
 
-            kotlinVersion = "1.3.41",
+            kotlinVersion = "1.3.61",
+            coroutinesVersion = "1.3.3",
             detektPluginVersion = "1.0.0-RC16",
             arrowVersion = "0.9.0",
 
@@ -50,6 +51,7 @@ ext {
             leakCanaryVersion = "1.6.3",
 
             objectboxVersion = "2.3.4",
+            sqlDelightVersion = "1.2.0",
 
             zXingVersion = "1.9.8",
 
@@ -71,7 +73,8 @@ ext {
 
             bottomNavVersion = "2.1.0",
             epoxyVersion = "3.7.0",
-            flipperVersion = "0.23.3"
+            flipperVersion = "0.31.1",
+            chuckerVersion = "3.1.2"
     ]
 }
 ext {
@@ -83,6 +86,8 @@ ext {
 
                     mockkUnit = "io.mockk:mockk:$mockkVersion",
                     mockkAndroid = "io.mockk:mockk-android:$mockkVersion",
+
+                    coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion",
 
                     supportTestRunner = "androidx.test:runner:$supportTestVersion",
                     supportTestCore = "androidx.test:core:$supportTestVersion",
@@ -104,7 +109,11 @@ ext {
             kotlin = [
                     //kotlin
                     kotlinStd7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-                    kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+                    kotlinStd8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
+                    coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
+                    coroutinesCommon = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion",
+                    coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
+                    coroutinesRx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutinesVersion"
             ],
 
             arrowKotlin = [
@@ -231,7 +240,19 @@ ext {
                     epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
                     flipper = "com.facebook.flipper:flipper:$flipperVersion",
                     flipperNoOp = "com.facebook.flipper:flipper-noop:$flipperVersion",
-                    soLoader = "com.facebook.soloader:soloader:0.5.1"
+                    flipperNetworkPlugin = "com.facebook.flipper:flipper-network-plugin:$flipperVersion",
+                    flipperFrescoPlugin = "com.facebook.flipper:flipper-fresco-plugin:$flipperVersion",
+                    chucker = "com.github.ChuckerTeam.Chucker:library:$chuckerVersion",
+                    chuckerNoop = "com.github.ChuckerTeam.Chucker:library-no-op:$chuckerVersion",
+                    soLoader = "com.facebook.soloader:soloader:0.5.1",
+                    stetho = "com.facebook.stetho:stetho:1.5.1"
+            ],
+
+            databse = [
+                    sqlDelightAndroidAdapter = "com.squareup.sqldelight:android-driver:$sqlDelightVersion",
+                    sqlDelightRuntime = "com.squareup.sqldelight:runtime-jvm:$sqlDelightVersion",
+                    sqlDelightCoroutines = "com.squareup.sqldelight:coroutines-extensions:$sqlDelightVersion",
+                    sqlDelightJVM = "com.squareup.sqldelight:sqlite-driver:$sqlDelightVersion"
             ],
 
             objectboxLib = [
@@ -264,7 +285,9 @@ ext {
                     home = ":home",
                     movieDetail = ":moviedetail",
                     slider = ":slider",
-                    gallery = ":gallery"
+                    gallery = ":gallery",
+                    db = ":db",
+                    androidCore = ":androidcore"
             ],
 
             plugins = [

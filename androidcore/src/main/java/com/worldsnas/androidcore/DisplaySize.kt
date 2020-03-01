@@ -1,4 +1,4 @@
-package com.worldsnas.core
+package com.worldsnas.androidcore
 
 data class DisplaySize(
     val height : Int,

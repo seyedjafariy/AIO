@@ -13,11 +13,13 @@ dependencies {
     testImplementation rxJavaRetrofit
     testImplementation moshiRetrofit
     testImplementation okHttp
-
+    testImplementation coroutinesTest
 
 
     implementation(project(panther))
     implementation(project(core))
+    implementation(project(androidCore))
+    implementation(project(db))
 
     implementation dagger
     kapt daggerCompiler
@@ -35,6 +37,11 @@ dependencies {
     implementation objectboxKotlin
 
     implementation timber
+
+    implementation coroutines
+    implementation coroutinesCommon
+    implementation coroutinesRx2
+    implementation coroutinesAndroid
 
     implementation arrowCore
     implementation arrowExtensions

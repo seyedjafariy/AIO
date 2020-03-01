@@ -26,6 +26,7 @@ dependencies {
     implementation(project(daggerCore))
     implementation(project(base))
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(mvi))
     implementation(project(navigation))
     implementation(project(panther))
@@ -47,6 +48,9 @@ dependencies {
     implementation timber
     implementation rxBindingKotlin
 
+    implementation coroutines
+    implementation coroutinesRx2
+
     implementation fresco
 
     implementation constraintLayout
@@ -55,4 +59,7 @@ dependencies {
     implementation nineOldAndroidAnim
 
     kapt butterKnifeCompiler
+
+    implementation arrowCore
+    implementation arrowExtensions
 }

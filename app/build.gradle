@@ -82,6 +82,8 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/DEPENDENCIES'
+        pickFirst("META-INF/kotlinx-coroutines-core.kotlin_module")
     }
     androidExtensions {
         defaultCacheImplementation = "SPARSE_ARRAY"
@@ -131,6 +133,7 @@ dependencies {
     androidTestImplementation espressoIntents
 
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(domain))
     implementation(project(base))
     implementation(project(mvi))
@@ -156,6 +159,9 @@ dependencies {
     implementation compat
     implementation coreKts
 
+    implementation coroutines
+    implementation coroutinesCommon
+
     implementation conductor
 
     implementation timber
@@ -179,6 +185,10 @@ dependencies {
     debugImplementation soLoader
     debugImplementation flipper
     releaseImplementation flipperNoOp
+    debugImplementation flipperNetworkPlugin
+    debugImplementation flipperFrescoPlugin
+
+    debugImplementation stetho
 }
 apply plugin: 'com.google.gms.google-services'
 
