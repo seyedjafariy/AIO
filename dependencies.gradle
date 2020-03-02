@@ -17,7 +17,7 @@ ext {
             supportLibraryVersion = "1.0.0",
             googleMaterialVersion = "1.0.0-rc01",
             pagingComponentVersion = "1.0.0-alpha6",
-            constraintLayoutVersion = "2.0.0-beta1",
+            constraintLayoutVersion = "2.0.0-beta4",
             archComponentVersion = "2.0.0-rc01",
             multidexVersion = "2.0.0",
 

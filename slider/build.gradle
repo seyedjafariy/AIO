@@ -5,5 +5,7 @@ dependencies {
     implementation supportLegacy
     implementation fresco
     implementation nineOldAndroidAnim
+    implementation epoxy
+    kapt epoxyCompiler
 
 }
