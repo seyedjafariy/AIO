@@ -1,6 +1,12 @@
 package com.worldsnas.core
 
+import io.reactivex.ObservableSource
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.*
+import java.util.concurrent.atomic.AtomicReference
 
 fun <T, U> Flow<T>.listMerge(vararg blocks: Flow<T>.() -> Flow<U>) =
     blocks.map { block ->
@@ -39,7 +45,21 @@ fun <T> Flow<List<T>>.concatIterable(): Flow<T> =
         it.asFlow()
     }
 
+public fun <T: Any> ObservableSource<T>.asFlow(): Flow<T> = callbackFlow {
+    val disposableRef = AtomicReference<Disposable>()
+    val observer = object : Observer<T> {
+        override fun onComplete() { close() }
+        override fun onSubscribe(d: Disposable) { if (!disposableRef.compareAndSet(null, d)) d.dispose() }
+        override fun onNext(t: T) { sendBlocking(t) }
+        override fun onError(e: Throwable) { close(e) }
+    }
 
+    subscribe(observer)
+    awaitClose { disposableRef.getAndSet(Disposed)?.dispose() }
+}
 
-
+private object Disposed : Disposable {
+    override fun isDisposed() = true
+    override fun dispose() = Unit
+}
 
