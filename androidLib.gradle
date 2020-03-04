@@ -47,7 +47,9 @@ android {
         defaultCacheImplementation = "SPARSE_ARRAY"
         experimental = true
     }
-
+    viewBinding{
+        enabled = true
+    }
 }
 
 dependencies{

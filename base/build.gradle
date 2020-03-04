@@ -25,6 +25,9 @@ dependencies {
     implementation coreKts
     implementation rxJava
     implementation rxKotlin
+    implementation coroutines
+    implementation coroutinesAndroid
+    implementation coroutinesRx2
 
     implementation timber
 
