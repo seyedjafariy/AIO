@@ -36,7 +36,7 @@ ext {
             rxBroadCastVersion = "2.0.0",
             rxPreferencesVersion = "2.0.0",
 
-            butterKnifeVersion = "10.1.0",
+            butterKnifeVersion = "10.2.1",
 
             timberVersion = "4.7.1",
 
