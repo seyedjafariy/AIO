@@ -18,6 +18,7 @@ abstract class ViewBindingController<T : ViewBinding> @JvmOverloads constructor(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         _binding = bindView(inflater, container)
+        onViewBound(binding)
         return binding.root
     }
 
@@ -25,6 +26,7 @@ abstract class ViewBindingController<T : ViewBinding> @JvmOverloads constructor(
     open fun unBindView(){}
 
     override fun onDestroyView(view: View) {
+        unBindView()
         _binding = null
         super.onDestroyView(view)
     }

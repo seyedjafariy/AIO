@@ -4,6 +4,7 @@ import com.bluelinelabs.conductor.Router
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.navigator.NavigatorModule
 import com.worldsnas.daggercore.scope.FeatureScope
+import com.worldsnas.home.HomePresenter
 import com.worldsnas.home.view.HomeView
 import dagger.BindsInstance
 import dagger.Component
@@ -19,6 +20,7 @@ import dagger.Component
 interface HomeComponent {
     fun inject(view: HomeView)
 
+    fun presenter() : HomePresenter
 
     @Component.Builder
     interface Builder {
