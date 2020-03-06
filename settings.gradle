@@ -10,4 +10,5 @@ include ':app', ':moviedetail', ':gallery', ':db',
         ':navigation',
         ':kotlintesthelpers',
         ':slider',
-        ':androidcore'
+        ':androidcore',
+        ':view-component'

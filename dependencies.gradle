@@ -287,7 +287,8 @@ ext {
                     slider = ":slider",
                     gallery = ":gallery",
                     db = ":db",
-                    androidCore = ":androidcore"
+                    androidCore = ":androidcore",
+                    viewComponent = ":view-component"
             ],
 
             plugins = [

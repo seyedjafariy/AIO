@@ -25,8 +25,10 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     constructor() : super()
 
-    constructor(app : Application) : super(){
-        coreComponent = app.coreComponent()
+    constructor(app: Application) : this(core = app.coreComponent())
+
+    constructor(core: CoreComponent) : super() {
+        coreComponent = core
     }
 
     @Inject
@@ -34,16 +36,16 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
-            .builder()
-            .bindRouter(router)
-            .coreComponent(coreComponent)
-            .build()
-            .inject(this)
+                .builder()
+                .bindRouter(router)
+                .coreComponent(coreComponent)
+                .build()
+                .inject(this)
     }
 
     override fun bindView(
-        inflater: LayoutInflater,
-        container: ViewGroup
+            inflater: LayoutInflater,
+            container: ViewGroup
     ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
     override fun onViewBound(binding: ViewHomeBinding) {
@@ -63,11 +65,11 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
         binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int =
-                    if (homeAdapter.getItemViewType(position) == 0) {
-                        3
-                    } else {
-                        1
-                    }
+                        if (homeAdapter.getItemViewType(position) == 0) {
+                            3
+                        } else {
+                            1
+                        }
             }
         }
         binding.rvHome.adapter = homeAdapter
@@ -81,19 +83,19 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     override fun intents(): Flow<HomeIntent> =
-        Observable.merge(
-            Observable.just(HomeIntent.Initial),
-            binding.rvHome.pages()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .map {
-                    HomeIntent.NextPage(it.page, it.totalItemsCount)
-                },
-            binding.imgSearch.clicks()
-                .map {
-                    HomeIntent.SearchClicks(
-                        binding.toolbarHome.transitionNameCompat ?: "",
-                        binding.txtSearchName.transitionNameCompat ?: ""
-                    )
-                }
-        ).asFlow()
+            Observable.merge(
+                    Observable.just(HomeIntent.Initial),
+                    binding.rvHome.pages()
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .map {
+                                HomeIntent.NextPage(it.page, it.totalItemsCount)
+                            },
+                    binding.imgSearch.clicks()
+                            .map {
+                                HomeIntent.SearchClicks(
+                                        binding.toolbarHome.transitionNameCompat ?: "",
+                                        binding.txtSearchName.transitionNameCompat ?: ""
+                                )
+                            }
+            ).asFlow()
 }

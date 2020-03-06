@@ -18,6 +18,8 @@ import retrofit2.Retrofit
 
 interface BaseComponent {
 
+    fun application() : Application
+
     fun retrofit(): Retrofit
     fun okHttp(): OkHttpClient
     fun moshi(): Moshi
