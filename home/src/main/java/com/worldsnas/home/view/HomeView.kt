@@ -12,7 +12,6 @@ import com.worldsnas.core.asFlow
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.home.HomeIntent
-import com.worldsnas.home.HomePresenter
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.adapter.HomeAdapter
 import com.worldsnas.home.databinding.ViewHomeBinding
@@ -20,21 +19,14 @@ import com.worldsnas.home.di.DaggerHomeComponent
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
 import javax.inject.Inject
 
 class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     constructor() : super()
 
-//    constructor(app: Application) : this(DaggerHomeComponent
-//        .builder()
-//        .bindRouter(router)
-//        .coreComponent(app.coreComponent())
-//        .build().presenter())
-
-    constructor(presenter: HomePresenter) : super() {
-        Timber.d("injected presenter into constructor")
+    constructor(app : Application) : super(){
+        coreComponent = app.coreComponent()
     }
 
     @Inject
@@ -44,7 +36,7 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
         DaggerHomeComponent
             .builder()
             .bindRouter(router)
-            .coreComponent(core)
+            .coreComponent(coreComponent)
             .build()
             .inject(this)
     }

@@ -54,6 +54,7 @@ abstract class CoroutineView<
         override val coroutineContext: CoroutineContext
     ) : CoroutineScope
 
+    lateinit var coreComponent : CoreComponent
     @Inject
     lateinit var presenter: MviPresenter<I, S>
 
