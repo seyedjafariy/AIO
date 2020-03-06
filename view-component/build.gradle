@@ -22,47 +22,14 @@ dependencies {
     androidTestImplementation supportTestRunner
     androidTestImplementation espressoCore
 
-    implementation(project(domain))
-    implementation(project(daggerCore))
     implementation(project(base))
-    implementation(project(core))
     implementation(project(androidCore))
-    implementation(project(mvi))
-    implementation(project(navigation))
-    implementation(project(panther))
-    implementation(project(viewComponent))
+    implementation(project(domain))
 
     implementation kotlinStd8
 
     implementation epoxy
-
-    implementation compat
-    implementation design
-    implementation constraintLayout
-
-    implementation dagger
-    kapt daggerCompiler
-
-    implementation conductor
-    implementation rxJava
-    implementation rxAndroid
-    implementation rxKotlin
-    implementation coreKts
-    implementation timber
-    implementation rxBindingKotlin
-
-    implementation coroutines
-    implementation coroutinesRx2
+    kapt epoxyCompiler
 
     implementation fresco
-
-    implementation constraintLayout
-
-    implementation project(slider)
-    implementation nineOldAndroidAnim
-
-    kapt butterKnifeCompiler
-
-    implementation arrowCore
-    implementation arrowExtensions
 }
