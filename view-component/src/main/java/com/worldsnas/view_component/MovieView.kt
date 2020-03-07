@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.airbnb.epoxy.*
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.worldsnas.androidcore.getDisplaySize
@@ -14,20 +15,21 @@ import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.view_component.databinding.MovieViewBinding
 import kotlin.math.roundToInt
 
-@ModelView(defaultLayout = R2.layout.movie_view, saveViewState = true)
+@ModelView(
+    autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT,
+    saveViewState = true
+)
 class MovieView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    defStyleRes: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
+    attributeSet: AttributeSet? = null
+) : LinearLayout(context, attributeSet) {
     private val binding: MovieViewBinding =
-        MovieViewBinding.inflate(LayoutInflater.from(context), this, false)
+        MovieViewBinding.inflate(LayoutInflater.from(context), this, true)
 
     @ModelProp
     lateinit var movie: Movie
 
-    fun poster(posterUrl: String) {
+    private fun poster(posterUrl: String) {
         val width = binding.root.getDisplaySize().width / 3
         val height = (width * 1.5).roundToInt()
 
@@ -36,18 +38,18 @@ class MovieView @JvmOverloads constructor(
         val request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(url))
             .setResizeOptions(ResizeOptions.forDimensions(width, height))
             .build()
-        binding.poster.controller = Fresco.newDraweeControllerBuilder()
-            .setOldController(binding.poster.controller)
+        binding.moviePoster.controller = Fresco.newDraweeControllerBuilder()
+            .setOldController(binding.moviePoster.controller)
             .setImageRequest(request)
             .build()
     }
 
-    fun title(title: CharSequence) {
-        binding.title.text = title
+    private fun title(title: CharSequence) {
+        binding.movieTitle.text = title
     }
 
-    fun releaseDate(date: CharSequence) {
-        binding.releaseDate.text = date
+    private fun releaseDate(date: CharSequence) {
+        binding.movieReleaseDate.text = date
     }
 
     @AfterPropsSet

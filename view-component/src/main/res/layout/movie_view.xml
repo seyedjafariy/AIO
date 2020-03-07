@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.worldsnas.view_component.MovieView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -8,7 +8,7 @@
 	android:orientation="vertical">
 
 	<com.facebook.drawee.view.SimpleDraweeView
-		android:id="@+id/poster"
+		android:id="@+id/moviePoster"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="@dimen/min_margin"
@@ -17,7 +17,7 @@
 		tools:ignore="UnusedAttribute" />
 
 	<TextView
-		android:id="@+id/title"
+		android:id="@+id/movieTitle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="@dimen/min_margin"
@@ -30,7 +30,7 @@
 		tools:text="Test Movie" />
 
 	<TextView
-		android:id="@+id/releaseDate"
+		android:id="@+id/movieReleaseDate"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginHorizontal="@dimen/min_margin"
@@ -40,4 +40,4 @@
 		tools:ignore="UnusedAttribute"
 		tools:text="1995" />
 
-</com.worldsnas.view_component.MovieView>
+</LinearLayout>
