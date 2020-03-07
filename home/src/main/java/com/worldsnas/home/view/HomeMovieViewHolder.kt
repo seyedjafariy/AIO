@@ -50,6 +50,8 @@ class HomeMovieViewHolder(
     }
 
     override fun intents(obj: MovieUIModel): Observable<HomeIntent> =
+        TODO()
+    /*
         itemView.clicks()
             .doOnNext {
                 ViewCompat.setTransitionName(
@@ -88,4 +90,5 @@ class HomeMovieViewHolder(
                     ViewCompat.getTransitionName(releaseDate) ?: ""
                 )
             }
+     */
 }

@@ -16,7 +16,6 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-@FeatureScope
 class HomeMoviesAdapter @Inject constructor(
     diffCallback: MovieUIDiffCallback,
     private val presenter: MviPresenter<HomeIntent, HomeState>
@@ -29,21 +28,11 @@ class HomeMoviesAdapter @Inject constructor(
 
     override fun onBindViewHolder(holder: HomeMovieViewHolder, position: Int) {
         holder.bind(getItem(position))
-        holder.intents(getItem(position))
-            .subscribeBy {
-                presenter.processIntents(it)
-            }
-            .addTo(disposable)
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        presenter
-            .states()
-            .subscribeBy {
-                submitList(it.latest)
-            }
-            .addTo(disposable)
+//        holder.intents(getItem(position))
+//            .subscribeBy {
+//                presenter.processIntents(it)
+//            }
+//            .addTo(disposable)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

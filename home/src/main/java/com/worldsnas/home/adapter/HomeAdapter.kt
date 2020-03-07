@@ -45,11 +45,11 @@ class HomeAdapter @Inject constructor(
             is HomeMovieViewHolder -> {
                 (getItem(position) as HomeUIModel.LatestMovie).apply {
                     holder.bind(movie)
-                    holder.intents(movie)
-                        .subscribeBy {
-                            presenter.processIntents(it)
-                        }
-                        .addTo(disposables)
+//                    holder.intents(movie)
+//                        .subscribeBy {
+//                            presenter.processIntents(it)
+//                        }
+//                        .addTo(disposables)
                 }
             }
             else ->

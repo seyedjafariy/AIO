@@ -8,12 +8,9 @@ import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
-import com.worldsnas.domain.repo.home.latest.LatestMovieRepoOutputModel
-import com.worldsnas.domain.repo.home.latest.LatestMovieRepoParamModel
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
-import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.navigation.NavigationAnimation
 import com.worldsnas.navigation.Navigator
@@ -21,12 +18,12 @@ import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import com.worldsnas.navigation.model.SearchLocalModel
 import com.worldsnas.panther.Mapper
+import com.worldsnas.view_component.Movie
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
 import kotlinx.coroutines.rx2.asObservable
-import timber.log.Timber
 import javax.inject.Inject
 
 @FeatureScope
@@ -34,7 +31,7 @@ class HomeProcessor @Inject constructor(
     private val navigator: Navigator,
     latestRepo: LatestMovieRepo,
     trendingRepo: TrendingRepo,
-    movieMapper: Mapper<MovieRepoModel, MovieUIModel>
+    movieMapper: Mapper<MovieRepoModel, Movie>
 ) : MviProcessor<HomeIntent, HomeResult> {
 
     override val actionProcessor = ObservableTransformer<HomeIntent, HomeResult> {
@@ -106,7 +103,6 @@ class HomeProcessor @Inject constructor(
                                         HomeResult.LatestMovies(
                                             it.b.map { movie ->
                                                 movieMapper.map(movie)
-
                                             }
                                         )
                                     },
