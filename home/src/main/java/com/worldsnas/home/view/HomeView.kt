@@ -4,6 +4,7 @@ import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.androidcore.helpers.pages
 import com.worldsnas.androidcore.transitionNameCompat
@@ -37,20 +38,20 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
-                .builder()
-                .bindRouter(router)
-                .coreComponent(coreComponent)
-                .build()
-                .inject(this)
+            .builder()
+            .bindRouter(router)
+            .coreComponent(coreComponent)
+            .build()
+            .inject(this)
     }
 
     override fun bindView(
-            inflater: LayoutInflater,
-            container: ViewGroup
+        inflater: LayoutInflater,
+        container: ViewGroup
     ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
     override fun onViewBound(binding: ViewHomeBinding) {
-//        initRv(binding)
+        initRv(binding)
         binding.ablHome.outlineProvider = null
         binding.txtSearchName.transitionNameCompat = "search_name"
         binding.toolbarHome.transitionNameCompat = "search_back"
@@ -62,17 +63,22 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     private fun initRv(binding: ViewHomeBinding) {
+        binding.rvHome.layoutManager =
+            LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
+        /*
         binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+
                 override fun getSpanSize(position: Int): Int =
-                        if (homeAdapter.getItemViewType(position) == 0) {
+                        if (position == 0) {
                             3
                         } else {
                             1
                         }
             }
         }
-        binding.rvHome.adapter = homeAdapter
+
+         */
     }
 
     override fun render(state: HomeState) {
@@ -84,7 +90,7 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
                 movieView {
                     id(it.id)
                     movie(it)
-                    listener {listenMovie->
+                    listener { listenMovie ->
                         presenter.processIntents(
                             HomeIntent.LatestMovieClicked(
                                 listenMovie
@@ -97,19 +103,19 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     override fun intents(): Flow<HomeIntent> =
-            Observable.merge(
-                    Observable.just(HomeIntent.Initial),
-                    binding.rvHome.pages()
-                            .subscribeOn(AndroidSchedulers.mainThread())
-                            .map {
-                                HomeIntent.NextPage(it.page, it.totalItemsCount)
-                            },
-                    binding.imgSearch.clicks()
-                            .map {
-                                HomeIntent.SearchClicks(
-                                        binding.toolbarHome.transitionNameCompat ?: "",
-                                        binding.txtSearchName.transitionNameCompat ?: ""
-                                )
-                            }
-            ).asFlow()
+        Observable.merge(
+            Observable.just(HomeIntent.Initial),
+            binding.rvHome.pages()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .map {
+                    HomeIntent.NextPage(it.page, it.totalItemsCount)
+                },
+            binding.imgSearch.clicks()
+                .map {
+                    HomeIntent.SearchClicks(
+                        binding.toolbarHome.transitionNameCompat ?: "",
+                        binding.txtSearchName.transitionNameCompat ?: ""
+                    )
+                }
+        ).asFlow()
 }
