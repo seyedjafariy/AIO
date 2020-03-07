@@ -1,13 +1,13 @@
 package com.worldsnas.home
 
-import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.mvi.MviIntent
+import com.worldsnas.view_component.Movie
 
 sealed class HomeIntent : MviIntent {
     object Initial : HomeIntent()
     data class NextPage(val page : Int, val totalCount: Int) : HomeIntent()
     class LatestMovieClicked(
-        val movie : MovieUIModel,
+        val movie : Movie,
         val posterTransName : String = "",
         val titleTransName : String = "",
         val releaseTransName : String = "") : HomeIntent()

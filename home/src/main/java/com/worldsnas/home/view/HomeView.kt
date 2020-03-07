@@ -16,6 +16,7 @@ import com.worldsnas.home.HomeState
 import com.worldsnas.home.adapter.HomeAdapter
 import com.worldsnas.home.databinding.ViewHomeBinding
 import com.worldsnas.home.di.DaggerHomeComponent
+import com.worldsnas.view_component.movieView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
@@ -49,7 +50,7 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
     override fun onViewBound(binding: ViewHomeBinding) {
-        initRv(binding)
+//        initRv(binding)
         binding.ablHome.outlineProvider = null
         binding.txtSearchName.transitionNameCompat = "search_name"
         binding.toolbarHome.transitionNameCompat = "search_back"
@@ -58,7 +59,6 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     override fun unBindView() {
         super.unBindView()
-        binding.rvHome.adapter = null
     }
 
     private fun initRv(binding: ViewHomeBinding) {
@@ -79,7 +79,21 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
         renderError(state.base)
         renderLoading(state.base)
 
-        homeAdapter.submitList(state.homeItems)
+        binding.rvHome.withModelsAsync {
+            state.latest.forEach {
+                movieView {
+                    id(it.id)
+                    movie(it)
+                    listener {listenMovie->
+                        presenter.processIntents(
+                            HomeIntent.LatestMovieClicked(
+                                listenMovie
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override fun intents(): Flow<HomeIntent> =

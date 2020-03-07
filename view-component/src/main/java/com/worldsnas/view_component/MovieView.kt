@@ -2,6 +2,7 @@ package com.worldsnas.view_component
 
 import android.content.Context
 import android.net.Uri
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.airbnb.epoxy.*
@@ -14,14 +15,18 @@ import com.worldsnas.view_component.databinding.MovieViewBinding
 import kotlin.math.roundToInt
 
 @ModelView(defaultLayout = R2.layout.movie_view, saveViewState = true)
-class MovieView(context: Context) : LinearLayout(context) {
+class MovieView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    defStyleRes: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
     private val binding: MovieViewBinding =
         MovieViewBinding.inflate(LayoutInflater.from(context), this, false)
 
     @ModelProp
     lateinit var movie: Movie
 
-    @ModelProp
     fun poster(posterUrl: String) {
         val width = binding.root.getDisplaySize().width / 3
         val height = (width * 1.5).roundToInt()
@@ -37,12 +42,10 @@ class MovieView(context: Context) : LinearLayout(context) {
             .build()
     }
 
-    @TextProp
     fun title(title: CharSequence) {
         binding.title.text = title
     }
 
-    @TextProp
     fun releaseDate(date: CharSequence) {
         binding.releaseDate.text = date
     }
@@ -55,8 +58,14 @@ class MovieView(context: Context) : LinearLayout(context) {
     }
 
     @CallbackProp
-    fun listener(listener : OnClickListener?){
-
+    fun listener(listener: ((movie: Movie) -> Unit)?) {
+        if (listener == null) {
+            binding.root.setOnClickListener(null)
+        } else {
+            binding.root.setOnClickListener {
+                listener(movie)
+            }
+        }
     }
 }
 
