@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.daimajia.slider.library.slider
 import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.androidcore.helpers.pages
 import com.worldsnas.androidcore.transitionNameCompat
@@ -63,22 +64,20 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     private fun initRv(binding: ViewHomeBinding) {
-        binding.rvHome.layoutManager =
-            LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
-        /*
+//        binding.rvHome.layoutManager =
+//            LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
+
         binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
 
                 override fun getSpanSize(position: Int): Int =
-                        if (position == 0) {
-                            3
-                        } else {
-                            1
-                        }
+                    if (position == 0) {
+                        3
+                    } else {
+                        1
+                    }
             }
         }
-
-         */
     }
 
     override fun render(state: HomeState) {
@@ -86,6 +85,19 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
         renderLoading(state.base)
 
         binding.rvHome.withModelsAsync {
+            slider {
+                id("home-slider")
+                models(
+                    state.sliderMovies.map {movie->
+                        BannerViewModel_().apply {
+                            id(movie.id)
+                            movie(movie)
+                        }
+                    }
+                )
+            }
+
+
             state.latest.forEach {
                 movieView {
                     id(it.id)
