@@ -35,6 +35,7 @@ dependencies {
     implementation kotlinStd8
 
     implementation epoxy
+    kapt epoxyCompiler
 
     implementation compat
     implementation design
