@@ -72,7 +72,7 @@ ext {
             jsonTestVersion = "20140107",
 
             bottomNavVersion = "2.1.0",
-            epoxyVersion = "3.7.0",
+            epoxyVersion = "3.9.0",
             flipperVersion = "0.31.1",
             chuckerVersion = "3.1.2"
     ]

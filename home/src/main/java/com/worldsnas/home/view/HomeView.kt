@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.epoxy.Carousel
 import com.daimajia.slider.library.slider
 import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.androidcore.helpers.pages
@@ -15,6 +16,7 @@ import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
+import com.worldsnas.home.R
 import com.worldsnas.home.adapter.HomeAdapter
 import com.worldsnas.home.databinding.ViewHomeBinding
 import com.worldsnas.home.di.DaggerHomeComponent
@@ -67,17 +69,18 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 //        binding.rvHome.layoutManager =
 //            LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
 
-        binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3).apply {
-            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-
-                override fun getSpanSize(position: Int): Int =
-                    if (position == 0) {
-                        3
-                    } else {
-                        1
-                    }
-            }
-        }
+        binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3)
+//            .apply {
+//            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//
+//                override fun getSpanSize(position: Int): Int =
+//                    if (position == 0) {
+//                        3
+//                    } else {
+//                        1
+//                    }
+//            }
+//        }
     }
 
     override fun render(state: HomeState) {
@@ -86,7 +89,12 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
         binding.rvHome.withModelsAsync {
             slider {
+                spanSizeOverride { totalSpanCount, position, itemCount ->
+                    3
+                }
                 id("home-slider")
+                infinite(true)
+                cycleDelay(3000)
                 models(
                     state.sliderMovies.map {movie->
                         BannerViewModel_().apply {
@@ -101,6 +109,9 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
             state.latest.forEach {
                 movieView {
                     id(it.id)
+                    spanSizeOverride { totalSpanCount, position, itemCount ->
+                        1
+                    }
                     movie(it)
                     listener { listenMovie ->
                         presenter.processIntents(
