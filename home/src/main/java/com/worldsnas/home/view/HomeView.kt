@@ -17,6 +17,7 @@ import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
+import com.worldsnas.home.R2.id.slider
 import com.worldsnas.home.adapter.HomeAdapter
 import com.worldsnas.home.databinding.ViewHomeBinding
 import com.worldsnas.home.di.DaggerHomeComponent
@@ -41,16 +42,16 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
-            .builder()
-            .bindRouter(router)
-            .coreComponent(coreComponent)
-            .build()
-            .inject(this)
+                .builder()
+                .bindRouter(router)
+                .coreComponent(coreComponent)
+                .build()
+                .inject(this)
     }
 
     override fun bindView(
-        inflater: LayoutInflater,
-        container: ViewGroup
+            inflater: LayoutInflater,
+            container: ViewGroup
     ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
     override fun onViewBound(binding: ViewHomeBinding) {
@@ -95,13 +96,20 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
                 id("home-slider")
                 infinite(true)
                 cycleDelay(3000)
-                models(
-                    state.sliderMovies.map {movie->
-                        BannerViewModel_().apply {
-                            id(movie.id)
-                            movie(movie)
-                        }
+                copier { oldModel ->
+                    oldModel as BannerViewModel_
+                    BannerViewModel_().apply {
+                        id(oldModel.movie().id)
+                        movie(oldModel.movie())
                     }
+                }
+                models(
+                        state.sliderMovies.map { movie ->
+                            BannerViewModel_().apply {
+                                id(movie.id)
+                                movie(movie)
+                            }
+                        }
                 )
             }
 
@@ -115,9 +123,9 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
                     movie(it)
                     listener { listenMovie ->
                         presenter.processIntents(
-                            HomeIntent.LatestMovieClicked(
-                                listenMovie
-                            )
+                                HomeIntent.LatestMovieClicked(
+                                        listenMovie
+                                )
                         )
                     }
                 }
@@ -126,19 +134,19 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     override fun intents(): Flow<HomeIntent> =
-        Observable.merge(
-            Observable.just(HomeIntent.Initial),
-            binding.rvHome.pages()
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .map {
-                    HomeIntent.NextPage(it.page, it.totalItemsCount)
-                },
-            binding.imgSearch.clicks()
-                .map {
-                    HomeIntent.SearchClicks(
-                        binding.toolbarHome.transitionNameCompat ?: "",
-                        binding.txtSearchName.transitionNameCompat ?: ""
-                    )
-                }
-        ).asFlow()
+            Observable.merge(
+                    Observable.just(HomeIntent.Initial),
+                    binding.rvHome.pages()
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .map {
+                                HomeIntent.NextPage(it.page, it.totalItemsCount)
+                            },
+                    binding.imgSearch.clicks()
+                            .map {
+                                HomeIntent.SearchClicks(
+                                        binding.toolbarHome.transitionNameCompat ?: "",
+                                        binding.txtSearchName.transitionNameCompat ?: ""
+                                )
+                            }
+            ).asFlow()
 }
