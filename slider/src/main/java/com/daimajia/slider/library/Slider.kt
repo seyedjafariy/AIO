@@ -11,11 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.schedule
 import kotlin.random.Random
 
+typealias ModelCopier = (yours: EpoxyModel<*>) -> EpoxyModel<*>
+
 @ModelView(saveViewState = true, autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class Slider @JvmOverloads constructor(
-        context: Context,
-        attr: AttributeSet? = null,
-        defStyle: Int = 0
+    context: Context,
+    attr: AttributeSet? = null,
+    defStyle: Int = 0
 ) : Carousel(context, attr, defStyle) {
 
     private var timer: Timer? = null
@@ -34,6 +36,8 @@ class Slider @JvmOverloads constructor(
     private var infiniteModels: List<EpoxyModel<*>> = emptyList()
 
     private var models: List<EpoxyModel<*>> = emptyList()
+
+    private var copier: ModelCopier? = null
 
     init {
         setPadding(Padding.dp(8, 8))
@@ -72,16 +76,29 @@ class Slider @JvmOverloads constructor(
         this.infinite = infinite
     }
 
+    @CallbackProp
+    fun setCopier(copier: ModelCopier?) {
+        this.copier = copier
+    }
+
     @AfterPropsSet
     fun setModelsToController() {
         if (infinite && models.size >= 3) {
+            val copy = copier ?: throw IllegalStateException(
+                "for infinite scrolls copier must be set"
+            )
+
             infiniteModels = models.toMutableList().apply {
-                addAll(models.subList(0, 3).mapIndexed { index, it ->
-                    it.id(Random.nextLong())
+                addAll(models.subList(0, 3).map {
+                    val newModel = copy(it)
+                    newModel.id("copied version= ${newModel.id()}")
+                    newModel
                 })
                 addAll(0, models.subList(models.size - 3, models.size)
-                        .mapIndexed { index, it ->
-                            it.id(Random.nextLong())
+                        .map {
+                            val newModel = copy(it)
+                            newModel.id("copied version= ${newModel.id()}")
+                            newModel
                         })
             }
 // errors because of the same ids
@@ -132,11 +149,22 @@ class Slider @JvmOverloads constructor(
         if (size.get() != 0 && position != RecyclerView.NO_POSITION) {
             if (infinite && size.get() >= 3) {
                 //loop infinitely
-                if (infiniteSize.get() - 2 == position) {
-                    scrollToPosition(1)
-                } else {
-                    smoothScrollToPosition(position + 1)
+                if (position + 1 == infiniteSize.get() - 2) {
+                    addOnScrollListener(object : OnScrollListener(){
+                        override fun onScrollStateChanged(
+                            recyclerView: RecyclerView,
+                            newState: Int
+                        ) {
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                scrollToPosition(4)
+                                removeOnScrollListener(this)
+                            }
+
+                        }
+                    })
                 }
+                smoothScrollToPosition(position + 1)
+
             } else {
                 //normal scrolling
                 if (position + 1 < size.get()) {
