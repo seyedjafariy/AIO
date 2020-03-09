@@ -101,7 +101,6 @@ class Slider @JvmOverloads constructor(
                             newModel
                         })
             }
-// errors because of the same ids
             infiniteSize.set(infiniteModels.size)
             super.setModels(infiniteModels)
         } else {
