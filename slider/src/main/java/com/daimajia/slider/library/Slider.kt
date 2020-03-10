@@ -39,6 +39,26 @@ class Slider @JvmOverloads constructor(
 
     private var copier: ModelCopier? = null
 
+    class SliderScroller(
+        private val layoutManager: LinearLayoutManager,
+        private val size: Int
+    ) : OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val lastPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+
+            if (size - 2 <= lastPosition) {
+                layoutManager.scrollToPosition(4)
+                return
+            }
+        }
+    }
+
     init {
         setPadding(Padding.dp(8, 8))
         numViewsToShowOnScreen = 1.1F
@@ -95,17 +115,19 @@ class Slider @JvmOverloads constructor(
                     newModel
                 })
                 addAll(0, models.subList(models.size - 3, models.size)
-                        .map {
-                            val newModel = copy(it)
-                            newModel.id("copied version= ${newModel.id()}")
-                            newModel
-                        })
+                    .map {
+                        val newModel = copy(it)
+                        newModel.id("copied version= ${newModel.id()}")
+                        newModel
+                    })
             }
             infiniteSize.set(infiniteModels.size)
             super.setModels(infiniteModels)
+            addOnScrollListener(SliderScroller(linearLayoutManager, infiniteModels.size))
         } else {
             super.setModels(models)
         }
+
 
         schedule()
     }
@@ -149,7 +171,7 @@ class Slider @JvmOverloads constructor(
             if (infinite && size.get() >= 3) {
                 //loop infinitely
                 if (position + 1 == infiniteSize.get() - 2) {
-                    addOnScrollListener(object : OnScrollListener(){
+                    addOnScrollListener(object : OnScrollListener() {
                         override fun onScrollStateChanged(
                             recyclerView: RecyclerView,
                             newState: Int
