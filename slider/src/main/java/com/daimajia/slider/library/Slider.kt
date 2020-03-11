@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Looper
 import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.*
 import java.util.*
@@ -43,18 +44,30 @@ class Slider @JvmOverloads constructor(
         private val layoutManager: LinearLayoutManager,
         private val size: Int
     ) : OnScrollListener() {
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-
-        }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val lastPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+            if (dx > 0) {
+                val lastPosition = layoutManager.findLastCompletelyVisibleItemPosition()
+                if (size - 2 == lastPosition) {
+                    layoutManager.scrollToPosition(4)
+                    return
+                }
+                if (size - 1 == lastPosition) {
+                    layoutManager.scrollToPosition(5)
+                    return
+                }
+            }
 
-            if (size - 2 <= lastPosition) {
-                layoutManager.scrollToPosition(4)
-                return
+            if (dx < 0) {
+                val firstPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+                if (1 == firstPosition) {
+                    layoutManager.scrollToPosition(size - 5)
+                    return
+                }
+                if (0 == firstPosition) {
+                    layoutManager.scrollToPosition(size - 6)
+                    return
+                }
             }
         }
     }
@@ -169,23 +182,7 @@ class Slider @JvmOverloads constructor(
         val position = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
         if (size.get() != 0 && position != RecyclerView.NO_POSITION) {
             if (infinite && size.get() >= 3) {
-                //loop infinitely
-                if (position + 1 == infiniteSize.get() - 2) {
-                    addOnScrollListener(object : OnScrollListener() {
-                        override fun onScrollStateChanged(
-                            recyclerView: RecyclerView,
-                            newState: Int
-                        ) {
-                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                scrollToPosition(4)
-                                removeOnScrollListener(this)
-                            }
-
-                        }
-                    })
-                }
                 smoothScrollToPosition(position + 1)
-
             } else {
                 //normal scrolling
                 if (position + 1 < size.get()) {
