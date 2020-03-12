@@ -63,21 +63,7 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     private fun initRv(binding: ViewHomeBinding) {
-//        binding.rvHome.layoutManager =
-//            LinearLayoutManager(binding.root.context, LinearLayoutManager.VERTICAL, false)
-
         binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3)
-//            .apply {
-//            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//
-//                override fun getSpanSize(position: Int): Int =
-//                    if (position == 0) {
-//                        3
-//                    } else {
-//                        1
-//                    }
-//            }
-//        }
     }
 
     override fun render(state: HomeState) {
@@ -86,7 +72,7 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
         binding.rvHome.withModelsAsync {
             slider {
-                spanSizeOverride { totalSpanCount, position, itemCount ->
+                spanSizeOverride { _, _, _ ->
                     3
                 }
                 id("home-slider")
