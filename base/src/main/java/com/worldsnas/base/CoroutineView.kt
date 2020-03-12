@@ -14,19 +14,13 @@ import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.mvi.MviIntent
 import com.worldsnas.mvi.MviPresenter
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 @Suppress("UNUSED_PARAMETER")
 abstract class CoroutineView<
@@ -35,24 +29,7 @@ abstract class CoroutineView<
         I : MviIntent
         > @JvmOverloads constructor(
     bundle: Bundle? = null
-) : ViewBindingController<V>(bundle) {
-
-    private var internalViewScope: CoroutineScope? = null
-
-    protected val viewScope: CoroutineScope
-        get() = if (internalViewScope != null) {
-            internalViewScope!!
-        } else {
-            internalViewScope = InternalCoroutineScope(
-                Dispatchers.Main.immediate + SupervisorJob()
-            )
-            internalViewScope!!
-
-        }
-
-    private class InternalCoroutineScope(
-        override val coroutineContext: CoroutineContext
-    ) : CoroutineScope
+) : ViewBindingController<V>(bundle), CoroutineScope by MainScope(){
 
     lateinit var coreComponent: CoreComponent
     @Inject
@@ -79,10 +56,14 @@ abstract class CoroutineView<
 
     @CallSuper
     override fun unBindView() {
-        internalViewScope!!.cancel()
-        internalViewScope = null
+        coroutineContext.cancelChildren()
         loadingView = null
         errorSnack = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 
     private fun prepareDependencies() {
@@ -105,7 +86,7 @@ abstract class CoroutineView<
             .onEach {
                 render(it)
             }
-            .launchIn(viewScope)
+            .launchIn(this)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -114,7 +95,7 @@ abstract class CoroutineView<
             Timber.e("view intents flow exception caught")
         }.onEach {
             presenter.processIntents(it)
-        }.launchIn(viewScope)
+        }.launchIn(this@CoroutineView)
 
     protected fun renderError(baseState: BaseState) {
 //        view?.run {
