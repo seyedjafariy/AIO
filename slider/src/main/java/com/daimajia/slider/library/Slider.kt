@@ -1,16 +1,12 @@
 package com.daimajia.slider.library
 
 import android.content.Context
-import android.os.Looper
 import android.util.AttributeSet
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.concurrent.schedule
-import kotlin.random.Random
 
 typealias ModelCopier = (yours: EpoxyModel<*>) -> EpoxyModel<*>
 
@@ -20,6 +16,8 @@ class Slider @JvmOverloads constructor(
     attr: AttributeSet? = null,
     defStyle: Int = 0
 ) : Carousel(context, attr, defStyle) {
+
+    private var controller : AsyncSimpleController = AsyncSimpleController()
 
     private var timer: Timer? = null
 
@@ -40,40 +38,9 @@ class Slider @JvmOverloads constructor(
 
     private var copier: ModelCopier? = null
 
-    class SliderScroller(
-        private val layoutManager: LinearLayoutManager,
-        private val size: Int
-    ) : OnScrollListener() {
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            if (dx > 0) {
-                val lastPosition = layoutManager.findLastCompletelyVisibleItemPosition()
-                if (size - 2 == lastPosition) {
-                    layoutManager.scrollToPosition(4)
-                    return
-                }
-                if (size - 1 == lastPosition) {
-                    layoutManager.scrollToPosition(5)
-                    return
-                }
-            }
-
-            if (dx < 0) {
-                val firstPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-                if (1 == firstPosition) {
-                    layoutManager.scrollToPosition(size - 5)
-                    return
-                }
-                if (0 == firstPosition) {
-                    layoutManager.scrollToPosition(size - 6)
-                    return
-                }
-            }
-        }
-    }
-
     init {
         setPadding(Padding.dp(8, 8))
+        setController(controller)
         numViewsToShowOnScreen = 1.1F
     }
 
@@ -85,6 +52,15 @@ class Slider @JvmOverloads constructor(
         super.onAttachedToWindow()
         size.set(adapter?.itemCount ?: 0)
         schedule()
+    }
+
+    @JvmOverloads
+    @ModelProp(options = [ModelProp.Option.DoNotHash])
+    fun controller(controller : AsyncSimpleController? = null){
+        if (controller != null) {
+            this.controller = controller
+            setController(controller)
+        }
     }
 
     @ModelProp
@@ -135,12 +111,11 @@ class Slider @JvmOverloads constructor(
                     })
             }
             infiniteSize.set(infiniteModels.size)
-            super.setModels(infiniteModels)
-            addOnScrollListener(SliderScroller(linearLayoutManager, infiniteModels.size))
+            controller.setModels(infiniteModels)
+            addOnScrollListener(InfiniteScroller(linearLayoutManager, infiniteModels.size))
         } else {
-            super.setModels(models)
+            controller.setModels(models)
         }
-
 
         schedule()
     }
