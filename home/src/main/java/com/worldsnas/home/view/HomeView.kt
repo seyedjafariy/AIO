@@ -4,8 +4,6 @@ import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.airbnb.epoxy.Carousel
 import com.daimajia.slider.library.slider
 import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.androidcore.helpers.pages
@@ -16,8 +14,6 @@ import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
-import com.worldsnas.home.R
-import com.worldsnas.home.R2.id.slider
 import com.worldsnas.home.adapter.HomeAdapter
 import com.worldsnas.home.databinding.ViewHomeBinding
 import com.worldsnas.home.di.DaggerHomeComponent
