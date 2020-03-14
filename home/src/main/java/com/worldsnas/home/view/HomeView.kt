@@ -38,16 +38,16 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
-                .builder()
-                .bindRouter(router)
-                .coreComponent(coreComponent)
-                .build()
-                .inject(this)
+            .builder()
+            .bindRouter(router)
+            .coreComponent(coreComponent)
+            .build()
+            .inject(this)
     }
 
     override fun bindView(
-            inflater: LayoutInflater,
-            container: ViewGroup
+        inflater: LayoutInflater,
+        container: ViewGroup
     ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
     override fun onViewBound(binding: ViewHomeBinding) {
@@ -83,15 +83,29 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
                     BannerViewModel_().apply {
                         id(oldModel.movie().id)
                         movie(oldModel.movie())
+                        listener { listenMovie ->
+                            presenter.processIntents(
+                                HomeIntent.LatestMovieClicked(
+                                    listenMovie
+                                )
+                            )
+                        }
                     }
                 }
                 models(
-                        state.sliderMovies.map { movie ->
-                            BannerViewModel_().apply {
-                                id(movie.id)
-                                movie(movie)
+                    state.sliderMovies.map { movie ->
+                        BannerViewModel_().apply {
+                            id(movie.id)
+                            movie(movie)
+                            listener { listenMovie ->
+                                presenter.processIntents(
+                                    HomeIntent.LatestMovieClicked(
+                                        listenMovie
+                                    )
+                                )
                             }
                         }
+                    }
                 )
             }
 
@@ -105,9 +119,9 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
                     movie(it)
                     listener { listenMovie ->
                         presenter.processIntents(
-                                HomeIntent.LatestMovieClicked(
-                                        listenMovie
-                                )
+                            HomeIntent.LatestMovieClicked(
+                                listenMovie
+                            )
                         )
                     }
                 }
@@ -116,19 +130,19 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     }
 
     override fun intents(): Flow<HomeIntent> =
-            Observable.merge(
-                    Observable.just(HomeIntent.Initial),
-                    binding.rvHome.pages()
-                            .subscribeOn(AndroidSchedulers.mainThread())
-                            .map {
-                                HomeIntent.NextPage(it.page, it.totalItemsCount)
-                            },
-                    binding.imgSearch.clicks()
-                            .map {
-                                HomeIntent.SearchClicks(
-                                        binding.toolbarHome.transitionNameCompat ?: "",
-                                        binding.txtSearchName.transitionNameCompat ?: ""
-                                )
-                            }
-            ).asFlow()
+        Observable.merge(
+            Observable.just(HomeIntent.Initial),
+            binding.rvHome.pages()
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .map {
+                    HomeIntent.NextPage(it.page, it.totalItemsCount)
+                },
+            binding.imgSearch.clicks()
+                .map {
+                    HomeIntent.SearchClicks(
+                        binding.toolbarHome.transitionNameCompat ?: "",
+                        binding.txtSearchName.transitionNameCompat ?: ""
+                    )
+                }
+        ).asFlow()
 }

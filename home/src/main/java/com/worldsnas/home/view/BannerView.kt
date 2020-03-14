@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.airbnb.epoxy.AfterPropsSet
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.worldsnas.androidcore.getScreenWidth
@@ -31,5 +32,16 @@ class BannerView @JvmOverloads constructor(
     @AfterPropsSet
     fun bindView(){
         binding.image.setImageURI(movie.cover.coverFullUrl(context.getScreenWidth()))
+    }
+
+    @CallbackProp
+    fun listener(listener: ((movie: Movie) -> Unit)?) {
+        if (listener == null) {
+            binding.root.setOnClickListener(null)
+        } else {
+            binding.root.setOnClickListener {
+                listener(movie)
+            }
+        }
     }
 }
