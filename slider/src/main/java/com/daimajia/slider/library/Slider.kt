@@ -2,29 +2,40 @@ package com.daimajia.slider.library
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.*
+import com.daimajia.slider.library.databinding.SliderViewBinding
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 typealias ModelCopier = (yours: EpoxyModel<*>) -> EpoxyModel<*>
 
-@ModelView(saveViewState = true, autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
+@ModelView(
+    saveViewState = true,
+    autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT
+)
 class Slider @JvmOverloads constructor(
     context: Context,
     attr: AttributeSet? = null,
     defStyle: Int = 0
-) : Carousel(context, attr, defStyle) {
+) : RelativeLayout(context, attr, defStyle) {
 
-    private var controller : AsyncSimpleController = AsyncSimpleController()
+    private val binding = SliderViewBinding
+        .inflate(LayoutInflater.from(context), this, true)
+
+    private var controller: AsyncSimpleController = AsyncSimpleController()
 
     private var timer: Timer? = null
 
     private var timerDelay: Long = 5000
 
     private val linearLayoutManager: LinearLayoutManager
-        get() = layoutManager as LinearLayoutManager
+        get() = binding
+            .sliderSlideCarousel
+            .layoutManager as LinearLayoutManager
 
     private val size = AtomicInteger(0)
 
@@ -39,27 +50,35 @@ class Slider @JvmOverloads constructor(
     private var copier: ModelCopier? = null
 
     init {
-        setPadding(Padding.dp(8, 8))
-        setController(controller)
-        numViewsToShowOnScreen = 1.1F
-    }
+        binding.sliderSlideCarousel
+            .setPadding(Carousel.Padding.dp(8, 8))
+        binding.sliderSlideCarousel.setController(controller)
+        binding.sliderSlideCarousel.numViewsToShowOnScreen = 1.1F
+        binding.sliderSlideCarousel.setInitialPrefetchItemCount(3)
+        binding.sliderSlideIndicator.attachToRecyclerView(binding.sliderSlideCarousel)
 
-    override fun createLayoutManager(): LayoutManager {
-        return LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        controller.addModelBuildListener(object : OnModelBuildFinishedListener {
+            override fun onModelBuildFinished(result: DiffResult) {
+                if (infinite) {
+                    linearLayoutManager.scrollToPosition(3)
+                }
+                controller.removeModelBuildListener(this)
+            }
+        })
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        size.set(adapter?.itemCount ?: 0)
+        size.set(binding.sliderSlideCarousel.adapter?.itemCount ?: 0)
         schedule()
     }
 
     @JvmOverloads
     @ModelProp(options = [ModelProp.Option.DoNotHash])
-    fun controller(controller : AsyncSimpleController? = null){
+    fun controller(controller: AsyncSimpleController? = null) {
         if (controller != null) {
             this.controller = controller
-            setController(controller)
+            binding.sliderSlideCarousel.setController(controller)
         }
     }
 
@@ -74,7 +93,8 @@ class Slider @JvmOverloads constructor(
         stopSlider()
     }
 
-    override fun setModels(models: List<EpoxyModel<*>>) {
+    @ModelProp
+    fun setModels(models: List<EpoxyModel<*>>) {
         this.models = models
         size.set(models.size)
     }
@@ -112,7 +132,9 @@ class Slider @JvmOverloads constructor(
             }
             infiniteSize.set(infiniteModels.size)
             controller.setModels(infiniteModels)
-            addOnScrollListener(InfiniteScroller(linearLayoutManager, infiniteModels.size))
+            binding.sliderSlideCarousel.addOnScrollListener(
+                InfiniteScroller(linearLayoutManager, infiniteModels.size)
+            )
         } else {
             controller.setModels(models)
         }
@@ -157,13 +179,13 @@ class Slider @JvmOverloads constructor(
         val position = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
         if (size.get() != 0 && position != RecyclerView.NO_POSITION) {
             if (infinite && size.get() >= 3) {
-                smoothScrollToPosition(position + 1)
+                binding.sliderSlideCarousel.smoothScrollToPosition(position + 1)
             } else {
                 //normal scrolling
                 if (position + 1 < size.get()) {
-                    smoothScrollToPosition(position + 1)
+                    binding.sliderSlideCarousel.smoothScrollToPosition(position + 1)
                 } else {
-                    scrollToPosition(0)
+                    binding.sliderSlideCarousel.scrollToPosition(0)
                 }
             }
         }

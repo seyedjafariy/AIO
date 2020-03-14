@@ -238,6 +238,7 @@ ext {
                     leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion",
                     epoxy = "com.airbnb.android:epoxy:$epoxyVersion",
                     epoxyCompiler = "com.airbnb.android:epoxy-processor:$epoxyVersion",
+                    indicator = "com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10",
                     flipper = "com.facebook.flipper:flipper:$flipperVersion",
                     flipperNoOp = "com.facebook.flipper:flipper-noop:$flipperVersion",
                     flipperNetworkPlugin = "com.facebook.flipper:flipper-network-plugin:$flipperVersion",
