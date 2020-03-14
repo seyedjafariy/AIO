@@ -3,11 +3,13 @@ package com.daimajia.slider.library
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.*
 import com.daimajia.slider.library.databinding.SliderViewBinding
+import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -22,10 +24,10 @@ class Slider @JvmOverloads constructor(
     attr: AttributeSet? = null,
     defStyle: Int = 0
 ) : RelativeLayout(context, attr, defStyle) {
-
-    private val binding = SliderViewBinding
-        .inflate(LayoutInflater.from(context), this, true)
-
+    
+    private val carousel : HorizontalCarousel
+    private val indicator : IndefinitePagerIndicator
+    
     private var controller: AsyncSimpleController = AsyncSimpleController()
 
     private var timer: Timer? = null
@@ -33,8 +35,7 @@ class Slider @JvmOverloads constructor(
     private var timerDelay: Long = 5000
 
     private val linearLayoutManager: LinearLayoutManager
-        get() = binding
-            .sliderSlideCarousel
+        get() = carousel
             .layoutManager as LinearLayoutManager
 
     private val size = AtomicInteger(0)
@@ -42,6 +43,7 @@ class Slider @JvmOverloads constructor(
     private var sliderTask: TimerTask? = null
 
     private var infinite: Boolean = false
+    private var showIndicator: Boolean = true
     private val infiniteSize = AtomicInteger(0)
     private var infiniteModels: List<EpoxyModel<*>> = emptyList()
 
@@ -50,12 +52,19 @@ class Slider @JvmOverloads constructor(
     private var copier: ModelCopier? = null
 
     init {
-        binding.sliderSlideCarousel
+        val root = LayoutInflater
+            .from(context)
+            .inflate(R.layout.slider_view, this, false)
+        
+        addView(root)
+        carousel = root.findViewById(R.id.slider_slide_carousel)
+        indicator = root.findViewById(R.id.slider_slide_indicator)
+        
+        carousel
             .setPadding(Carousel.Padding.dp(8, 8))
-        binding.sliderSlideCarousel.setController(controller)
-        binding.sliderSlideCarousel.numViewsToShowOnScreen = 1.1F
-        binding.sliderSlideCarousel.setInitialPrefetchItemCount(3)
-        binding.sliderSlideIndicator.attachToRecyclerView(binding.sliderSlideCarousel)
+        carousel.setController(controller)
+        carousel.numViewsToShowOnScreen = 1.1F
+        carousel.setInitialPrefetchItemCount(3)
 
         controller.addModelBuildListener(object : OnModelBuildFinishedListener {
             override fun onModelBuildFinished(result: DiffResult) {
@@ -69,7 +78,7 @@ class Slider @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        size.set(binding.sliderSlideCarousel.adapter?.itemCount ?: 0)
+        size.set(carousel.adapter?.itemCount ?: 0)
         schedule()
     }
 
@@ -78,7 +87,7 @@ class Slider @JvmOverloads constructor(
     fun controller(controller: AsyncSimpleController? = null) {
         if (controller != null) {
             this.controller = controller
-            binding.sliderSlideCarousel.setController(controller)
+            carousel.setController(controller)
         }
     }
 
@@ -103,6 +112,12 @@ class Slider @JvmOverloads constructor(
     @JvmOverloads
     fun setInfinite(infinite: Boolean = false) {
         this.infinite = infinite
+    }
+
+    @ModelProp
+    @JvmOverloads
+    fun setIndicatorVisible(visible: Boolean = true) {
+        this.showIndicator = visible
     }
 
     @CallbackProp
@@ -132,11 +147,18 @@ class Slider @JvmOverloads constructor(
             }
             infiniteSize.set(infiniteModels.size)
             controller.setModels(infiniteModels)
-            binding.sliderSlideCarousel.addOnScrollListener(
+            carousel.addOnScrollListener(
                 InfiniteScroller(linearLayoutManager, infiniteModels.size)
             )
         } else {
             controller.setModels(models)
+        }
+
+        if (showIndicator) {
+            indicator.visibility = View.VISIBLE
+            indicator.attachToRecyclerView(carousel)
+        }else{
+            indicator.visibility = View.GONE
         }
 
         schedule()
@@ -179,13 +201,13 @@ class Slider @JvmOverloads constructor(
         val position = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
         if (size.get() != 0 && position != RecyclerView.NO_POSITION) {
             if (infinite && size.get() >= 3) {
-                binding.sliderSlideCarousel.smoothScrollToPosition(position + 1)
+                carousel.smoothScrollToPosition(position + 1)
             } else {
                 //normal scrolling
                 if (position + 1 < size.get()) {
-                    binding.sliderSlideCarousel.smoothScrollToPosition(position + 1)
+                    carousel.smoothScrollToPosition(position + 1)
                 } else {
-                    binding.sliderSlideCarousel.scrollToPosition(0)
+                    carousel.scrollToPosition(0)
                 }
             }
         }
