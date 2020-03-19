@@ -59,7 +59,7 @@ dependencies {
 
     implementation constraintLayout
 
-    implementation project(slider)
+    implementation project(imageSliderLocal)
     implementation nineOldAndroidAnim
 
     kapt butterKnifeCompiler

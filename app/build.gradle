@@ -168,7 +168,7 @@ dependencies {
 
     implementation fresco
     implementation frescoOkHttp
-    implementation project(slider)
+    implementation slider
 
     implementation firebaseCore
     implementation firebaseAnalytics

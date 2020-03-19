@@ -52,7 +52,7 @@ dependencies {
     implementation constraintLayout
     implementation photoDraweeView
 
-    implementation project(slider)
+    implementation project(imageSliderLocal)
     implementation nineOldAndroidAnim
 
     kapt butterKnifeCompiler
