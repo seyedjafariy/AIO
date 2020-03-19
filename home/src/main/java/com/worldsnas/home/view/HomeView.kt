@@ -78,6 +78,7 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
                 id("home-slider")
                 infinite(true)
                 cycleDelay(3000)
+                indicatorVisible(false)
                 copier { oldModel ->
                     oldModel as BannerViewModel_
                     BannerViewModel_().apply {
