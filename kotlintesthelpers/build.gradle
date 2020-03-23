@@ -5,6 +5,7 @@ dependencies {
     implementation assertJ
     implementation okHttp
     implementation retrofit
+    implementation coroutines
     implementation junit
     implementation rxJava
     implementation rxAndroid
