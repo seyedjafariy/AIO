@@ -105,10 +105,10 @@ android {
         }
     }
 }
-configurations {
-    cleanedAnnotations
-    compile.exclude group: 'org.jetbrains', module: 'annotations'
-}
+//configurations {
+//    cleanedAnnotations
+//    compile.exclude group: 'org.jetbrains', module: 'annotations'
+//}
 
 
 dependencies {
@@ -143,8 +143,10 @@ dependencies {
     implementation(project(movieDetail))
     implementation(project(gallery))
 
+    implementation viewModel
+
     implementation dagger
-    implementation findBugs
+//    implementation findBugs
     kapt daggerCompiler
     implementation jetbrainsAnnotation
 
