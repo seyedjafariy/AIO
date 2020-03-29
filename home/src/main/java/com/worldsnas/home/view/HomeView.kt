@@ -12,6 +12,8 @@ import com.worldsnas.base.CoroutineView
 import com.worldsnas.core.asFlow
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
+import com.worldsnas.daggercore.lifecycleComponent
+import com.worldsnas.daggercore.navigator.DaggerDefaultNavigationComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.adapter.HomeAdapter
@@ -39,8 +41,9 @@ class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
             .builder()
-            .bindRouter(router)
-            .coreComponent(coreComponent)
+            .coreComponent(core)
+            .lifecycleComponent(activity!!.lifecycleComponent)
+            .navComponent(DaggerDefaultNavigationComponent.factory().create(core, router))
             .build()
             .inject(this)
     }
