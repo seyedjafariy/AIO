@@ -21,8 +21,8 @@ android {
         applicationId "com.worldsnas.aio"
         minSdkVersion projectMinSdkVersion
         targetSdkVersion projectTargetSdkVersion
-        versionCode 21000706
-        versionName "0.7.6"
+        versionCode 21000806
+        versionName "0.8.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "API_KEY", "\"$movieDBApiKey\""
@@ -82,6 +82,8 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/DEPENDENCIES'
+        pickFirst("META-INF/kotlinx-coroutines-core.kotlin_module")
     }
     androidExtensions {
         defaultCacheImplementation = "SPARSE_ARRAY"
@@ -103,10 +105,10 @@ android {
         }
     }
 }
-configurations {
-    cleanedAnnotations
-    compile.exclude group: 'org.jetbrains', module: 'annotations'
-}
+//configurations {
+//    cleanedAnnotations
+//    compile.exclude group: 'org.jetbrains', module: 'annotations'
+//}
 
 
 dependencies {
@@ -131,6 +133,7 @@ dependencies {
     androidTestImplementation espressoIntents
 
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(domain))
     implementation(project(base))
     implementation(project(mvi))
@@ -140,8 +143,10 @@ dependencies {
     implementation(project(movieDetail))
     implementation(project(gallery))
 
+    implementation viewModel
+
     implementation dagger
-    implementation findBugs
+//    implementation findBugs
     kapt daggerCompiler
     implementation jetbrainsAnnotation
 
@@ -156,13 +161,16 @@ dependencies {
     implementation compat
     implementation coreKts
 
+    implementation coroutines
+    implementation coroutinesCommon
+
     implementation conductor
 
     implementation timber
 
     implementation fresco
     implementation frescoOkHttp
-    implementation project(slider)
+    implementation slider
 
     implementation firebaseCore
     implementation firebaseAnalytics
@@ -179,6 +187,10 @@ dependencies {
     debugImplementation soLoader
     debugImplementation flipper
     releaseImplementation flipperNoOp
+    debugImplementation flipperNetworkPlugin
+    debugImplementation flipperFrescoPlugin
+
+    debugImplementation stetho
 }
 apply plugin: 'com.google.gms.google-services'
 

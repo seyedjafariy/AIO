@@ -26,11 +26,16 @@ dependencies {
     implementation(project(daggerCore))
     implementation(project(base))
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(mvi))
     implementation(project(navigation))
     implementation(project(panther))
+    implementation(project(viewComponent))
 
     implementation kotlinStd8
+
+    implementation epoxy
+    kapt epoxyCompiler
 
     implementation compat
     implementation design
@@ -47,12 +52,18 @@ dependencies {
     implementation timber
     implementation rxBindingKotlin
 
+    implementation coroutines
+    implementation coroutinesRx2
+
     implementation fresco
 
     implementation constraintLayout
 
-    implementation project(slider)
+    implementation project(imageSliderLocal)
     implementation nineOldAndroidAnim
 
     kapt butterKnifeCompiler
+
+    implementation arrowCore
+    implementation arrowExtensions
 }

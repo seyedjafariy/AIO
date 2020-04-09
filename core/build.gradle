@@ -1,20 +1,12 @@
-apply from: androidLib
+apply from: kotlinLib
 
 dependencies{
-    implementation kotlinStd8
-    implementation dagger
-    implementation javaxAnnotation
-    implementation jetbrainsAnnotation
-    implementation findBugs
-    kapt daggerCompiler
+    testImplementation coroutinesTest
+    testImplementation junit
+    testImplementation assertJ
 
-    implementation conductor
-    implementation retrofit
-    implementation okHttpLogging
-    implementation moshiRetrofit
-    implementation rxJavaRetrofit
-    implementation moshi
-    implementation timber
+    implementation kotlinStd8
+
+    implementation coroutines
     implementation rxJava
-    implementation recyclerView
 }

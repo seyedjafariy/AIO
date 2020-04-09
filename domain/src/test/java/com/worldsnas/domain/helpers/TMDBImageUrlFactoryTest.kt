@@ -1,6 +1,6 @@
 package com.worldsnas.domain.helpers
 
-import com.worldsnas.core.DisplaySize
+import com.worldsnas.androidcore.DisplaySize
 import com.worldsnas.kotlintesthelpers.randomInt
 import com.worldsnas.kotlintesthelpers.randomString
 import org.assertj.core.api.Assertions.assertThat

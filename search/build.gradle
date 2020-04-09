@@ -26,6 +26,7 @@ dependencies {
     implementation(project(daggerCore))
 
     implementation(project(core))
+    implementation(project(androidCore))
     implementation(project(mvi))
     implementation(project(navigation))
     implementation(project(panther))
@@ -53,9 +54,6 @@ dependencies {
     testImplementation soLoader
 
     implementation constraintLayout
-
-    implementation project(slider)
-    implementation nineOldAndroidAnim
 
     implementation butterKnife
     kapt butterKnifeCompiler

@@ -14,6 +14,7 @@ import com.worldsnas.kotlintesthelpers.createRetrofitErrorResponse
 import com.worldsnas.kotlintesthelpers.randomLong
 import com.worldsnas.kotlintesthelpers.randomString
 import com.worldsnas.panther.Fetcher
+import com.worldsnas.panther.RFetcher
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -50,7 +51,7 @@ class MovieDetailRepoImplTest {
         translationMapper
     )
 
-    private val fetcher = mockk<Fetcher<MovieDetailRequestModel, Response<MovieServerModel>>>(relaxed = true)
+    private val fetcher = mockk<RFetcher<MovieDetailRequestModel, MovieServerModel>>(relaxed = true)
 
     private lateinit var repo: MovieDetailRepoImpl
 

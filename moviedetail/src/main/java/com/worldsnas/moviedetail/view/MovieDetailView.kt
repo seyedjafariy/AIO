@@ -14,8 +14,8 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding3.view.clicks
+import com.worldsnas.androidcore.*
 import com.worldsnas.base.BaseView
-import com.worldsnas.core.*
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.domain.helpers.posterFullUrl

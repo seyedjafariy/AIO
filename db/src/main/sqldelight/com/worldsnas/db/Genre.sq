@@ -1,0 +1,43 @@
+CREATE TABLE genre (
+    id INTEGER NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL DEFAULT "",
+    updatedAt TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL
+);
+
+CREATE UNIQUE INDEX genre_id
+ON genre (id);
+
+CREATE TABLE movies_genres(
+    genreId INTEGER NOT NULL,
+    movieId INTEGER NOT NULL,
+    FOREIGN KEY (genreId) REFERENCES  genre (id),
+    FOREIGN KEY (movieId) REFERENCES  movie (id)
+);
+
+insertEntireGenre:
+INSERT OR REPLACE INTO genre
+VALUES ?;
+
+insertGenre:
+INSERT OR REPLACE INTO genre
+(id, title)
+VALUES (:id, :title);
+
+insertMovieGenres:
+INSERT INTO movies_genres
+(genreId, movieId)
+SELECT :genreId, :movieId
+WHERE NOT EXISTS
+(SELECT * FROM movies_genres WHERE movieId = :movieId AND genreId = :genreId);
+
+getMovieGenres:
+SELECT genre.id, genre.title, genre.updatedAt
+FROM movies_genres
+LEFT JOIN genre ON movies_genres.genreId = genre.id
+WHERE movies_genres.movieId = :movieId;
+
+getMoviesGenres:
+SELECT movies_genres.movieId AS originalMovieID, genre.id, genre.title, genre.updatedAt
+FROM movies_genres
+LEFT JOIN genre ON movies_genres.genreId = genre.id
+WHERE movies_genres.movieId IN :movieIds;

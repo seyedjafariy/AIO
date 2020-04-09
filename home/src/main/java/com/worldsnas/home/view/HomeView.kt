@@ -1,102 +1,152 @@
 package com.worldsnas.home.view
 
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import android.app.Application
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
-import com.google.android.material.appbar.AppBarLayout
+import com.daimajia.slider.library.slider
 import com.jakewharton.rxbinding3.view.clicks
-import com.worldsnas.base.BaseView
-import com.worldsnas.core.helpers.pages
-import com.worldsnas.core.transitionNameCompat
+import com.worldsnas.androidcore.helpers.pages
+import com.worldsnas.androidcore.transitionNameCompat
+import com.worldsnas.base.CoroutineView
+import com.worldsnas.core.asFlow
 import com.worldsnas.daggercore.CoreComponent
+import com.worldsnas.daggercore.coreComponent
+import com.worldsnas.daggercore.lifecycleComponent
+import com.worldsnas.daggercore.navigator.DaggerDefaultNavigationComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
-import com.worldsnas.home.R
-import com.worldsnas.home.R2
 import com.worldsnas.home.adapter.HomeAdapter
+import com.worldsnas.home.databinding.ViewHomeBinding
 import com.worldsnas.home.di.DaggerHomeComponent
+import com.worldsnas.view_component.movieView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class HomeView : BaseView<HomeState, HomeIntent>() {
+class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
 
-    @BindView(R2.id.rvHome)
-    lateinit var homeList: RecyclerView
+    constructor() : super()
+
+    constructor(app: Application) : this(core = app.coreComponent())
+
+    constructor(core: CoreComponent) : super() {
+        coreComponent = core
+    }
+
     @Inject
     lateinit var homeAdapter: HomeAdapter
-    @BindView(R2.id.ablHome)
-    lateinit var appBar: AppBarLayout
-    @BindView(R2.id.imgSearch)
-    lateinit var searchBtn: ImageView
-    @BindView(R2.id.txtSearchName)
-    lateinit var searchName: TextView
-    @BindView(R2.id.toolbarHome)
-    lateinit var toolbar: Toolbar
-
-    override fun getLayoutId(): Int = R.layout.view_home
 
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
             .builder()
-            .bindRouter(router)
             .coreComponent(core)
+            .lifecycleComponent(activity!!.lifecycleComponent)
+            .navComponent(DaggerDefaultNavigationComponent.factory().create(core, router))
             .build()
             .inject(this)
     }
 
-    override fun onViewBound(view: View) {
-        initRv(view)
-        appBar.outlineProvider = null
+    override fun bindView(
+        inflater: LayoutInflater,
+        container: ViewGroup
+    ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
-        searchName.transitionNameCompat = "search_name"
-        toolbar.transitionNameCompat = "search_back"
+    override fun onViewBound(binding: ViewHomeBinding) {
+        initRv(binding)
+        binding.ablHome.outlineProvider = null
+        binding.txtSearchName.transitionNameCompat = "search_name"
+        binding.toolbarHome.transitionNameCompat = "search_back"
+        super.onViewBound(binding)
     }
 
-    override fun onDestroyView(view: View) {
-        homeList.adapter = null
-        super.onDestroyView(view)
+    override fun unBindView() {
+        super.unBindView()
     }
 
-    private fun initRv(view: View) {
-        homeList.layoutManager = GridLayoutManager(view.context, 3).apply {
-            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int =
-                    if (homeAdapter.getItemViewType(position) == 0) {
-                        3
-                    } else {
-                        1
-                    }
-            }
-        }
-        homeList.adapter = homeAdapter
+    private fun initRv(binding: ViewHomeBinding) {
+        binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3)
     }
 
     override fun render(state: HomeState) {
         renderError(state.base)
         renderLoading(state.base)
 
-        homeAdapter.submitList(state.homeItems)
+        binding.rvHome.withModelsAsync {
+            slider {
+                spanSizeOverride { _, _, _ ->
+                    3
+                }
+                id("home-slider")
+                infinite(true)
+                cycleDelay(3000)
+                indicatorVisible(false)
+                copier { oldModel ->
+                    oldModel as BannerViewModel_
+                    BannerViewModel_().apply {
+                        id(oldModel.movie().id)
+                        movie(oldModel.movie())
+                        listener { listenMovie ->
+                            presenter.processIntents(
+                                HomeIntent.LatestMovieClicked(
+                                    listenMovie
+                                )
+                            )
+                        }
+                    }
+                }
+                models(
+                    state.sliderMovies.map { movie ->
+                        BannerViewModel_().apply {
+                            id(movie.id)
+                            movie(movie)
+                            listener { listenMovie ->
+                                presenter.processIntents(
+                                    HomeIntent.LatestMovieClicked(
+                                        listenMovie
+                                    )
+                                )
+                            }
+                        }
+                    }
+                )
+            }
+
+
+            state.latest.forEach {
+                movieView {
+                    id(it.id)
+                    spanSizeOverride { totalSpanCount, position, itemCount ->
+                        1
+                    }
+                    movie(it)
+                    listener { listenMovie ->
+                        presenter.processIntents(
+                            HomeIntent.LatestMovieClicked(
+                                listenMovie
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
-    override fun intents(): Observable<HomeIntent> =
+    override fun intents(): Flow<HomeIntent> =
         Observable.merge(
             Observable.just(HomeIntent.Initial),
-            homeList.pages()
+            binding.rvHome.pages()
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .map {
                     HomeIntent.NextPage(it.page, it.totalItemsCount)
                 },
-            searchBtn.clicks()
+            binding.imgSearch.clicks()
                 .map {
                     HomeIntent.SearchClicks(
-                        toolbar.transitionNameCompat ?: "",
-                        searchName.transitionNameCompat ?: ""
+                        binding.toolbarHome.transitionNameCompat ?: "",
+                        binding.txtSearchName.transitionNameCompat ?: ""
                     )
                 }
-        )
+        ).asFlow()
 }

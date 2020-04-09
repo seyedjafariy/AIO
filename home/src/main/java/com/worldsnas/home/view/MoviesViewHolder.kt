@@ -4,8 +4,8 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
+import com.worldsnas.androidcore.helpers.pages
 import com.worldsnas.base.ButterKnifeViewHolder
-import com.worldsnas.core.helpers.pages
 import com.worldsnas.home.R2
 import com.worldsnas.home.adapter.HomeMoviesAdapter
 

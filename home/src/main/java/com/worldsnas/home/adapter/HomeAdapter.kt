@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
-import com.worldsnas.core.inflate
+import com.worldsnas.androidcore.inflate
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
@@ -45,11 +45,11 @@ class HomeAdapter @Inject constructor(
             is HomeMovieViewHolder -> {
                 (getItem(position) as HomeUIModel.LatestMovie).apply {
                     holder.bind(movie)
-                    holder.intents(movie)
-                        .subscribeBy {
-                            presenter.processIntents(it)
-                        }
-                        .addTo(disposables)
+//                    holder.intents(movie)
+//                        .subscribeBy {
+//                            presenter.processIntents(it)
+//                        }
+//                        .addTo(disposables)
                 }
             }
             else ->

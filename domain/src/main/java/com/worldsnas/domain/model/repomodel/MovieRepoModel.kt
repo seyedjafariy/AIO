@@ -20,7 +20,7 @@ data class MovieRepoModel(
     val title: String = "",
     val video: Boolean = false,
     val voteAverage: Double = 0.0,
-    val voteCount: Int = 0,
+    val voteCount: Long = 0,
     val facebookId: String = "",
     val instagramId: String = "",
     val twitterId: String = "",

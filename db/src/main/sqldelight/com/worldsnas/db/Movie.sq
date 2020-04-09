@@ -1,0 +1,162 @@
+import java.lang.Boolean;
+import java.util.Date;
+
+CREATE TABLE movie (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL DEFAULT "",
+    adult INTEGER AS Boolean NOT NULL DEFAULT 0,
+    originalTitle TEXT NOT NULL DEFAULT "",
+    budget INTEGER NOT NULL DEFAULT 0,
+    homePage TEXT NOT NULL DEFAULT "",
+    imdbId TEXT NOT NULL DEFAULT "",
+    facebookId TEXT NOT NULL DEFAULT "",
+    instagramId TEXT NOT NULL DEFAULT "",
+    twitterId TEXT NOT NULL DEFAULT "",
+    originalLanguage TEXT NOT NULL DEFAULT "",
+    overview TEXT NOT NULL DEFAULT "",
+    popularity REAL NOT NULL DEFAULT 0.0,
+    backdropImage TEXT NOT NULL DEFAULT "",
+    posterImage TEXT NOT NULL DEFAULT "",
+    releaseDate INTEGER AS Date NOT NULL,
+    revenue INTEGER NOT NULL DEFAULT 0,
+    runtime INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT "",
+    tagLine TEXT NOT NULL DEFAULT "",
+    video INTEGER AS Boolean NOT NULL DEFAULT 0,
+    voteAverage REAL NOT NULL DEFAULT 0.0,
+    voteCount INTEGER NOT NULL DEFAULT 0,
+    updatedAt TEXT DEFAULT(STRFTIME('%Y-%m-%d %H:%M:%f', 'NOW')) NOT NULL,
+    isLatest INTEGER AS Boolean NOT NULL DEFAULT 0
+);
+
+CREATE UNIQUE INDEX movie_id
+ON movie (id);
+
+CREATE TABLE similar_movie(
+    movieId INTEGER NOT NULL,
+    similarMovie INTEGER NOT NULL,
+    FOREIGN KEY (movieId) REFERENCES  movie (id),
+    FOREIGN KEY (similarMovie) REFERENCES  movie (id)
+);
+
+CREATE TABLE recommended_movie(
+    movieId INTEGER NOT NULL,
+    recommendedMovie INTEGER NOT NULL,
+    FOREIGN KEY (movieId) REFERENCES  movie (id),
+    FOREIGN KEY (recommendedMovie) REFERENCES  movie (id)
+);
+
+latestMovieView:
+CREATE VIEW latest_movie AS
+SELECT *
+FROM movie
+WHERE isLatest = 1
+ORDER BY releaseDate DESC;
+
+insertMovie:
+INSERT OR REPLACE INTO movie
+(id,
+ title,
+ adult,
+ originalTitle,
+ originalLanguage,
+ budget,
+ homePage,
+ imdbId,
+ facebookId,
+ instagramId,
+ twitterId,
+ overview,
+ popularity,
+ backdropImage,
+ posterImage,
+ releaseDate,
+ revenue,
+ runtime,
+ status,
+ tagLine,
+ video,
+ voteAverage,
+ voteCount,
+ isLatest
+)
+VALUES (
+:id,
+:title,
+:adult,
+:original_title,
+:original_language,
+:budget,
+:homePage,
+:imdbId,
+:facebookId,
+:instagramId,
+:twitterId,
+:overview,
+:popularity,
+:backdropImage,
+:posterImage,
+:releaseDate,
+:revenue,
+:runtime,
+:status,
+:tagLine,
+:video,
+:voteAverage,
+:voteCount,
+(SELECT isLatest FROM movie WHERE id = :id));
+
+insertEntireMovie:
+INSERT OR REPLACE INTO movie
+VALUES ?;
+
+insertRecommendedMovie:
+INSERT INTO  recommended_movie
+(movieId, recommendedMovie)
+SELECT :movieId, :recommendedMovieId
+WHERE NOT EXISTS
+(SELECT * FROM recommended_movie WHERE movieId = :movieId AND recommendedMovie = :recommendedMovieId);
+
+insertSimilarMovie:
+INSERT INTO similar_movie
+(movieId, similarMovie)
+SELECT :movieId, :similarMovieId
+WHERE NOT EXISTS
+(SELECT * FROM similar_movie WHERE movieId = :movieId AND similarMovie = :similarMovieId);
+
+getMovies:
+SELECT *
+FROM movie;
+
+getMovie:
+SELECT *
+FROM movie
+WHERE id = ?;
+
+findMovie:
+SELECT *
+FROM movie
+WHERE id IN ?
+LIMIT 1;
+
+clearMovies:
+DELETE FROM movie;
+
+movieCount:
+SELECT COUNT(*)
+FROM movie;
+
+getMovieSimilar:
+SELECT movie.* FROM movie
+JOIN similar_movie ON movie.id = similar_movie.similarMovie
+WHERE similar_movie.similarMovie = :movieId;
+
+getMoviesSimilar:
+SELECT similar_movie.movieId AS originalMovieID, movie.* FROM movie
+JOIN similar_movie ON movie.id = similar_movie.similarMovie
+WHERE similar_movie.movieId IN :movieIds;
+
+getMoviesRecommended:
+SELECT recommended_movie.movieId AS originalMovieID, movie.* FROM movie
+JOIN recommended_movie ON movie.id = recommended_movie.recommendedMovie
+WHERE recommended_movie.movieId IN :movieIds;

@@ -1,14 +1,14 @@
 package com.worldsnas.home.mapper
 
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
-import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.panther.Mapper
+import com.worldsnas.view_component.Movie
 import javax.inject.Inject
 
 class MovieRepoUIMapper @Inject constructor(
-) : Mapper<MovieRepoModel, MovieUIModel> {
-    override fun map(item: MovieRepoModel): MovieUIModel =
-        MovieUIModel(
+) : Mapper<MovieRepoModel, Movie> {
+    override fun map(item: MovieRepoModel): Movie =
+        Movie(
             item.id,
             item.posterPath,
             item.backdropPath,

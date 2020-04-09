@@ -3,14 +3,13 @@ package com.worldsnas.core
 import io.reactivex.Observable
 import io.reactivex.annotations.SchedulerSupport
 import java.util.concurrent.TimeUnit
-import javax.annotation.CheckReturnValue
 
-fun <T> delayEvent(immediate : T, delayed : T) =
+fun <T : Any> delayEvent(immediate : T, delayed : T): Observable<T> =
     Observable.just(delayed)
         .delay(3, TimeUnit.SECONDS)
         .startWith(immediate)
 
-@CheckReturnValue
+@Suppress("RedundantRequireNotNullCall")
 @SchedulerSupport(SchedulerSupport.NONE)
 fun <T : Any, U : Any> Observable<T>.notOfType(clazz: Class<U>): Observable<T> {
     checkNotNull(clazz) { "clazz is null" }

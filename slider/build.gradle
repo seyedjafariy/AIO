@@ -6,4 +6,8 @@ dependencies {
     implementation fresco
     implementation nineOldAndroidAnim
 
+    implementation indicator
+    implementation epoxy
+    kapt epoxyCompiler
+
 }

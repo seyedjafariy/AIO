@@ -1,5 +1,6 @@
 package com.worldsnas.daggercore.navigator
 
+import android.app.Application
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
@@ -13,10 +14,11 @@ import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 
 class ControllerNavigator(
+    private val app: Application,
     private val router: Router
 ) : Navigator {
     override fun goTo(screen: Screens) {
-        val to = Navigation.createController(screen)
+        val to = Navigation.createController(app, screen)
         router.pushController(
             RouterTransaction.with(to)
                 .pushChangeHandler(getAnimation(screen.pushAnimation))
