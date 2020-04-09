@@ -169,6 +169,7 @@ dependencies {
     implementation timber
 
     implementation fresco
+    implementation soLoader
     implementation frescoOkHttp
     implementation slider
 
@@ -184,7 +185,6 @@ dependencies {
     implementation epoxy
     kapt epoxyCompiler
 
-    debugImplementation soLoader
     debugImplementation flipper
     releaseImplementation flipperNoOp
     debugImplementation flipperNetworkPlugin

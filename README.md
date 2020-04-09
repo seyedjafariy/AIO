@@ -4,8 +4,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Awesome Kotlin Badge](https://kotlin.link/awesome-kotlin.svg)](https://github.com/KotlinBy/awesome-kotlin)
 
- 
-A highly modularized Android project with a future to show latest trends on Android.
+
+Movie explore featuring modularization and latest trends on Android.
 
 ## Who is it for?
 
