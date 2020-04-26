@@ -1,5 +1,6 @@
 package com.worldsnas.search.view
 
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.MediumTest
 import com.facebook.soloader.SoLoader
 import com.worldsnas.navigation.Navigation
@@ -27,6 +28,7 @@ class ScreenTest {
     fun galleryScreenBoundedCorrectly(){
         assertThat(
             Navigation.createController(
+                ApplicationProvider.getApplicationContext(),
                 Screens.Search(
                     SearchLocalModel()
                 )

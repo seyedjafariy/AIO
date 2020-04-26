@@ -12,7 +12,6 @@ import com.worldsnas.domain.repo.people.PeopleRepo
 import com.worldsnas.domain.repo.search.keywords.SearchKeywordsRepo
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import dagger.BindsInstance
-import io.objectbox.BoxStore
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -23,7 +22,6 @@ interface BaseComponent {
     fun retrofit(): Retrofit
     fun okHttp(): OkHttpClient
     fun moshi(): Moshi
-    fun store(): BoxStore
 
     fun latestMovieRepo(): LatestMovieRepo
     fun trendingRepo(): TrendingRepo
