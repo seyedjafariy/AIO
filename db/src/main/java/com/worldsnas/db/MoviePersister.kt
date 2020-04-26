@@ -1,7 +1,6 @@
 package com.worldsnas.db
 
 import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.runtime.coroutines.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.runBlocking
