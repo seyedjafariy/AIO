@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-@JvmName("toFlow")
 fun <T : Any> Query<T>.asFlow(): Flow<Query<T>> = flow {
     emit(this@asFlow)
 
@@ -31,7 +30,6 @@ fun <T : Any> Query<T>.asFlow(): Flow<Query<T>> = flow {
     }
 }
 
-@JvmOverloads
 fun <T : Any> Flow<Query<T>>.mapToOne(
     context: CoroutineContext = Dispatchers.Default
 ): Flow<T> = map {
@@ -40,7 +38,6 @@ fun <T : Any> Flow<Query<T>>.mapToOne(
     }
 }
 
-@JvmOverloads
 fun <T : Any> Flow<Query<T>>.mapToOneOrDefault(
     defaultValue: T,
     context: CoroutineContext = Dispatchers.Default
@@ -50,7 +47,6 @@ fun <T : Any> Flow<Query<T>>.mapToOneOrDefault(
     }
 }
 
-@JvmOverloads
 fun <T : Any> Flow<Query<T>>.mapToOneOrNull(
     context: CoroutineContext = Dispatchers.Default
 ): Flow<T?> = map {
@@ -59,7 +55,6 @@ fun <T : Any> Flow<Query<T>>.mapToOneOrNull(
     }
 }
 
-@JvmOverloads
 fun <T : Any> Flow<Query<T>>.mapToOneNotNull(
     context: CoroutineContext = Dispatchers.Default
 ): Flow<T> = mapNotNull {
@@ -68,7 +63,6 @@ fun <T : Any> Flow<Query<T>>.mapToOneNotNull(
     }
 }
 
-@JvmOverloads
 fun <T : Any> Flow<Query<T>>.mapToList(
     context: CoroutineContext = Dispatchers.Default
 ): Flow<List<T>> = map {

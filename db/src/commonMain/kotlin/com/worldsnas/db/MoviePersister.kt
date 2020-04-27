@@ -3,7 +3,6 @@ package com.worldsnas.db
 import com.squareup.sqldelight.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 interface MoviePersister {
@@ -49,7 +48,7 @@ class MoviePersisterImpl constructor(
         queries.getMovies()
             .asFlow()
             .mapToList()
-            .flowOn(Dispatchers.IO)
+            .flowOn(Dispatchers.Default)
 
     override suspend fun clearMovies(latestOnly: Boolean) {
         queries.clearMovies()
@@ -78,7 +77,7 @@ class MoviePersisterImpl constructor(
         transform: suspend (List<T>, CompleteMovie) -> CompleteMovie
     ): Flow<List<CompleteMovie>> =
         asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(Dispatchers.Default)
             .take(1)
             .combine(flowOf(completeMovies)) { items, completes ->
                 completes.map { complete ->
@@ -141,7 +140,7 @@ class MoviePersisterImpl constructor(
                             }
                         }
                 )
-            }.flowOn(Dispatchers.IO)
+            }.flowOn(Dispatchers.Default)
 
     private fun movieSimilars(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
         queries.getMoviesSimilar(completeMovies.map { it.movie.id })
@@ -182,7 +181,7 @@ class MoviePersisterImpl constructor(
                         }
                     }
                 )
-            }.flowOn(Dispatchers.IO)
+            }.flowOn(Dispatchers.Default)
 
     private fun movieRecommended(completeMovies: List<CompleteMovie>): Flow<List<CompleteMovie>> =
         queries.getMoviesRecommended(completeMovies.map { it.movie.id })
@@ -223,10 +222,10 @@ class MoviePersisterImpl constructor(
                         }
                     }
                 )
-            }.flowOn(Dispatchers.IO)
+            }.flowOn(Dispatchers.Default)
 
     override suspend fun insertMovies(movies: List<CompleteMovie>) =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             queries.transaction {
                 movies.forEach { withDetails ->
                     runBlocking {
@@ -287,18 +286,18 @@ class MoviePersisterImpl constructor(
         queries.getMovie(id)
             .asFlow()
             .mapToOneNotNull()
-            .flowOn(Dispatchers.IO)
+            .flowOn(Dispatchers.Default)
 
     override fun movieCount(isLatest: Boolean): Flow<Long> =
         queries.movieCount()
             .asFlow()
             .mapToOneOrDefault(0)
-            .flowOn(Dispatchers.IO)
+            .flowOn(Dispatchers.Default)
 
     override fun findAny(ids: List<Long>): Flow<Movie?> =
         queries.findMovie(ids)
             .asFlow()
-            .mapToOneOrNull(Dispatchers.IO)
+            .mapToOneOrNull(Dispatchers.Default)
 }
 
 const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SS"

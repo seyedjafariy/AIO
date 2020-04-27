@@ -1,7 +1,6 @@
 plugins {
-    kotlin("jvm")
-    id("java-library")
-    kotlin("kapt")
+    kotlin("multiplatform")
+//    id("com.android.library")
     id("com.squareup.sqldelight")
 }
 sqldelight(Action<com.squareup.sqldelight.gradle.SqlDelightExtension> {
@@ -17,20 +16,68 @@ sqldelight(Action<com.squareup.sqldelight.gradle.SqlDelightExtension> {
     }
     linkSqlite = true
 })
-
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+/**
+android {
+compileSdkVersion(prjectCompileSdkVersion)
+defaultConfig {
+minSdkVersion(projectMinSdkVersion)
+targetSdkVersion(projectTargetSdkVersion)
+versionCode = 1
+versionName = "1.0"
+testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 }
-dependencies {
-    testImplementation(Deps.Coroutines.test)
-    testImplementation(Deps.Android.Test.junit)
-    testImplementation(Deps.Android.Test.assertJ)
-    testImplementation(Deps.SqlDelight.runtimeJdk)
 
-    implementation(kotlin("stdlib", Versions.kotlin))
-    implementation(Deps.Coroutines.jdk)
-    implementation(Deps.SqlDelight.coroutines)
-    implementation(Deps.SqlDelight.runtime)
-    implementation(Deps.Dagger.injectAnnotation)
+buildTypes {
+getByName("release") {
+isMinifyEnabled = isReleaseMinify
+isShrinkResources = isReleaseShrinkResources
+multiDexEnabled = isReleaseMultiDex
+isDebuggable = isReleaseDebuggable
+proguardFiles(
+getDefaultProguardFile("proguard-android.txt"),
+proguardFileAddress
+)
+}
+
+getByName("debug") {
+//            ext.alwaysUpdateBuildId = false
+isMinifyEnabled = isDebugMinify
+isShrinkResources = isDebugShrinkResources
+multiDexEnabled = isDebugMultiDex
+proguardFiles(
+getDefaultProguardFile("proguard-android.txt"),
+proguardFileAddress
+)
+}
+}
+
+compileOptions {
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+}
+}
+ */
+kotlin {
+
+    sourceSets["commonMain"].dependencies {
+        implementation(kotlin("stdlib", Versions.kotlin))
+        implementation(Deps.SqlDelight.runtime)
+        implementation(Deps.Coroutines.common)
+        implementation(Deps.Tools.stately)
+    }
+
+    jvm()
+    sourceSets["jvmMain"].dependencies {
+        implementation(kotlin("stdlib", Versions.kotlin))
+        implementation(Deps.Coroutines.jdk)
+    }
+
+//    android()
+//
+//    sourceSets["androidMain"].dependencies {
+//        implementation(kotlin("stdlib", Versions.kotlin))
+//        implementation(Deps.SqlDelight.driverAndroid)
+//        implementation(Deps.Coroutines.jdk)
+//        implementation(Deps.Coroutines.android)
+//    }
 }

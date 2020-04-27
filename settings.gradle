@@ -12,3 +12,5 @@ include ':app', ':moviedetail', ':gallery', ':db',
         ':slider',
         ':androidcore',
         ':view-component'
+
+enableFeaturePreview("GRADLE_METADATA")

@@ -3,7 +3,7 @@ object Versions {
     val target_sdk = 29
     val compile_sdk = 29
 
-    val kotlin = "1.3.71"
+    val kotlin = "1.3.72"
     val androidXTest = "1.1.0"
     val androidSupport = "1.0.0"
     val googleMaterial = "1.0.0-rc01"
@@ -34,7 +34,7 @@ object Versions {
     val sqlDelight = "1.3.0"
     val ktor = "1.3.2"
     val stately = "1.0.2"
-    val multiplatformSettings = "0.5.1"
+    val multiplatformSettings = "0.6"
     val coroutines = "1.3.5-native-mt"
     val koin = "3.0.0-alpha-9"
     val serialization = "0.20.0"
@@ -43,14 +43,7 @@ object Versions {
 }
 
 object Deps {
-    val junit = "junit:junit:${Versions.junit}"
-    val stately = "co.touchlab:stately-common:${Versions.stately}"
-    val multiplatformSettings =
-        "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
-    val multiplatformSettingsTest =
-        "com.russhwolf:multiplatform-settings-test:${Versions.multiplatformSettings}"
-    val koinCore = "org.koin:koin-core:${Versions.koin}"
-    val cocoapodsext = "co.touchlab:kotlinnativecocoapods:${Versions.cocoapodsext}"
+
 
     object Android {
 
@@ -248,5 +241,15 @@ object Deps {
     object Arrow {
         val core = "io.arrow-kt:arrow-core-data:${Versions.arrow}"
         val extensions = "io.arrow-kt:arrow-core-extensions:${Versions.arrow}"
+    }
+
+    object Tools{
+        val stately = "co.touchlab:stately-common:${Versions.stately}"
+        val multiplatformSettings =
+            "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
+        val multiplatformSettingsTest =
+            "com.russhwolf:multiplatform-settings-test:${Versions.multiplatformSettings}"
+        val koinCore = "org.koin:koin-core:${Versions.koin}"
+        val cocoapodsext = "co.touchlab:kotlinnativecocoapods:${Versions.cocoapodsext}"
     }
 }
