@@ -2,7 +2,6 @@ package com.worldsnas.db
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 interface LatestMoviePersister {
@@ -30,7 +29,7 @@ class LatestMoviePersisterImpl(
         queries
             .getLatestMovies()
             .asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(Dispatchers.Default)
 
     override fun observeMovies(
         genres: Boolean,
@@ -76,7 +75,7 @@ class LatestMoviePersisterImpl(
         )
 
     override suspend fun insertMovies(movies: List<CompleteMovie>) =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             queries.transaction {
                 movies.forEach { withDetails ->
                     runBlocking {

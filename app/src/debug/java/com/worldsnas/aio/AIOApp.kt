@@ -25,7 +25,7 @@ class AIOApp : BaseApp() {
 
 
         if (DEBUG) {
-            Timber.plant(Timber.DebugTree())
+            Timber.plant(HyperlinkedDebugTree())
         }
 
         initFlipper()
