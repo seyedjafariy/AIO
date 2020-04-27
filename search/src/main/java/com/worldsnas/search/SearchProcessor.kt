@@ -1,7 +1,7 @@
 package com.worldsnas.search
 
 import com.worldsnas.base.toErrorState
-import com.worldsnas.core.delayEvent
+import com.worldsnas.base.delayEvent
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoOutputModel

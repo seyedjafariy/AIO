@@ -9,7 +9,6 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.androidcore.helpers.pages
 import com.worldsnas.androidcore.transitionNameCompat
 import com.worldsnas.base.CoroutineView
-import com.worldsnas.core.asFlow
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.daggercore.lifecycleComponent
@@ -23,6 +22,7 @@ import com.worldsnas.view_component.movieView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.rx2.asFlow
 import javax.inject.Inject
 
 class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {

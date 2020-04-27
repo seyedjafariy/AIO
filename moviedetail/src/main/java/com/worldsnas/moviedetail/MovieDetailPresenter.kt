@@ -2,7 +2,7 @@ package com.worldsnas.moviedetail
 
 import com.worldsnas.base.BasePresenter
 import com.worldsnas.base.BaseState
-import com.worldsnas.core.notOfType
+import com.worldsnas.base.notOfType
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.mvi.MviProcessor
 import io.reactivex.Observable

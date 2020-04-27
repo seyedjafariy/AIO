@@ -3,7 +3,7 @@ package com.worldsnas.moviedetail
 import arrow.core.Either
 import com.worldsnas.base.toErrorState
 import com.worldsnas.core.ErrorHolder
-import com.worldsnas.core.delayEvent
+import com.worldsnas.base.delayEvent
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo

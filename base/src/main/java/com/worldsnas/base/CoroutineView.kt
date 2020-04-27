@@ -9,7 +9,6 @@ import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.worldsnas.androidcore.visible
-import com.worldsnas.core.asFlow
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.mvi.MviIntent
@@ -19,6 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.rx2.asFlow
 import timber.log.Timber
 import javax.inject.Inject
 
