@@ -23,7 +23,6 @@ dependencies {
     androidTestImplementation espressoCore
 
     implementation(project(base))
-    implementation(project(androidCore))
     implementation(project(domain))
 
     implementation kotlinStd8

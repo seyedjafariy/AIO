@@ -9,11 +9,9 @@ import com.worldsnas.domain.model.servermodels.AppJsonAdapterFactory
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
-import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRequestModel
 import com.worldsnas.kotlintesthelpers.createRetrofitErrorResponse
 import com.worldsnas.kotlintesthelpers.randomLong
 import com.worldsnas.kotlintesthelpers.randomString
-import com.worldsnas.panther.Fetcher
 import com.worldsnas.panther.RFetcher
 import io.mockk.clearMocks
 import io.mockk.every

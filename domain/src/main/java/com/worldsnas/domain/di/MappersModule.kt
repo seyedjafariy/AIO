@@ -6,7 +6,7 @@ import com.worldsnas.db.Movie
 import com.worldsnas.domain.mappers.*
 import com.worldsnas.domain.model.repomodel.*
 import com.worldsnas.domain.model.servermodels.*
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import dagger.Binds
 import dagger.Module
 

@@ -1,8 +1,5 @@
 package com.worldsnas.domain.repo.people
 
-import com.worldsnas.domain.model.servermodels.PersonServerModel
-import com.worldsnas.domain.model.servermodels.ResultsServerModel
-import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -16,11 +13,6 @@ abstract class PeopleRepoModule {
     abstract fun bindPeopleRepo(
         repo : PeopleRepoImpl
     ): PeopleRepo
-
-    @Binds
-    abstract fun bindPeopleFetcher(
-        fetcher : PeopleFetcher
-    ): RFetcher<PeopleRequestModel, ResultsServerModel<PersonServerModel>>
 
     @Module
     companion object{

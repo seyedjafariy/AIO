@@ -153,7 +153,6 @@ object Deps {
         val appModule = ":app"
         val kotlinTestHelper = ":kotlintesthelpers"
         val domain = ":domain"
-        val panther = ":panther"
         val daggerCore = ":daggercore"
         val base = ":base"
         val core = ":core"
@@ -164,7 +163,6 @@ object Deps {
         val imageSliderLocal = ":slider"
         val gallery = ":gallery"
         val db = ":db"
-        val androidCore = ":androidcore"
         val viewComponent = ":view-component"
     }
 

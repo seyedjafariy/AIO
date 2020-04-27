@@ -2,7 +2,7 @@ package com.worldsnas.domain.mappers.server
 
 import com.worldsnas.domain.model.ImageServerTypeHolder
 import com.worldsnas.domain.model.repomodel.ImageRepoModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class ImageServerRepoMapper @Inject constructor(

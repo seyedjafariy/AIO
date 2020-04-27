@@ -63,9 +63,7 @@ dependencies {
     testImplementation(Deps.Android.Test.mockkUnit)
     testImplementation(project(Deps.Modules.kotlinTestHelper))
 
-    implementation(project(Deps.Modules.panther))
     implementation(project(Deps.Modules.core))
-    implementation(project(Deps.Modules.androidCore))
     implementation(project(Deps.Modules.db))
 
     implementation(Deps.Dagger.dagger)

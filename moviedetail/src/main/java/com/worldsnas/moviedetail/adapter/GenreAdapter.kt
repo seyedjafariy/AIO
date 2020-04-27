@@ -3,7 +3,7 @@ package com.worldsnas.moviedetail.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.worldsnas.androidcore.inflate
+import com.worldsnas.base.inflate
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R

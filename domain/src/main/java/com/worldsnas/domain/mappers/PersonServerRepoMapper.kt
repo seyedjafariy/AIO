@@ -2,7 +2,7 @@ package com.worldsnas.domain.mappers
 
 import com.worldsnas.domain.model.repomodel.PersonRepoModel
 import com.worldsnas.domain.model.servermodels.PersonServerModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class PersonServerRepoMapper @Inject constructor(

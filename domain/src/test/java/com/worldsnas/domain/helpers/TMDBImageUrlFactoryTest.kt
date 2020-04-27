@@ -1,6 +1,6 @@
 package com.worldsnas.domain.helpers
 
-import com.worldsnas.androidcore.DisplaySize
+import com.worldsnas.base.DisplaySize
 import com.worldsnas.kotlintesthelpers.randomInt
 import com.worldsnas.kotlintesthelpers.randomString
 import org.assertj.core.api.Assertions.assertThat
@@ -12,7 +12,7 @@ class TMDBImageUrlFactoryTest {
     @Test
     fun `returns correct size for exact number`() {
         val url = randomString()
-        val displaySize = DisplaySize(randomInt(), 342)
+        val displaySize = com.worldsnas.base.DisplaySize(randomInt(), 342)
         val factory = TMDBImageUrlFactory(displaySize)
 
         assertThat(
@@ -28,7 +28,7 @@ class TMDBImageUrlFactoryTest {
     @Test
     fun `returns rounded down size`() {
         val url = randomString()
-        val displaySize = DisplaySize(randomInt(), 1080)
+        val displaySize = com.worldsnas.base.DisplaySize(randomInt(), 1080)
         val factory = TMDBImageUrlFactory(displaySize)
 
         assertThat(
@@ -44,7 +44,7 @@ class TMDBImageUrlFactoryTest {
     @Test
     fun `providing 0 size will give us original image size`(){
         val url = randomString()
-        val displaySize = DisplaySize(randomInt(), 0)
+        val displaySize = com.worldsnas.base.DisplaySize(randomInt(), 0)
         val factory = TMDBImageUrlFactory(displaySize)
 
         assertThat(

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.worldsnas.androidcore.getScreenWidth
+import com.worldsnas.base.getScreenWidth
 import com.worldsnas.base.ButterKnifeController
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.domain.helpers.posterFullUrl

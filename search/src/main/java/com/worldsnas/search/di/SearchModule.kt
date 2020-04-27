@@ -4,7 +4,7 @@ import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.mvi.MviPresenter
 import com.worldsnas.mvi.MviProcessor
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import com.worldsnas.search.*
 import com.worldsnas.search.mapper.MovieRepoUIMapper
 import com.worldsnas.search.model.MovieUIModel

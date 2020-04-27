@@ -7,10 +7,9 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.airbnb.epoxy.*
 import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
-import com.worldsnas.androidcore.getDisplaySize
+import com.worldsnas.base.getDisplaySize
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.view_component.databinding.MovieViewBinding
 import kotlin.math.roundToInt

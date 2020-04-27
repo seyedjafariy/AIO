@@ -7,10 +7,10 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import butterknife.BindView
 import com.jakewharton.rxbinding3.widget.textChangeEvents
-import com.worldsnas.androidcore.helpers.pages
-import com.worldsnas.androidcore.hideKeyboard
-import com.worldsnas.androidcore.showKeyboard
-import com.worldsnas.androidcore.transitionNameCompat
+import com.worldsnas.base.pages
+import com.worldsnas.base.hideKeyboard
+import com.worldsnas.base.showKeyboard
+import com.worldsnas.base.transitionNameCompat
 import com.worldsnas.base.BaseView
 import com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
 import com.worldsnas.daggercore.CoreComponent

@@ -5,7 +5,7 @@ import com.worldsnas.db.Genre
 import com.worldsnas.db.Movie
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class CompleteMovieRepoMapper @Inject constructor(

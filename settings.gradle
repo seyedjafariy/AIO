@@ -3,14 +3,12 @@ include ':app', ':moviedetail', ':gallery', ':db',
         ':mvi',
         ':core',
         ':domain',
-        ':panther',
         ':search',
         ':daggercore',
         ':home',
         ':navigation',
         ':kotlintesthelpers',
         ':slider',
-        ':androidcore',
         ':view-component'
 
 enableFeaturePreview("GRADLE_METADATA")

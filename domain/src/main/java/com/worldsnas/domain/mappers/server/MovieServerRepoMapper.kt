@@ -1,12 +1,10 @@
 package com.worldsnas.domain.mappers.server
 
-import com.worldsnas.domain.helpers.ImageInfo
 import com.worldsnas.domain.helpers.ImageType
 import com.worldsnas.domain.model.ImageServerTypeHolder
 import com.worldsnas.domain.model.repomodel.*
 import com.worldsnas.domain.model.servermodels.*
-import com.worldsnas.panther.Factory
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class MovieServerRepoMapper @Inject constructor(

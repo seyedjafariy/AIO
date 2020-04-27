@@ -1,7 +1,5 @@
 package com.worldsnas.domain.repo.genre
 
-import com.worldsnas.domain.model.servermodels.GenreListServerModel
-import com.worldsnas.panther.RFetcher
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,11 +18,6 @@ abstract class GenreRepoModule {
         fun provideGenreAPI(retrofit: Retrofit): GenreAPI =
             retrofit.create()
     }
-
-    @Binds
-    abstract fun bindMovieGenreFetcher(
-        fetcher: MovieGenreFetcher
-    ): RFetcher<Unit, GenreListServerModel>
 
     @Binds
     abstract fun bindRepo(

@@ -10,7 +10,7 @@ import com.worldsnas.moviedetail.model.GenreUIModel
 import com.worldsnas.moviedetail.model.MovieUIModel
 import com.worldsnas.mvi.MviPresenter
 import com.worldsnas.mvi.MviProcessor
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import dagger.Binds
 import dagger.Module
 

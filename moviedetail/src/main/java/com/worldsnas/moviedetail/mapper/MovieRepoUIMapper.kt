@@ -2,7 +2,7 @@ package com.worldsnas.moviedetail.mapper
 
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.moviedetail.model.MovieUIModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class MovieRepoUIMapper @Inject constructor(

@@ -33,7 +33,7 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ReviewServerModel
 import com.worldsnas.domain.model.servermodels.TranslationServerModel
 import com.worldsnas.domain.model.servermodels.VideoServerModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import dagger.Binds
 import dagger.Module
 
@@ -42,45 +42,45 @@ abstract class ServerMapperModule {
 
     @Binds
     abstract fun bindGenreMapper(mapper: GenreServerRepoMapper):
-        Mapper<GenreServerModel, GenreRepoModel>
+            Mapper<GenreServerModel, GenreRepoModel>
 
     @Binds
     abstract fun bindCompanyMapper(mapper: CompanyServerRepoMapper):
-        Mapper<CompanyServerModel, CompanyRepoModel>
+            Mapper<CompanyServerModel, CompanyRepoModel>
 
     @Binds
     abstract fun bindCountryServerRepoMapper(mapper: CountryServerRepoMapper):
-        Mapper<CountryServerModel, CountryRepoModel>
+            Mapper<CountryServerModel, CountryRepoModel>
 
     @Binds
     abstract fun bindLanguageServerRepoMapper(mapper: LanguageServerRepoMapper):
-        Mapper<LanguageServerModel, LanguageRepoModel>
+            Mapper<LanguageServerModel, LanguageRepoModel>
 
     @Binds
     abstract fun bindVideoServerRepoMapper(mapper: VideoServerRepoMapper):
-        Mapper<VideoServerModel, VideoRepoModel>
+            Mapper<VideoServerModel, VideoRepoModel>
 
     @Binds
     abstract fun bindImageServerRepoMapper(mapper: ImageServerRepoMapper):
-        Mapper<ImageServerTypeHolder, ImageRepoModel>
+            Mapper<ImageServerTypeHolder, ImageRepoModel>
 
     @Binds
     abstract fun bindReviewServerRepoMapper(mapper: ReviewServerRepoMapper):
-        Mapper<ReviewServerModel, ReviewRepoModel>
+            Mapper<ReviewServerModel, ReviewRepoModel>
 
     @Binds
     abstract fun bindCastServerRepoMapper(mapper: CastServerRepoMapper):
-        Mapper<CastServerModel, CastRepoModel>
+            Mapper<CastServerModel, CastRepoModel>
 
     @Binds
     abstract fun bindCrewServerRepoMapper(mapper: CrewServerRepoMapper):
-        Mapper<CrewServerModel, CrewRepoModel>
+            Mapper<CrewServerModel, CrewRepoModel>
 
     @Binds
     abstract fun bindTranslationServerRepoMapper(mapper: TranslationServerRepoMapper):
-        Mapper<TranslationServerModel, TranslationRepoModel>
+            Mapper<TranslationServerModel, TranslationRepoModel>
 
     @Binds
     abstract fun bindMovieServerRepoMapper(mapper: MovieServerRepoMapper):
-        Mapper<MovieServerModel, MovieRepoModel>
+            Mapper<MovieServerModel, MovieRepoModel>
 }

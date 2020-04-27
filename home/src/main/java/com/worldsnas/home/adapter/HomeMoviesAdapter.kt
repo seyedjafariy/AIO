@@ -3,8 +3,7 @@ package com.worldsnas.home.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.worldsnas.androidcore.inflate
-import com.worldsnas.daggercore.scope.FeatureScope
+import com.worldsnas.base.inflate
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
@@ -12,8 +11,6 @@ import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.home.view.HomeMovieViewHolder
 import com.worldsnas.mvi.MviPresenter
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class HomeMoviesAdapter @Inject constructor(

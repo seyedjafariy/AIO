@@ -1,7 +1,7 @@
 package com.worldsnas.search.mapper
 
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import com.worldsnas.search.model.MovieUIModel
 import javax.inject.Inject
 
