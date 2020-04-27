@@ -1,7 +1,7 @@
 package com.worldsnas.home
 
 import com.worldsnas.base.BaseState
-import com.worldsnas.core.notOfType
+import com.worldsnas.base.notOfType
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.home.model.HomeUIModel
 import com.worldsnas.home.model.MovieUIModel

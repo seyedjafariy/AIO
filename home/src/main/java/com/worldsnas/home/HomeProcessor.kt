@@ -3,7 +3,7 @@ package com.worldsnas.home
 import arrow.core.Either
 import com.worldsnas.base.toErrorState
 import com.worldsnas.core.ErrorHolder
-import com.worldsnas.core.delayEvent
+import com.worldsnas.base.delayEvent
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel

@@ -1,2 +1,0 @@
-package com.worldsnas.core
-
