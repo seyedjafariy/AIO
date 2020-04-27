@@ -18,7 +18,7 @@ import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
 import com.worldsnas.navigation.model.MovieDetailLocalModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers

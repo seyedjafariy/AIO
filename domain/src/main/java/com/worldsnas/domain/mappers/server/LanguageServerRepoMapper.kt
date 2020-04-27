@@ -2,7 +2,7 @@ package com.worldsnas.domain.mappers.server
 
 import com.worldsnas.domain.model.repomodel.LanguageRepoModel
 import com.worldsnas.domain.model.servermodels.LanguageServerModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class LanguageServerRepoMapper @Inject constructor(

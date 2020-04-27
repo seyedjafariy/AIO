@@ -134,7 +134,6 @@ dependencies {
     androidTestImplementation espressoIntents
 
     implementation(project(core))
-    implementation(project(androidCore))
     implementation(project(domain))
     implementation(project(base))
     implementation(project(mvi))

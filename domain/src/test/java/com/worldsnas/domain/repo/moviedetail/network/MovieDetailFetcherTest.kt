@@ -1,7 +1,6 @@
 package com.worldsnas.domain.repo.moviedetail.network
 
 import com.worldsnas.domain.model.servermodels.MovieServerModel
-import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRequestModel
 import com.worldsnas.kotlintesthelpers.randomLong
 import io.mockk.clearMocks
 import io.mockk.every

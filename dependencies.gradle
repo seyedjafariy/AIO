@@ -271,7 +271,6 @@ ext {
                     appModule = ":app",
                     kotlinTestHelper = ":kotlintesthelpers",
                     domain = ":domain",
-                    panther = ":panther",
                     daggerCore = ":daggercore",
                     base = ":base",
                     core = ":core",
@@ -282,7 +281,6 @@ ext {
                     imageSliderLocal = ":slider",
                     gallery = ":gallery",
                     db = ":db",
-                    androidCore = ":androidcore",
                     viewComponent = ":view-component"
             ]
     ]

@@ -8,7 +8,7 @@ import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
-import com.worldsnas.androidcore.getScreenWidth
+import com.worldsnas.base.getScreenWidth
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.home.databinding.BannerViewBinding
 import com.worldsnas.view_component.Movie

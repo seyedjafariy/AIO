@@ -2,7 +2,7 @@ package com.worldsnas.domain.mappers.server
 
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.servermodels.GenreServerModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class GenreServerRepoMapper @Inject constructor(

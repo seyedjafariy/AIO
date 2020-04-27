@@ -11,7 +11,7 @@ import com.worldsnas.navigation.NavigationAnimation
 import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.MovieDetailLocalModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import com.worldsnas.search.model.MovieUIModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer

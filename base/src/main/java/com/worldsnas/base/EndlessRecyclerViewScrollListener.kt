@@ -1,4 +1,4 @@
-package com.worldsnas.androidcore.helpers
+package com.worldsnas.base
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -101,7 +101,13 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
         // threshold should reflect how many total columns there are too
         if (!loading && lastVisibleItemPosition + visibleThreshold > totalItemCount) {
             currentPage++
-            onLoadMore(Page(currentPage, totalItemCount, view))
+            onLoadMore(
+                Page(
+                    currentPage,
+                    totalItemCount,
+                    view
+                )
+            )
             loading = true
         }
     }

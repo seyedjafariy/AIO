@@ -4,12 +4,13 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.right
 import com.worldsnas.core.ErrorHolder
+import com.worldsnas.core.Mapper
 import com.worldsnas.core.listMerge
 import com.worldsnas.db.CompleteMovie
 import com.worldsnas.db.Genre
 import com.worldsnas.db.Movie
 import com.worldsnas.db.MoviePersister
-import com.worldsnas.domain.R
+import com.worldsnas.domain.helpers.errorHandler
 import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.helpers.isBodyNotEmpty
 import com.worldsnas.domain.helpers.isNotSuccessful
@@ -18,10 +19,7 @@ import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
-import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRequestModel
-import com.worldsnas.panther.Fetcher
-import com.worldsnas.panther.Mapper
-import com.worldsnas.panther.RFetcher
+import com.worldsnas.domain.repo.moviedetail.network.MovieDetailAPI
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -35,8 +33,10 @@ interface MovieDetailRepo {
     fun getCached(): Single<MovieDetailRepoOutPutModel>
 }
 
+private const val DETAIL_RESPONSE_APPEND : String = "videos,images,reviews,similar,recommendations,credits,translations,external_ids"
+
 class MovieDetailRepoImpl @Inject constructor(
-    private val fetcher: Fetcher<MovieDetailRequestModel, MovieServerModel>,
+    private val api: MovieDetailAPI,
     private val movieMapper: Mapper<MovieServerModel, MovieRepoModel>,
     private val movieDbRepoMapper: Mapper<Movie, MovieRepoModel>,
     private val movieRepoDbMapper: Mapper<MovieRepoModel, Movie>,
@@ -58,7 +58,7 @@ class MovieDetailRepoImpl @Inject constructor(
             }
             .listMerge(
                 {
-                    fetchAndSave(MovieDetailRequestModel(param.movieID))
+                    fetchAndSave(param.movieID)
                 },
                 {
                     map {
@@ -67,8 +67,8 @@ class MovieDetailRepoImpl @Inject constructor(
                 }
             )
 
-    private fun fetchAndSave(model: MovieDetailRequestModel): Flow<Either<ErrorHolder, MovieRepoModel>> =
-        fetcher.fetch(model)
+    private fun fetchAndSave(movieId: Long): Flow<Either<ErrorHolder, MovieRepoModel>> =
+        internalFetch(movieId)
             .listMerge(
                 {
                     errorLeft()
@@ -133,4 +133,16 @@ class MovieDetailRepoImpl @Inject constructor(
                 movie
             )
         )
+
+    private fun internalFetch(movieId : Long) =
+        flow {
+            emit(
+                api
+                    .getMovie(
+                        movieId,
+                        DETAIL_RESPONSE_APPEND
+                    )
+            )
+        }.errorHandler()
+            .flowOn(Dispatchers.IO)
 }

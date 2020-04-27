@@ -3,7 +3,7 @@ package com.worldsnas.domain.mappers
 import com.worldsnas.db.Movie
 import com.worldsnas.domain.helpers.toDate
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class MovieRepoDbMapper @Inject constructor(

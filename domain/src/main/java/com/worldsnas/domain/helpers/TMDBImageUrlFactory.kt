@@ -1,25 +1,6 @@
 package com.worldsnas.domain.helpers
 
-import com.worldsnas.androidcore.DisplaySize
-import com.worldsnas.panther.Factory
-import dagger.Reusable
-import javax.inject.Inject
-
 const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/"
-
-@Reusable
-class TMDBImageUrlFactory @Inject constructor(
-    private val displaySize: DisplaySize
-) : Factory<ImageInfo, String> {
-
-    override fun create(item: ImageInfo): String {
-        val size = item.type.getCached(displaySize.width)
-        return createURL(item.url, size)
-    }
-
-    private fun createURL(imageURl: String, size: String) =
-        BASE_IMAGE_URL + size + imageURl
-}
 
 data class ImageInfo(
     val type: ImageType,

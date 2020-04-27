@@ -4,30 +4,28 @@ import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
-import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoOutputModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoParamModel
-import com.worldsnas.domain.repo.search.movie.model.SearchRequestParam
-import com.worldsnas.panther.Mapper
-import com.worldsnas.panther.RFetcher
+import com.worldsnas.core.Mapper
+import com.worldsnas.domain.helpers.errorHandler
+import com.worldsnas.domain.repo.search.SearchAPI
 import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
 class MovieSearchRepoImpl @Inject constructor(
-    private val fetcher: RFetcher<SearchRequestParam, ResultsServerModel<MovieServerModel>>,
+    private val api: SearchAPI,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>
 ) : MovieSearchRepo {
 
     private var searchCache = mutableListOf<MovieRepoModel>()
 
     override fun search(param: MovieSearchRepoParamModel): Single<MovieSearchRepoOutputModel> =
-        fetcher.fetch(
-            SearchRequestParam(
-                param.query,
-                param.page
-            )
-        )
+        api.searchMovie(
+            param.query,
+            param.page,
+            false
+        ).errorHandler()
             .toObservable()
             .publish { publish ->
                 Observable.merge(

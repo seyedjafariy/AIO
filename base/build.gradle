@@ -4,7 +4,6 @@ dependencies {
 
     implementation(project(mvi))
     implementation(project(core))
-    implementation(project(androidCore))
     implementation(project(daggerCore))
 
     testImplementation junit

@@ -6,7 +6,7 @@ import com.worldsnas.home.*
 import com.worldsnas.home.mapper.MovieRepoUIMapper
 import com.worldsnas.mvi.MviPresenter
 import com.worldsnas.mvi.MviProcessor
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import com.worldsnas.view_component.Movie
 import dagger.Binds
 import dagger.Module

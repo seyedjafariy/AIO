@@ -2,7 +2,7 @@ package com.worldsnas.moviedetail.mapper
 
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.moviedetail.model.GenreUIModel
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
 import javax.inject.Inject
 
 class GenreRepoUIMapper @Inject constructor(

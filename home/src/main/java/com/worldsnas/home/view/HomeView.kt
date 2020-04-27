@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.daimajia.slider.library.slider
 import com.jakewharton.rxbinding3.view.clicks
-import com.worldsnas.androidcore.helpers.pages
-import com.worldsnas.androidcore.transitionNameCompat
+import com.worldsnas.base.pages
+import com.worldsnas.base.transitionNameCompat
 import com.worldsnas.base.CoroutineView
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent

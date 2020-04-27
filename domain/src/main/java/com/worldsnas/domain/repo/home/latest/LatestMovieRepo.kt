@@ -7,22 +7,19 @@ import com.worldsnas.core.ErrorHolder
 import com.worldsnas.core.listMerge
 import com.worldsnas.core.toListFlow
 import com.worldsnas.db.*
-import com.worldsnas.domain.helpers.getErrorRepoModel
-import com.worldsnas.domain.helpers.isBodyNotEmpty
-import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
-import com.worldsnas.panther.Fetcher
-import com.worldsnas.panther.Mapper
+import com.worldsnas.core.Mapper
+import com.worldsnas.domain.helpers.*
+import com.worldsnas.domain.repo.home.HomeAPI
 import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
 import timber.log.Timber
-import java.util.*
 import java.util.Date
 import javax.inject.Inject
 import kotlin.system.measureTimeMillis
@@ -36,13 +33,13 @@ interface LatestMovieRepo {
 private const val MOVIE_PAGE_SIZE = 20
 
 class LatestMovieRepoImpl @Inject constructor(
-    private val fetcher: Fetcher<LatestMovieRequestParam, ResultsServerModel<MovieServerModel>>,
     private val movieServerRepoMapper: Mapper<MovieServerModel, MovieRepoModel>,
     private val latestMoviePersister: LatestMoviePersister,
     private val moviePersister: MoviePersister,
     private val movieRepoDBMapper: Mapper<MovieRepoModel, Movie>,
     private val movieDBRepoMapper: Mapper<Movie, MovieRepoModel>,
-    private val genreRepoDbMapper: Mapper<GenreRepoModel, Genre>
+    private val genreRepoDbMapper: Mapper<GenreRepoModel, Genre>,
+    private val api: HomeAPI
 ) : LatestMovieRepo {
 
     var list: MutableList<MovieRepoModel> = mutableListOf()
@@ -73,12 +70,15 @@ class LatestMovieRepoImpl @Inject constructor(
                         .map { it.right() }
                 },
                 {
-                    fetchAndSave(LatestMovieRequestParam(Date(), 1), true)
+                    fetchAndSave(1, true)
                 }
             )
 
-    private fun fetchAndSave(param: LatestMovieRequestParam, validateDb: Boolean): Flow<Either<ErrorHolder, MutableList<MovieRepoModel>>> =
-        fetcher.fetch(param)
+    private fun fetchAndSave(
+        page : Int,
+        validateDb: Boolean
+    ): Flow<Either<ErrorHolder, MutableList<MovieRepoModel>>> =
+        internalFetch(page)
             .listMerge(
                 {
                     errorLeft()
@@ -164,14 +164,22 @@ class LatestMovieRepoImpl @Inject constructor(
                 (it / MOVIE_PAGE_SIZE) + 1
             }
             .filter { it > 1 }
-            .map { page ->
-                LatestMovieRequestParam(Date(), page.toInt())
-            }
             .flowOn(Dispatchers.Default)
             .flatMapConcat {
-                fetchAndSave(it, false)
+                fetchAndSave(it.toInt(), false)
             }
 
     override fun fetch(param: LatestMovieRepoParamModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
-        fetchAndSave(LatestMovieRequestParam(Date(), param.page), false)
+        fetchAndSave(param.page, false)
+
+    private fun internalFetch(page : Int) =
+        flow {
+            emit(
+                api.getLatestMovie(
+                    Date().toStringDate(),
+                    page
+                )
+            )
+        }.errorHandler()
+            .flowOn(Dispatchers.IO)
 }

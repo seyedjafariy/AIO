@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
-import com.worldsnas.androidcore.inflate
+import com.worldsnas.base.inflate
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
 import com.worldsnas.home.R
@@ -13,8 +13,6 @@ import com.worldsnas.home.view.HomeMovieViewHolder
 import com.worldsnas.home.view.SliderViewHolder
 import com.worldsnas.mvi.MviPresenter
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class HomeAdapter @Inject constructor(

@@ -5,20 +5,20 @@ import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.helpers.eitherError
 import com.worldsnas.domain.model.repomodel.PersonRepoModel
 import com.worldsnas.domain.model.servermodels.PersonServerModel
-import com.worldsnas.domain.model.servermodels.ResultsServerModel
-import com.worldsnas.panther.Mapper
-import com.worldsnas.panther.RFetcher
+import com.worldsnas.core.Mapper
+import com.worldsnas.domain.helpers.errorHandler
 import io.reactivex.Single
 import javax.inject.Inject
 
 class PeopleRepoImpl @Inject constructor(
-    private val fetcher: RFetcher<PeopleRequestModel, ResultsServerModel<PersonServerModel>>,
+    private val api: PeopleAPI,
     private val personMapper: Mapper<PersonServerModel, PersonRepoModel>
 ) : PeopleRepo {
     private var people : MutableList<PersonRepoModel> = mutableListOf()
 
     override fun fetchPeople(page : Int): Single<Either<ErrorHolder, List<PersonRepoModel>>> =
-        fetcher.fetch(PeopleRequestModel(1))
+        api.getPopularPeople(1)
+            .errorHandler()
             .eitherError {
                 it
                     .list

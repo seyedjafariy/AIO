@@ -9,8 +9,8 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.jakewharton.rxbinding3.view.clicks
-import com.worldsnas.androidcore.getDisplaySize
-import com.worldsnas.androidcore.transitionNameCompat
+import com.worldsnas.base.getDisplaySize
+import com.worldsnas.base.transitionNameCompat
 import com.worldsnas.base.epoxyhelper.KotlinModel
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.mvi.MviPresenter
