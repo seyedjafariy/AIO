@@ -9,7 +9,6 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.domain.helpers.*
 import com.worldsnas.domain.repo.home.HomeAPI
-import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
@@ -21,7 +20,7 @@ import kotlin.system.measureTimeMillis
 interface LatestMovieRepo {
     fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>>
     fun fetch(param: LatestMovieRepoParamModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>>
-    fun memCache(): Single<LatestMovieRepoOutputModel.Success>
+    fun memCache(): Flow<List<MovieRepoModel>>
 }
 
 private const val MOVIE_PAGE_SIZE = 20
@@ -38,13 +37,8 @@ class LatestMovieRepoImpl @Inject constructor(
 
     var list: MutableList<MovieRepoModel> = mutableListOf()
 
-    override fun memCache(): Single<LatestMovieRepoOutputModel.Success> =
-        Single.just(
-            LatestMovieRepoOutputModel.Success(
-                emptyList(),
-                list
-            )
-        )
+    override fun memCache(): Flow<List<MovieRepoModel>> =
+        flowOf(list)
 
     override fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
         when (param) {

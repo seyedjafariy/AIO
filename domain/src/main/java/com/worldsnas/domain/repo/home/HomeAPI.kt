@@ -13,12 +13,11 @@ interface HomeAPI {
     @GET("/3/discover/movie?include_video=false&include_adult=false&sort_by=release_date.desc")
     suspend fun getLatestMovie(
         @Query("release_date.lte")
-        finalDate : String,
+        finalDate: String,
         @Query("page")
         page: Int
     ): Response<ResultsServerModel<MovieServerModel>>
 
     @GET("/3/trending/movie/day")
-    fun getTerndingMovie():
-            Single<Response<ResultsServerModel<MovieServerModel>>>
+    suspend fun getTrendingMovie(): Response<ResultsServerModel<MovieServerModel>>
 }

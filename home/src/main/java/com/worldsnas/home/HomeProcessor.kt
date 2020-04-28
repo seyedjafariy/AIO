@@ -9,7 +9,6 @@ import com.worldsnas.domain.model.PageModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
 import com.worldsnas.domain.repo.home.trending.TrendingRepo
-import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.navigation.NavigationAnimation
@@ -59,19 +58,19 @@ class HomeProcessor @Inject constructor(
         ObservableTransformer<HomeIntent.Initial, HomeResult> { actions ->
             actions.switchMap { intent ->
                 trendingRepo.fetch(TrendingRepoParamModel(1))
-                    .toObservable()
+                    .asObservable()
                     .publish { publish ->
                         Observable.merge(
-                            publish.ofType<TrendingRepoOutputModel.Success>()
+                            publish.ofType<Either.Right<List<MovieRepoModel>>>()
                                 .map {
-                                    HomeResult.TrendingMovies(it.allPages.map { movie ->
+                                    HomeResult.TrendingMovies(it.b.map { movie ->
                                         movieMapper.map(movie)
                                     })
                                 },
-                            publish.ofType<TrendingRepoOutputModel.Error>()
+                            publish.ofType<Either.Left<ErrorHolder>>()
                                 .switchMap {
                                     delayEvent(
-                                        HomeResult.Error(it.err.toErrorState()),
+                                        HomeResult.Error(it.a.toErrorState()),
                                         HomeResult.LastStable
                                     )
                                 }
@@ -158,9 +157,9 @@ class HomeProcessor @Inject constructor(
         ObservableTransformer<HomeIntent.SliderClicked, HomeResult> { actions ->
             actions.switchMap { click ->
                 trendingRepo.getCache()
-                    .toObservable()
+                    .asObservable()
                     .map {
-                        it.allPages.first { movie ->
+                        it.first { movie ->
                             movie.id == click.movieId
                         }
                     }
