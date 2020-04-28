@@ -1,12 +1,12 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class FullImageServerModel(
-    @Json(name = "backdrops")
+    @SerialName(value = "backdrops")
     val backdrops: List<ImageServerModel> = emptyList(),
-    @Json(name = "posters")
+    @SerialName(value = "posters")
     val posters: List<ImageServerModel> = emptyList()
 )

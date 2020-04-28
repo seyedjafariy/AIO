@@ -1,12 +1,12 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class LanguageServerModel(
-    @Json(name = "iso_639_1")
+    @SerialName(value = "iso_639_1")
     val iso: String = "",
-    @Json(name = "name")
+    @SerialName(value = "name")
     val name: String
 )

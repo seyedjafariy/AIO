@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -74,13 +75,11 @@ dependencies {
 
     implementation(Deps.Android.Networking.retrofit)
     implementation(Deps.Android.Networking.okHttpLogging)
-    implementation(Deps.Moshi.moshiRetrofit)
-    implementation(Deps.Moshi.moshi)
-    implementation(Deps.Moshi.kotshi)
-    kapt(Deps.Moshi.kotshiCompiler)
     implementation(Deps.Android.Tools.timber)
 
     implementation(Deps.Coroutines.jdk)
     implementation(Deps.Coroutines.rxJava)
     implementation(Deps.Coroutines.android)
+
+    implementation(Deps.ktor.androidSerialization)
 }

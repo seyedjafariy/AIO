@@ -1,16 +1,16 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class ResultsServerModel<T>(
-    @Json(name = "results")
+    @SerialName(value = "results")
     val list: List<T> = emptyList(),
-    @Json(name = "page")
+    @SerialName(value = "page")
     val page: Long = 0,
-    @Json(name= "total_pages")
-    val totalPages : Int = 0,
-    @Json(name= "total_results")
-    val totalResults : Int = 0
+    @SerialName(value = "total_pages")
+    val totalPages: Int = 0,
+    @SerialName(value = "total_results")
+    val totalResults: Int = 0
 )

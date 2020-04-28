@@ -1,12 +1,12 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class CreditsServerModel(
-    @Json(name= "cast")
-    val casts : List<CastServerModel> = emptyList(),
-    @Json(name= "crew")
-    val crews : List<CrewServerModel> = emptyList()
+    @SerialName(value = "cast")
+    val casts: List<CastServerModel> = emptyList(),
+    @SerialName(value = "crew")
+    val crews: List<CrewServerModel> = emptyList()
 )

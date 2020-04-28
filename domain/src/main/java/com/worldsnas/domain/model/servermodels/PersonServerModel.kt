@@ -1,18 +1,18 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class PersonServerModel(
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: Long = 0,
-    @Json(name = "popularity")
+    @SerialName(value = "popularity")
     val popularity: Double = 0.0,
-    @Json(name = "profile_path")
+    @SerialName(value = "profile_path")
     val profilePath: String = "",
-    @Json(name = "name")
+    @SerialName(value = "name")
     val name: String = "",
-    @Json(name = "adult")
+    @SerialName(value = "adult")
     val adult: Boolean = false
 )

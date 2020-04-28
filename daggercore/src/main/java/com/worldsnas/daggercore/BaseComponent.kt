@@ -2,7 +2,6 @@ package com.worldsnas.daggercore
 
 import android.app.Application
 import com.facebook.imagepipeline.core.ImagePipelineConfig
-import com.squareup.moshi.Moshi
 import com.worldsnas.daggercore.modules.DatabaseModule
 import com.worldsnas.domain.repo.genre.MovieGenreRepo
 import com.worldsnas.domain.repo.home.latest.LatestMovieRepo
@@ -21,7 +20,6 @@ interface BaseComponent {
 
     fun retrofit(): Retrofit
     fun okHttp(): OkHttpClient
-    fun moshi(): Moshi
 
     fun latestMovieRepo(): LatestMovieRepo
     fun trendingRepo(): TrendingRepo

@@ -6,7 +6,6 @@ import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.mappers.PersonServerRepoMapper
 import com.worldsnas.domain.model.repomodel.PersonRepoModel
-import com.worldsnas.domain.model.servermodels.AppJsonAdapterFactory
 import com.worldsnas.domain.model.servermodels.PersonServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.kotlintesthelpers.helpers.getJson

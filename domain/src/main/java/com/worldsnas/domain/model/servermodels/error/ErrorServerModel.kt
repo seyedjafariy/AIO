@@ -1,12 +1,12 @@
 package com.worldsnas.domain.model.servermodels.error
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class ErrorServerModel(
-    @Json(name= "status_message")
-    val message : String,
-    @Json(name="status_code")
-    val code : Int
+    @SerialName(value = "status_message")
+    val message: String,
+    @SerialName(value = "status_code")
+    val code: Int
 )

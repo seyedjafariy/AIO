@@ -1,4 +1,6 @@
 apply from: androidLib
+apply plugin: 'kotlinx-serialization'
+
 android{
 
     defaultConfig{
@@ -26,15 +28,13 @@ dependencies {
     implementation dagger
     kapt daggerCompiler
 
-    implementation rxJavaRetrofit
     implementation retrofit
-    implementation moshiRetrofit
-    implementation moshi
     implementation okHttp
     implementation okHttpLogging
     implementation sqlDelightAndroidAdapter
 
     implementation coroutines
+    implementation rxJava
 
     implementation fresco
     implementation frescoOkHttp
@@ -42,6 +42,9 @@ dependencies {
     implementation javaxAnnotation
     implementation findBugs
     implementation timber
+
+    implementation androidSerialization
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0"
 
     debugImplementation flipper
     releaseImplementation flipperNoOp

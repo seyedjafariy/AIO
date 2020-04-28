@@ -1,24 +1,24 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class VideoServerModel(
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: String = "",
-    @Json(name = "iso_639_1")
+    @SerialName(value = "iso_639_1")
     val iso_639_1: String = "",
-    @Json(name = "iso_3166_1")
+    @SerialName(value = "iso_3166_1")
     val iso_3166_1: String = "",
-    @Json(name = "key")
+    @SerialName(value = "key")
     val key: String = "",
-    @Json(name = "name")
+    @SerialName(value = "name")
     val name: String = "",
-    @Json(name = "site")
+    @SerialName(value = "site")
     val site: String = "",
-    @Json(name = "size")
+    @SerialName(value = "size")
     val size: Int = 0,
-    @Json(name = "type")
+    @SerialName(value = "type")
     val type: String = ""
 )

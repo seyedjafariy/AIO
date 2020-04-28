@@ -1,10 +1,10 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
-data class TranslationListServerModel (
-    @Json(name= "translations")
-    val translations : List<TranslationServerModel> = emptyList()
+@Serializable
+data class TranslationListServerModel(
+    @SerialName(value = "translations")
+    val translations: List<TranslationServerModel> = emptyList()
 )

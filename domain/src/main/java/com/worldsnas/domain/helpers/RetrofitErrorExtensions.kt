@@ -2,9 +2,9 @@
 package com.worldsnas.domain.helpers
 
 import android.telephony.IccOpenLogicalChannelResponse.STATUS_NO_SUCH_ELEMENT
-import com.squareup.moshi.JsonDataException
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.R
+import kotlinx.serialization.json.JsonException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException
 
 
 fun getServerErrorStatusCode(throwable: Throwable): Int = when (throwable) {
-    is JsonDataException -> STATUS_JSON_MALFORMED
+    is JsonException -> STATUS_JSON_MALFORMED
     is TimeoutException -> STATUS_TIMEOUT
     is InterruptedIOException -> STATUS_INTERRUPTED
     is ConnectException -> STATUS_FAILED_CONNECT
@@ -34,7 +34,7 @@ fun getServerErrorBody(throwable: Throwable): ResponseBody {
     val type = "text".toMediaTypeOrNull()
 
     val message: String = when (throwable) {
-        is JsonDataException -> "Malformed Json"
+        is JsonException -> "Malformed Json"
         is TimeoutException -> "TimeOut"
         is InterruptedIOException -> "Intrupted Connection"
         is ConnectException -> "Connection Failure"
