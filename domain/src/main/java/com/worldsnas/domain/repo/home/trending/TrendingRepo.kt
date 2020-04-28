@@ -1,11 +1,13 @@
 package com.worldsnas.domain.repo.home.trending
 
-import com.worldsnas.domain.repo.home.trending.model.TrendingRepoOutputModel
+import com.worldsnas.core.Either
+import com.worldsnas.core.ErrorHolder
+import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.home.trending.model.TrendingRepoParamModel
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 interface TrendingRepo {
 
-    fun fetch(param: TrendingRepoParamModel) : Single<TrendingRepoOutputModel>
-    fun getCache() : Single<TrendingRepoOutputModel.Success>
+    fun fetch(param: TrendingRepoParamModel) : Flow<Either<ErrorHolder, List<MovieRepoModel>>>
+    fun getCache() : Flow<List<MovieRepoModel>>
 }
