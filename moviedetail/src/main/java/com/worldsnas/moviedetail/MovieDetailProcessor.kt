@@ -7,7 +7,6 @@ import com.worldsnas.base.delayEvent
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
-import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.moviedetail.model.GenreUIModel
 import com.worldsnas.moviedetail.model.MovieUIModel
@@ -24,6 +23,8 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.ofType
 import io.reactivex.rxkotlin.zipWith
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
@@ -113,11 +114,13 @@ class MovieDetailProcessor @Inject constructor(
         ObservableTransformer<MovieDetailIntent.PosterClicked, MovieDetailResult> { intents ->
             intents.switchMap { intent ->
                 repo.getCached()
-                    .toObservable()
-                    .ofType<MovieDetailRepoOutPutModel.Cached>()
-                    .filter { it.movie != null }
+                    .filter { it != null }
+                    .map {
+                        it!!
+                    }
+                    .asObservable()
                     .map { cached ->
-                        intent to cached.movie!!
+                        intent to cached
                     }
             }.map { movie ->
                 movie.first to GalleryLocalModel(
@@ -183,12 +186,11 @@ class MovieDetailProcessor @Inject constructor(
         ObservableTransformer<MovieDetailIntent.CoverClicked, MovieDetailResult> { intents ->
             intents.switchMap { intent ->
                 repo.getCached()
-                    .toObservable()
-                    .ofType<MovieDetailRepoOutPutModel.Cached>()
-                    .filter { it.movie != null }
+                    .filter { it != null }
                     .map { cached ->
-                        cached.movie!!
+                        cached!!
                     }
+                    .asObservable()
                     .zipWith(Observable.just(intent))
             }.map { pair ->
                 var index = pair.first.backdrops.indexOfFirst {

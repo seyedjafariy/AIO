@@ -2,7 +2,6 @@ package com.worldsnas.moviedetail
 
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.moviedetail.MovieDetailRepo
-import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.kotlintesthelpers.randomLong
 import com.worldsnas.kotlintesthelpers.randomString
 import com.worldsnas.kotlintesthelpers.rule.RxTrampolineSchedulerRule

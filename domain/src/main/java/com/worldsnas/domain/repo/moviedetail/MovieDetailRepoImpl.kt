@@ -12,10 +12,8 @@ import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
-import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoOutPutModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.domain.repo.moviedetail.network.MovieDetailAPI
-import io.reactivex.Single
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import retrofit2.Response
@@ -25,7 +23,7 @@ interface MovieDetailRepo {
 
     fun getMovieDetail(param: MovieDetailRepoParamModel): Flow<Either<ErrorHolder, MovieRepoModel>>
 
-    fun getCached(): Single<MovieDetailRepoOutPutModel>
+    fun getCached(): Flow<MovieRepoModel?>
 }
 
 private const val DETAIL_RESPONSE_APPEND : String = "videos,images,reviews,similar,recommendations,credits,translations,external_ids"
@@ -122,12 +120,8 @@ class MovieDetailRepoImpl @Inject constructor(
     }
 
 
-    override fun getCached(): Single<MovieDetailRepoOutPutModel> =
-        Single.just(
-            MovieDetailRepoOutPutModel.Cached(
-                movie
-            )
-        )
+    override fun getCached(): Flow<MovieRepoModel?> =
+                flowOf(movie)
 
     private fun internalFetch(movieId : Long) =
         flow {

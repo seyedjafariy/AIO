@@ -3,8 +3,6 @@ package com.worldsnas.domain.helpers
 import com.worldsnas.core.*
 import com.worldsnas.domain.R
 import com.worldsnas.domain.model.servermodels.error.ErrorServerModel
-import io.reactivex.Observable
-import io.reactivex.Single
 import kotlinx.coroutines.flow.*
 import org.json.JSONObject
 import retrofit2.Response
@@ -60,13 +58,6 @@ fun Response<*>.getErrorRepoModel(): ErrorHolder =
 fun <T> Response<T>.getNonNullMessage() =
     message() ?: ""
 
-fun <T> Single<Response<T>>.errorHandler(times: Int = 3): Single<Response<T>> =
-    retry { retried, _ ->
-        retried <= times
-    }.onErrorReturn {
-        createErrorResponse(it)
-    }
-
 fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
     retry(times) { throwable ->
         throwable is IOException
@@ -87,20 +78,3 @@ fun <T, U> Flow<Response<T>>.eitherError(map: (T) -> U): Flow<Either<ErrorHolder
                     }
         }
     )
-
-fun <T, U> Single<Response<T>>.eitherError(map: (T) -> U):
-        Single<Either<ErrorHolder, U>> =
-    toObservable()
-        .publish { publish ->
-            Observable.merge(
-                publish
-                    .filter { it.isNotSuccessful || it.body() == null }
-                    .map { it.getErrorRepoModel().left() },
-                publish
-                    .filter { it.isSuccessful && it.body() != null }
-                    .map {
-                        map(it.body()!!).right()
-                    }
-            )
-        }
-        .firstOrError()
