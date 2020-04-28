@@ -115,28 +115,6 @@ ext {
                     coroutinesRx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutinesVersion"
             ],
 
-            //can not use arrow in KMP right now extract the used types
-            arrowKotlin = [
-                    arrowCore = "io.arrow-kt:arrow-core-data:$arrowVersion",
-                    arrowExtensions = "io.arrow-kt:arrow-core-extensions:$arrowVersion",
-
-                    arrowSyntax = "io.arrow-kt:arrow-syntax:$arrowVersion",
-                    arrowTypeClasses = "io.arrow-kt:arrow-typeclasses:$arrowVersion",
-
-                    arrowExtras = "io.arrow-kt:arrow-extras-data:$arrowVersion",
-                    arrowExtrasExtensions = "io.arrow-kt:arrow-extras-extensions:$arrowVersion",
-
-                    arrowEffectData = "io.arrow-kt:arrow-effects-data:$arrowVersion",
-                    arrowEffectExtensions = "io.arrow-kt:arrow-effects-extensions:$arrowVersion",
-
-                    arrowEffectRx = "io.arrow-kt:arrow-effects-rx2-data:$arrowVersion",
-                    arrowEffectRxExtensions = "io.arrow-kt:arrow-effects-rx2-extensions:$arrowVersion",
-
-                    arrowEffectCoroutine = "io.arrow-kt:arrow-effects-kotlinx-coroutines-data:$arrowVersion",
-                    arrowEffectCoroutineExtensions = "io.arrow-kt:arrow-effects-kotlinx-coroutines-extensions:$arrowVersion",
-
-                    arrowCompiler = "io.arrow-kt:arrow-meta:$arrowVersion"
-            ],
             support = [
                     //support
                     compat = "androidx.appcompat:appcompat:$supportLibraryVersion",

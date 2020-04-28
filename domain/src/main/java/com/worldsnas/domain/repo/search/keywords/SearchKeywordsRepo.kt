@@ -1,6 +1,6 @@
 package com.worldsnas.domain.repo.search.keywords
 
-import arrow.core.Either
+import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.model.repomodel.KeywordRepoModel
 import io.reactivex.Single

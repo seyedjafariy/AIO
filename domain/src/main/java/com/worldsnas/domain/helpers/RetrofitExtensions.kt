@@ -1,9 +1,9 @@
 package com.worldsnas.domain.helpers
 
-import arrow.core.Either
-import arrow.core.left
-import arrow.core.right
+import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
+import com.worldsnas.core.left
+import com.worldsnas.core.right
 import com.worldsnas.domain.R
 import com.worldsnas.domain.model.servermodels.error.ErrorServerModel
 import io.reactivex.Observable

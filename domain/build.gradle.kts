@@ -89,7 +89,4 @@ dependencies {
     implementation(Deps.RxJava.rxJava)
     implementation(Deps.RxJava.rxKotlin)
     implementation(Deps.RxJava.rxJavaRetrofit)
-
-    implementation(Deps.Arrow.core)
-    implementation(Deps.Arrow.extensions)
 }

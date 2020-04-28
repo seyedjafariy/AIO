@@ -1,9 +1,8 @@
 package com.worldsnas.domain.repo.people
 
-import arrow.core.Either
-import arrow.core.Eval
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.mappers.PersonServerRepoMapper
 import com.worldsnas.domain.model.repomodel.PersonRepoModel
@@ -43,7 +42,7 @@ class PeopleRepoTest {
         .build()
 
     private val mapper = PersonServerRepoMapper()
-    private val fetcher = PeopleFetcher(retrofit.create())
+    private val api: PeopleAPI = retrofit.create()
     private lateinit var repo: PeopleRepoImpl
 
     private val server = MockWebServer()
@@ -52,7 +51,7 @@ class PeopleRepoTest {
     fun setup() {
         server.start(8080)
 
-        repo = PeopleRepoImpl(fetcher, mapper)
+        repo = PeopleRepoImpl(api, mapper)
     }
 
     @After
@@ -92,10 +91,10 @@ class PeopleRepoTest {
             .values()
 
         val repos: List<PersonRepoModel> = values.first().foldRight(
-            Eval.just(emptyList<PersonRepoModel>())
+            emptyList<PersonRepoModel>()
         ) { body, _ ->
-            Eval.just(body)
-        }.value()
+            body
+        }
 
 
         assertThat(repos)

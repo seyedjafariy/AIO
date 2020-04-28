@@ -45,9 +45,6 @@ dependencies {
     implementation coroutinesRx2
     implementation coroutines
 
-    implementation arrowCore
-    implementation arrowExtensions
-
     implementation coreKts
     implementation timber
 

@@ -1,6 +1,6 @@
 package com.worldsnas.domain.repo.people
 
-import arrow.core.Either
+import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.helpers.eitherError
 import com.worldsnas.domain.model.repomodel.PersonRepoModel

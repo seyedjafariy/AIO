@@ -1,11 +1,6 @@
 package com.worldsnas.domain.repo.moviedetail
 
-import arrow.core.Either
-import arrow.core.left
-import arrow.core.right
-import com.worldsnas.core.ErrorHolder
-import com.worldsnas.core.Mapper
-import com.worldsnas.core.listMerge
+import com.worldsnas.core.*
 import com.worldsnas.db.CompleteMovie
 import com.worldsnas.db.Genre
 import com.worldsnas.db.Movie
