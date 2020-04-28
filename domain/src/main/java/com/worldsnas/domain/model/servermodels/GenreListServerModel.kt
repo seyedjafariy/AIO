@@ -1,10 +1,10 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class GenreListServerModel(
-    @Json(name= "genres")
-    val genres : List<GenreServerModel> = emptyList()
+    @SerialName(value = "genres")
+    val genres: List<GenreServerModel> = emptyList()
 )

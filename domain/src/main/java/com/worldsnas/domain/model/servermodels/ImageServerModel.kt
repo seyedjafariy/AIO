@@ -1,22 +1,22 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class ImageServerModel(
-    @Json(name = "aspect_ratio")
+    @SerialName(value = "aspect_ratio")
     val aspectRatio: Double = 0.0,
-    @Json(name = "file_path")
+    @SerialName(value = "file_path")
     val filePath: String = "",
-    @Json(name = "height")
+    @SerialName(value = "height")
     val height: Int = 0,
-    @Json(name = "iso_639_1")
+    @SerialName(value = "iso_639_1")
     val iso: String = "",
-    @Json(name = "vote_average")
+    @SerialName(value = "vote_average")
     val voteAverage: Double = 0.0,
-    @Json(name = "vote_count")
+    @SerialName(value = "vote_count")
     val voteCount: Int = 0,
-    @Json(name = "width")
+    @SerialName(value = "width")
     val width: Int = 0
 )

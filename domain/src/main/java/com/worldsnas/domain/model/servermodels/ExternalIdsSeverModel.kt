@@ -1,16 +1,16 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
-data class ExternalIdsSeverModel (
-    @Json(name = "imdb_id")
+@Serializable
+data class ExternalIdsSeverModel(
+    @SerialName(value = "imdb_id")
     val imdbId: String = "",
-    @Json(name = "facebook_id")
+    @SerialName(value = "facebook_id")
     val facebookId: String = "",
-    @Json(name = "instagram_id")
+    @SerialName(value = "instagram_id")
     val instagramId: String = "",
-    @Json(name = "twitter_id")
+    @SerialName(value = "twitter_id")
     val twitterId: String = ""
 )

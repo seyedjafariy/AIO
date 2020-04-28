@@ -325,3 +325,14 @@
 -keep class * extends com.bluelinelabs.conductor.changehandler.ControllerChangeHandler {
     public <init>(...);
 }
+
+##Kotlinx.serialization
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class com.yourcompany.yourpackage.**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.worldsnas.domain.model.servermodels.** { # <-- change package name to your app's
+    *** Companion;
+}
+-keepclasseswithmembers class com.worldsnas.domain.model.servermodels.** { # <-- change package name to your app's
+    kotlinx.serialization.KSerializer serializer(...);
+}

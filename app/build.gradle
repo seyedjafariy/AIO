@@ -84,6 +84,7 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/slider_release.kotlin_module'
+        exclude 'META-INF/kotlinx-serialization-runtime.kotlin_module'
         pickFirst("META-INF/kotlinx-coroutines-core.kotlin_module")
     }
     androidExtensions {

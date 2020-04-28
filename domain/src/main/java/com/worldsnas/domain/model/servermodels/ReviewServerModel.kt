@@ -1,16 +1,16 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class ReviewServerModel(
-    @Json(name = "author")
+    @SerialName(value = "author")
     val author: String = "",
-    @Json(name = "content")
+    @SerialName(value = "content")
     val content: String = "",
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: String = "",
-    @Json(name = "url")
+    @SerialName(value = "url")
     val url: String = ""
 )

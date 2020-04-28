@@ -1,72 +1,72 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class MovieServerModel(
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: Long = 0,
-    @Json(name = "adult")
+    @SerialName(value = "adult")
     val adult: Boolean = false,
-    @Json(name = "backdrop_path")
+    @SerialName(value = "backdrop_path")
     val backdropPath: String = "",
-    @Json(name = "budget")
+    @SerialName(value = "budget")
     val budget: Long = 0,
-    @Json(name = "genres")
+    @SerialName(value = "genres")
     val genres: List<GenreServerModel> = emptyList(),
-    @Json(name = "homepage")
+    @SerialName(value = "homepage")
     val homePage: String = "",
-    @Json(name = "imdb_id")
+    @SerialName(value = "imdb_id")
     val imdbID: String = "",
-    @Json(name = "original_language")
+    @SerialName(value = "original_language")
     val originalLanguage: String = "",
-    @Json(name = "original_title")
+    @SerialName(value = "original_title")
     val originalTitle: String = "",
-    @Json(name = "overview")
+    @SerialName(value = "overview")
     val overview: String = "",
-    @Json(name = "popularity")
+    @SerialName(value = "popularity")
     val popularity: Double = 0.0,
-    @Json(name = "poster_path")
+    @SerialName(value = "poster_path")
     val posterPath: String = "",
-    @Json(name = "production_companies")
+    @SerialName(value = "production_companies")
     val productionCompanies: List<CompanyServerModel> = emptyList(),
-    @Json(name = "production_countries")
+    @SerialName(value = "production_countries")
     val productionCountries: List<CountryServerModel> = emptyList(),
-    @Json(name = "release_date")
+    @SerialName(value = "release_date")
     val releaseDate: String = "",
-    @Json(name = "revenue")
+    @SerialName(value = "revenue")
     val revenue: Long = 0,
-    @Json(name = "runtime")
+    @SerialName(value = "runtime")
     val runtime: Int = 0,
-    @Json(name = "spoken_languages")
+    @SerialName(value = "spoken_languages")
     val spokenLanguages: List<LanguageServerModel> = emptyList(),
-    @Json(name = "status")
+    @SerialName(value = "status")
     val status: String = "",
-    @Json(name = "tagline")
+    @SerialName(value = "tagline")
     val tagLine: String = "",
-    @Json(name = "title")
+    @SerialName(value = "title")
     val title: String = "",
-    @Json(name = "video")
+    @SerialName(value = "video")
     val video: Boolean = false,
-    @Json(name = "vote_average")
+    @SerialName(value = "vote_average")
     val voteAverage: Double = 0.0,
-    @Json(name = "vote_count")
+    @SerialName(value = "vote_count")
     val voteCount: Long = 0,
-    @Json(name = "videos")
+    @SerialName(value = "videos")
     val videos: ResultsServerModel<VideoServerModel>? = null,
-    @Json(name = "images")
+    @SerialName(value = "images")
     val images: FullImageServerModel? = null,
-    @Json(name = "reviews")
+    @SerialName(value = "reviews")
     val reviews: ResultsServerModel<ReviewServerModel>? = null,
-    @Json(name = "similar")
+    @SerialName(value = "similar")
     val similar: ResultsServerModel<MovieServerModel>? = null,
-    @Json(name = "recommendations")
+    @SerialName(value = "recommendations")
     val recommendations: ResultsServerModel<MovieServerModel>? = null,
-    @Json(name = "credits")
+    @SerialName(value = "credits")
     val credits: CreditsServerModel? = null,
-    @Json(name = "translations")
+    @SerialName(value = "translations")
     val translations: TranslationListServerModel? = null,
-    @Json(name = "external_ids")
+    @SerialName(value = "external_ids")
     val externalIds: ExternalIdsSeverModel? = null
 )

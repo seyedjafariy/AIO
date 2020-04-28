@@ -5,7 +5,6 @@ import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.R
 import com.worldsnas.domain.helpers.getErrorRepoModel
 import com.worldsnas.domain.mappers.server.*
-import com.worldsnas.domain.model.servermodels.AppJsonAdapterFactory
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.kotlintesthelpers.createRetrofitErrorResponse

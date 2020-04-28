@@ -1,49 +1,49 @@
 package com.worldsnas.domain.model.servermodels
 
-import com.squareup.moshi.Json
-import se.ansman.kotshi.JsonSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-@JsonSerializable
+@Serializable
 data class CrewServerModel(
-    @Json(name = "credit_id")
+    @SerialName(value = "credit_id")
     val creditID: String = "",
-    @Json(name = "department")
+    @SerialName(value = "department")
     val department: String = "",
-    @Json(name = "gender")
+    @SerialName(value = "gender")
     val gender: Int = 0,
-    @Json(name = "id")
+    @SerialName(value = "id")
     val id: Long = 0,
-    @Json(name = "job")
+    @SerialName(value = "job")
     val job: String = "",
-    @Json(name = "name")
+    @SerialName(value = "name")
     val name: String = "",
-    @Json(name = "profile_path")
+    @SerialName(value = "profile_path")
     val profilePath: String = "",
-    @Json(name = "original_language")
+    @SerialName(value = "original_language")
     val originalLanguage: String = "",
-    @Json(name = "original_title")
+    @SerialName(value = "original_title")
     val originalTitle: String = "",
-    @Json(name = "overview")
+    @SerialName(value = "overview")
     val overview: String = "",
-    @Json(name = "genre_ids")
+    @SerialName(value = "genre_ids")
     val genreIds: LongArray = longArrayOf(),
-    @Json(name = "video")
+    @SerialName(value = "video")
     val video: Boolean = false,
-    @Json(name = "release_date")
+    @SerialName(value = "release_date")
     val releaseDate: String = "",
-    @Json(name = "popularity")
+    @SerialName(value = "popularity")
     val popularity: Double = 0.0,
-    @Json(name = "vote_average")
+    @SerialName(value = "vote_average")
     val voteAverage: Double = 0.0,
-    @Json(name = "vote_count")
+    @SerialName(value = "vote_count")
     val voteCount: Int = 0,
-    @Json(name = "title")
+    @SerialName(value = "title")
     val title: String = "",
-    @Json(name = "adult")
+    @SerialName(value = "adult")
     val adult: Boolean = false,
-    @Json(name = "backdrop_path")
+    @SerialName(value = "backdrop_path")
     val backdropPath: String = "",
-    @Json(name = "poster_path")
+    @SerialName(value = "poster_path")
     val posterPath: String = ""
 ) {
     override fun equals(other: Any?): Boolean {

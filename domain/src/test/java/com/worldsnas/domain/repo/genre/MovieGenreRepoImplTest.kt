@@ -5,7 +5,6 @@ import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.mappers.server.GenreServerRepoMapper
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
-import com.worldsnas.domain.model.servermodels.AppJsonAdapterFactory
 import com.worldsnas.domain.model.servermodels.GenreListServerModel
 import com.worldsnas.kotlintesthelpers.helpers.getJson
 import com.worldsnas.kotlintesthelpers.rule.RxTestSchedulerRule
