@@ -1,6 +1,6 @@
 package com.worldsnas.moviedetail
 
-import arrow.core.Either
+import com.worldsnas.core.Either
 import com.worldsnas.base.toErrorState
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.base.delayEvent

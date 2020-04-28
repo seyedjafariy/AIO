@@ -1,8 +1,7 @@
 package com.worldsnas.domain.repo.genre
 
-import arrow.core.Either
-import arrow.core.Eval
 import com.squareup.moshi.Moshi
+import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.mappers.server.GenreServerRepoMapper
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
@@ -42,7 +41,8 @@ class MovieGenreRepoImplTest {
         .build()
 
     private val mapper = GenreServerRepoMapper()
-    private val fetcher = MovieGenreFetcher(retrofit.create())
+    private val api : GenreAPI = retrofit.create()
+
     private lateinit var repo: MovieGenreRepoImpl
 
     private val server = MockWebServer()
@@ -52,7 +52,7 @@ class MovieGenreRepoImplTest {
     fun setUp() {
         server.start(8080)
 
-        repo = MovieGenreRepoImpl(fetcher, mapper)
+        repo = MovieGenreRepoImpl(api, mapper)
     }
 
     @After
@@ -90,10 +90,10 @@ class MovieGenreRepoImplTest {
             .values()
 
         val repos: List<GenreRepoModel> = values.first().foldRight(
-            Eval.just(emptyList<GenreRepoModel>())
+            emptyList<GenreRepoModel>()
         ) { body, _ ->
-            Eval.just(body)
-        }.value()
+            body
+        }
 
 
         Assertions.assertThat(repos)
