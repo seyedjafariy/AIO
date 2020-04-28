@@ -8,6 +8,5 @@ import retrofit2.http.GET
 interface GenreAPI {
 
     @GET("/genre/movie/list")
-    fun allMovieGenre(
-    ): Single<Response<GenreListServerModel>>
+    suspend fun allMovieGenre(): Response<GenreListServerModel>
 }

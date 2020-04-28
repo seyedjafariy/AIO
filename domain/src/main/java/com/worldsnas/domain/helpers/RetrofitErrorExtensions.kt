@@ -18,6 +18,7 @@ import java.net.ConnectException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
+
 fun getServerErrorStatusCode(throwable: Throwable): Int = when (throwable) {
     is JsonDataException -> STATUS_JSON_MALFORMED
     is TimeoutException -> STATUS_TIMEOUT
