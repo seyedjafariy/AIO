@@ -6,8 +6,10 @@ import com.worldsnas.domain.helpers.eitherError
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.servermodels.GenreServerModel
 import com.worldsnas.core.Mapper
+import com.worldsnas.core.suspendToFlow
 import com.worldsnas.domain.helpers.errorHandler
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class MovieGenreRepoImpl @Inject constructor(
@@ -17,8 +19,8 @@ class MovieGenreRepoImpl @Inject constructor(
 
     private var genres: List<GenreRepoModel> = mutableListOf()
 
-    override fun fetchAllGenre(): Single<Either<ErrorHolder, List<GenreRepoModel>>> =
-        api.allMovieGenre()
+    override fun fetchAllGenre(): Flow<Either<ErrorHolder, List<GenreRepoModel>>> =
+        suspendToFlow(api::allMovieGenre)
             .errorHandler()
             .eitherError {
                 it.genres.map { genre -> genreMapper.map(genre) }
@@ -27,6 +29,6 @@ class MovieGenreRepoImpl @Inject constructor(
                     }
             }
 
-    override fun cachedGenre(): Single<List<GenreRepoModel>> =
-        Single.just(genres)
+    override fun cachedGenre(): Flow<List<GenreRepoModel>> =
+        flowOf(genres)
 }

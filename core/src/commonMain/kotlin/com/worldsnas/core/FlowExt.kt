@@ -2,6 +2,10 @@ package com.worldsnas.core
 
 import kotlinx.coroutines.flow.*
 
+fun <T> suspendToFlow(block : suspend () -> T) : Flow<T> = flow {
+    emit(block())
+}
+
 fun <T, U> Flow<T>.listMerge(vararg blocks: Flow<T>.() -> Flow<U>) =
     blocks.map { block ->
         block(this)

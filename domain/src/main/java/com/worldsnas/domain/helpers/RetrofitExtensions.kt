@@ -1,17 +1,11 @@
 package com.worldsnas.domain.helpers
 
-import com.worldsnas.core.Either
-import com.worldsnas.core.ErrorHolder
-import com.worldsnas.core.left
-import com.worldsnas.core.right
+import com.worldsnas.core.*
 import com.worldsnas.domain.R
 import com.worldsnas.domain.model.servermodels.error.ErrorServerModel
 import io.reactivex.Observable
 import io.reactivex.Single
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.onErrorReturn
-import kotlinx.coroutines.flow.retry
+import kotlinx.coroutines.flow.*
 import org.json.JSONObject
 import retrofit2.Response
 import java.io.IOException
@@ -79,6 +73,20 @@ fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
     }.catch { t: Throwable ->
         emit(createErrorResponse(t))
     }
+
+fun <T, U> Flow<Response<T>>.eitherError(map: (T) -> U): Flow<Either<ErrorHolder, U>> =
+    listMerge(
+        {
+            filter { it.isNotSuccessful || it.body() == null }
+                .map { it.getErrorRepoModel().left() }
+        },
+        {
+            filter { it.isSuccessful && it.body() != null }
+                    .map {
+                        map(it.body()!!).right()
+                    }
+        }
+    )
 
 fun <T, U> Single<Response<T>>.eitherError(map: (T) -> U):
         Single<Either<ErrorHolder, U>> =
