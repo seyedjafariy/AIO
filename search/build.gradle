@@ -45,6 +45,9 @@ dependencies {
     implementation rxKotlin
     implementation rxBindingKotlin
 
+    implementation coroutines
+    implementation coroutinesRx2
+
     implementation coreKts
     implementation timber
 

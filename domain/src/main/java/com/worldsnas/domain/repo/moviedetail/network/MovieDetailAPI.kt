@@ -1,8 +1,6 @@
 package com.worldsnas.domain.repo.moviedetail.network
 
 import com.worldsnas.domain.model.servermodels.MovieServerModel
-import io.reactivex.Single
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

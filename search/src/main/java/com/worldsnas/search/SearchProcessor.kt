@@ -2,9 +2,10 @@ package com.worldsnas.search
 
 import com.worldsnas.base.toErrorState
 import com.worldsnas.base.delayEvent
+import com.worldsnas.core.Either
+import com.worldsnas.core.ErrorHolder
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
-import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoOutputModel
 import com.worldsnas.domain.repo.search.movie.model.MovieSearchRepoParamModel
 import com.worldsnas.mvi.MviProcessor
 import com.worldsnas.navigation.NavigationAnimation
@@ -16,6 +17,7 @@ import com.worldsnas.search.model.MovieUIModel
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.rxkotlin.ofType
+import kotlinx.coroutines.rx2.asObservable
 import javax.inject.Inject
 
 class SearchProcessor @Inject constructor(
@@ -63,20 +65,20 @@ class SearchProcessor @Inject constructor(
             actions
                 .switchMap { param ->
                     movieSearchRepo.search(param)
-                        .toObservable()
+                        .asObservable()
                         .publish { publish ->
                             Observable.merge(
-                                publish.ofType<MovieSearchRepoOutputModel.Error>()
+                                publish.ofType<Either.Left<ErrorHolder>>()
                                     .switchMap {
                                         delayEvent(
-                                            SearchResult.Error(it.err.toErrorState()),
+                                            SearchResult.Error(it.a.toErrorState()),
                                             SearchResult.LastStable
                                         )
                                     },
-                                publish.ofType<MovieSearchRepoOutputModel.Success>()
+                                publish.ofType<Either.Right<List<MovieRepoModel>>>()
                                     .map {
                                         SearchResult.Result(
-                                            it.all.map { movie ->
+                                            it.b.map { movie ->
                                                 movieMapper.map(movie)
                                             })
                                     }

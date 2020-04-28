@@ -83,8 +83,4 @@ dependencies {
     implementation(Deps.Coroutines.jdk)
     implementation(Deps.Coroutines.rxJava)
     implementation(Deps.Coroutines.android)
-
-    implementation(Deps.RxJava.rxJava)
-    implementation(Deps.RxJava.rxKotlin)
-    implementation(Deps.RxJava.rxJavaRetrofit)
 }
