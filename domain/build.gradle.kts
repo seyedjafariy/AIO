@@ -72,8 +72,6 @@ dependencies {
     implementation(Deps.Dagger.findBugs)
     kapt(Deps.Dagger.daggerCompiler)
 
-    implementation(Deps.Android.Tools.conductor)
-
     implementation(Deps.Android.Networking.retrofit)
     implementation(Deps.Android.Networking.okHttpLogging)
     implementation(Deps.Moshi.moshiRetrofit)
