@@ -11,6 +11,7 @@ import com.worldsnas.domain.repo.people.PeopleRepo
 import com.worldsnas.domain.repo.search.keywords.SearchKeywordsRepo
 import com.worldsnas.domain.repo.search.movie.MovieSearchRepo
 import dagger.BindsInstance
+import io.ktor.client.engine.HttpClientEngine
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
@@ -20,6 +21,7 @@ interface BaseComponent {
 
     fun retrofit(): Retrofit
     fun okHttp(): OkHttpClient
+    fun httpClient() : HttpClientEngine
 
     fun latestMovieRepo(): LatestMovieRepo
     fun trendingRepo(): TrendingRepo

@@ -262,7 +262,8 @@ ext {
                     viewComponent = ":view-component"
             ],
             ktor = [
-                    androidSerialization = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
+                    androidSerialization = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}",
+                    okhttpEngine = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
             ]
     ]
 }

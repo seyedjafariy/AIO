@@ -7,8 +7,7 @@ import com.worldsnas.domain.repo.search.movie.MovieSearchRepoImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.create
+import io.ktor.client.engine.HttpClientEngine
 
 @Module
 abstract class SearchRepoModule {
@@ -16,8 +15,8 @@ abstract class SearchRepoModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideRetrofit(retrofit: Retrofit): SearchAPI =
-            retrofit.create()
+        fun provideRetrofit(engine: HttpClientEngine): SearchAPI =
+            SearchAPIImpl(engine)
     }
 
     @Binds

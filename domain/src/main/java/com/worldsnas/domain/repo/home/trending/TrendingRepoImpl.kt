@@ -19,7 +19,9 @@ class TrendingRepoImpl @Inject constructor(
     private var list = mutableListOf<MovieRepoModel>()
 
     override fun fetch(param: TrendingRepoParamModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
-        suspendToFlow(api::getTrendingMovie)
+        suspendToFlow{
+            api.getTrendingMovie()
+        }
             .errorHandler()
             .eitherError {
                 val updated = it.list

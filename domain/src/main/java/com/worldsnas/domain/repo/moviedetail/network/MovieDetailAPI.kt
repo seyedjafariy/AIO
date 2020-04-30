@@ -1,16 +1,34 @@
 package com.worldsnas.domain.repo.moviedetail.network
 
+import com.worldsnas.domain.helpers.Response
+import com.worldsnas.domain.helpers.executeRequest
 import com.worldsnas.domain.model.servermodels.MovieServerModel
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.request.parameter
+import io.ktor.http.HttpMethod
 
 interface MovieDetailAPI {
 
-    @GET("/3/movie/{movie_id}")
     suspend fun getMovie(
-        @Path("movie_id") movieID: Long,
-        @Query("append_to_response") appendToResponse: String
+        movieID: Long,
+        appendToResponse: String,
+        path: String = "/3/movie"
     ): Response<MovieServerModel>
+}
+
+class MovieDetailAPIImpl(
+    private val engine: HttpClientEngine? = null
+) : MovieDetailAPI {
+    override suspend fun getMovie(
+        movieID: Long,
+        appendToResponse: String,
+        path: String
+    ): Response<MovieServerModel> = executeRequest(engine) {
+        url {
+            method = HttpMethod.Get
+            encodedPath = path
+            path(listOf(movieID.toString()))
+            parameter("append_to_response", appendToResponse)
+        }
+    }
 }

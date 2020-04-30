@@ -3,8 +3,7 @@ package com.worldsnas.domain.repo.genre
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.create
+import io.ktor.client.engine.HttpClientEngine
 
 @Module
 abstract class GenreRepoModule {
@@ -15,8 +14,8 @@ abstract class GenreRepoModule {
 
         @JvmStatic
         @Provides
-        fun provideGenreAPI(retrofit: Retrofit): GenreAPI =
-            retrofit.create()
+        fun provideGenreAPI(engine: HttpClientEngine): GenreAPI =
+            GenreAPIImpl(engine)
     }
 
     @Binds

@@ -223,17 +223,37 @@ object Deps {
     }
 
     object ktor {
+        //ktor core
         val commonCore = "io.ktor:ktor-client-core:${Versions.ktor}"
-        val commonJson = "io.ktor:ktor-client-json:${Versions.ktor}"
-        val jvmCore = "io.ktor:ktor-client-core-jvm:${Versions.ktor}"
-        val androidCore = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
-        val jvmJson = "io.ktor:ktor-client-json-jvm:${Versions.ktor}"
-        val ios = "io.ktor:ktor-client-ios:${Versions.ktor}"
-        val iosCore = "io.ktor:ktor-client-core-native:${Versions.ktor}"
-        val iosJson = "io.ktor:ktor-client-json-native:${Versions.ktor}"
-        val commonSerialization = "io.ktor:ktor-client-serialization:${Versions.ktor}"
-        val androidSerialization = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
-        val iosSerialization = "io.ktor:ktor-client-serialization-native:${Versions.ktor}"
+
+        //ktor engines
+        object Engines {
+//            val jvm = "io.ktor:ktor-client-core-jvm:${Versions.ktor}"
+            val okHttp = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
+            val ios = "io.ktor:ktor-client-ios:${Versions.ktor}"
+            val native = "io.ktor:ktor-client-core-native:${Versions.ktor}"
+        }
+
+        object Json {
+            val common = "io.ktor:ktor-client-json:${Versions.ktor}"
+            val jvm = "io.ktor:ktor-client-json-jvm:${Versions.ktor}"
+            val ios = "io.ktor:ktor-client-json-native:${Versions.ktor}"
+            val js = "io.ktor:ktor-client-json-js:${Versions.ktor}"
+        }
+
+        object Serialization {
+            val common = "io.ktor:ktor-client-serialization:${Versions.ktor}"
+            val jvm = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}"
+            val ios = "io.ktor:ktor-client-serialization-native:${Versions.ktor}"
+            val js = "io.ktor:ktor-client-serialization-js:${Versions.ktor}"
+        }
+
+        object Logger {
+            val common = "io.ktor:ktor-client-logging:${Versions.ktor}"
+            val jvm = "io.ktor:ktor-client-logging-jvm:${Versions.ktor}"
+            val native = "io.ktor:ktor-client-logging-native:${Versions.ktor}"
+            val js = "io.ktor:ktor-client-logging-js:${Versions.ktor}"
+        }
     }
 
     object Arrow {
@@ -241,7 +261,7 @@ object Deps {
         val extensions = "io.arrow-kt:arrow-core-extensions:${Versions.arrow}"
     }
 
-    object Tools{
+    object Tools {
         val stately = "co.touchlab:stately-common:${Versions.stately}"
         val multiplatformSettings =
             "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"

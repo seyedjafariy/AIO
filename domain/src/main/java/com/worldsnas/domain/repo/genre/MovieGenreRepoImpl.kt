@@ -20,7 +20,9 @@ class MovieGenreRepoImpl @Inject constructor(
     private var genres: List<GenreRepoModel> = mutableListOf()
 
     override fun fetchAllGenre(): Flow<Either<ErrorHolder, List<GenreRepoModel>>> =
-        suspendToFlow(api::allMovieGenre)
+        suspendToFlow{
+            api.allMovieGenre()
+        }
             .errorHandler()
             .eitherError {
                 it.genres.map { genre -> genreMapper.map(genre) }

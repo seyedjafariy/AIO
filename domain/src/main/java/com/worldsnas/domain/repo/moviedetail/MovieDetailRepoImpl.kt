@@ -5,10 +5,9 @@ import com.worldsnas.db.CompleteMovie
 import com.worldsnas.db.Genre
 import com.worldsnas.db.Movie
 import com.worldsnas.db.MoviePersister
+import com.worldsnas.domain.helpers.Response
 import com.worldsnas.domain.helpers.errorHandler
 import com.worldsnas.domain.helpers.getErrorRepoModel
-import com.worldsnas.domain.helpers.isBodyNotEmpty
-import com.worldsnas.domain.helpers.isNotSuccessful
 import com.worldsnas.domain.model.repomodel.GenreRepoModel
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.domain.model.servermodels.MovieServerModel
@@ -16,7 +15,6 @@ import com.worldsnas.domain.repo.moviedetail.model.MovieDetailRepoParamModel
 import com.worldsnas.domain.repo.moviedetail.network.MovieDetailAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import retrofit2.Response
 import javax.inject.Inject
 
 interface MovieDetailRepo {
@@ -73,16 +71,17 @@ class MovieDetailRepoImpl @Inject constructor(
 
     private fun Flow<Response<MovieServerModel>>.errorLeft() =
         filter { serverFirstPageResponse ->
-            serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null
+            serverFirstPageResponse.isNotSuccessful
         }.map { serverFirstPageResponse ->
             serverFirstPageResponse.getErrorRepoModel().left()
         }
 
     private fun Flow<Response<MovieServerModel>>.parseAndSave() =
         filter { serverMovieResponse ->
-            serverMovieResponse.isSuccessful && serverMovieResponse.isBodyNotEmpty
+            serverMovieResponse.isSuccessful
         }.map { serverMovieResponse ->
-            movieMapper.map(serverMovieResponse.body()!!)
+            serverMovieResponse as Response.Success<MovieServerModel>
+            movieMapper.map(serverMovieResponse.data)
         }
             .saveToDb()
             .flatMapConcat {

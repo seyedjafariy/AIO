@@ -11,11 +11,8 @@ import com.worldsnas.domain.helpers.*
 import com.worldsnas.domain.repo.home.HomeAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import retrofit2.Response
-import timber.log.Timber
 import java.util.Date
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 interface LatestMovieRepo {
     fun receiveAndUpdate(param: PageModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>>
@@ -63,7 +60,7 @@ class LatestMovieRepoImpl @Inject constructor(
             )
 
     private fun fetchAndSave(
-        page : Int,
+        page: Int,
         validateDb: Boolean
     ): Flow<Either<ErrorHolder, MutableList<MovieRepoModel>>> =
         internalFetch(page)
@@ -78,16 +75,17 @@ class LatestMovieRepoImpl @Inject constructor(
 
     private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.errorLeft() =
         filter { serverFirstPageResponse ->
-            serverFirstPageResponse.isNotSuccessful || serverFirstPageResponse.body() == null
+            serverFirstPageResponse.isNotSuccessful
         }.map { serverFirstPageResponse ->
             serverFirstPageResponse.getErrorRepoModel().left()
         }
 
     private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.parseAndSave(validateDb: Boolean): Flow<Either<Nothing, MutableList<MovieRepoModel>>> =
         filter { serverFirstPageResponse ->
-            serverFirstPageResponse.isSuccessful && serverFirstPageResponse.isBodyNotEmpty
+            serverFirstPageResponse.isSuccessful
         }.map { serverFirstPageResponse ->
-            serverFirstPageResponse.body()!!.list.map {
+            serverFirstPageResponse as Response.Success<ResultsServerModel<MovieServerModel>>
+            serverFirstPageResponse.data.list.map {
                 movieServerRepoMapper.map(it)
             }
         }
@@ -131,18 +129,14 @@ class LatestMovieRepoImpl @Inject constructor(
         }
 
     private fun Flow<List<MovieRepoModel>>.saveToDb() = onEach { networkResult ->
-        val timeSpent = measureTimeMillis {
-            latestMoviePersister.insertMovies(networkResult.map { mainMovie ->
-                CompleteMovie(
-                    movieRepoDBMapper.map(mainMovie),
-                    genres = mainMovie.genres.map { genreRepoDbMapper.map(it) },
-                    similars = mainMovie.similar.map { movieRepoDBMapper.map(it) },
-                    recommended = mainMovie.recommendations.map { movieRepoDBMapper.map(it) }
-                )
-            })
-        }
-
-        Timber.d("timeSpent to save 20 movies to db= $timeSpent")
+        latestMoviePersister.insertMovies(networkResult.map { mainMovie ->
+            CompleteMovie(
+                movieRepoDBMapper.map(mainMovie),
+                genres = mainMovie.genres.map { genreRepoDbMapper.map(it) },
+                similars = mainMovie.similar.map { movieRepoDBMapper.map(it) },
+                recommended = mainMovie.recommendations.map { movieRepoDBMapper.map(it) }
+            )
+        })
     }
 
     private fun loadNextPage(): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
@@ -160,7 +154,7 @@ class LatestMovieRepoImpl @Inject constructor(
     override fun fetch(param: LatestMovieRepoParamModel): Flow<Either<ErrorHolder, List<MovieRepoModel>>> =
         fetchAndSave(param.page, false)
 
-    private fun internalFetch(page : Int) =
+    private fun internalFetch(page: Int) =
         flow {
             emit(
                 api.getLatestMovie(
