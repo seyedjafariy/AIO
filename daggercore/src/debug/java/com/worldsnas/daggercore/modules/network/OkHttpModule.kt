@@ -7,6 +7,10 @@ import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.worldsnas.daggercore.BuildConfig.DEBUG
 import dagger.Module
 import dagger.Provides
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.engine.okhttp.OkHttpConfig
+import io.ktor.client.engine.okhttp.OkHttpEngine
+import io.ktor.util.InternalAPI
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -44,4 +48,12 @@ object OkHttpModule {
             .addInterceptor(FlipperOkhttpInterceptor(flipperPlugin))
             .build()
     }
+
+    @InternalAPI
+    @JvmStatic
+    @Provides
+    fun provideHttpClient(okHttp : OkHttpClient): HttpClientEngine =
+        OkHttpEngine(OkHttpConfig().apply {
+            preconfigured = okHttp
+        })
 }

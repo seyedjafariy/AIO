@@ -4,8 +4,9 @@ plugins {
     kotlin("android.extensions")
     kotlin("kapt")
     kotlin("plugin.serialization")
+//    id("com.codingfeline.buildkonfig")
 }
-
+val movieDBApiKey : String by rootProject.extra
 android {
     compileSdkVersion(prjectCompileSdkVersion)
     defaultConfig {
@@ -14,6 +15,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
     }
 
     buildTypes {
@@ -46,6 +48,25 @@ android {
     }
 }
 
+kotlin {
+    sourceSets {
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+                useExperimentalAnnotation("kotlinx.serialization.ImplicitReflectionSerializer")
+            }
+        }
+    }
+}
+
+//buildkonfig {
+//    packageName = "com.worldsnas.domain"
+
+//    defaultConfigs {
+//        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
+//    }
+//}
+
 dependencies {
 
     implementation(kotlin("stdlib-common", Versions.kotlin))
@@ -73,13 +94,11 @@ dependencies {
     implementation(Deps.Dagger.findBugs)
     kapt(Deps.Dagger.daggerCompiler)
 
-    implementation(Deps.Android.Networking.retrofit)
-    implementation(Deps.Android.Networking.okHttpLogging)
-    implementation(Deps.Android.Tools.timber)
-
     implementation(Deps.Coroutines.jdk)
-    implementation(Deps.Coroutines.rxJava)
-    implementation(Deps.Coroutines.android)
 
-    implementation(Deps.ktor.androidSerialization)
+    implementation(Deps.ktor.commonCore)
+
+    implementation(Deps.ktor.Serialization.jvm)
+    implementation(Deps.ktor.Json.jvm)
+    implementation(Deps.ktor.Logger.jvm)
 }

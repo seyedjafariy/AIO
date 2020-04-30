@@ -1,11 +1,11 @@
 package com.worldsnas.domain.repo.moviedetail
 
 import com.worldsnas.domain.repo.moviedetail.network.MovieDetailAPI
+import com.worldsnas.domain.repo.moviedetail.network.MovieDetailAPIImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
-import retrofit2.create
+import io.ktor.client.engine.HttpClientEngine
 
 @Module(
     includes = [
@@ -19,8 +19,8 @@ abstract class MovieDetailRepoModule {
 
         @JvmStatic
         @Provides
-        fun provideMovieDetailAPI(retrofit: Retrofit): MovieDetailAPI =
-            retrofit.create()
+        fun provideMovieDetailAPI(engine: HttpClientEngine): MovieDetailAPI =
+            MovieDetailAPIImpl(engine)
     }
 
     @Binds

@@ -1,21 +1,50 @@
 package com.worldsnas.domain.repo.home
 
+import com.worldsnas.domain.helpers.Response
+import com.worldsnas.domain.helpers.executeRequest
 import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.request.parameter
+import io.ktor.http.HttpMethod
+import io.ktor.http.takeFrom
 
 interface HomeAPI {
 
-    @GET("/3/discover/movie?include_video=false&include_adult=false&sort_by=release_date.desc")
     suspend fun getLatestMovie(
-        @Query("release_date.lte")
         finalDate: String,
-        @Query("page")
-        page: Int
+        page: Int,
+        path: String = "/3/discover/movie?include_video=false&include_adult=false&sort_by=release_date.desc"
     ): Response<ResultsServerModel<MovieServerModel>>
 
-    @GET("/3/trending/movie/day")
-    suspend fun getTrendingMovie(): Response<ResultsServerModel<MovieServerModel>>
+    suspend fun getTrendingMovie(
+        path: String = "/3/trending/movie/day"
+    ): Response<ResultsServerModel<MovieServerModel>>
+}
+
+class HomeAPIImpl(
+    private val engine: HttpClientEngine? = null
+) : HomeAPI {
+    override suspend fun getLatestMovie(
+        finalDate: String,
+        page: Int,
+        path: String
+    ): Response<ResultsServerModel<MovieServerModel>> =
+        executeRequest(engine) {
+            url {
+                method = HttpMethod.Get
+                encodedPath = path
+                parameter("page", page)
+                parameter("release_date.lte", finalDate)
+            }
+        }
+
+    override suspend fun getTrendingMovie(path: String): Response<ResultsServerModel<MovieServerModel>> =
+        executeRequest(engine) {
+            url {
+                method = HttpMethod.Get
+                takeFrom("")
+                encodedPath = path
+            }
+        }
 }
