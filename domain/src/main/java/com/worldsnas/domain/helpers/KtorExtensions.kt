@@ -9,12 +9,14 @@ import kotlinx.serialization.json.JsonException
 
 fun Response<*>.getErrorRepoModel(): ErrorHolder =
     (this as Response.Error)
-        .let {
-            Json.parse(ErrorServerModel.serializer(), it.body)
+        .runCatching {
+            Json.parse(ErrorServerModel.serializer(), body)
         }
-        .let {
+        .getOrNull()
+        ?.let {
             ErrorHolder.Message(it.message, it.code)
         }
+        ?: ErrorHolder.Message(this.body, this.status)
 
 fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
     retry(times) { throwable ->

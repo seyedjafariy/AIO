@@ -7,7 +7,6 @@ import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.request.parameter
 import io.ktor.http.HttpMethod
-import io.ktor.http.takeFrom
 
 interface HomeAPI {
 
@@ -43,7 +42,6 @@ class HomeAPIImpl(
         executeRequest(engine) {
             url {
                 method = HttpMethod.Get
-                takeFrom("")
                 encodedPath = path
             }
         }

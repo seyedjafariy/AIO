@@ -14,6 +14,7 @@ import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.URLProtocol
 import io.ktor.util.toByteArray
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.builtins.serializer
@@ -34,12 +35,11 @@ sealed class Response<T>(
     ) : Response<Nothing>(status)
 
     val isSuccessful: Boolean
-        get() = 300 < statusCode && statusCode >= 200
+        get() = statusCode in 200..299
 
     val isNotSuccessful: Boolean
         get() = !isSuccessful
 }
-
 
 //pass null when on other platforms
 suspend inline fun <reified T> executeRequest(
@@ -64,20 +64,27 @@ fun createClient(engine: HttpClientEngine? = null) =
         HttpClient(engine, clientConfigure)
     }
 
-internal const val BASE_URL = "https://api.themoviedb.org"
+internal const val BASE_URL = "api.themoviedb.org"
 
 private val clientConfigure: HttpClientConfig<*>.() -> Unit = {
     install(JsonFeature) {
         serializer = KotlinxSerializer()
     }
-    install(Logging) {
-        logger = Logger.DEFAULT
-        level = LogLevel.ALL
-    }
+//    install(Logging) {
+//        logger = Logger.DEFAULT
+//        level = LogLevel.ALL
+//    }
     defaultRequest {
-        host = BASE_URL
-        header("api_key", BuildConfig.API_KEY)
+        url {
+            protocol = URLProtocol.HTTPS
+            host = BASE_URL
+            parameter("api_key", BuildConfig.API_KEY)
+        }
     }
+}
+
+val jsonSerializer = Json {
+    ignoreUnknownKeys = true
 }
 
 suspend inline fun <reified T> parseSuccess(code: Int, response: HttpResponse): Response<T> {
@@ -86,7 +93,7 @@ suspend inline fun <reified T> parseSuccess(code: Int, response: HttpResponse): 
 
     val text = response.responseToString()
 
-    val parsed = Json.parse(serializer, text)
+    val parsed = jsonSerializer.parse(serializer, text)
 
     return Response.Success(code, parsed as T)
 }
