@@ -7,11 +7,7 @@ import dagger.Module
 import dagger.Provides
 import io.ktor.client.engine.HttpClientEngine
 
-@Module(
-    includes = [
-
-    ]
-)
+@Module
 abstract class MovieDetailRepoModule {
 
     @Module

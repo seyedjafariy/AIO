@@ -2,6 +2,7 @@
 
 package com.worldsnas.domain.helpers
 
+import io.ktor.http.URLParserException
 import kotlinx.serialization.json.JsonException
 
 
@@ -47,6 +48,7 @@ fun getServerErrorStatusCode(throwable: Throwable): Int = when (throwable) {
 //    is TimeoutException -> STATUS_TIMEOUT
 //    is InterruptedIOException -> STATUS_INTERRUPTED
 //    is ConnectException -> STATUS_FAILED_CONNECT
+    is URLParserException -> STATUS_INTERNAL_ERROR
     is NoSuchElementException -> STATUS_NO_SUCH_ELEMENT
     is IllegalArgumentException -> STATUS_ILLEGAL_ARGUMENT
 //    is UnknownHostException -> STATUS_UNKNOWN_HOST

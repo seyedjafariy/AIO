@@ -50,7 +50,7 @@ object InnerOkHttpModule {
 //            .cache(cache)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(protocolInterceptor)
-            .addInterceptor(authInterceptor)
+//            .addInterceptor(authInterceptor)
             .build()
     }
 
