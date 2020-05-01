@@ -223,12 +223,13 @@ object Deps {
     }
 
     object ktor {
-        //ktor core
-        val commonCore = "io.ktor:ktor-client-core:${Versions.ktor}"
 
-        //ktor engines
+        object Core {
+            val common = "io.ktor:ktor-client-core:${Versions.ktor}"
+            val jvm = "io.ktor:ktor-client-core-jvm:${Versions.ktor}"
+        }
+
         object Engines {
-//            val jvm = "io.ktor:ktor-client-core-jvm:${Versions.ktor}"
             val okHttp = "io.ktor:ktor-client-okhttp:${Versions.ktor}"
             val ios = "io.ktor:ktor-client-ios:${Versions.ktor}"
             val native = "io.ktor:ktor-client-core-native:${Versions.ktor}"

@@ -4,7 +4,7 @@ import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.worldsnas.daggercore.modules.DatabaseModule
 import com.worldsnas.daggercore.modules.network.NetworkModule
 import com.worldsnas.daggercore.scope.AppScope
-import com.worldsnas.domain.di.DomainModule
+import com.worldsnas.daggercore.modules.domain.DomainModule
 import dagger.Component
 import javax.inject.Singleton
 

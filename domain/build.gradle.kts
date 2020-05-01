@@ -1,54 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.android.library")
-    kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
+    kotlin("multiplatform")
     kotlin("plugin.serialization")
-//    id("com.codingfeline.buildkonfig")
+    id("com.codingfeline.buildkonfig")
 }
 val movieDBApiKey: String by rootProject.extra
-android {
-    compileSdkVersion(prjectCompileSdkVersion)
-    defaultConfig {
-        minSdkVersion(projectMinSdkVersion)
-        targetSdkVersion(projectTargetSdkVersion)
-        versionCode = 1
-        versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = isReleaseMinify
-            isShrinkResources = isReleaseShrinkResources
-            multiDexEnabled = isReleaseMultiDex
-            isDebuggable = isReleaseDebuggable
-            proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
-                proguardFileAddress
-            )
-        }
-
-        getByName("debug") {
-//            ext.alwaysUpdateBuildId = false
-            isMinifyEnabled = isDebugMinify
-            isShrinkResources = isDebugShrinkResources
-            multiDexEnabled = isDebugMultiDex
-            proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
-                proguardFileAddress
-            )
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-}
 
 kotlin {
     sourceSets {
@@ -64,47 +21,45 @@ kotlin {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "1.8"
 }
-//buildkonfig {
-//    packageName = "com.worldsnas.domain"
+buildkonfig {
+    packageName = "com.worldsnas.domain"
 
-//    defaultConfigs {
-//        buildConfigField("String", "API_KEY", "\"$movieDBApiKey\"")
-//    }
-//}
+    defaultConfigs {
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            "API_KEY",
+            movieDBApiKey
+        )
+    }
+}
 
-dependencies {
+kotlin {
 
-    implementation(kotlin("stdlib-common", Versions.kotlin))
+    sourceSets["commonMain"].dependencies {
+        implementation(kotlin("stdlib", Versions.kotlin))
 
-    androidTestImplementation(Deps.Android.Test.runner)
-    androidTestImplementation(Deps.Android.Test.espressoCore)
-    testImplementation(Deps.Android.Test.jsonTest)
-    testImplementation(Deps.Android.Networking.mockWebServer)
-    testImplementation(Deps.RxJava.rxJavaRetrofit)
-    testImplementation(Deps.Moshi.moshiRetrofit)
-    testImplementation(Deps.Android.Networking.okHttp)
-    testImplementation(Deps.Coroutines.test)
+        implementation(project(Deps.Modules.core))
+        implementation(project(Deps.Modules.db))
 
-    testImplementation(Deps.Android.Test.junit)
-    testImplementation(Deps.Android.Test.assertJ)
-    testImplementation(Deps.Android.Test.mockkUnit)
-    testImplementation(project(Deps.Modules.kotlinTestHelper))
+        implementation(Deps.Coroutines.common)
 
-    implementation(project(Deps.Modules.core))
-    implementation(project(Deps.Modules.db))
+        implementation(Deps.ktor.Core.common)
+        implementation(Deps.ktor.Json.common)
+        implementation(Deps.ktor.Serialization.common)
 
-    implementation(Deps.Dagger.dagger)
-    implementation(Deps.Dagger.javaxAnnotation)
-    implementation(Deps.Dagger.jetbrainsAnnotation)
-    implementation(Deps.Dagger.findBugs)
-    kapt(Deps.Dagger.daggerCompiler)
+        implementation(Deps.Tools.stately)
+        implementation(Deps.Tools.islandTime)
 
-    implementation(Deps.Coroutines.jdk)
+        implementation(Deps.Tools.islandTime)
+    }
 
-    implementation(Deps.ktor.commonCore)
+    jvm()
+    sourceSets["jvmMain"].dependencies {
+        implementation(kotlin("stdlib", Versions.kotlin))
+        implementation(Deps.Coroutines.jdk)
 
-    implementation(Deps.ktor.Serialization.jvm)
-    implementation(Deps.ktor.Json.jvm)
-    implementation(Deps.ktor.Logger.jvm)
-    implementation(Deps.Tools.islandTime)
+        implementation(Deps.ktor.Core.jvm)
+        implementation(Deps.ktor.Json.jvm)
+        implementation(Deps.ktor.Serialization.jvm)
+    }
 }
