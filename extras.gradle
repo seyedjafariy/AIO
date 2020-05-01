@@ -3,8 +3,8 @@ ext{
     isDebugDebuggable = true
     isDebugMinify = false
     isReleaseMinify = true
-    isReleaseMultiDex = false
-    isDebugMultiDex = false
+    isReleaseMultiDex = true
+    isDebugMultiDex = true
     isDebugShrinkResources = false
     isReleaseShrinkResources = false
 

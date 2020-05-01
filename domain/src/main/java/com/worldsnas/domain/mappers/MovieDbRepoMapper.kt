@@ -1,9 +1,9 @@
 package com.worldsnas.domain.mappers
 
 import com.worldsnas.db.Movie
-import com.worldsnas.domain.helpers.toStringDate
 import com.worldsnas.domain.model.repomodel.MovieRepoModel
 import com.worldsnas.core.Mapper
+import com.worldsnas.domain.helpers.toStringDate
 import javax.inject.Inject
 
 class MovieDbRepoMapper @Inject constructor(

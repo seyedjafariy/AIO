@@ -1,5 +1,5 @@
 import java.lang.Boolean;
-import java.util.Date;
+import io.islandtime.Instant;
 
 CREATE TABLE movie (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +17,7 @@ CREATE TABLE movie (
     popularity REAL NOT NULL DEFAULT 0.0,
     backdropImage TEXT NOT NULL DEFAULT "",
     posterImage TEXT NOT NULL DEFAULT "",
-    releaseDate INTEGER AS Date NOT NULL,
+    releaseDate INTEGER AS Instant NOT NULL,
     revenue INTEGER NOT NULL DEFAULT 0,
     runtime INTEGER NOT NULL DEFAULT 0,
     status TEXT NOT NULL DEFAULT "",

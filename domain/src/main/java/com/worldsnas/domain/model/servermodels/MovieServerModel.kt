@@ -10,7 +10,7 @@ data class MovieServerModel(
     @SerialName(value = "adult")
     val adult: Boolean = false,
     @SerialName(value = "backdrop_path")
-    val backdropPath: String = "",
+    val backdropPath: String? = "",
     @SerialName(value = "budget")
     val budget: Long = 0,
     @SerialName(value = "genres")
@@ -28,7 +28,7 @@ data class MovieServerModel(
     @SerialName(value = "popularity")
     val popularity: Double = 0.0,
     @SerialName(value = "poster_path")
-    val posterPath: String = "",
+    val posterPath: String? = "",
     @SerialName(value = "production_companies")
     val productionCompanies: List<CompanyServerModel> = emptyList(),
     @SerialName(value = "production_countries")

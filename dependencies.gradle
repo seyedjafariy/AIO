@@ -148,7 +148,7 @@ ext {
             firebase = [
                     firebaseCore = "com.google.firebase:firebase-core:17.0.1",
                     firebaseAnalytics = "com.google.firebase:firebase-analytics:17.0.1",
-                    firebaseCrashlytics = "com.crashlytics.sdk.android:crashlytics:2.10.1",
+                    firebaseCrashlyticsSDK = "com.google.firebase:firebase-crashlytics:17.0.0",
                     firebaseMessaging = "com.google.firebase:firebase-messaging:19.0.1",
                     firebaseRemoteConfig = "com.google.firebase:firebase-config:18.0.0"
             ],

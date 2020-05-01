@@ -9,9 +9,10 @@ import com.worldsnas.domain.model.servermodels.MovieServerModel
 import com.worldsnas.domain.model.servermodels.ResultsServerModel
 import com.worldsnas.domain.helpers.*
 import com.worldsnas.domain.repo.home.HomeAPI
+import io.islandtime.Instant
+import io.islandtime.clock.now
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import java.util.Date
 import javax.inject.Inject
 
 interface LatestMovieRepo {
@@ -158,7 +159,7 @@ class LatestMovieRepoImpl @Inject constructor(
         flow {
             emit(
                 api.getLatestMovie(
-                    Date().toStringDate(),
+                    Instant.now().toStringDate(),
                     page
                 )
             )
