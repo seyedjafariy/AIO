@@ -23,7 +23,7 @@ class MovieServerRepoMapper @Inject constructor(
         MovieRepoModel(
             item.id,
             item.adult,
-            item.backdropPath,
+            item.backdropPath ?: "",
             item.budget,
             item.homePage,
             item.imdbID,
@@ -31,7 +31,7 @@ class MovieServerRepoMapper @Inject constructor(
             item.originalTitle,
             item.overview,
             item.popularity,
-            item.posterPath,
+            item.posterPath ?: "",
             item.releaseDate,
             item.revenue,
             item.runtime,

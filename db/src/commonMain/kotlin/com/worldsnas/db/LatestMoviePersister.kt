@@ -2,6 +2,7 @@ package com.worldsnas.db
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 interface LatestMoviePersister {
@@ -30,6 +31,9 @@ class LatestMoviePersisterImpl(
             .getLatestMovies()
             .asFlow()
             .mapToList(Dispatchers.Default)
+            .onEach {
+                "$it"
+            }
 
     override fun observeMovies(
         genres: Boolean,

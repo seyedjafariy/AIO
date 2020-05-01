@@ -34,9 +34,5 @@
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="${fabric_api_key}"
-            />
     </application>
 </manifest>

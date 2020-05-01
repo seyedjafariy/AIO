@@ -269,5 +269,6 @@ object Deps {
             "com.russhwolf:multiplatform-settings-test:${Versions.multiplatformSettings}"
         val koinCore = "org.koin:koin-core:${Versions.koin}"
         val cocoapodsext = "co.touchlab:kotlinnativecocoapods:${Versions.cocoapodsext}"
+        val islandTime = "io.islandtime:core:0.2.1"
     }
 }

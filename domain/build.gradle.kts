@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -6,7 +8,7 @@ plugins {
     kotlin("plugin.serialization")
 //    id("com.codingfeline.buildkonfig")
 }
-val movieDBApiKey : String by rootProject.extra
+val movieDBApiKey: String by rootProject.extra
 android {
     compileSdkVersion(prjectCompileSdkVersion)
     defaultConfig {
@@ -59,6 +61,9 @@ kotlin {
     }
 }
 
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions.jvmTarget = "1.8"
+}
 //buildkonfig {
 //    packageName = "com.worldsnas.domain"
 
@@ -101,4 +106,5 @@ dependencies {
     implementation(Deps.ktor.Serialization.jvm)
     implementation(Deps.ktor.Json.jvm)
     implementation(Deps.ktor.Logger.jvm)
+    implementation(Deps.Tools.islandTime)
 }

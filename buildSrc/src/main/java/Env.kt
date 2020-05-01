@@ -5,7 +5,7 @@ val isDebugMinify = false
 val isReleaseMinify = true
 
 val isReleaseMultiDex = false
-val isDebugMultiDex = false
+val isDebugMultiDex = true
 
 val isDebugShrinkResources = false
 val isReleaseShrinkResources = false

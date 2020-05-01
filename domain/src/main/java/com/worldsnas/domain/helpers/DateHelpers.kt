@@ -1,12 +1,17 @@
 package com.worldsnas.domain.helpers
 
-import java.text.SimpleDateFormat
-import java.util.*
+import io.islandtime.Instant
+import io.islandtime.locale.Locale
+import io.islandtime.parser.*
+import io.islandtime.toDate
+import io.islandtime.toInstant
 
-private val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+// pattern for "yyyy-MM-dd"
 
-fun String.toDate() : Date =
-    dateFormatter.parse(this)
+fun String.toDate(): Instant =
+    Instant.fromUnixEpochMillisecond(toDate().daysSinceUnixEpoch.inMilliseconds.value)
 
-fun Date.toStringDate() =
-    dateFormatter.format(this)
+fun Instant.toStringDate(): String =
+    toString().let {
+        it.substring(0, it.indexOf('T'))
+    }

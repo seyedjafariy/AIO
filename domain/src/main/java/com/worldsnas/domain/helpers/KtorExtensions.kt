@@ -22,6 +22,7 @@ fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
     retry(times) { throwable ->
         throwable is IOException
     }.catch { t: Throwable ->
+        println(t.stackTrace)
         emit(createThrowableErrorResponse(t))
     }
 

@@ -85,6 +85,7 @@ private val clientConfigure: HttpClientConfig<*>.() -> Unit = {
 
 val jsonSerializer = Json {
     ignoreUnknownKeys = true
+    isLenient = true
 }
 
 suspend inline fun <reified T> parseSuccess(code: Int, response: HttpResponse): Response<T> {
