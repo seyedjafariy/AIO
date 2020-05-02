@@ -7,7 +7,7 @@ class NavigationTest {
 
     @Test
     fun `navigation returns correct object`(){
-        assertThat(Navigation.createController(Screens.Test))
+        assertThat(ControllerFactory.createController(Screens.Test))
             .isInstanceOf(TestController::class.java)
     }
 }

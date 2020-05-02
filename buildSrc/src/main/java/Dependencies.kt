@@ -1,7 +1,4 @@
 object Versions {
-    val min_sdk = 21
-    val target_sdk = 29
-    val compile_sdk = 29
 
     val kotlin = "1.3.72"
     val androidXTest = "1.1.0"
@@ -271,5 +268,6 @@ object Deps {
         val koinCore = "org.koin:koin-core:${Versions.koin}"
         val cocoapodsext = "co.touchlab:kotlinnativecocoapods:${Versions.cocoapodsext}"
         val islandTime = "io.islandtime:core:0.2.1"
+        val okio = "com.squareup.okio:okio:2.6.0"
     }
 }

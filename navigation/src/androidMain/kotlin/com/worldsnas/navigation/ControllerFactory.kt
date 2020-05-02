@@ -1,16 +1,19 @@
 package com.worldsnas.navigation
 
 import android.app.Application
-import android.content.Intent
 import android.os.Bundle
 import com.bluelinelabs.conductor.Controller
 
-object Navigation {
+object ControllerFactory {
 
     @JvmStatic
-    fun createController(app: Application, controller: Screens): Controller =
-        controller.createWithContext(app) ?: controller.createWithBundle()
-        ?: controller.createWithEmptyConstructor()
+    fun createController(controller: Screens, app: Application? = null): Controller =
+        app
+            ?.run {
+                controller.createWithContext(this)
+            }
+            ?: controller.createWithBundle()
+            ?: controller.createWithEmptyConstructor()
 
     private fun Screens.createWithContext(app: Application): Controller? =
         Class.forName(name)
@@ -26,8 +29,14 @@ object Navigation {
                     param.isAssignableFrom(Bundle::class.java)
                 } != null
 
+                val extra = Bundle().apply {
+                    if (extras != null) {
+                        putByteArray(extras.first, extras.second)
+                    }
+                }
+
                 if (needsBundle) {
-                    constructor.newInstance(app, extras)
+                    constructor.newInstance(app, extra)
                 } else {
                     constructor.newInstance(app)
                 } as Controller
@@ -38,10 +47,14 @@ object Navigation {
             return null
         }
 
+        val extra = Bundle().apply {
+            putByteArray(extras.first, extras.second)
+        }
+
         return Class.forName(name)
             .constructors
             .first()
-            .newInstance(extras) as Controller
+            .newInstance(extra) as Controller
     }
 
 
@@ -50,16 +63,4 @@ object Navigation {
             .constructors
             .first()
             .newInstance() as Controller
-
-
-    @JvmStatic
-    fun createIntent(activity: Activities): Intent =
-        Intent(Intent.ACTION_VIEW).setClassName(
-            "com.worldsnas.aio",
-            activity.name
-        ).apply {
-            if (activity.extras != null) {
-                putExtras(activity.extras)
-            }
-        }
 }

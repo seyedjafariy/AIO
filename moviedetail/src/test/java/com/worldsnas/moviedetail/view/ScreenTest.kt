@@ -1,7 +1,7 @@
 package com.worldsnas.moviedetail.view
 
 import androidx.test.filters.MediumTest
-import com.worldsnas.navigation.Navigation
+import com.worldsnas.navigation.ControllerFactory
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import org.assertj.core.api.Assertions.assertThat
@@ -16,7 +16,7 @@ class ScreenTest {
     @MediumTest
     fun movieDetailScreenBoundedCorrectly() {
         assertThat(
-            Navigation.createController(
+            ControllerFactory.createController(
                 Screens.MovieDetail(
                     MovieDetailLocalModel(
                         0,

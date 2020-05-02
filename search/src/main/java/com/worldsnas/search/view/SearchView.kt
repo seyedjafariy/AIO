@@ -14,6 +14,7 @@ import com.worldsnas.base.transitionNameCompat
 import com.worldsnas.base.BaseView
 import com.worldsnas.base.epoxyhelper.EpoxyAsyncRecyclerView
 import com.worldsnas.daggercore.CoreComponent
+import com.worldsnas.navigation.fromByteArray
 import com.worldsnas.navigation.model.SearchLocalModel
 import com.worldsnas.search.R
 import com.worldsnas.search.SearchIntent
@@ -29,14 +30,22 @@ class SearchView(
 
     @BindView(R.id.vSearchBack)
     lateinit var searchBack: View
+
     @BindView(R.id.edtSearch)
     lateinit var searchEditText: EditText
+
     @BindView(R.id.imgBack)
     lateinit var backBtn: ImageView
+
     @BindView(R.id.searchList)
     lateinit var searchList: EpoxyAsyncRecyclerView
 
-    private val searchLocal = bundle.getParcelable<SearchLocalModel>(SearchLocalModel.EXTRA_SEARCH)
+    private val searchLocal: SearchLocalModel? =
+        bundle
+            .getByteArray(SearchLocalModel.EXTRA_SEARCH)
+            ?.let {
+                SearchLocalModel.fromByteArray(it)
+            }
 
     override fun getLayoutId(): Int = R.layout.view_search
 

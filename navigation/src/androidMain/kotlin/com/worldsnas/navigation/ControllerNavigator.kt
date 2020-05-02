@@ -1,32 +1,28 @@
-package com.worldsnas.daggercore.navigator
+package com.worldsnas.navigation
 
 import android.app.Application
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
-import com.worldsnas.daggercore.navigator.changehandler.ArcFadeMoveChangeHandlerCompat
-import com.worldsnas.daggercore.navigator.changehandler.CircularRevealChangeHandlerCompat
-import com.worldsnas.daggercore.navigator.changehandler.FlipChangeHandler
-import com.worldsnas.daggercore.navigator.changehandler.ScaleFadeChangeHandler
-import com.worldsnas.navigation.Navigation
-import com.worldsnas.navigation.NavigationAnimation
-import com.worldsnas.navigation.Navigator
-import com.worldsnas.navigation.Screens
+import com.worldsnas.navigation.changehandler.ArcFadeMoveChangeHandlerCompat
+import com.worldsnas.navigation.changehandler.CircularRevealChangeHandlerCompat
+import com.worldsnas.navigation.changehandler.FlipChangeHandler
+import com.worldsnas.navigation.changehandler.ScaleFadeChangeHandler
 
 class ControllerNavigator(
     private val app: Application,
     private val router: Router
 ) : Navigator {
     override fun goTo(screen: Screens) {
-        val to = Navigation.createController(app, screen)
+        val to = ControllerFactory.createController(screen, app)
         router.pushController(
             RouterTransaction.with(to)
-                .pushChangeHandler(getAnimation(screen.pushAnimation))
-                .popChangeHandler(getAnimation(screen.popAnimation))
+//                .pushChangeHandler(getAnimation(screen.pushAnimation))
+//                .popChangeHandler(getAnimation(screen.popAnimation))
         )
     }
 
-    override fun getAnimation(anim: NavigationAnimation?): ControllerChangeHandler? {
+    private fun getAnimation(anim: NavigationAnimation?): ControllerChangeHandler? {
         if (anim == null) {
             return null
         }
@@ -37,12 +33,12 @@ class ControllerNavigator(
                     *anim.transitionNames
                 )
             is NavigationAnimation.CircularReveal ->
-                if (anim.duration == -1L){
+                if (anim.duration == -1L) {
                     CircularRevealChangeHandlerCompat(
                         anim.fromCX,
                         anim.fromCY
                     )
-                }else{
+                } else {
                     CircularRevealChangeHandlerCompat(
                         anim.fromCX,
                         anim.fromCY,

@@ -2,6 +2,7 @@ package com.worldsnas.daggercore.navigator
 
 import android.app.Application
 import com.bluelinelabs.conductor.Router
+import com.worldsnas.navigation.ControllerNavigator
 import com.worldsnas.navigation.Navigator
 import dagger.Module
 import dagger.Provides

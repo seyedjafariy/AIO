@@ -3,7 +3,7 @@ package com.worldsnas.search.view
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.MediumTest
 import com.facebook.soloader.SoLoader
-import com.worldsnas.navigation.Navigation
+import com.worldsnas.navigation.ControllerFactory
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.SearchLocalModel
 import org.assertj.core.api.Assertions.assertThat
@@ -27,11 +27,11 @@ class ScreenTest {
     @MediumTest
     fun galleryScreenBoundedCorrectly(){
         assertThat(
-            Navigation.createController(
-                ApplicationProvider.getApplicationContext(),
+            ControllerFactory.createController(
                 Screens.Search(
                     SearchLocalModel()
-                )
+                ),
+                ApplicationProvider.getApplicationContext()
             )
         ).isInstanceOf(SearchView::class.java)
     }

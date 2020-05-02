@@ -9,6 +9,7 @@ import com.worldsnas.base.getScreenWidth
 import com.worldsnas.base.ButterKnifeController
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.domain.helpers.posterFullUrl
+import com.worldsnas.navigation.fromByteArray
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
 
@@ -16,8 +17,13 @@ class GalleryView(
     bundle: Bundle
 ) : ButterKnifeController(bundle), OnDismissListener {
 
-    private val localModel = bundle.getParcelable<GalleryLocalModel>(GalleryLocalModel.EXTRA_IMAGES)
-        ?: throw NullPointerException("gallery local model can not be null")
+    private val localModel: GalleryLocalModel =
+        bundle
+            .getByteArray(GalleryLocalModel.EXTRA_IMAGES)
+            ?.let{
+                GalleryLocalModel.fromByteArray(it)
+            }
+            ?: throw NullPointerException("gallery local model can not be null")
 
     override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View {
         val images = prepareImageUrls(container)

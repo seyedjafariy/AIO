@@ -1,7 +1,7 @@
 package com.worldsnas.gallery
 
 import androidx.test.filters.MediumTest
-import com.worldsnas.navigation.Navigation
+import com.worldsnas.navigation.ControllerFactory
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
@@ -17,7 +17,7 @@ class ScreenTest {
     @MediumTest
     fun galleryScreenBoundedCorrectly(){
         assertThat(
-            Navigation.createController(
+            ControllerFactory.createController(
                 Screens.Gallery(
                     GalleryLocalModel(
                         emptyList(),

@@ -1,27 +1,23 @@
 package com.worldsnas.navigation
 
-import android.os.Bundle
-import androidx.annotation.VisibleForTesting
-import androidx.core.os.bundleOf
 import com.worldsnas.navigation.model.GalleryLocalModel
-import com.worldsnas.navigation.model.GalleryLocalModel.Companion.EXTRA_IMAGES
+import com.worldsnas.navigation.model.GalleryLocalModel.Sinker.EXTRA_IMAGES
 import com.worldsnas.navigation.model.MovieDetailLocalModel
-import com.worldsnas.navigation.model.MovieDetailLocalModel.Companion.EXTRA_MOVIE
+import com.worldsnas.navigation.model.MovieDetailLocalModel.Sinker.EXTRA_MOVIE
 import com.worldsnas.navigation.model.SearchLocalModel
-import com.worldsnas.navigation.model.SearchLocalModel.Companion.EXTRA_SEARCH
+import com.worldsnas.navigation.model.SearchLocalModel.Sinker.EXTRA_SEARCH
 
 sealed class Screens(
     val name: String,
-    val extras: Bundle? = null,
+    val extras: Pair<String, ByteArray>? = null,
     val pushAnimation: NavigationAnimation? = null,
     val popAnimation: NavigationAnimation? = null
 ) {
 
-    interface Split{
-        val module : String
+    interface Dynamic {
+        val module: String
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.NONE)
     internal object Test : Screens("com.worldsnas.navigation.TestController")
 
     object Home : Screens("com.worldsnas.home.view.HomeView")
@@ -32,9 +28,7 @@ sealed class Screens(
         popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.moviedetail.view.MovieDetailView",
-        bundleOf(
-            EXTRA_MOVIE to movie
-        ),
+        EXTRA_MOVIE to MovieDetailLocalModel.toByteArray(movie),
         pushAnimation,
         popAnimation
     )
@@ -45,25 +39,21 @@ sealed class Screens(
         popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.gallery.GalleryView",
-        bundleOf(
-            EXTRA_IMAGES to model
-        ),
+        EXTRA_IMAGES to GalleryLocalModel.toByteArray(model),
         pushAnimation,
         popAnimation
     )
 
     class Search(
-        model : SearchLocalModel,
+        model: SearchLocalModel,
         pushAnimation: NavigationAnimation? = null,
         popAnimation: NavigationAnimation? = null
     ) : Screens(
         "com.worldsnas.search.view.SearchView",
-        bundleOf(
-            EXTRA_SEARCH to model
-        ),
+        EXTRA_SEARCH to SearchLocalModel.toByteArray(model),
         pushAnimation,
         popAnimation
-    ), Split {
+    ), Dynamic {
         override val module: String
             get() = "search"
     }

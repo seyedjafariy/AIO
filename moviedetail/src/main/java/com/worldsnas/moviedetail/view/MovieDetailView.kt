@@ -25,6 +25,7 @@ import com.worldsnas.moviedetail.R2
 import com.worldsnas.moviedetail.adapter.GenreAdapter
 import com.worldsnas.moviedetail.adapter.covermovie.MovieCoverAdapter
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
+import com.worldsnas.navigation.fromByteArray
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -67,7 +68,10 @@ class MovieDetailView(
     lateinit var similarAdapter: MovieCoverAdapter
 
     private val movieLocal: MovieDetailLocalModel = bundle
-        .getParcelable(MovieDetailLocalModel.EXTRA_MOVIE)
+        .getByteArray(MovieDetailLocalModel.EXTRA_MOVIE)
+        ?.let {
+            MovieDetailLocalModel.fromByteArray(it)
+        }
         ?: throw NullPointerException("${MovieDetailLocalModel.EXTRA_MOVIE} can not be null")
 
     private var covers: List<String> = emptyList()
