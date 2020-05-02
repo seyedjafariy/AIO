@@ -8,7 +8,7 @@ class LanguageServerRepoMapper : Mapper<LanguageServerModel, LanguageRepoModel> 
     override fun map(item: LanguageServerModel): LanguageRepoModel =
         LanguageRepoModel(
             0,
-            item.iso,
+            item.iso?:"",
             item.name
         )
 }

@@ -11,7 +11,7 @@ class ImageServerRepoMapper : Mapper<ImageServerTypeHolder, ImageRepoModel> {
             item.image.aspectRatio,
             item.image.filePath,
             item.image.height,
-            item.image.iso,
+            item.image.iso ?: "",
             item.image.voteAverage,
             item.image.voteCount,
             item.image.width

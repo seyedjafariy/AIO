@@ -12,7 +12,7 @@ interface MovieDetailAPI {
     suspend fun getMovie(
         movieID: Long,
         appendToResponse: String,
-        path: String = "/3/movie"
+        path: String = "3/movie"
     ): Response<MovieServerModel>
 }
 
@@ -26,8 +26,7 @@ class MovieDetailAPIImpl(
     ): Response<MovieServerModel> = executeRequest(engine) {
         url {
             method = HttpMethod.Get
-            encodedPath = path
-            path(listOf(movieID.toString()))
+            path(listOf(path, movieID.toString()))
             parameter("append_to_response", appendToResponse)
         }
     }

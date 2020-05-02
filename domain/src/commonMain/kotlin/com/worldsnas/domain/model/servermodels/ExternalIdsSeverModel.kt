@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ExternalIdsSeverModel(
     @SerialName(value = "imdb_id")
-    val imdbId: String = "",
+    val imdbId: String? = "",
     @SerialName(value = "facebook_id")
-    val facebookId: String = "",
+    val facebookId: String? = "",
     @SerialName(value = "instagram_id")
-    val instagramId: String = "",
+    val instagramId: String? = "",
     @SerialName(value = "twitter_id")
-    val twitterId: String = ""
+    val twitterId: String? = ""
 )

@@ -16,7 +16,7 @@ fun Response<*>.getErrorRepoModel(): ErrorHolder =
         ?.let {
             ErrorHolder.Message(it.message, it.code)
         }
-        ?: ErrorHolder.Message(this.body, this.status)
+        ?: ErrorHolder.Message(this.body, this.status, throwable)
 
 fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
     retry(times) { throwable ->
@@ -30,7 +30,7 @@ fun <T> Flow<Response<T>>.errorHandler(times: Long = 3): Flow<Response<T>> =
 fun <T> createThrowableErrorResponse(throwable: Throwable): Response<T> {
     val status = getServerErrorStatusCode(throwable)
     val errorMessage = getThrowableErrorMessage(throwable)
-    return Response.Error(status, errorMessage) as Response<T>
+    return Response.Error(status, errorMessage, throwable) as Response<T>
 }
 
 fun getThrowableErrorMessage(throwable: Throwable): String =

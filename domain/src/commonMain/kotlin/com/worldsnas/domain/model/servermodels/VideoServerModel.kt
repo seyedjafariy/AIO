@@ -8,9 +8,9 @@ data class VideoServerModel(
     @SerialName(value = "id")
     val id: String = "",
     @SerialName(value = "iso_639_1")
-    val iso_639_1: String = "",
+    val iso_639_1: String? = "",
     @SerialName(value = "iso_3166_1")
-    val iso_3166_1: String = "",
+    val iso_3166_1: String? = "",
     @SerialName(value = "key")
     val key: String = "",
     @SerialName(value = "name")

@@ -86,12 +86,13 @@ class LatestMovieRepoImpl(
     private fun Flow<Response<ResultsServerModel<MovieServerModel>>>.parseAndSave(validateDb: Boolean): Flow<Either<Nothing, MutableList<MovieRepoModel>>> =
         filter { serverFirstPageResponse ->
             serverFirstPageResponse.isSuccessful
-        }.map { serverFirstPageResponse ->
-            serverFirstPageResponse as Response.Success<ResultsServerModel<MovieServerModel>>
-            serverFirstPageResponse.data.list.map {
-                movieServerRepoMapper.map(it)
-            }
         }
+            .map { serverFirstPageResponse ->
+                serverFirstPageResponse as Response.Success<ResultsServerModel<MovieServerModel>>
+                serverFirstPageResponse.data.list.map {
+                    movieServerRepoMapper.map(it)
+                }
+            }
             .validateDb(validateDb)
             .saveToDb()
             .flatMapConcat {
@@ -166,5 +167,5 @@ class LatestMovieRepoImpl(
                 )
             )
         }.errorHandler()
-            .flowOn(Dispatchers.IO)
+            .flowOn(Dispatchers.Default)
 }

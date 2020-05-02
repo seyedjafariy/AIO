@@ -9,8 +9,8 @@ class VideoServerRepoMapper : Mapper<VideoServerModel, VideoRepoModel> {
         VideoRepoModel(
             0,
             item.id,
-            item.iso_639_1,
-            item.iso_3166_1,
+            item.iso_639_1 ?: "",
+            item.iso_3166_1 ?: "",
             item.key,
             item.name,
             item.site,

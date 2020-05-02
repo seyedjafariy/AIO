@@ -8,7 +8,7 @@ data class CompanyServerModel(
     @SerialName(value = "id")
     val id: Long = 0,
     @SerialName(value = "logo_path")
-    val logoPath: String = "",
+    val logoPath: String? = "",
     @SerialName(value = "name")
     val name: String = "",
     @SerialName(value = "origin_country")

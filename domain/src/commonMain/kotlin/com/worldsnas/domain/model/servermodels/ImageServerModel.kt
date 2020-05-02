@@ -12,7 +12,7 @@ data class ImageServerModel(
     @SerialName(value = "height")
     val height: Int = 0,
     @SerialName(value = "iso_639_1")
-    val iso: String = "",
+    val iso: String? = "",
     @SerialName(value = "vote_average")
     val voteAverage: Double = 0.0,
     @SerialName(value = "vote_count")

@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LanguageServerModel(
     @SerialName(value = "iso_639_1")
-    val iso: String = "",
+    val iso: String? = "",
     @SerialName(value = "name")
     val name: String
 )

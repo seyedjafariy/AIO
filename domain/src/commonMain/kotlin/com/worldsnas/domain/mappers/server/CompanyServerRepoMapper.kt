@@ -8,7 +8,7 @@ class CompanyServerRepoMapper : Mapper<CompanyServerModel, CompanyRepoModel> {
     override fun map(item: CompanyServerModel): CompanyRepoModel =
         CompanyRepoModel(
             item.id,
-            item.logoPath,
+            item.logoPath ?: "",
             item.name,
             item.originCountry
         )

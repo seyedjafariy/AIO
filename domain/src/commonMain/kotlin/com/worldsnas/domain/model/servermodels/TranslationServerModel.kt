@@ -6,9 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TranslationServerModel(
     @SerialName(value = "iso_3166_1")
-    val iso_3166_1: String = "",
+    val iso_3166_1: String? = "",
     @SerialName(value = "iso_639_1")
-    val iso_639_1: String = "",
+    val iso_639_1: String? = "",
     @SerialName(value = "name")
     val name: String = "",
     @SerialName(value = "english_name")

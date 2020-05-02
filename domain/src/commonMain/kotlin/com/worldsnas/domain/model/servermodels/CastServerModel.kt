@@ -20,7 +20,7 @@ data class CastServerModel(
     @SerialName(value = "order")
     val order: Int = 0,
     @SerialName(value = "profile_path")
-    val profilePath: String = "",
+    val profilePath: String? = "",
     @SerialName(value = "poster_path")
     val posterPath: String = "",
     @SerialName(value = "adult")

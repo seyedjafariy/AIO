@@ -18,7 +18,7 @@ data class CrewServerModel(
     @SerialName(value = "name")
     val name: String = "",
     @SerialName(value = "profile_path")
-    val profilePath: String = "",
+    val profilePath: String? = "",
     @SerialName(value = "original_language")
     val originalLanguage: String = "",
     @SerialName(value = "original_title")

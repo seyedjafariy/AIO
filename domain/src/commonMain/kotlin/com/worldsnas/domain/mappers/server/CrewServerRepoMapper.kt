@@ -13,7 +13,7 @@ class CrewServerRepoMapper : Mapper<CrewServerModel, CrewRepoModel> {
             item.gender,
             item.job,
             item.name,
-            item.profilePath,
+            item.profilePath ?: "",
             item.originalLanguage,
             item.originalTitle,
             item.overview,

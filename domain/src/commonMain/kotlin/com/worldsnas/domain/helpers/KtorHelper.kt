@@ -32,7 +32,8 @@ sealed class Response<T>(
 
     data class Error(
         val status: Int,
-        val body: String
+        val body: String,
+        val throwable: Throwable? = null
     ) : Response<Nothing>(status)
 
     val isSuccessful: Boolean

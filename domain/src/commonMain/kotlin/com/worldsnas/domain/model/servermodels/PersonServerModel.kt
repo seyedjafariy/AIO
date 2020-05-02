@@ -10,7 +10,7 @@ data class PersonServerModel(
     @SerialName(value = "popularity")
     val popularity: Double = 0.0,
     @SerialName(value = "profile_path")
-    val profilePath: String = "",
+    val profilePath: String? = "",
     @SerialName(value = "name")
     val name: String = "",
     @SerialName(value = "adult")

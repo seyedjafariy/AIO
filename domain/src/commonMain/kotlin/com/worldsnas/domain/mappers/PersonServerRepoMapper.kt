@@ -9,7 +9,7 @@ class PersonServerRepoMapper : Mapper<PersonServerModel, PersonRepoModel> {
         PersonRepoModel(
             item.id,
             item.popularity,
-            item.profilePath,
+            item.profilePath ?: "",
             item.name,
             item.adult
         )

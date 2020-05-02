@@ -14,7 +14,7 @@ class CastServerRepoMapper : Mapper<CastServerModel, CastRepoModel> {
             item.gender,
             item.name,
             item.order,
-            item.profilePath,
+            item.profilePath ?: "",
             item.posterPath,
             item.adult,
             item.backdropPath,
