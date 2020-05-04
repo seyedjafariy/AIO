@@ -1,45 +1,37 @@
-package com.worldsnas.moviedetail.adapter
+package com.worldsnas.moviedetail.adapter.covermovie
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.worldsnas.base.inflate
+import com.worldsnas.core.mvi.MviPresenter
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R
-import com.worldsnas.moviedetail.model.GenreUIModel
-import com.worldsnas.moviedetail.view.GenreViewHolder
-import com.worldsnas.mvi.MviPresenter
+import com.worldsnas.moviedetail.model.MovieUIModel
+import com.worldsnas.moviedetail.view.MovieCoverViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class GenreAdapter @Inject constructor(
-    diffCallback: GenreDiffCallback,
+class MovieCoverAdapter @Inject constructor(
+    diffCallback: MovieCoverUIDiffCallback,
     private val presenter: MviPresenter<MovieDetailIntent, MovieDetailState>
-) : ListAdapter<GenreUIModel, GenreViewHolder>(diffCallback) {
+) : ListAdapter<MovieUIModel, MovieCoverViewHolder>(diffCallback) {
 
     private val disposable = CompositeDisposable()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder =
-        GenreViewHolder(parent.inflate(R.layout.row_genre))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCoverViewHolder =
+        MovieCoverViewHolder(parent.inflate(R.layout.row_recommendation_movie))
 
-    override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieCoverViewHolder, position: Int) {
         holder.bind(getItem(position))
         holder.intents(getItem(position))
             .subscribeBy {
                 presenter.processIntents(it)
             }
             .addTo(disposable)
-    }
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        presenter.states()
-            .subscribeBy {
-                submitList(it.genres)
-            }.addTo(disposable)
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {

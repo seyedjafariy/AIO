@@ -1,28 +1,31 @@
 package com.worldsnas.moviedetail
 
-import com.worldsnas.base.BasePresenter
-import com.worldsnas.base.BaseState
-import com.worldsnas.base.notOfType
-import com.worldsnas.daggercore.scope.FeatureScope
-import com.worldsnas.mvi.MviProcessor
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.ofType
-import javax.inject.Inject
+import com.worldsnas.core.mvi.BaseState
+import com.worldsnas.core.listMerge
+import com.worldsnas.core.mvi.BasePresenter
+import com.worldsnas.core.mvi.MviProcessor
+import com.worldsnas.core.noOfType
+import com.worldsnas.core.ofType
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.take
 
-@FeatureScope
-class MovieDetailPresenter @Inject constructor(
+class MovieDetailPresenter(
     processor: MviProcessor<MovieDetailIntent, MovieDetailResult>
 ) : BasePresenter<MovieDetailIntent, MovieDetailState, MovieDetailResult>(
     processor,
     MovieDetailState.start()
 ) {
 
-    override fun filterIntent(intents: Observable<MovieDetailIntent>):
-            Observable<MovieDetailIntent> =
-        Observable.merge(
-            intents.ofType<MovieDetailIntent.Initial>().take(1),
-            intents.notOfType(MovieDetailIntent.Initial::class.java)
+    override fun filterIntent(intents: Flow<MovieDetailIntent>): Flow<MovieDetailIntent> {
+        return intents.listMerge(
+            {
+                ofType<MovieDetailIntent.Initial>().take(1)
+            },
+            {
+                noOfType(MovieDetailIntent.Initial::class)
+            }
         )
+    }
 
     override fun reduce(preState: MovieDetailState, result: MovieDetailResult): MovieDetailState =
         when (result) {

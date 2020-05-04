@@ -36,7 +36,7 @@ buildkonfig {
 kotlin {
 
     sourceSets["commonMain"].dependencies {
-        implementation(kotlin("stdlib", Versions.kotlin))
+        implementation(kotlin(Deps.Kotlin.common))
 
         implementation(project(Deps.Modules.core))
         implementation(project(Deps.Modules.db))

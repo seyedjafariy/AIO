@@ -5,27 +5,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
+import androidx.annotation.CallSuper
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.worldsnas.core.mvi.BaseState
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.mvi.MviIntent
 import com.worldsnas.mvi.MviPresenter
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.rx2.asFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("UNUSED_PARAMETER")
-abstract class BaseView<S : BaseViewStateOld, I : MviIntent> @JvmOverloads constructor(
+abstract class CoroutineViewOld<
+        V : ViewBinding,
+        S : BaseViewStateOld,
+        I : MviIntent
+        > @JvmOverloads constructor(
     bundle: Bundle? = null
-) : ButterKnifeController(bundle) {
+) : ViewBindingController<V>(bundle), CoroutineScope by MainScope(){
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    val disposables = CompositeDisposable()
-
+    lateinit var coreComponent: CoreComponent
     @Inject
     lateinit var presenter: MviPresenter<I, S>
 
@@ -41,41 +47,55 @@ abstract class BaseView<S : BaseViewStateOld, I : MviIntent> @JvmOverloads const
         inject
     }
 
-    override fun inflateView(inflater: LayoutInflater, container: ViewGroup): View =
-        inflater.inflate(getLayoutId(), container, false)
-
-    override fun onAttach(view: View) {
-        super.onAttach(view)
+    @CallSuper
+    override fun onViewBound(binding: V) {
         bind()
         createLoading()
         createErrorSnack()
     }
 
-    override fun onDetach(view: View) {
-        disposables.clear()
+    @CallSuper
+    override fun unBindView() {
+        coroutineContext.cancelChildren()
         loadingView = null
         errorSnack = null
-        super.onDetach(view)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 
     private fun prepareDependencies() {
-        applicationContext?.run {
-            injectDependencies(coreComponent())
+        if (!::coreComponent.isInitialized) {
+            coreComponent = applicationContext!!.coreComponent()
         }
+        injectDependencies(coreComponent)
     }
 
     private fun bind() {
         intents()
             .newIntents()
 
-        presenter.states().subscribeBy { render(it) }.addTo(disposables)
+        presenter
+            .states()
+            .asFlow()
+            .catch {
+                Timber.e("presenter state flow exception caught")
+            }
+            .onEach {
+                render(it)
+            }
+            .launchIn(this)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    protected fun Observable<I>.newIntents() =
-        subscribeBy {
+    protected fun Flow<I>.newIntents() =
+        catch {
+            Timber.e("view intents flow exception caught")
+        }.onEach {
             presenter.processIntents(it)
-        }.addTo(disposables)
+        }.launchIn(this@CoroutineViewOld)
 
     protected fun renderError(baseState: BaseState) {
 //        view?.run {
@@ -136,12 +156,9 @@ abstract class BaseView<S : BaseViewStateOld, I : MviIntent> @JvmOverloads const
 //        }
     }
 
-    @LayoutRes
-    protected abstract fun getLayoutId(): Int
-
     protected abstract fun injectDependencies(core: CoreComponent)
 
     protected abstract fun render(state: S)
 
-    protected abstract fun intents(): Observable<I>
+    protected abstract fun intents(): Flow<I>
 }

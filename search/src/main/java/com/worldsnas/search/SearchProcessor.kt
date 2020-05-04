@@ -1,6 +1,6 @@
 package com.worldsnas.search
 
-import com.worldsnas.base.toErrorState
+import com.worldsnas.core.mvi.toErrorState
 import com.worldsnas.base.delayEvent
 import com.worldsnas.core.Either
 import com.worldsnas.core.ErrorHolder
