@@ -1,7 +1,7 @@
 package com.worldsnas.moviedetail
 
-import com.worldsnas.base.BaseState
-import com.worldsnas.base.BaseViewState
+import com.worldsnas.core.mvi.BaseState
+import com.worldsnas.core.mvi.BaseViewState
 import com.worldsnas.moviedetail.model.GenreUIModel
 import com.worldsnas.moviedetail.model.MovieUIModel
 

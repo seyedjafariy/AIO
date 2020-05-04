@@ -41,6 +41,9 @@ object Versions {
 
 object Deps {
 
+    object Kotlin {
+        val common = "stdlib-common"
+    }
 
     object Android {
 

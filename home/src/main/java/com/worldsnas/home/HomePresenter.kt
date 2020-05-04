@@ -1,6 +1,6 @@
 package com.worldsnas.home
 
-import com.worldsnas.base.BaseState
+import com.worldsnas.core.mvi.BaseState
 import com.worldsnas.base.notOfType
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.home.model.HomeUIModel

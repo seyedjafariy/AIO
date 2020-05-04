@@ -1,7 +1,7 @@
 package com.worldsnas.moviedetail
 
+import com.worldsnas.core.mvi.MviIntent
 import com.worldsnas.moviedetail.model.MovieUIModel
-import com.worldsnas.mvi.MviIntent
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 
 sealed class MovieDetailIntent : MviIntent {

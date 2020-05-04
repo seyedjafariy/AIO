@@ -1,8 +1,19 @@
 package com.worldsnas.core
 
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlin.reflect.KClass
 
-fun <T> suspendToFlow(block : suspend () -> T) : Flow<T> = flow {
+inline fun <reified R> Flow<*>.ofType() = transform {
+    if (R::class.isInstance(it)) {
+        emit(it as R)
+    }
+}
+
+fun <T, U : Any> Flow<T>.noOfType(u : KClass<U>): Flow<T> =
+    filter { u.isInstance(it) }
+
+fun <T> suspendToFlow(block: suspend () -> T): Flow<T> = flow {
     emit(block())
 }
 
@@ -43,3 +54,15 @@ fun <T> Flow<List<T>>.concatIterable(): Flow<T> =
         it.asFlow()
     }
 
+fun <T> delayedFlow(immediate: T, delayed: T): Flow<T> =
+    flow {
+        emit(immediate)
+        delay(3000)
+        emit(delayed)
+    }
+
+fun <T, U> Flow<T>.zipPair(other : Flow<U>) : Flow<Pair<T, U>> =
+    zip(other) { t, u -> t to u }
+
+fun <T, U> Flow<T>.zipPair(other : U) : Flow<Pair<T, U>> =
+    zip(flowOf(other)) { t, u -> t to u }

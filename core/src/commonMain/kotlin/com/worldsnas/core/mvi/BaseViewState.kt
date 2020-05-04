@@ -1,6 +1,4 @@
-package com.worldsnas.base
-
-import com.worldsnas.mvi.MviViewState
+package com.worldsnas.core.mvi
 
 interface BaseViewState : MviViewState {
     val base : BaseState

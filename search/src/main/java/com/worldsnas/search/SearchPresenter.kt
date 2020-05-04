@@ -1,7 +1,7 @@
 package com.worldsnas.search
 
 import com.worldsnas.base.BasePresenter
-import com.worldsnas.base.BaseState
+import com.worldsnas.core.mvi.BaseState
 import com.worldsnas.daggercore.scope.FeatureScope
 import com.worldsnas.mvi.MviProcessor
 import javax.inject.Inject

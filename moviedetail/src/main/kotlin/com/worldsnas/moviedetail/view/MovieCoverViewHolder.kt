@@ -4,7 +4,6 @@ import android.net.Uri
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.ViewCompat
-import butterknife.BindView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.common.ResizeOptions
@@ -15,21 +14,16 @@ import com.worldsnas.base.BaseViewHolder
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.R
-import com.worldsnas.moviedetail.R2
 import com.worldsnas.moviedetail.model.MovieUIModel
 import io.reactivex.Observable
 import kotlin.math.roundToInt
-
 
 class MovieCoverViewHolder(
     view: View
 ) : BaseViewHolder<MovieUIModel, MovieDetailIntent>(view) {
 
-    @BindView(R2.id.poster)
     lateinit var poster: SimpleDraweeView
-    @BindView(R2.id.title)
     lateinit var title: TextView
-    @BindView(R2.id.releaseDate)
     lateinit var releaseDate: TextView
 
     override fun bind(obj: MovieUIModel) {

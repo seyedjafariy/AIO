@@ -1,9 +1,8 @@
 package com.worldsnas.home
 
-import com.worldsnas.base.BaseState
-import com.worldsnas.base.BaseViewState
+import com.worldsnas.core.mvi.BaseState
+import com.worldsnas.base.BaseViewStateOld
 import com.worldsnas.home.model.HomeUIModel
-import com.worldsnas.home.model.MovieUIModel
 import com.worldsnas.view_component.Movie
 
 data class HomeState(
@@ -11,7 +10,7 @@ data class HomeState(
     val sliderMovies: List<Movie>,
     val latest: List<Movie>,
     val homeItems : List<HomeUIModel>
-) : BaseViewState {
+) : BaseViewStateOld {
     companion object {
         fun start() = HomeState(
             base = BaseState.stable(),

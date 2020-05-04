@@ -20,7 +20,7 @@ sqldelight(Action<com.squareup.sqldelight.gradle.SqlDelightExtension> {
 kotlin {
 
     sourceSets["commonMain"].dependencies {
-        implementation(kotlin("stdlib", Versions.kotlin))
+        implementation(kotlin(Deps.Kotlin.common))
         implementation(Deps.SqlDelight.runtime)
         implementation(Deps.Coroutines.common)
         implementation(Deps.Tools.stately)

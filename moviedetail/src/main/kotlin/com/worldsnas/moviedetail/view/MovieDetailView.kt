@@ -1,62 +1,42 @@
 package com.worldsnas.moviedetail.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import butterknife.BindView
 import com.daimajia.slider.library.SliderLayout
 import com.daimajia.slider.library.SliderTypes.BaseSliderView
 import com.daimajia.slider.library.SliderTypes.TextSliderView
-import com.facebook.drawee.view.SimpleDraweeView
-import com.jakewharton.rxbinding3.view.clicks
 import com.worldsnas.base.*
+import com.worldsnas.core.mvi.MviPresenter
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
-import com.worldsnas.moviedetail.R
-import com.worldsnas.moviedetail.R2
 import com.worldsnas.moviedetail.adapter.GenreAdapter
 import com.worldsnas.moviedetail.adapter.covermovie.MovieCoverAdapter
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
 import com.worldsnas.navigation.fromByteArray
 import com.worldsnas.navigation.model.MovieDetailLocalModel
-import io.reactivex.Observable
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
 class MovieDetailView(
     bundle: Bundle
-) : BaseView<MovieDetailState, MovieDetailIntent>(bundle), BaseSliderView.OnSliderClickListener {
+) : CoroutineView<ViewMovieDetailBinding, MovieDetailState, MovieDetailIntent>(
+    bundle
+), BaseSliderView.OnSliderClickListener {
 
-    @BindView(R2.id.sliderMovieCover)
-    lateinit var coverSlider: SliderLayout
-    @BindView(R2.id.imgMoviePoster)
-    lateinit var poster: SimpleDraweeView
-    @BindView(R2.id.txtMovieTitle)
-    lateinit var title: TextView
-    @BindView(R2.id.txtMovieDuration)
-    lateinit var duration: TextView
-    @BindView(R2.id.txtMovieDate)
-    lateinit var date: TextView
-    @BindView(R2.id.rvMovieGenre)
-    lateinit var genres: RecyclerView
-    @BindView(R2.id.txtMovieDescription)
-    lateinit var description: TextView
-    @BindView(R2.id.rvRecommendations)
-    lateinit var recommendations : RecyclerView
-    @BindView(R2.id.txtMovieRecommendationTitle)
-    lateinit var recommendationTitle : TextView
-    @BindView(R2.id.rvSimilars)
-    lateinit var similars : RecyclerView
-    @BindView(R2.id.txtMovieSimilarTitle)
-    lateinit var similarTitle : TextView
+    @Inject
+    override lateinit var presenter: MviPresenter<MovieDetailIntent, MovieDetailState>
 
     @Inject
     lateinit var genreAdapter: GenreAdapter
@@ -76,7 +56,8 @@ class MovieDetailView(
 
     private var covers: List<String> = emptyList()
 
-    override fun getLayoutId(): Int = R.layout.view_movie_detail
+    override fun bindView(inflater: LayoutInflater, container: ViewGroup): ViewMovieDetailBinding =
+        ViewMovieDetailBinding.inflate(inflater, container, false)
 
     override fun injectDependencies(core: CoreComponent) =
         DaggerMovieDetailComponent.builder()
@@ -85,10 +66,10 @@ class MovieDetailView(
             .build()
             .inject(this)
 
-    override fun onViewBound(view: View) {
-        ViewCompat.setTransitionName(poster, movieLocal.posterTransName)
-        ViewCompat.setTransitionName(title, movieLocal.titleTransName)
-        ViewCompat.setTransitionName(date, movieLocal.releaseTransName)
+    override fun onViewBound(binding: ViewMovieDetailBinding) {
+        ViewCompat.setTransitionName(binding.imgMoviePoster, movieLocal.posterTransName)
+        ViewCompat.setTransitionName(binding.txtMovieTitle, movieLocal.titleTransName)
+        ViewCompat.setTransitionName(binding.txtMovieDate, movieLocal.releaseTransName)
 
         initGenreRV()
         initRecommendationRV()
@@ -97,12 +78,12 @@ class MovieDetailView(
 
     override fun onAttach(view: View) {
         super.onAttach(view)
-        coverSlider.startAutoCycle()
+        binding.sliderMovieCover.startAutoCycle()
     }
 
     override fun onDetach(view: View) {
-        coverSlider.stopAutoCycle()
-        genres.adapter = null
+        binding.sliderMovieCover.stopAutoCycle()
+        binding.rvMovieGenre.adapter = null
         super.onDetach(view)
     }
 
@@ -115,55 +96,57 @@ class MovieDetailView(
         renderLoading(state.base)
         renderError(state.base)
 
-        recommendationTitle visible state.showRecommendation
-        recommendations visible state.showRecommendation
+        binding.txtMovieRecommendationTitle visible state.showRecommendation
+        binding.rvRecommendations visible state.showRecommendation
 
-        similarTitle visible state.showSimilar
-        similars visible state.showSimilar
+        binding.txtMovieSimilarTitle visible state.showSimilar
+        binding.rvSimilars visible state.showSimilar
+
+        genreAdapter.submitList(state.genres)
 
         similarAdapter.submitList(state.similars)
         recommendationAdapter.submitList(state.recommendations)
 
-        title.text = state.title
-        description.text = state.description
-        date.text = state.date
-        duration.text = state.duration
+        binding.txtMovieTitle.text = state.title
+        binding.txtMovieDescription.text = state.description
+        binding.txtMovieDate.text = state.date
+        binding.txtMovieDuration.text = state.duration
 
         applicationContext?.run {
             val posterSize = 100f pixel this
-            poster.setImageURI(state.poster posterFullUrl posterSize.roundToInt())
+            binding.imgMoviePoster.setImageURI(state.poster posterFullUrl posterSize.roundToInt())
         }
         submitCovers(state.covers)
     }
 
-    override fun intents(): Observable<MovieDetailIntent> =
-        Observable.merge(
-            Observable.just(MovieDetailIntent.Initial(movieLocal)),
+    override fun intents(): Flow<MovieDetailIntent> =
+        listOf(
+            flowOf(MovieDetailIntent.Initial(movieLocal)),
             posterClicks()
-        )
+        ).merge()
 
     private fun initGenreRV() {
-        genres.adapter = genreAdapter
-        genres.layoutManager = LinearLayoutManager(
-            genres.context,
+        binding.rvMovieGenre.adapter = genreAdapter
+        binding.rvMovieGenre.layoutManager = LinearLayoutManager(
+            binding.rvMovieGenre.context,
             LinearLayoutManager.HORIZONTAL,
             false
         )
     }
 
     private fun initRecommendationRV() {
-        recommendations.adapter = recommendationAdapter
-        recommendations.layoutManager = LinearLayoutManager(
-            recommendations.context,
+        binding.rvRecommendations.adapter = recommendationAdapter
+        binding.rvRecommendations.layoutManager = LinearLayoutManager(
+            binding.rvRecommendations.context,
             LinearLayoutManager.HORIZONTAL,
             false
         )
     }
 
     private fun initSimilarRV() {
-        similars.adapter = similarAdapter
-        similars.layoutManager = LinearLayoutManager(
-            similars.context,
+        binding.rvSimilars.adapter = similarAdapter
+        binding.rvSimilars.layoutManager = LinearLayoutManager(
+            binding.rvSimilars.context,
             LinearLayoutManager.HORIZONTAL,
             false
         )
@@ -172,9 +155,9 @@ class MovieDetailView(
     private fun submitCovers(covers: List<String>) {
         if (this.covers != covers) {
             view?.context?.run {
-                coverSlider.removeAllSliders()
+                binding.sliderMovieCover.removeAllSliders()
                 covers.forEach {
-                    coverSlider.addSlider(
+                    binding.sliderMovieCover.addSlider(
                         TextSliderView(this)
                             .image(it.coverFullUrl(getScreenWidth()))
                             .bundle(
@@ -185,7 +168,7 @@ class MovieDetailView(
                             .setOnSliderClickListener(this@MovieDetailView)
                             .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                     )
-                    coverSlider.setPresetTransformer(SliderLayout.Transformer.Default)
+                    binding.sliderMovieCover.setPresetTransformer(SliderLayout.Transformer.Default)
                     this@MovieDetailView.covers = covers
                 }
             }
@@ -197,18 +180,25 @@ class MovieDetailView(
             .processIntents(
                 MovieDetailIntent.CoverClicked(
                     slider?.bundle?.getString("url") ?: "",
-                    coverSlider.parent as ConstraintLayout getCenterX coverSlider.parent as ConstraintLayout,
-                    coverSlider.parent as ConstraintLayout getCenterY coverSlider.parent as ConstraintLayout
+                    binding.sliderMovieCover.parent as ConstraintLayout getCenterX binding.sliderMovieCover.parent as ConstraintLayout,
+                    binding.sliderMovieCover.parent as ConstraintLayout getCenterY binding.sliderMovieCover.parent as ConstraintLayout
                 )
             )
     }
 
-    private fun posterClicks() =
-        poster.clicks()
-            .map {
-                MovieDetailIntent.PosterClicked(
-                    poster getCenterX poster.parent as ConstraintLayout,
-                    poster getCenterY poster.parent as ConstraintLayout
+    private fun posterClicks() = callbackFlow {
+        binding.imgMoviePoster.setOnClickListener {
+            launch {
+                this@callbackFlow.send(
+                    MovieDetailIntent.PosterClicked(
+                        binding.imgMoviePoster getCenterX binding.imgMoviePoster.parent as ConstraintLayout,
+                        binding.imgMoviePoster getCenterY binding.imgMoviePoster.parent as ConstraintLayout
+                    )
                 )
             }
+        }
+        awaitClose {
+            binding.imgMoviePoster.setOnClickListener(null)
+        }
+    }
 }

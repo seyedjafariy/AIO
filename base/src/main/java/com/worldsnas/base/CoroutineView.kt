@@ -8,31 +8,32 @@ import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.worldsnas.core.mvi.BaseState
+import com.worldsnas.core.mvi.MviIntent
+import com.worldsnas.core.mvi.MviPresenter
+import com.worldsnas.core.mvi.MviViewState
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
-import com.worldsnas.mvi.MviIntent
-import com.worldsnas.mvi.MviPresenter
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.rx2.asFlow
 import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("UNUSED_PARAMETER")
 abstract class CoroutineView<
         V : ViewBinding,
-        S : BaseViewState,
+        S : MviViewState,
         I : MviIntent
         > @JvmOverloads constructor(
     bundle: Bundle? = null
 ) : ViewBindingController<V>(bundle), CoroutineScope by MainScope(){
 
     lateinit var coreComponent: CoreComponent
-    @Inject
-    lateinit var presenter: MviPresenter<I, S>
+
+    abstract var presenter: MviPresenter<I, S>
 
     var loadingView: View? = null
     var errorSnack: Snackbar? = null
@@ -63,6 +64,7 @@ abstract class CoroutineView<
     override fun onDestroy() {
         super.onDestroy()
         cancel()
+        presenter.close()
     }
 
     private fun prepareDependencies() {
@@ -78,7 +80,6 @@ abstract class CoroutineView<
 
         presenter
             .states()
-            .asFlow()
             .catch {
                 Timber.e("presenter state flow exception caught")
             }

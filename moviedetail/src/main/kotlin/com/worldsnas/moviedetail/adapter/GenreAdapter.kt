@@ -1,31 +1,31 @@
-package com.worldsnas.moviedetail.adapter.covermovie
+package com.worldsnas.moviedetail.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.worldsnas.base.inflate
+import com.worldsnas.core.mvi.MviPresenter
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.R
-import com.worldsnas.moviedetail.model.MovieUIModel
-import com.worldsnas.moviedetail.view.MovieCoverViewHolder
-import com.worldsnas.mvi.MviPresenter
+import com.worldsnas.moviedetail.model.GenreUIModel
+import com.worldsnas.moviedetail.view.GenreViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
-class MovieCoverAdapter @Inject constructor(
-    diffCallback: MovieCoverUIDiffCallback,
+class GenreAdapter @Inject constructor(
+    diffCallback: GenreDiffCallback,
     private val presenter: MviPresenter<MovieDetailIntent, MovieDetailState>
-) : ListAdapter<MovieUIModel, MovieCoverViewHolder>(diffCallback) {
+) : ListAdapter<GenreUIModel, GenreViewHolder>(diffCallback) {
 
     private val disposable = CompositeDisposable()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieCoverViewHolder =
-        MovieCoverViewHolder(parent.inflate(R.layout.row_recommendation_movie))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder =
+        GenreViewHolder(parent.inflate(R.layout.row_genre))
 
-    override fun onBindViewHolder(holder: MovieCoverViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
         holder.bind(getItem(position))
         holder.intents(getItem(position))
             .subscribeBy {
