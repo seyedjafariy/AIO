@@ -76,33 +76,26 @@ kotlin {
         implementation(kotlin("stdlib", Versions.kotlin))
         implementation(Deps.Android.Test.junit)
         implementation(Deps.Android.Test.assertJ)
+        implementation(Deps.Android.Test.runner)
+        implementation(Deps.Android.Test.core)
+        implementation(Deps.Android.Test.rules)
+        implementation(Deps.Android.Test.junitExt)
+        implementation(Deps.Android.Test.espressoCore)
+        implementation(Deps.Android.Test.espressoIntents)
     }
     jvm()
     sourceSets["jvmTest"].dependencies {
         implementation(kotlin("stdlib", Versions.kotlin))
         implementation(Deps.Android.Test.junit)
         implementation(Deps.Android.Test.assertJ)
+        implementation(Deps.Android.Test.mockkUnit)
+        implementation(Deps.Android.Test.robolectric)
+        implementation(Deps.Android.Test.runner)
+        implementation(Deps.Android.Test.core)
+        implementation(Deps.Android.Test.rules)
+        implementation(Deps.Android.Test.junitExt)
+        implementation(Deps.Android.Test.espressoCore)
+        implementation(Deps.Android.Test.jsonTest)
+        implementation(project(Deps.Modules.kotlinTestHelper))
     }
 }
-/*
-dependencies {
-    testImplementation junit
-    testImplementation assertJ
-    testImplementation mockkUnit
-    testImplementation robolectric
-    testImplementation supportTestRunner
-    testImplementation supportTestCore
-    testImplementation supportTestRule
-    testImplementation supportJunitExt
-    testImplementation espressoCore
-
-    androidTestImplementation supportTestRunner
-    androidTestImplementation supportTestCore
-    androidTestImplementation supportTestRule
-    androidTestImplementation supportJunitExt
-    androidTestImplementation espressoCore
-    androidTestImplementation espressoIntents
-    testImplementation jsonTest
-
-    testImplementation(project(kotlinTestHelper))
-*/

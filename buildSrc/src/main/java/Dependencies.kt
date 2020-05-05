@@ -132,6 +132,7 @@ object Deps {
             val junit = "androidx.test.ext:junit:${Versions.androidXTest}"
             val runner = "androidx.test:runner:${Versions.androidXTest}"
             val rules = "androidx.test:rules:${Versions.androidXTest}"
+            val junitExt = "androidx.test.ext:junit:1.0.0"
             val assertJ = "org.assertj:assertj-core:3.12.2"
             val mockkUnit = "io.mockk:mockk:${Versions.mockk}"
             val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
