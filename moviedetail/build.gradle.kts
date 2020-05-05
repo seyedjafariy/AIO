@@ -13,6 +13,8 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    android.buildFeatures.viewBinding = true
 }
 
 kotlin {
@@ -45,10 +47,13 @@ kotlin {
         implementation(Deps.Android.Tools.fresco)
 
         implementation(Deps.Dagger.dagger)
+        implementation(Deps.Dagger.javaxAnnotation)
 
         configurations.get("kapt").dependencies.add(
-            implementation(
-                Deps.Dagger.daggerCompiler
+            org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency(
+                "com.google.dagger",
+                "dagger-compiler",
+                Versions.dagger
             )
         )
 
@@ -78,43 +83,6 @@ kotlin {
         implementation(Deps.Android.Test.junit)
         implementation(Deps.Android.Test.assertJ)
     }
-}
-dependencies{
-    implementation(kotlin("stdlib", Versions.kotlin))
-
-    implementation(Deps.Android.Support.compat)
-    implementation(Deps.Android.Support.constraintLayout)
-    implementation(Deps.Android.Support.design)
-
-    implementation(Deps.Android.Jetpack.coreKts)
-
-    implementation(Deps.Android.Tools.conductor)
-    implementation(Deps.Android.Tools.timber)
-    implementation(Deps.Android.Tools.fresco)
-
-    implementation(Deps.Dagger.dagger)
-
-    configurations.get("kapt").dependencies.add(
-        implementation(
-            Deps.Dagger.daggerCompiler
-        )
-    )
-//    kapt(Deps.Dagger.daggerCompiler)
-
-    implementation(Deps.RxJava.rxJava)
-    implementation(Deps.RxJava.rxAndroid)
-    implementation(Deps.RxJava.rxKotlin)
-    implementation(Deps.RxJava.rxBindingKotlin)
-    implementation(Deps.Coroutines.rxJava)
-    implementation(Deps.Coroutines.jdk)
-
-    implementation(project(Deps.Modules.daggerCore))
-    implementation(project(Deps.Modules.base))
-    implementation(project(Deps.Modules.mvi))
-    implementation(project(Deps.Modules.navigation))
-    implementation(project(Deps.Modules.imageSliderLocal))
-    implementation(Deps.Android.Tools.nineOldAndroidAnim)
-
 }
 /*
 dependencies {

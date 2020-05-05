@@ -48,17 +48,21 @@ abstract class CoroutineView<
     }
 
     @CallSuper
-    override fun onViewBound(binding: V) {
+    final override fun onViewBound(binding: V) {
+        beforeBindingView(binding)
         bind()
         createLoading()
         createErrorSnack()
     }
 
-    @CallSuper
-    override fun unBindView() {
+    open fun beforeBindingView(binding : V){
+    }
+
+    override fun onDestroyView(view: View) {
         coroutineContext.cancelChildren()
         loadingView = null
         errorSnack = null
+        super.onDestroyView(view)
     }
 
     override fun onDestroy() {

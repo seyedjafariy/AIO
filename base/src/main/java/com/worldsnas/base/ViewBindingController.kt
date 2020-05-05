@@ -14,19 +14,17 @@ abstract class ViewBindingController<T : ViewBinding> @JvmOverloads constructor(
     val binding: T
         get() = _binding!!
 
-    abstract fun bindView(inflater: LayoutInflater, container: ViewGroup) : T
+    abstract fun bindView(inflater: LayoutInflater, container: ViewGroup): T
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
+    final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         _binding = bindView(inflater, container)
         onViewBound(binding)
         return binding.root
     }
 
-    open fun onViewBound(binding : T){}
-    open fun unBindView(){}
+    open fun onViewBound(binding: T) {}
 
     override fun onDestroyView(view: View) {
-        unBindView()
         _binding = null
         super.onDestroyView(view)
     }
