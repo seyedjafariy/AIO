@@ -54,11 +54,11 @@ abstract class CoroutineViewOld<
         createErrorSnack()
     }
 
-    @CallSuper
-    override fun unBindView() {
+    override fun onDestroyView(view: View) {
         coroutineContext.cancelChildren()
         loadingView = null
         errorSnack = null
+        super.onDestroyView(view)
     }
 
     override fun onDestroy() {

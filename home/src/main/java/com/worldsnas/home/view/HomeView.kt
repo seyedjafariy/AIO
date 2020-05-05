@@ -61,10 +61,6 @@ class HomeView : CoroutineViewOld<ViewHomeBinding, HomeState, HomeIntent> {
         super.onViewBound(binding)
     }
 
-    override fun unBindView() {
-        super.unBindView()
-    }
-
     private fun initRv(binding: ViewHomeBinding) {
         binding.rvHome.layoutManager = GridLayoutManager(binding.root.context, 3)
     }

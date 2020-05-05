@@ -20,6 +20,7 @@ import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.MovieDetailState
 import com.worldsnas.moviedetail.adapter.GenreAdapter
 import com.worldsnas.moviedetail.adapter.covermovie.MovieCoverAdapter
+import com.worldsnas.moviedetail.databinding.ViewMovieDetailBinding
 import com.worldsnas.moviedetail.di.DaggerMovieDetailComponent
 import com.worldsnas.navigation.fromByteArray
 import com.worldsnas.navigation.model.MovieDetailLocalModel
@@ -66,7 +67,7 @@ class MovieDetailView(
             .build()
             .inject(this)
 
-    override fun onViewBound(binding: ViewMovieDetailBinding) {
+    override fun beforeBindingView(binding: ViewMovieDetailBinding) {
         ViewCompat.setTransitionName(binding.imgMoviePoster, movieLocal.posterTransName)
         ViewCompat.setTransitionName(binding.txtMovieTitle, movieLocal.titleTransName)
         ViewCompat.setTransitionName(binding.txtMovieDate, movieLocal.releaseTransName)

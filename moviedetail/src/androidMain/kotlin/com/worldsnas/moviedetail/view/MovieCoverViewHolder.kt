@@ -14,6 +14,7 @@ import com.worldsnas.base.BaseViewHolder
 import com.worldsnas.domain.helpers.posterFullUrl
 import com.worldsnas.moviedetail.MovieDetailIntent
 import com.worldsnas.moviedetail.R
+import com.worldsnas.moviedetail.databinding.RowRecommendationMovieBinding
 import com.worldsnas.moviedetail.model.MovieUIModel
 import io.reactivex.Observable
 import kotlin.math.roundToInt
@@ -22,9 +23,11 @@ class MovieCoverViewHolder(
     view: View
 ) : BaseViewHolder<MovieUIModel, MovieDetailIntent>(view) {
 
-    lateinit var poster: SimpleDraweeView
-    lateinit var title: TextView
-    lateinit var releaseDate: TextView
+    private val binding = RowRecommendationMovieBinding.bind(view)
+
+    private val poster: SimpleDraweeView = binding.poster
+    private val title: TextView = binding.title
+    private val releaseDate: TextView = binding.releaseDate
 
     override fun bind(obj: MovieUIModel) {
         val width = itemView.getDisplaySize().width / 3
