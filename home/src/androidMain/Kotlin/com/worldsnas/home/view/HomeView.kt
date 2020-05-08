@@ -4,20 +4,21 @@ import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.daimajia.slider.library.slider
 import com.jakewharton.rxbinding3.view.clicks
+import com.worldsnas.base.CoroutineView
 import com.worldsnas.base.pages
 import com.worldsnas.base.transitionNameCompat
-import com.worldsnas.base.CoroutineViewOld
+import com.worldsnas.core.mvi.MviPresenter
 import com.worldsnas.daggercore.CoreComponent
 import com.worldsnas.daggercore.coreComponent
 import com.worldsnas.daggercore.lifecycleComponent
 import com.worldsnas.daggercore.navigator.DaggerDefaultNavigationComponent
 import com.worldsnas.home.HomeIntent
 import com.worldsnas.home.HomeState
-import com.worldsnas.home.adapter.HomeAdapter
 import com.worldsnas.home.databinding.ViewHomeBinding
 import com.worldsnas.home.di.DaggerHomeComponent
+import com.worldsnas.home.model.Movie
+import com.worldsnas.slider.slider
 import com.worldsnas.view_component.movieView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,7 +26,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.rx2.asFlow
 import javax.inject.Inject
 
-class HomeView : CoroutineViewOld<ViewHomeBinding, HomeState, HomeIntent> {
+class HomeView : CoroutineView<ViewHomeBinding, HomeState, HomeIntent> {
+
+    @Inject
+    override lateinit var presenter: MviPresenter<HomeIntent, HomeState>
 
     constructor() : super()
 
@@ -34,9 +38,6 @@ class HomeView : CoroutineViewOld<ViewHomeBinding, HomeState, HomeIntent> {
     constructor(core: CoreComponent) : super() {
         coreComponent = core
     }
-
-    @Inject
-    lateinit var homeAdapter: HomeAdapter
 
     override fun injectDependencies(core: CoreComponent) {
         DaggerHomeComponent
@@ -53,12 +54,11 @@ class HomeView : CoroutineViewOld<ViewHomeBinding, HomeState, HomeIntent> {
         container: ViewGroup
     ): ViewHomeBinding = ViewHomeBinding.inflate(inflater, container, false)
 
-    override fun onViewBound(binding: ViewHomeBinding) {
+    override fun beforeBindingView(binding: ViewHomeBinding) {
         initRv(binding)
         binding.ablHome.outlineProvider = null
         binding.txtSearchName.transitionNameCompat = "search_name"
         binding.toolbarHome.transitionNameCompat = "search_back"
-        super.onViewBound(binding)
     }
 
     private fun initRv(binding: ViewHomeBinding) {
@@ -116,11 +116,20 @@ class HomeView : CoroutineViewOld<ViewHomeBinding, HomeState, HomeIntent> {
                     spanSizeOverride { totalSpanCount, position, itemCount ->
                         1
                     }
-                    movie(it)
-                    listener { listenMovie ->
+                    title(it.title)
+                    movieId(it.id)
+                    releaseDate(it.releaseDate)
+                    poster(it.poster)
+                    listener { movieId, movieTitle, poster, releaseDate ->
                         presenter.processIntents(
                             HomeIntent.LatestMovieClicked(
-                                listenMovie
+                                Movie(
+                                    id = movieId,
+                                    poster = poster,
+                                    cover = "",
+                                    title = movieTitle,
+                                    releaseDate = releaseDate
+                                )
                             )
                         )
                     }

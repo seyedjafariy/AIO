@@ -1,6 +1,6 @@
 package com.worldsnas.home.model
 
-data class MovieUIModel(
+data class Movie(
     val id : Long,
     val poster : String,
     val cover : String,

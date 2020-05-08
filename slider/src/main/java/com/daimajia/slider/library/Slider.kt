@@ -8,7 +8,6 @@ import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.*
-import com.daimajia.slider.library.databinding.SliderViewBinding
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
@@ -54,7 +53,7 @@ class Slider @JvmOverloads constructor(
     init {
         val root = LayoutInflater
             .from(context)
-            .inflate(R.layout.slider_view, this, false)
+            .inflate(R.layout.slider_slider_view, this, false)
         
         addView(root)
         carousel = root.findViewById(R.id.slider_slide_carousel)
