@@ -45,12 +45,17 @@ kotlin {
         implementation(Deps.Android.Tools.conductor)
         implementation(Deps.Android.Tools.timber)
         implementation(Deps.Android.Tools.fresco)
+        implementation(Deps.Android.Tools.slider)
+        implementation(Deps.Android.Tools.epoxy)
+        configurations.get("kapt").dependencies.add(
+                Deps.Android.Tools.epoxyCompilerDep
+        )
 
         implementation(Deps.Dagger.dagger)
         implementation(Deps.Dagger.javaxAnnotation)
 
         configurations.get("kapt").dependencies.add(
-            Deps.Dagger.daggerCompilerDep
+                Deps.Dagger.daggerCompilerDep
         )
 
         implementation(Deps.RxJava.rxJava)
@@ -62,9 +67,9 @@ kotlin {
 
         implementation(project(Deps.Modules.daggerCore))
         implementation(project(Deps.Modules.base))
+        implementation(project(Deps.Modules.mvi))
         implementation(project(Deps.Modules.navigation))
-        implementation(project(Deps.Modules.imageSliderLocal))
-        implementation(Deps.Android.Tools.nineOldAndroidAnim)
+        implementation(project(Deps.Modules.viewComponent))
     }
 
     sourceSets["androidTest"].dependencies {

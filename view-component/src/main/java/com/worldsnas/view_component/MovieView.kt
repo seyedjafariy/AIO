@@ -5,7 +5,10 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import com.airbnb.epoxy.*
+import com.airbnb.epoxy.CallbackProp
+import com.airbnb.epoxy.ModelProp
+import com.airbnb.epoxy.ModelView
+import com.airbnb.epoxy.TextProp
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.common.ResizeOptions
 import com.facebook.imagepipeline.request.ImageRequestBuilder
@@ -25,10 +28,14 @@ class MovieView @JvmOverloads constructor(
     private val binding: MovieViewBinding =
         MovieViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    @ModelProp
-    lateinit var movie: Movie
+    private var title: String = ""
+    private var poster: String = ""
+    private var releaseDate : String = ""
+    private var movieId: Long = 0
 
-    private fun poster(posterUrl: String) {
+    @ModelProp
+    fun poster(posterUrl: String) {
+        poster = posterUrl
         val width = binding.root.getDisplaySize().width / 3
         val height = (width * 1.5).roundToInt()
 
@@ -43,37 +50,31 @@ class MovieView @JvmOverloads constructor(
             .build()
     }
 
-    private fun title(title: CharSequence) {
+    @ModelProp
+    fun movieId(id: Long) {
+        this.movieId = id
+    }
+
+    @TextProp
+    fun title(title: CharSequence) {
+        this.title = title.toString()
         binding.movieTitle.text = title
     }
 
-    private fun releaseDate(date: CharSequence) {
+    @TextProp
+    fun releaseDate(date: CharSequence) {
+        releaseDate = date.toString()
         binding.movieReleaseDate.text = date
     }
 
-    @AfterPropsSet
-    fun movieModel() {
-        poster(movie.poster)
-        title(movie.title)
-        releaseDate(movie.releaseDate)
-    }
-
     @CallbackProp
-    fun listener(listener: ((movie: Movie) -> Unit)?) {
+    fun listener(listener: ((movieId: Long, title: String, poster : String, releaseData : String) -> Unit)?) {
         if (listener == null) {
             binding.root.setOnClickListener(null)
         } else {
             binding.root.setOnClickListener {
-                listener(movie)
+                listener(movieId, title, poster, releaseDate)
             }
         }
     }
 }
-
-data class Movie(
-    val id: Long,
-    val poster: String,
-    val cover: String,
-    val title: String,
-    val releaseDate: String
-)

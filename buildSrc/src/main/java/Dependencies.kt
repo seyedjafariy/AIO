@@ -1,3 +1,5 @@
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
+
 object Versions {
 
     val kotlin = "1.3.72"
@@ -109,6 +111,12 @@ object Deps {
             val leakCanaryNoOp = "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3"
             val epoxy = "com.airbnb.android:epoxy:${Versions.epoxy}"
             val epoxyCompiler = "com.airbnb.android:epoxy-processor:${Versions.epoxy}"
+            val epoxyCompilerDep =
+                DefaultExternalModuleDependency(
+                    "com.airbnb.android",
+                    "epoxy-processor",
+                    Versions.epoxy
+                )
             val slider = "com.github.worldsnas:slider:1.0.3"
             val indicator = "com.ryanjeffreybrooks:indefinitepagerindicator:1.0.10"
             val flipper = "com.facebook.flipper:flipper:${Versions.flipper}"
@@ -190,6 +198,11 @@ object Deps {
     object Dagger {
         val dagger = "com.google.dagger:dagger:${Versions.dagger}"
         val daggerCompiler = "com.google.dagger:dagger-compiler:${Versions.dagger}"
+        val daggerCompilerDep = DefaultExternalModuleDependency(
+            "com.google.dagger",
+            "dagger-compiler",
+            Versions.dagger
+        )
         val findBugs = "com.google.code.findbugs:jsr305:3.0.2"
 
         val javaxAnnotation = "javax.annotation:jsr250-api:1.0"

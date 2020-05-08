@@ -11,7 +11,7 @@ import com.airbnb.epoxy.ModelView
 import com.worldsnas.base.getScreenWidth
 import com.worldsnas.domain.helpers.coverFullUrl
 import com.worldsnas.home.databinding.BannerViewBinding
-import com.worldsnas.view_component.Movie
+import com.worldsnas.home.model.Movie
 
 @ModelView(
     autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT,

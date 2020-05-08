@@ -1,8 +1,8 @@
 package com.worldsnas.home
 
 import com.worldsnas.core.mvi.BaseState
-import com.worldsnas.mvi.MviResult
-import com.worldsnas.view_component.Movie
+import com.worldsnas.core.mvi.MviResult
+import com.worldsnas.home.model.Movie
 
 sealed class HomeResult : MviResult {
     object Loading : HomeResult()

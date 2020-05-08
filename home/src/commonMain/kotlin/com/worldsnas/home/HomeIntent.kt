@@ -1,7 +1,7 @@
 package com.worldsnas.home
 
-import com.worldsnas.mvi.MviIntent
-import com.worldsnas.view_component.Movie
+import com.worldsnas.core.mvi.MviIntent
+import com.worldsnas.home.model.Movie
 
 sealed class HomeIntent : MviIntent {
     object Initial : HomeIntent()

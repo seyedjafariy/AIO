@@ -20,8 +20,6 @@ import dagger.Component
 interface HomeComponent {
     fun inject(view: HomeView)
 
-    fun presenter(): HomePresenter
-
     @Component.Builder
     interface Builder {
 
