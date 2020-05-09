@@ -10,9 +10,9 @@ data class TranslationServerModel(
     @SerialName(value = "iso_639_1")
     val iso_639_1: String? = "",
     @SerialName(value = "name")
-    val name: String = "",
+    val name: String? = "",
     @SerialName(value = "english_name")
-    val englishName: String = "",
+    val englishName: String? = "",
     @SerialName(value = "data")
     val data: TranslationDataServerModel? = null
 )

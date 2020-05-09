@@ -15,6 +15,7 @@ import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.GalleryImageType
 import com.worldsnas.navigation.model.GalleryLocalModel
 import com.worldsnas.navigation.model.MovieDetailLocalModel
+import com.worldsnas.navigation.navigateTo
 import kotlinx.coroutines.flow.*
 
 class MovieDetailProcessor(
@@ -31,8 +32,8 @@ class MovieDetailProcessor(
         ofType<MovieDetailIntent.RecommendationClicked>().let(recommendationClickProcessor)
     )
 
-    private val initialProcessor: Flow<MovieDetailIntent>.() -> Flow<MovieDetailResult> = {
-        ofType<MovieDetailIntent.Initial>().flatMapLatest { intent ->
+    private val initialProcessor: Flow<MovieDetailIntent.Initial>.() -> Flow<MovieDetailResult> = {
+        flatMapLatest { intent ->
             repo.getMovieDetail(MovieDetailRepoParamModel(intent.movie.movieID))
                 .listMerge(
                     {
@@ -107,29 +108,22 @@ class MovieDetailProcessor(
                         GalleryImageType.POSTER
                     )
                 }
-                .onEach {
-                    navigator.goTo(
-                        Screens.Gallery(
-                            it.second,
-                            NavigationAnimation.CircularReveal(
-                                it.first.cx,
-                                it.first.cy,
-                                200
-                            ),
-                            NavigationAnimation.CircularReveal(
-                                it.first.cx,
-                                it.first.cy,
-                                200
-                            )
+                .map {
+                    Screens.Gallery(
+                        it.second,
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
+                        ),
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
                         )
                     )
                 }
-                .dropWhile {
-                    true
-                }
-                .map {
-                    MovieDetailResult.LastStable
-                }
+                .navigateTo(navigator)
         }
 
     private val recommendationClickProcessor: Flow<MovieDetailIntent.RecommendationClicked>.() -> Flow<MovieDetailResult> =
@@ -147,27 +141,20 @@ class MovieDetailProcessor(
                     it.titleTransName
                 )
             }
-                .onEach {
-                    navigator.goTo(
-                        Screens.MovieDetail(
-                            it,
-                            NavigationAnimation.ArcFadeMove(
-                                it.posterTransName,
-                                it.titleTransName
-                            ),
-                            NavigationAnimation.ArcFadeMove(
-                                it.posterTransName,
-                                it.titleTransName
-                            )
+                .map {
+                    Screens.MovieDetail(
+                        it,
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
+                        ),
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
                         )
                     )
                 }
-                .dropWhile {
-                    true
-                }
-                .map {
-                    MovieDetailResult.LastStable
-                }
+                .navigateTo(navigator)
         }
 
     private val coverClickedProcessor: Flow<MovieDetailIntent.CoverClicked>.() -> Flow<MovieDetailResult> =
@@ -196,44 +183,23 @@ class MovieDetailProcessor(
                         GalleryImageType.COVER
                     )
                 }
-                .onEach {
-                    navigator.goTo(
-                        Screens.Gallery(
-                            it.second,
-                            NavigationAnimation.CircularReveal(
-                                it.first.cx,
-                                it.first.cy,
-                                200
-                            ),
-                            NavigationAnimation.CircularReveal(
-                                it.first.cx,
-                                it.first.cy,
-                                200
-                            )
+                .map {
+                    Screens.Gallery(
+                        it.second,
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
+                        ),
+                        NavigationAnimation.CircularReveal(
+                            it.first.cx,
+                            it.first.cy,
+                            200
                         )
                     )
                 }
-                .dropWhile {
-                    true
-                }
-                .map {
-                    MovieDetailResult.LastStable
-                }
+                .navigateTo(navigator)
         }
-
-//    private val galleryProcessor =
-//        ObservableTransformer<GalleryLocalModel, MovieDetailResult> { localModels ->
-//            localModels
-//                .doOnNext {
-//                    navigator.goTo(
-//                        Screens.Gallery(
-//                            it
-//                        )
-//                    )
-//                }
-//                .ignoreElements()
-//                .toObservable()
-//        }
 
     private fun getTime(runtime: Int): String =
         "${runtime / 60}:${runtime % 60}"

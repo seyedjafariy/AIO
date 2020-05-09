@@ -14,6 +14,7 @@ import com.worldsnas.navigation.Navigator
 import com.worldsnas.navigation.Screens
 import com.worldsnas.navigation.model.MovieDetailLocalModel
 import com.worldsnas.navigation.model.SearchLocalModel
+import com.worldsnas.navigation.navigateTo
 import kotlinx.coroutines.flow.*
 
 class HomeProcessor(
@@ -24,7 +25,8 @@ class HomeProcessor(
 ) : BaseProcessor<HomeIntent, HomeResult>() {
 
     override fun Flow<HomeIntent>.transformers(): List<Flow<HomeResult>> = listOf(
-        ofType<HomeIntent.Initial>().let(initialProcessor),
+        ofType<HomeIntent.Initial>().let(latestProcessor),
+        ofType<HomeIntent.Initial>().let(trendingProcessor),
         ofType<HomeIntent.NextPage>().let(nextPageProcessor),
         ofType<HomeIntent.LatestMovieClicked>().let(latestClickProcessor),
         ofType<HomeIntent.SliderClicked>().let(sliderClicked),
@@ -126,25 +128,20 @@ class HomeProcessor(
                 it.titleTransName
             )
         }
-            .onEach {
-                navigator.goTo(
-                    Screens.MovieDetail(
-                        it,
-                        NavigationAnimation.ArcFadeMove(
-                            it.posterTransName,
-                            it.titleTransName
-                        ),
-                        NavigationAnimation.ArcFadeMove(
-                            it.posterTransName,
-                            it.titleTransName
-                        )
+            .map {
+                Screens.MovieDetail(
+                    it,
+                    NavigationAnimation.ArcFadeMove(
+                        it.posterTransName,
+                        it.titleTransName
+                    ),
+                    NavigationAnimation.ArcFadeMove(
+                        it.posterTransName,
+                        it.titleTransName
                     )
                 )
             }
-            .dropWhile { true }
-            .map {
-                HomeResult.LastStable
-            }
+            .navigateTo(navigator)
     }
 
     private val sliderClicked:
@@ -167,26 +164,20 @@ class HomeProcessor(
                         coverTransName = sliderClick.imgTransName
                     )
                 }
-                .onEach {
-                    navigator.goTo(
-                        Screens.MovieDetail(
-                            it,
-                            NavigationAnimation.ArcFadeMove(
-                                it.posterTransName,
-                                it.titleTransName
-                            ),
-                            NavigationAnimation.ArcFadeMove(
-                                it.posterTransName,
-                                it.titleTransName
-                            )
+                .map {
+                    Screens.MovieDetail(
+                        it,
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
+                        ),
+                        NavigationAnimation.ArcFadeMove(
+                            it.posterTransName,
+                            it.titleTransName
                         )
                     )
                 }
-                .dropWhile { true }
-                .map {
-                    HomeResult.LastStable
-                }
-        }
+        }.navigateTo(navigator)
     }
 
     private val searchClicked:
@@ -207,12 +198,13 @@ class HomeProcessor(
                 )
             )
         }
-            .onEach {
-                navigator.goTo(it)
-            }
-            .dropWhile { true }
-            .map {
-                HomeResult.LastStable
-            }
+            .navigateTo(navigator)
+//            .onEach {
+//                navigator.goTo(it)
+//            }
+//            .dropWhile { true }
+//            .map {
+//                HomeResult.LastStable
+//            }
     }
 }

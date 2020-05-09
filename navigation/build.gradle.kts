@@ -25,12 +25,14 @@ kotlin {
     sourceSets["commonMain"].dependencies {
         implementation(kotlin("stdlib", Versions.kotlin))
         implementation(Deps.Tools.okio)
+        implementation(Deps.Coroutines.common)
     }
     android()
     sourceSets["androidMain"].dependencies {
         implementation(kotlin("stdlib", Versions.kotlin))
         implementation(Deps.Android.Tools.conductor)
         implementation(Deps.Android.Support.compat)
+        implementation(Deps.Coroutines.android)
         implementation(Deps.Tools.okio)
     }
     sourceSets["androidTest"].dependencies {

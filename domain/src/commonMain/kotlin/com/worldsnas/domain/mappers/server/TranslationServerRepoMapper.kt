@@ -10,8 +10,8 @@ class TranslationServerRepoMapper : Mapper<TranslationServerModel, TranslationRe
             0,
             item.iso_3166_1 ?: "",
             item.iso_639_1 ?: "",
-            item.name,
-            item.englishName,
+            item.name?:"",
+            item.englishName?:"",
             item.data?.title ?: "",
             item.data?.overview ?: "",
             item.data?.homePage ?: ""
