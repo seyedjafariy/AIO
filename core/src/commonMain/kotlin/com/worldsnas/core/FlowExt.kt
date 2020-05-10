@@ -4,6 +4,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlin.reflect.KClass
 
+typealias FlowBlock<T, U> = Flow<T>.() -> Flow<U>
+
 inline fun <reified R> Flow<*>.ofType() = transform {
     if (R::class.isInstance(it)) {
         emit(it as R)
@@ -11,16 +13,26 @@ inline fun <reified R> Flow<*>.ofType() = transform {
 }
 
 fun <T, U : Any> Flow<T>.noOfType(u : KClass<U>): Flow<T> =
-    filter { u.isInstance(it) }
+    filter { !u.isInstance(it) }
 
 fun <T> suspendToFlow(block: suspend () -> T): Flow<T> = flow {
     emit(block())
 }
 
-fun <T, U> Flow<T>.listMerge(vararg blocks: Flow<T>.() -> Flow<U>) =
+fun <T, U> Flow<T>.listMerge(vararg blocks: FlowBlock<T, U>) =
     blocks.map { block ->
         block(this)
     }.merge()
+
+fun <T, U> Flow<T>.publish(vararg blocks: FlowBlock<T, U>) =
+    publish(blocks.toList())
+
+fun <T, U> Flow<T>.publish(blocks: List<FlowBlock<T, U>>) =
+    flatMapMerge {
+        blocks.map { block ->
+            block(flowOf(it))
+        }.merge()
+    }
 
 fun <T> Flow<T>.ifEmptyEmit(item: T): Flow<T> {
     return flow {

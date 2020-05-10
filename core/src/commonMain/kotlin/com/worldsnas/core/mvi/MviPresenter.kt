@@ -1,8 +1,12 @@
 package com.worldsnas.core.mvi
 
+import com.worldsnas.core.FlowBlock
+import com.worldsnas.core.publish
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.broadcast
 import kotlinx.coroutines.flow.*
@@ -34,12 +38,11 @@ abstract class BasePresenter<I : MviIntent, S : MviViewState, R : MviResult>(
 ) : MviPresenter<I, S> {
 
     class StatePublisher<S : MviViewState>(
-        private val initialState: S,
+        private var latestState: S,
         private val scope: CoroutineScope
     ) {
 
         private val lock = Mutex()
-        private var latestState: S = initialState
         private val channelList = mutableListOf<Channel<S>>()
 
         fun start(states: Flow<S>) {
@@ -102,6 +105,7 @@ abstract class BasePresenter<I : MviIntent, S : MviViewState, R : MviResult>(
     private fun compose(): Flow<S> =
         intents
             .receiveAsFlow()
+            .publish(filterIntent())
             .let(processor.actionProcessor)
             .scan(startState, reducer)
             .distinctUntilChanged()
@@ -125,8 +129,10 @@ abstract class BasePresenter<I : MviIntent, S : MviViewState, R : MviResult>(
 
     }
 
-    protected open fun filterIntent(intents: Flow<I>): Flow<I> =
-        intents
+    protected open fun filterIntent(): List<FlowBlock<I, I>> =
+        listOf<FlowBlock<I, I>>({
+            this
+        })
 
     protected abstract fun reduce(preState: S, result: R): S
 

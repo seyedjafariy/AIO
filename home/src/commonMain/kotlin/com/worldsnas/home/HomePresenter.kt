@@ -1,26 +1,29 @@
 package com.worldsnas.home
 
-import com.worldsnas.core.listMerge
+import com.worldsnas.core.FlowBlock
 import com.worldsnas.core.mvi.BasePresenter
 import com.worldsnas.core.mvi.BaseState
 import com.worldsnas.core.mvi.MviProcessor
 import com.worldsnas.core.noOfType
 import com.worldsnas.core.ofType
+import com.worldsnas.core.publish
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 
 class HomePresenter(
     processor: MviProcessor<HomeIntent, HomeResult>
 ) : BasePresenter<HomeIntent, HomeState, HomeResult>(processor, HomeState.start()) {
 
-    override fun filterIntent(intents: Flow<HomeIntent>): Flow<HomeIntent> = intents.listMerge(
-        {
-            ofType<HomeIntent.Initial>().take(1)
-        },
-        {
-            noOfType(HomeIntent.Initial::class)
-        }
-    )
+    override fun filterIntent(): List<FlowBlock<HomeIntent, HomeIntent>> =
+        listOf<FlowBlock<HomeIntent, HomeIntent>>(
+            {
+                ofType<HomeIntent.Initial>().take(1)
+            },
+            {
+                noOfType(HomeIntent.Initial::class)
+            }
+        )
 
     override fun reduce(preState: HomeState, result: HomeResult): HomeState = when (result) {
         is HomeResult.Error ->

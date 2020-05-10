@@ -1,5 +1,6 @@
 package com.worldsnas.moviedetail
 
+import com.worldsnas.core.FlowBlock
 import com.worldsnas.core.mvi.BaseState
 import com.worldsnas.core.listMerge
 import com.worldsnas.core.mvi.BasePresenter
@@ -16,8 +17,8 @@ class MovieDetailPresenter(
     MovieDetailState.start()
 ) {
 
-    override fun filterIntent(intents: Flow<MovieDetailIntent>): Flow<MovieDetailIntent> {
-        return intents.listMerge(
+    override fun filterIntent(): List<FlowBlock<MovieDetailIntent, MovieDetailIntent>> =
+        listOf<FlowBlock<MovieDetailIntent, MovieDetailIntent>>(
             {
                 ofType<MovieDetailIntent.Initial>().take(1)
             },
@@ -25,7 +26,7 @@ class MovieDetailPresenter(
                 noOfType(MovieDetailIntent.Initial::class)
             }
         )
-    }
+
 
     override fun reduce(preState: MovieDetailState, result: MovieDetailResult): MovieDetailState =
         when (result) {

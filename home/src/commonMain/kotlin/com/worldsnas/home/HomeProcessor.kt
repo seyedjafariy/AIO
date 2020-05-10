@@ -24,18 +24,18 @@ class HomeProcessor(
     movieMapper: Mapper<MovieRepoModel, Movie>
 ) : BaseProcessor<HomeIntent, HomeResult>() {
 
-    override fun Flow<HomeIntent>.transformers(): List<Flow<HomeResult>> = listOf(
-        ofType<HomeIntent.Initial>().let(latestProcessor),
-        ofType<HomeIntent.Initial>().let(trendingProcessor),
-        ofType<HomeIntent.NextPage>().let(nextPageProcessor),
-        ofType<HomeIntent.LatestMovieClicked>().let(latestClickProcessor),
-        ofType<HomeIntent.SliderClicked>().let(sliderClicked),
-        ofType<HomeIntent.SearchClicks>().let(searchClicked)
-    )
+    override fun transformers(): List<FlowBlock<HomeIntent, HomeResult>> = listOf(
+            latestProcessor,
+            trendingProcessor,
+            nextPageProcessor,
+            latestClickProcessor,
+            sliderClicked,
+            searchClicked
+        )
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    private val initialProcessor: Flow<HomeIntent.Initial>.() -> Flow<HomeResult> = {
-        flatMapLatest {
+    private val initialProcessor: Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.Initial>().flatMapLatest {
             listOf(
                 flowOf(it).let(latestProcessor),
                 flowOf(it).let(trendingProcessor)
@@ -44,15 +44,15 @@ class HomeProcessor(
     }
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    private val latestProcessor: Flow<HomeIntent.Initial>.() -> Flow<HomeResult> = {
-        map {
+    private val latestProcessor: Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.Initial>().map {
             PageModel.First
         }
             .let(latestMovieProcessor)
     }
 
-    private val trendingProcessor: Flow<HomeIntent.Initial>.() -> Flow<HomeResult> = {
-        flatMapMerge { param ->
+    private val trendingProcessor: Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.Initial>().flatMapMerge { param ->
             trendingRepo.fetch(TrendingRepoParamModel(1))
                 .listMerge(
                     {
@@ -78,8 +78,8 @@ class HomeProcessor(
     }
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    private val nextPageProcessor: Flow<HomeIntent.NextPage>.() -> Flow<HomeResult> = {
-        map {
+    private val nextPageProcessor: Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.NextPage>().map {
             PageModel.NextPage.Next
         }
             .let(latestMovieProcessor)
@@ -114,20 +114,21 @@ class HomeProcessor(
     }
 
     private val latestClickProcessor:
-            Flow<HomeIntent.LatestMovieClicked>.() -> Flow<HomeResult> = {
-        map {
-            MovieDetailLocalModel(
-                it.movie.id,
-                it.movie.poster,
-                it.movie.cover,
-                it.movie.title,
-                "",
-                it.movie.releaseDate,
-                it.posterTransName,
-                it.releaseTransName,
-                it.titleTransName
-            )
-        }
+            Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.LatestMovieClicked>()
+            .map {
+                MovieDetailLocalModel(
+                    it.movie.id,
+                    it.movie.poster,
+                    it.movie.cover,
+                    it.movie.title,
+                    "",
+                    it.movie.releaseDate,
+                    it.posterTransName,
+                    it.releaseTransName,
+                    it.titleTransName
+                )
+            }
             .map {
                 Screens.MovieDetail(
                     it,
@@ -145,59 +146,61 @@ class HomeProcessor(
     }
 
     private val sliderClicked:
-            Flow<HomeIntent.SliderClicked>.() -> Flow<HomeResult> = {
-        flatMapLatest { sliderClick ->
-            trendingRepo.getCache()
-                .map {
-                    it.first { movie ->
-                        movie.id == sliderClick.movieId
+            Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.SliderClicked>()
+            .flatMapLatest { sliderClick ->
+                trendingRepo.getCache()
+                    .map {
+                        it.first { movie ->
+                            movie.id == sliderClick.movieId
+                        }
                     }
-                }
-                .map {
-                    MovieDetailLocalModel(
-                        it.id,
-                        it.posterPath,
-                        it.backdropPath,
-                        it.title,
-                        "",
-                        it.releaseDate,
-                        coverTransName = sliderClick.imgTransName
-                    )
-                }
-                .map {
-                    Screens.MovieDetail(
-                        it,
-                        NavigationAnimation.ArcFadeMove(
-                            it.posterTransName,
-                            it.titleTransName
-                        ),
-                        NavigationAnimation.ArcFadeMove(
-                            it.posterTransName,
-                            it.titleTransName
+                    .map {
+                        MovieDetailLocalModel(
+                            it.id,
+                            it.posterPath,
+                            it.backdropPath,
+                            it.title,
+                            "",
+                            it.releaseDate,
+                            coverTransName = sliderClick.imgTransName
                         )
-                    )
-                }
-        }.navigateTo(navigator)
+                    }
+                    .map {
+                        Screens.MovieDetail(
+                            it,
+                            NavigationAnimation.ArcFadeMove(
+                                it.posterTransName,
+                                it.titleTransName
+                            ),
+                            NavigationAnimation.ArcFadeMove(
+                                it.posterTransName,
+                                it.titleTransName
+                            )
+                        )
+                    }
+            }.navigateTo(navigator)
     }
 
     private val searchClicked:
-            Flow<HomeIntent.SearchClicks>.() -> Flow<HomeResult> = {
-        map {
-            Screens.Search(
-                SearchLocalModel(
-                    it.backTransName,
-                    it.textTransName
-                ),
-                NavigationAnimation.ArcFadeMove(
-                    it.backTransName,
-                    it.textTransName
-                ),
-                NavigationAnimation.ArcFadeMove(
-                    it.backTransName,
-                    it.textTransName
+            Flow<HomeIntent>.() -> Flow<HomeResult> = {
+        ofType<HomeIntent.SearchClicks>()
+            .map {
+                Screens.Search(
+                    SearchLocalModel(
+                        it.backTransName,
+                        it.textTransName
+                    ),
+                    NavigationAnimation.ArcFadeMove(
+                        it.backTransName,
+                        it.textTransName
+                    ),
+                    NavigationAnimation.ArcFadeMove(
+                        it.backTransName,
+                        it.textTransName
+                    )
                 )
-            )
-        }
+            }
             .navigateTo(navigator)
 //            .onEach {
 //                navigator.goTo(it)

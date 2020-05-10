@@ -25,15 +25,16 @@ class MovieDetailProcessor(
     movieMapper: Mapper<MovieRepoModel, MovieUIModel>
 ) : BaseProcessor<MovieDetailIntent, MovieDetailResult>() {
 
-    override fun Flow<MovieDetailIntent>.transformers(): List<Flow<MovieDetailResult>> = listOf(
-        ofType<MovieDetailIntent.Initial>().let(initialProcessor),
-        ofType<MovieDetailIntent.CoverClicked>().let(coverClickedProcessor),
-        ofType<MovieDetailIntent.PosterClicked>().let(posterClickedProcessor),
-        ofType<MovieDetailIntent.RecommendationClicked>().let(recommendationClickProcessor)
+    override fun transformers(): List<FlowBlock<MovieDetailIntent, MovieDetailResult>> = listOf(
+        initialProcessor,
+        coverClickedProcessor,
+        posterClickedProcessor,
+        recommendationClickProcessor
     )
 
-    private val initialProcessor: Flow<MovieDetailIntent.Initial>.() -> Flow<MovieDetailResult> = {
-        flatMapLatest { intent ->
+    private val initialProcessor: Flow<MovieDetailIntent>.() -> Flow<MovieDetailResult> = {
+        ofType<MovieDetailIntent.Initial>()
+            .flatMapLatest { intent ->
             repo.getMovieDetail(MovieDetailRepoParamModel(intent.movie.movieID))
                 .listMerge(
                     {
@@ -87,9 +88,10 @@ class MovieDetailProcessor(
         }
     }
 
-    private val posterClickedProcessor: Flow<MovieDetailIntent.PosterClicked>.() -> Flow<MovieDetailResult> =
+    private val posterClickedProcessor: Flow<MovieDetailIntent>.() -> Flow<MovieDetailResult> =
         {
-            flatMapConcat { intent ->
+            ofType<MovieDetailIntent.PosterClicked>()
+                .flatMapConcat { intent ->
                 repo.getCached()
                     .filter { it != null }
                     .map {
@@ -126,9 +128,10 @@ class MovieDetailProcessor(
                 .navigateTo(navigator)
         }
 
-    private val recommendationClickProcessor: Flow<MovieDetailIntent.RecommendationClicked>.() -> Flow<MovieDetailResult> =
+    private val recommendationClickProcessor: Flow<MovieDetailIntent>.() -> Flow<MovieDetailResult> =
         {
-            map {
+            ofType<MovieDetailIntent.RecommendationClicked>()
+                .map {
                 MovieDetailLocalModel(
                     it.movie.id,
                     it.movie.poster,
@@ -157,9 +160,10 @@ class MovieDetailProcessor(
                 .navigateTo(navigator)
         }
 
-    private val coverClickedProcessor: Flow<MovieDetailIntent.CoverClicked>.() -> Flow<MovieDetailResult> =
+    private val coverClickedProcessor: Flow<MovieDetailIntent>.() -> Flow<MovieDetailResult> =
         {
-            flatMapLatest { intent ->
+            ofType<MovieDetailIntent.CoverClicked>()
+                .flatMapLatest { intent ->
                 repo.getCached()
                     .filter { it != null }
                     .map { cached ->

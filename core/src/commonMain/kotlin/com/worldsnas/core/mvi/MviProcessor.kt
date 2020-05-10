@@ -1,5 +1,7 @@
 package com.worldsnas.core.mvi
 
+import com.worldsnas.core.FlowBlock
+import com.worldsnas.core.publish
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -11,16 +13,8 @@ interface MviProcessor<A : MviIntent, R : MviResult> {
 
 abstract class BaseProcessor<A : MviIntent, R : MviResult> : MviProcessor<A, R> {
     final override val actionProcessor: (Flow<A>) -> Flow<R> = {
-        it
-            .broadcastIn(CoroutineScope(Dispatchers.Default))
-            .asFlow()
-            .transformers()
-            .merge()
-
-//        it.flatMapMerge {
-//            flowOf(it).transformers().merge()
-//        }
+            it.publish(transformers())
     }
 
-    protected abstract fun Flow<A>.transformers(): List<Flow<R>>
+    protected abstract fun transformers(): List<FlowBlock<A, R>>
 }
