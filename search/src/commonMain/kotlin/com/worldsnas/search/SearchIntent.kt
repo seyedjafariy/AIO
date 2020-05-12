@@ -1,6 +1,6 @@
 package com.worldsnas.search
 
-import com.worldsnas.mvi.MviIntent
+import com.worldsnas.core.mvi.MviIntent
 import com.worldsnas.search.model.MovieUIModel
 
 sealed class SearchIntent : MviIntent {
