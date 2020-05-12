@@ -133,6 +133,13 @@ object Deps {
 
             val butterKnife = "com.jakewharton:butterknife:${Versions.butterKnife}"
             val butterKnifeCompiler = "com.jakewharton:butterknife-compiler:${Versions.butterKnife}"
+
+            val coreDesugaringLib =
+                DefaultExternalModuleDependency(
+                    "com.android.tools",
+                    "desugar_jdk_libs",
+                    "1.0.5"
+                )
         }
 
         object Test {

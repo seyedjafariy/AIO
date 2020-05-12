@@ -12,7 +12,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 apply from: "$rootDir/projectDependencyGraph.gradle"
 
-check.dependsOn detekt
+//check.dependsOn detekt
 
 android {
     compileSdkVersion 28
@@ -92,7 +92,7 @@ android {
     }
 
 
-    dynamicFeatures = [":search"]
+//    dynamicFeatures = [":search"]
 
     testOptions.unitTests.includeAndroidResources = true
     sourceSets {
@@ -137,6 +137,7 @@ dependencies {
     implementation(project(navigation))
     implementation(project(movieDetail))
     implementation(project(gallery))
+    implementation(project(search))
 
     implementation viewModel
 

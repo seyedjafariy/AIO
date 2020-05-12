@@ -259,7 +259,8 @@ ext {
                     imageSliderLocal = ":slider",
                     gallery = ":gallery",
                     db = ":db",
-                    viewComponent = ":view-component"
+                    viewComponent = ":view-component",
+                    search = ":search"
             ],
             ktor = [
                     androidSerialization = "io.ktor:ktor-client-serialization-jvm:${Versions.ktor}",

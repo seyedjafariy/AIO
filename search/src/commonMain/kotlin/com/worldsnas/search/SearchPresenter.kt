@@ -1,15 +1,15 @@
 package com.worldsnas.search
 
-import com.worldsnas.base.BasePresenter
+import com.worldsnas.core.mvi.BasePresenter
 import com.worldsnas.core.mvi.BaseState
-import com.worldsnas.daggercore.scope.FeatureScope
-import com.worldsnas.mvi.MviProcessor
-import javax.inject.Inject
+import com.worldsnas.core.mvi.MviProcessor
 
-@FeatureScope
-class SearchPresenter @Inject constructor(
+class SearchPresenter(
     processor: MviProcessor<SearchIntent, SearchResult>
-) : BasePresenter<SearchIntent, SearchState, SearchResult>(processor, SearchState.idle()) {
+) : BasePresenter<SearchIntent, SearchState, SearchResult>(
+    processor,
+    SearchState.idle()
+) {
 
     override fun reduce(preState: SearchState, result: SearchResult): SearchState =
         when (result) {
